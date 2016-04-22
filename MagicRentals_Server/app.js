@@ -9,6 +9,11 @@ var bodyParser = require('body-parser');
 var routes = require('./routes');
 var users = require('./routes/user');
 
+
+//postings APIs
+var postings = require('./routes/postings');
+
+
 var app = express();
 
 // view engine setup
@@ -25,6 +30,10 @@ app.use(app.router);
 
 app.get('/', routes.index);
 app.get('/users', users.list);
+
+//posting APIs
+app.post('/addPostings', postings.addPost);
+
 
 //test API
 app.get('/test', routes.test123);
