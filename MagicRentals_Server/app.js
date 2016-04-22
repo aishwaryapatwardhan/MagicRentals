@@ -33,7 +33,7 @@ app.get('/users', users.list);
 
 //posting APIs
 app.post('/addPostings', postings.addPost);
-
+app.get('/getPostsByUser',postings.getAllPosts);
 
 //test API
 app.get('/test', routes.test123);

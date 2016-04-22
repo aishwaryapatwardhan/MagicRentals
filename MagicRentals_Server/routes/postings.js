@@ -83,4 +83,79 @@ exports.addPost = function(req, res){
 	});	
 };
 
+//getPostings posts
+exports.getAllPosts = function(req, res){
+	
+	console.log("In get postings API");
+	var result = {};
+	var user_id = req.param('user_id');
+	
+	mongo.connect(function(err, db){
+		
+		if(err){
+			console.log("Unable to connect to mongo");
+			result.code = 209;
+			result.status = "Unable to connect to mongo";
+			res.json(result);
+		}else{
+			
+			console.log("Connected to mongo");
+			var coll = mongo.collection('rental_posting');
+			
+			coll.find( { "user_id" : user_id } ).toArray(function(err, docs) {	
+				var myArray = [];
+				if(docs){		
+					
+//					for(var i=0; i<docs.length; i++){
+//						myArray.push({ "user_id" :docs[i].user_id, 
+//								"property_type":docs[i].property_type});
+//					}		
+					
+					result.data = docs;
+					result.code = 200; 
+					result.status = "Successful";
+					
+				}else{						
+					 result.code = 208;
+					 result.status = "Unable to get data";
+				}							
+				res.json(result);
+			});
+
+		}
+		
+	});
+	
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
