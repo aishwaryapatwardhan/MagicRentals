@@ -36,6 +36,7 @@ app.post('/addPostings', postings.addPost);
 app.get('/getPostsByUser',postings.getAllPosts);
 app.post('/updatePostings', postings.updatePost);
 app.post('/updateStatus', postings.updateStatus);
+app.post('/updateViewCount', postings.updateViewCount);
 
 
 //test API

@@ -262,6 +262,67 @@ exports.updateStatus = function(req, res){
 	});	
 };
 
+//Update the view counts of the post
+exports.updateViewCount = function(req, res){
+		
+	console.log("This is a UpdatePost's view count API call");
+	
+	var result = {};
+	
+	var id = req.param('id');
+	var view_count = req.param('view_count');
+	
+	mongo.connect(function(err, db){
+		
+		if(err){
+			console.log("Unable to connect to mongo");
+			result.code = 209;
+			result.status = "Unable to connect to mongo";
+			res.json(result);
+		}else{
+			console.log("Connected to mongo");
+			
+			var coll = mongo.collection('rental_posting');
+						
+			coll.findOne(
+					{ _id : id},
+					{ "view_count" : 1 },
+						function(err, docs) {
+							 if(err){
+								 result.code = 208;
+								 result.status = "Unable to update to mongo";
+								 res.json(result);
+							 }else{
+								 var count = parseInt(docs.view_count);
+								 count = count + 1 ;
+								 console.log(count);
+			 
+								 coll.update( 
+										 { _id : id}, 
+											{
+												$set : {
+													"view_count" : count
+												}
+											},   function(err, docs) {
+											
+												 if(err){
+													 result.code = 208;
+													 result.status = "Unable to update to mongo";
+													 res.json(result);
+												 }else{
+													 result.code = 200; 
+													 result.status = "Successfully updated";
+													 result.data = docs;
+													 res.json(result);
+												 }	
+											 }
+									);
+							 }	
+						 }
+					);			
+		}	
+	});	
+};
 
 
 
