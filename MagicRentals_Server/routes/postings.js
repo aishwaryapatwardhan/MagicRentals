@@ -18,17 +18,17 @@ exports.addPost = function(req, res){
 	var State = req.param('State');
 	var Zip = req.param('Zip');
 	var property_type = req.param('property_type');
-	var bath = req.param('bath');
-	var room = req.param('room');
-	var area = req.param('area');
-	var rent = req.param('rent');
+	var bath = Number(req.param('bath'));
+	var room = Number(req.param('room'));
+	var area = Number(req.param('area'));
+	var rent = Number(req.param('rent'));
 	var email = req.param('email');
 	var Mobile = req.param('Mobile');
 	var description = req.param('description');
 	var Images = req.param('Images');
 	var other_details = req.param('other_details');
 	var Status = req.param('Status');
-	var view_count = req.param('view_count');
+	var view_count = Number(req.param('view_count'));
 	var id;
 	mongo.connect(function(err, db){
 		
@@ -142,17 +142,17 @@ exports.updatePost = function(req, res){
 	var State = req.param('State');
 	var Zip = req.param('Zip');
 	var property_type = req.param('property_type');
-	var bath = req.param('bath');
-	var room = req.param('room');
-	var area = req.param('area');
-	var rent = req.param('rent');
+	var bath = Number(req.param('bath'));
+	var room = Number(req.param('room'));
+	var area = Number(req.param('area'));
+	var rent = Number(req.param('rent'));
 	var email = req.param('email');
 	var Mobile = req.param('Mobile');
 	var description = req.param('description');
 	var Images = req.param('Images');
 	var other_details = req.param('other_details');
 	var Status = req.param('Status');
-	var view_count = req.param('view_count');
+	var view_count = Number(req.param('view_count'));
 	
 	
 	mongo.connect(function(err, db){
@@ -324,8 +324,87 @@ exports.updateViewCount = function(req, res){
 	});	
 };
 
+//Search for postings
+exports.searchPosts = function(req, res){
+	
+	console.log("In search API");
+	var result = {};
+	
+	var description = req.param('description');
+	if(!description){
+		description = '.';
+	}
+	console.log('desc - '+ description);
+	
+	var City = req.param('City');
+	if(!City){
+		City = '.';
+	}
+	console.log('City - '+ City);
+	
+	var Zip = req.param('Zip');
+	if(!Zip){
+		Zip = '.';
+	}
+	console.log('Zip - '+ Zip);
+	
+	var property_type = req.param('property_type');
+	if(!property_type){
+		property_type = '.';
+	}
+	console.log('property_type - '+ property_type);
+	
+	//var min_rent = parseInt(req.param('min_rent'));
+	var min_rent = Number(req.param('min_rent')) ;
+	if(!min_rent){
+		min_rent = 0;
+	}
+	console.log('min_rent - '+ min_rent);
+	
+	//var max_rent = parseInt(req.param('max_rent'));
+	var max_rent = Number(req.param('max_rent'));
+	if(!max_rent){
+		max_rent = Number.MAX_VALUE;
+	}
+	console.log('max_rent - '+ max_rent);
+	
+	
+	mongo.connect(function(err, db){
+		
+		if(err){
+			console.log("Unable to connect to mongo");
+			result.code = 209;
+			result.status = "Unable to connect to mongo";
+			res.json(result);
+		}else{
+			
+			console.log("Connected to mongo");
+			var coll = mongo.collection('rental_posting');
+			
+			coll.find( { $and : [ { "description" : { $regex: description } }, 
+			                      { "address.City" : { $regex: City } }, 
+			                      { "address.Zip" : { $regex: Zip } }, 
+			                      { "property_type" : { $regex: property_type } },
+			                      { "rent" : { $lt : max_rent, $gt : min_rent } }] } )
+			                      .toArray(function(err, docs) {	
+				var myArray = [];
+				if(docs){		
+					result.data = docs;
+					result.code = 200; 
+					result.status = "Successful";
+					
+				}else{						
+					 result.code = 208;
+					 result.status = "Unable to get data";
+				}							
+				res.json(result);
+			});
 
-
+		}
+		
+	});
+	
+};
 
 
 
