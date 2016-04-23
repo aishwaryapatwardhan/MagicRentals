@@ -34,6 +34,9 @@ app.get('/users', users.list);
 //posting APIs
 app.post('/addPostings', postings.addPost);
 app.get('/getPostsByUser',postings.getAllPosts);
+app.post('/updatePostings', postings.updatePost);
+app.post('/updateStatus', postings.updateStatus);
+
 
 //test API
 app.get('/test', routes.test123);
