@@ -4,6 +4,7 @@
  */
 
 var mongo = require("./dbconfig");
+var mailer = require('./mailer');
 
 //Add postings
 exports.addPost = function(req, res){
@@ -76,8 +77,10 @@ exports.addPost = function(req, res){
 							 result.code = 208;
 							 result.status = "Unable to insert to mongo";
 						 }else{
-							 result.code = 200; 
-							 result.status = "Successfully inserted";
+							 mailer.sendMail(function(error, success) {
+								 result.code = 200; 
+								 result.status = "Successfully inserted";
+							 });
 						 }	
 						 res.json(result);
 					 }
@@ -124,9 +127,6 @@ exports.getAllPosts = function(req, res){
 	});
 	
 };
-
-
-//Update the posts
 
 //UpdatePostings posts
 exports.updatePost = function(req, res){
@@ -206,9 +206,11 @@ exports.updatePost = function(req, res){
 							 result.code = 208;
 							 result.status = "Unable to update to mongo";
 						 }else{
-							 result.code = 200; 
-							 result.status = "Successfully updated";
-							 result.data = docs;
+							 mailer.sendMail(function(error, success) {
+								 result.code = 200; 
+								 result.status = "Successfully updated";
+								 result.data = docs;
+							 });
 						 }	
 						 res.json(result);
 					 }
@@ -251,9 +253,11 @@ exports.updateStatus = function(req, res){
 							 result.code = 208;
 							 result.status = "Unable to update to mongo";
 						 }else{
-							 result.code = 200; 
-							 result.status = "Successfully updated";
-							 result.data = docs;
+							 mailer.sendMail(function(error, success) {
+								 result.code = 200; 
+								 result.status = "Successfully updated";
+								 result.data = docs;
+							 });
 						 }	
 						 res.json(result);
 					 }
