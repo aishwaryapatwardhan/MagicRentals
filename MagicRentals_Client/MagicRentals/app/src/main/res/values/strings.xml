@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">MagicRentals</string>
+    <string name="action_settings">Settings</string>
+    <string name="facebook_app_id">215087245538598</string>
+
+    <string-array name="proptypelist">
+        <item>Single-Family Home</item>
+        <item>Patio Home</item>
+        <item>Villa</item>
+        <item>Cottage</item>
+        <item>Courtyard Home</item>
+        <item>Duplex,Triplex</item>
+        <item>Townhome</item>
+        <item>Apartment Flat</item>
+    </string-array>
+
+    <string-array name="pricerangelist">
+        <item>$1000-$3000</item>
+        <item>$3000-$6000</item>
+        <item>$6000-$10000</item>
+        <item>$10000-$20000</item>
+        <item>$20000-$40000</item>
+        <item>$40000-$90000</item>
+        <item>above $90000</item>
+    </string-array>
+</resources>
