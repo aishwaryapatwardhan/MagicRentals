@@ -6,6 +6,7 @@ package project.team.cmpe277.com.magicrentals.landlord;
 public class PropertyModel {
 
     String user_id;
+    String key;
     String Street;
     String City;
     String State;
@@ -29,6 +30,13 @@ public class PropertyModel {
 
     public void setUser_id(String user_id) {
         this.user_id = user_id;
+    }
+
+    public String getKey(){
+        return key;
+    }
+    public  void setKey(String key){
+        this.key = key;
     }
 
     public void setNickname(String nickname){ this.nickname = nickname; }

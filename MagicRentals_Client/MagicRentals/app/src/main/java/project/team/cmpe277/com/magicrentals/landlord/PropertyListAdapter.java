@@ -2,6 +2,7 @@ package project.team.cmpe277.com.magicrentals.landlord;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import android.widget.Toast;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 
 import project.team.cmpe277.com.magicrentals.R;
 
@@ -21,36 +24,45 @@ import project.team.cmpe277.com.magicrentals.R;
  */
 public class PropertyListAdapter extends ArrayAdapter<PropertyModel> {
     ArrayList<PropertyModel> mPropertyList;
-    int resource ;
+    HashMap<PropertyModel, Boolean> mPropertyModel;
+    int resource;
     Context context;
     LayoutInflater inflater;
     Activity activity;
+    ArrayList<Integer> selected;
 
     public PropertyListAdapter(Context context, int resource, ArrayList<PropertyModel> propertyList) {
+
         super(context, resource, propertyList);
-        activity = (Activity)context;
+        selected = new ArrayList<>();
+        activity = (Activity) context;
         mPropertyList = propertyList;
 
+
     }
-    public View getView(int position, View convertView, ViewGroup parent){
+
+    public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater inflater;
-            System.out.println("Savani   .......   "+Context.LAYOUT_INFLATER_SERVICE);
+            System.out.println("Savani   .......   " + Context.LAYOUT_INFLATER_SERVICE);
             //convertView =
-             convertView = activity.getLayoutInflater()
+            convertView = activity.getLayoutInflater()
                     .inflate(R.layout.landlord_property_row, null);
         }
         PropertyModel property = getItem(position);
-        TextView  nicknameV = (TextView) convertView.findViewById(R.id.nick_name);
+        if(selected.equals(position)){
+            convertView.setBackgroundColor(Color.LTGRAY);
+        }
+        TextView nicknameV = (TextView) convertView.findViewById(R.id.nick_name);
         nicknameV.setText(property.getNickname());
 
-        TextView countV = (TextView)convertView.findViewById(R.id.view_count);
+        TextView countV = (TextView) convertView.findViewById(R.id.view_count);
         countV.setText(property.getView_count());
 
-        TextView  streetV = (TextView) convertView.findViewById(R.id.house_street);
+        TextView streetV = (TextView) convertView.findViewById(R.id.house_street);
         streetV.setText(property.getStreet());
 
-        TextView  cityV = (TextView) convertView.findViewById(R.id.house_city);
+        TextView cityV = (TextView) convertView.findViewById(R.id.house_city);
         cityV.setText(property.getCity());
 
         TextView stateV = (TextView) convertView.findViewById(R.id.house_state);
@@ -62,7 +74,17 @@ public class PropertyListAdapter extends ArrayAdapter<PropertyModel> {
         return convertView;
 
 
-
+    }
+    void setSelected(int position){
+        selected.add(position);
+    }
+    void resetSelected(int position){
+        selected.remove(position);
     }
 
+
+
+
 }
+
+

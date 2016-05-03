@@ -15,6 +15,7 @@ public class PropertiesResultLab {
     private PropertiesResultLab(Context appContext){
         mAppContext = appContext;
         mPropertyList = new ArrayList<>();
+
         mPropertyList = retrieveProperties();
 
     }
@@ -24,6 +25,10 @@ public class PropertiesResultLab {
             sPropertiesResultLab = new PropertiesResultLab(context.getApplicationContext());
         }
         return sPropertiesResultLab;
+    }
+
+    public  void delete(ArrayList<Integer> al){
+
     }
 
     public ArrayList<PropertyModel> getPropertyList(){
@@ -51,9 +56,20 @@ public class PropertiesResultLab {
        // tempPropertyList = new ArrayList<>();
         tempPropertyList.add(p1);
 
+        PropertyModel p3 = new PropertyModel();
+        p3.setNickname("Third House");
+        p3.setStreet("2u2jejjjjj8 duu");
+        p3.setCity("Seeean Joskke");
+        p3.setState("C ejAjj");
+        p3.setZip("82kkj993");
+        p3.setView_count("334");
+        // tempPropertyList = new ArrayList<>();
+        tempPropertyList.add(p3);
+
 
         return tempPropertyList;
 
 
     }
+
 }

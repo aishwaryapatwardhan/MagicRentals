@@ -16,7 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.SimpleCursorAdapter;
+
 
 import java.util.ArrayList;
 /**
@@ -27,7 +27,7 @@ import project.team.cmpe277.com.magicrentals.R;
 
 public class PropertiesListLandlordActivity   extends AppCompatActivity {
 
-    // This is the Adapter being used to display the list's data
+
 
     static String userid;
     @Override
@@ -60,7 +60,7 @@ public class PropertiesListLandlordActivity   extends AppCompatActivity {
 
         userid = getIntent()
                 .getSerializableExtra("USERID").toString();
-        bundle.putString("userid", userid);
+        bundle.putString("USERID", userid);
         UploadDataFragment fragment = new UploadDataFragment();
         fragment.setArguments(bundle);
         // fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
