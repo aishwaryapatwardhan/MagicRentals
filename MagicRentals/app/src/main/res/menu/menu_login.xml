@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="project.team.cmpe277.com.magicrentals.TenantSearchActivity">
+    <item
+        android:id="@+id/favorites"
+        android:orderInCategory="100"
+        android:title="@string/favorites"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/save_search"
+        android:orderInCategory="100"
+        android:title="@string/save_search"
+        app:showAsAction="never" />
+</menu>
