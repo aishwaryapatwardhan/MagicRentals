@@ -44,6 +44,8 @@ public class PropertiesResultLab {
         p.setState("CA");
         p.setZip("83993");
         p.setView_count("10");
+        p.setProperty_type("Villa");
+        p.setBath("2");
         tempPropertyList = new ArrayList<>();
         tempPropertyList.add(p);
         PropertyModel p1 = new PropertyModel();

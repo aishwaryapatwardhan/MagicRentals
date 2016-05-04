@@ -1,9 +1,11 @@
 package project.team.cmpe277.com.magicrentals.landlord;
 
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -36,7 +38,7 @@ public class UploadDataFragment extends Fragment {
         // Inflate the layout for this fragment
         View fragmentView = inflater.inflate(R.layout.fragment_upload_data, container, false);
         System.out.println("kjjdhdhjhhj .... ");
-        String userid = getArguments().getString("userid");
+        String userid = getArguments().getString("USERID");
         System.out.println("userid  " +userid);
 //        Spinner spinner = (Spinner) fragmentView.findViewById(R.id.property_type);
 //// Create an ArrayAdapter using the string array and a default spinner layout
@@ -51,11 +53,12 @@ public class UploadDataFragment extends Fragment {
 
         // find View-elements
         //tvOut = (TextView) findViewById(R.id.tvOut);
+
         btnSubmit = (Button) fragmentView.findViewById(R.id.submit);
         System.out.println("hiii         ...........  ");
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 //Read the data from the form and pass it to the backend service
                 // Button btnSubmit = (Button) (v);
                 System.out.println("in Savkwjjetwe.........................");
@@ -104,12 +107,16 @@ public class UploadDataFragment extends Fragment {
                 // Images (need to decide this yet..), other_details ,  Status , view_count
 
 
-
             }
+
+
+
+
         } );
 
 
         return inflater.inflate(R.layout.fragment_upload_data, container, false);
     }
+  
 
 }

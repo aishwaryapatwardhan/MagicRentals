@@ -157,6 +157,19 @@ public class PropertyListLandlordFragment extends ListFragment
                 switch (item.getItemId()){
                     case R.id.deleteM:
                         resultsLab.delete(selected_line_al);
+                        break;
+                    case R.id.editM:
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("selectedLine", selected_line_al.get(0));
+
+                        //bundle.putString("USERID", userid);
+                        EditPropertiesFragment fragment = new EditPropertiesFragment();
+                        fragment.setArguments(bundle);
+                        // fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
+                        getActivity().getSupportFragmentManager().beginTransaction().
+                                replace(R.id.fragmentContainer, fragment).commit();
+
+
                 }
                 return false;
             }

@@ -270,7 +270,9 @@
             android:id="@+id/submit"
             android:clickable="true"
 
-            android:text="@string/submit"/>
+
+            android:text="@string/submit"
+            />
 
 
     </LinearLayout>
