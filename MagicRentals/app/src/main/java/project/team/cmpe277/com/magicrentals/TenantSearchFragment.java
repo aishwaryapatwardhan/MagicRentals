@@ -3,6 +3,7 @@ package project.team.cmpe277.com.magicrentals;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -198,6 +199,30 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    public class LoginApi extends AsyncTask<Object, Void, Boolean> {
+        private Exception exception;
+
+
+
+        public Boolean doInBackground(Object... parameters) {
+
+            try {
+
+                return true;
+            } catch (Exception e) {
+                // Log exception
+                this.exception = e;
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+
+        }
     }
 
 }

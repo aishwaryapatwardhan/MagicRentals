@@ -106,8 +106,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 //Migrate to new activity on successful login
                 //loginResult.getAccessToken().getUserId();
                 //loginResult.getAccessToken().getToken();
-
-                afterSuccessfulLogin(loginResult.getAccessToken().getUserId());
+                afterSuccessfulLogin(loginResult.getAccessToken().getUserId(),"");
             }
 
             @Override
@@ -144,7 +143,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             //acct.getEmail
             //acct.getId
             //acct.getIdToken
-            afterSuccessfulLogin(acct.getId());
+            afterSuccessfulLogin(acct.getId(),acct.getEmail());
         } else {
             // Signed out, show unauthenticated UI.
             Toast.makeText(getApplicationContext(), "Login Attempt Failed", Toast.LENGTH_SHORT).show();
@@ -156,6 +155,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+
+
             handleSignInResult(result);
         }
 
@@ -190,7 +191,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         Toast.makeText(getApplicationContext(), "Connection Failed", Toast.LENGTH_SHORT).show();
     }
 
-    private void afterSuccessfulLogin(String userid) {
+    private void afterSuccessfulLogin(String userid, String email) {
         //Navigate to next activity
         Intent i = new Intent(getApplicationContext(), TenantSearchActivity.class);
         i.putExtra("USERID", userid);
