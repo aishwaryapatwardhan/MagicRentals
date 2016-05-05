@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.app.Fragment;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -14,7 +15,7 @@ import java.util.zip.Inflater;
 import project.team.cmpe277.com.magicrentals.R;
 
 /**
- * Created by savani on 5/3/16. edit screen.. pass user id and property id
+ * Created by savani on 5/3/16. edit screen.. pass  property id
  */
 public class EditPropertiesFragment extends Fragment {
 
@@ -24,6 +25,9 @@ public class EditPropertiesFragment extends Fragment {
     ArrayList<String> listPropertyTypes;
   //  ArrayList<String> bathroomArr;
     ArrayList<String> roomArr;
+    EditText area, street, city, state, zip, rent, email, mobile, description;
+    Spinner SpinPropertyType, bath, rooms;
+    Button btnSubmit;
     public EditPropertiesFragment(){
 
     }
@@ -45,35 +49,33 @@ public class EditPropertiesFragment extends Fragment {
 
 
         spinProprtyType.setSelection(listPropertyTypes.indexOf(mPropertyModel.getProperty_type()));
-        EditText area;
+
         area = (EditText)editView.findViewById(R.id.area);
         area.setText(mPropertyModel.getArea());
-        EditText street = (EditText)editView.findViewById(R.id.street);
+         street = (EditText)editView.findViewById(R.id.street);
         street.setText(mPropertyModel.getStreet());
-        EditText city = (EditText)editView.findViewById(R.id.city);
+         city = (EditText)editView.findViewById(R.id.city);
         city.setText(mPropertyModel.getCity());
-        EditText state = ((EditText)editView.findViewById(R.id.state));
+         state = ((EditText)editView.findViewById(R.id.state));
         state.setText(mPropertyModel.getState());
-        EditText zip = (EditText)editView.findViewById(R.id.zipcode);
+         zip = (EditText)editView.findViewById(R.id.zipcode);
         zip.setText(mPropertyModel.getZip());
-        EditText rent = (EditText)editView.findViewById(R.id.rent);
+         rent = (EditText)editView.findViewById(R.id.rent);
         rent.setText(mPropertyModel.getRent());
-        EditText email = (EditText)editView.findViewById(R.id.email);
+         email = (EditText)editView.findViewById(R.id.email);
         email.setText(mPropertyModel.getEmail());
-        EditText mobile = (EditText)editView.findViewById(R.id.phone);
+         mobile = (EditText)editView.findViewById(R.id.phone);
         mobile.setText(mPropertyModel.getMobile());
-        EditText description = (EditText)editView.findViewById(R.id.description);
+         description = (EditText)editView.findViewById(R.id.description);
         description.setText(mPropertyModel.getDescription());
-
         Spinner rooms = (Spinner)editView.findViewById(R.id.roomscount);
         spinProprtyType.setSelection(roomArr.indexOf(mPropertyModel.getRoom()));
-        Spinner bath = (Spinner)editView.findViewById(R.id.bathroomcount);
-        spinProprtyType.setSelection(roomArr.indexOf(mPropertyModel.getBath()));
+       // Spinner bath = (Spinner)editView.findViewById(R.id.bathroomcount);
+        spinProprtyType.setSelection(2);//roomArr.indexOf(mPropertyModel.getBath()));
         //System.out.println("Hello    ......................."+property);
-
-
+        btnSubmit = (Button) editView.findViewById(R.id.submit1);
+        btnSubmit.setText("Save");
         return editView;
-
 
     }
 }

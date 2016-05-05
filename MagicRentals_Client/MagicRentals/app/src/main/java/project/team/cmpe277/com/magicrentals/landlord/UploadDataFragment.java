@@ -31,6 +31,8 @@ public class UploadDataFragment extends Fragment {
     }
 
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -39,7 +41,7 @@ public class UploadDataFragment extends Fragment {
         View fragmentView = inflater.inflate(R.layout.fragment_upload_data, container, false);
         System.out.println("kjjdhdhjhhj .... ");
         String userid = getArguments().getString("USERID");
-        System.out.println("userid  " +userid);
+        System.out.println("userid  ... " +userid);
 //        Spinner spinner = (Spinner) fragmentView.findViewById(R.id.property_type);
 //// Create an ArrayAdapter using the string array and a default spinner layout
 //        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource
@@ -54,7 +56,7 @@ public class UploadDataFragment extends Fragment {
         // find View-elements
         //tvOut = (TextView) findViewById(R.id.tvOut);
 
-        btnSubmit = (Button) fragmentView.findViewById(R.id.submit);
+        btnSubmit = (Button) fragmentView.findViewById(R.id.submit1);
         System.out.println("hiii         ...........  ");
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,15 +110,11 @@ public class UploadDataFragment extends Fragment {
 
 
             }
-
-
-
-
         } );
 
 
         return inflater.inflate(R.layout.fragment_upload_data, container, false);
     }
-  
+
 
 }

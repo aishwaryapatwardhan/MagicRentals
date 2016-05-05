@@ -26,6 +26,18 @@
             android:name=".landlord.PropertiesListLandlordActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".landlord.UploadPropertyDataActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".landlord.PropertyDetailActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".landlord.EditPropertiesActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme"></activity>
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />

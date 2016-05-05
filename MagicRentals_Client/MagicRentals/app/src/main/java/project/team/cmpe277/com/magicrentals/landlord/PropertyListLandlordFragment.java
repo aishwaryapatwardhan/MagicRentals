@@ -3,7 +3,12 @@ package project.team.cmpe277.com.magicrentals.landlord;
 import android.annotation.TargetApi;
 //import android.app.ListFragment;
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.os.Bundle;
 import android.view.ActionMode;
@@ -14,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -27,8 +33,7 @@ import project.team.cmpe277.com.magicrentals.R;
 /**
  * Created by savani on 4/26/16.
  */
-public class PropertyListLandlordFragment extends ListFragment
-{
+public class PropertyListLandlordFragment extends ListFragment {
     private static final String TAG = "PropertyListLandlordFragment";
     // PropertyListAdapter adapter ;
     SimpleCursorAdapter mAdapter;
@@ -38,6 +43,7 @@ public class PropertyListLandlordFragment extends ListFragment
     PropertiesResultLab mPropertyResultLab;
     String userid;
     Activity activity;
+    public Callbacks mCallbacks;
 
     public PropertyListLandlordFragment() {
 
@@ -70,9 +76,11 @@ public class PropertyListLandlordFragment extends ListFragment
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-       // View v = super.onCreateView(inflater, container, savedInstanceState);
+        // View v = super.onCreateView(inflater, container, savedInstanceState);
 
-        System.out.print("In createViews..");
+
+        userid = getActivity().getIntent().getExtras().getString("USERID");
+        System.out.print("In createViews.." +userid);
         return inflater.inflate(R.layout.landlord_properties_fragment, container, false);
 //
 //        progress = (ProgressBar) listView1.findViewById(R.id.progressBar);
@@ -109,16 +117,15 @@ public class PropertyListLandlordFragment extends ListFragment
                 (activity, R.layout.landlord_property_row, mPropertyList);
         mPropertyListAdapter.notifyDataSetChanged();
         setListAdapter(mPropertyListAdapter);
-      //  listView = (findViewById(R.id.la);
+        //  listView = (findViewById(R.id.la);
         listView = getListView();
 
-       listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-       // listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        // listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
             @Override
             public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
-                System.out.println("Selected item .... "+position);
-
+                System.out.println("Selected item .... " + position);
 
 
             }
@@ -140,34 +147,42 @@ public class PropertyListLandlordFragment extends ListFragment
             @Override
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
                 ArrayList<Integer> selected_line_al = new ArrayList<>();
-                PropertyListAdapter pla = (PropertyListAdapter)getListAdapter();
+                PropertyListAdapter pla = (PropertyListAdapter) getListAdapter();
                 PropertiesResultLab resultsLab = PropertiesResultLab.
                         getPropertiesResultLab(getActivity());
-                System.out.println("data.........   "+resultsLab);
-                for(int i = pla.getCount()-1; i > 0 ; i-- ){
+                System.out.println("data.........   " + resultsLab);
+                for (int i = pla.getCount() - 1; i >= 0; i--) {
                     System.out.print("In chk..");
-                    if (getListView().isItemChecked(i)){
+                    if (getListView().isItemChecked(i)) {
                         selected_line_al.add(i);
 
-                        System.out.println("selected line-------- "+resultsLab.getPropertyList().get(i).getNickname());
+                        System.out.println("selected line-------- " + resultsLab.getPropertyList().get(i).getNickname());
 
 
                     }
                 }
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.deleteM:
                         resultsLab.delete(selected_line_al);
                         break;
                     case R.id.editM:
                         Bundle bundle = new Bundle();
                         bundle.putInt("selectedLine", selected_line_al.get(0));
+                        bundle.putString("USERID",userid);
+
+                        Intent i = new Intent(getActivity(), EditPropertiesActivity.class);
+                        i.putExtras(bundle);
+                        startActivity(i);
+//                        Intent i = new Intent(listView.getApplicationContext(), UploadPropertyDataActivity.class);
+//                        i.putExtra("USERID", userid);
+//                        startActivity(i);
 
                         //bundle.putString("USERID", userid);
-                        EditPropertiesFragment fragment = new EditPropertiesFragment();
-                        fragment.setArguments(bundle);
-                        // fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
-                        getActivity().getSupportFragmentManager().beginTransaction().
-                                replace(R.id.fragmentContainer, fragment).commit();
+//                        EditPropertiesFragment fragment = new EditPropertiesFragment();
+//                        fragment.setArguments(bundle);
+//                        // fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
+//                        getActivity().getSupportFragmentManager().beginTransaction().
+//                                replace(R.id.fragmentContainer, fragment).commit();
 
 
                 }
@@ -180,13 +195,66 @@ public class PropertyListLandlordFragment extends ListFragment
             }
         });
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                System.out.println("mListView  called........ ");
+                PropertyModel prop = (PropertyModel) parent.getItemAtPosition(position);
+                 mCallbacks.onPropertyClicked(prop);
+            }
+        });
+
+//
+//        listView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                System.out.println("inside click detail.......");
+//                String selectedValue = (String) getListAdapter().getItem();
+
+//            public void onPropertyClicked(PropertyModel property) {
+//                if (findViewById(R.id.detailPropFragmentContainer) == null) {
+//                    Intent i = new Intent(this, PropertyDetailActivity.class);
+//                    i.putExtra(PropertyDetailFragment.PROPERTY_KEY, property.getKey());
+//                    startActivity(i);
+//                } else {
+//                    FragmentManager fm = getSupportFragmentManager();
+//                    FragmentTransaction ft = fm.beginTransaction();
+//                    Fragment oldDetail = fm.findFragmentById(R.id.detailPropFragmentContainer);
+//                    Fragment newDetail = PropertyDetailFragment.newInstance(property.getKey());
+//                    if (oldDetail != null) {
+//                        ft.remove(oldDetail);
+//                    }
+//                    ft.add(R.id.detailPropFragmentContainer, newDetail);
+//                    ft.commit();
+//                }
+//            }
+//        }
+//        });
 
     }
 
+    public interface Callbacks{
+        void onPropertyClicked(PropertyModel property);
+    }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mCallbacks = (Callbacks)context;
+    }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallbacks = null;
+    }
 
 }
+
+
+
+
+
 
 
 

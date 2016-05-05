@@ -71,9 +71,32 @@ public class PropertyListAdapter extends ArrayAdapter<PropertyModel> {
         TextView zipV = (TextView) convertView.findViewById(R.id.house_zip);
         zipV.setText(property.getZip());
 
+
+//        convertView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                System.out.println("inside click detail.......");
+//          public void onPropertyClicked(PropertyModel property) {
+//              if(findViewById(R.id.detailPropFragmentContainer) == null){
+//                  Intent i = new Intent(this,PropertyDetailActivity.class);
+//                  i.putExtra(PropertyDetailFragment.PROPERTY_KEY, property.getKey());
+//                  startActivity(i);
+//              }else{
+//                  FragmentManager fm = getSupportFragmentManager();
+//                  FragmentTransaction ft = fm.beginTransaction();
+//                  Fragment oldDetail = fm.findFragmentById(R.id.detailPropFragmentContainer);
+//                  Fragment newDetail = PropertyDetailFragment.newInstance(property.getKey());
+//                  if (oldDetail != null) {
+//                      ft.remove(oldDetail);
+//                  }
+//                  ft.add(R.id.detailPropFragmentContainer, newDetail);
+//                  ft.commit();
+//              }
+//          }
+//            }
+//        });
+
         return convertView;
-
-
     }
     void setSelected(int position){
         selected.add(position);

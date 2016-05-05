@@ -145,7 +145,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:ems="4"
+                android:ems="10"
                 android:id="@+id/area"
                 />
             <TextView
@@ -267,14 +267,10 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/submit"
+            android:id="@+id/submit1"
             android:clickable="true"
-
-
             android:text="@string/submit"
             />
-
-
     </LinearLayout>
 </ScrollView>
 

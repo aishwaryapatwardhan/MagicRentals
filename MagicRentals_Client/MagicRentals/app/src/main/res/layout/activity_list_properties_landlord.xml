@@ -23,13 +23,6 @@
 
     <include layout="@layout/content_list_properties_landlord" />
 
-    <ProgressBar
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
-        android:progressDrawable="@android:drawable/spinner_background"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"/>
+
 
 </android.support.design.widget.CoordinatorLayout>
