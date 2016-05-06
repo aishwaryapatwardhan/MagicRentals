@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -61,6 +62,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private int RC_SIGN_IN;
     private String gcmtoken;
     private String userid;
+    private static final String TAG = "LoginActivity";
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -70,6 +72,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Following is the code to store user-id and retrieve the user-id using shared preferences.
+      /*  SharedPreferences sharedPreferences = this.getSharedPreferences(TAG,Context.MODE_PRIVATE);
+        sharedPreferences.edit().putString("userid",PLACE_YOUR_USER_ID).apply();
+
+        String useridCheck = sharedPreferences.getString("userid",null);
+        Log.i(TAG, useridCheck); */
 
         //Initializing the facebook sdk and initializing the callbackmanager
         FacebookSdk.sdkInitialize(getApplicationContext());
@@ -259,6 +268,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         Map parampost = new HashMap();
         parampost.put("userid",userid);
+
+
         parampost.put("devicetoken",gcmtoken);
         parampost.put("email", email);
 
