@@ -5,7 +5,7 @@
 
 var mongo = require("./dbconfig");
 var mailer = require('./mailer');
-
+var utils = require('./utils');
 //Add postings
 exports.addPost = function(req, res){
 		
@@ -76,13 +76,21 @@ exports.addPost = function(req, res){
 						 if(err){
 							 result.code = 208;
 							 result.status = "Unable to insert to mongo";
+							 res.json(result);
 						 }else{
-							 mailer.sendMail(function(error, success) {
-								 result.code = 200; 
-								 result.status = "Successfully inserted";
-							 });
+							 utils.notify(id,"1",function(){
+								 console.log('notification triggered.');
+								 
+								 mailer.sendMail(function(error, success) {
+									 console.log('Mail sent');
+								 });
+							 })
+							 
+							 result.code = 200; 
+							 result.status = "Successfully inserted";
+							 res.json(result);
 						 }	
-						 res.json(result);
+						
 					 }
 			);			
 		}	
@@ -289,38 +297,23 @@ exports.updateViewCount = function(req, res){
 			var coll = mongo.collection('rental_posting');
 						
 			coll.findOne(
-					{ _id : id},
-					{ "view_count" : 1 },
+					{ email : id},
 						function(err, docs) {
 							 if(err){
 								 result.code = 208;
 								 result.status = "Unable to update to mongo";
 								 res.json(result);
 							 }else{
-								 var count = parseInt(docs.view_count);
-								 count = count + 1 ;
-								 console.log(count);
-			 
-								 coll.update( 
-										 { _id : id}, 
-											{
-												$set : {
-													"view_count" : count
-												}
-											},   function(err, docs) {
-											
-												 if(err){
-													 result.code = 208;
-													 result.status = "Unable to update to mongo";
-													 res.json(result);
-												 }else{
-													 result.code = 200; 
-													 result.status = "Successfully updated";
-													 result.data = docs;
-													 res.json(result);
-												 }	
-											 }
-									);
+								 if(docs.length > 0){
+									 result.code = 200;
+									 result.status = "success, ";
+									 res.json(result);
+								 }else{
+									 
+									 result.code = 200;
+									 result.status = "success, ";
+									 res.json(result);
+								 }
 							 }	
 						 }
 					);			
@@ -333,6 +326,10 @@ exports.searchPosts = function(req, res){
 	
 	console.log("In search API");
 	var result = {};
+	
+	var saveSearch = Boolean(req.param('saveSearch'));
+	var rate = Number(req.param('rate'));
+	var user_id = req.param('user_id');
 	
 	var description = req.param('description');
 	if(!description){
@@ -382,6 +379,34 @@ exports.searchPosts = function(req, res){
 			res.json(result);
 		}else{
 			
+			if(saveSearch === true){
+				var searchcol = mongo.collection('search_queries');
+				
+				searchcol.insertOne(
+						{
+							"user_id" : user_id,
+							"rate" : rate,
+							"description" : description,
+							"City" : City,
+							"Zip" : Zip,
+							"property_type" : property_type,
+							"max_rent" : max_rent,
+							"min_rent" : min_rent						
+							
+						},function(err, docs) {
+							
+							 if(err){
+								 result.code = 208;
+								 result.status = "Unable to insert to mongo";
+							 }else{
+								 mailer.sendMail(function(error, success) {
+									 result.code = 200; 
+									 result.status = "Successfully inserted";
+								 });
+							 }	
+						});
+			}
+	
 			console.log("Connected to mongo");
 			var coll = mongo.collection('rental_posting');
 			
@@ -409,28 +434,3 @@ exports.searchPosts = function(req, res){
 	});
 	
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
