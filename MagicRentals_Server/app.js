@@ -39,6 +39,9 @@ app.post('/updateStatus', postings.updateStatus);
 app.post('/updateViewCount', postings.updateViewCount);
 app.get('/searchPosts', postings.searchPosts);
 
+//login APIs
+app.post('/addUser', users.addUser);
+
 
 //test API
 app.get('/test', routes.test123);
