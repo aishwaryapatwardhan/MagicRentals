@@ -44,8 +44,8 @@ public class PropertiesListLandlordActivity   extends AppCompatActivity implemen
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
-        userid = getIntent()
-                .getSerializableExtra("USERID").toString();
+  /*      userid = getIntent()
+                .getSerializableExtra("USERID").toString();*/
         Fragment fragment = PropertyListLandlordFragment.getFragment(userid);
        // fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, fragment).commit();

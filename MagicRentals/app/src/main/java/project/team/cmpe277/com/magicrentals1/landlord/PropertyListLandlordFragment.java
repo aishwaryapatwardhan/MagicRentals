@@ -79,8 +79,8 @@ public class PropertyListLandlordFragment extends ListFragment {
         // View v = super.onCreateView(inflater, container, savedInstanceState);
 
 
-        userid = getActivity().getIntent().getExtras().getString("USERID");
-        System.out.print("In createViews.." +userid);
+//        userid = getActivity().getIntent().getExtras().getString("USERID");
+ //       System.out.print("In createViews.." +userid);
         return inflater.inflate(R.layout.landlord_properties_fragment, container, false);
 //
 //        progress = (ProgressBar) listView1.findViewById(R.id.progressBar);
@@ -115,7 +115,6 @@ public class PropertyListLandlordFragment extends ListFragment {
 
         PropertyListAdapter mPropertyListAdapter = new PropertyListAdapter
                 (activity, R.layout.landlord_property_row, mPropertyList);
-        mPropertyListAdapter.notifyDataSetChanged();
         setListAdapter(mPropertyListAdapter);
         //  listView = (findViewById(R.id.la);
         listView = getListView();

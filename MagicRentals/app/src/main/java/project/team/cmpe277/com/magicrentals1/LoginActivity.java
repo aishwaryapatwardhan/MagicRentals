@@ -53,6 +53,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import project.team.cmpe277.com.magicrentals1.landlord.PropertiesListLandlordActivity;
+
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private BroadcastReceiver mRegistrationBroadcastReceiver;
@@ -61,7 +63,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private SignInButton googleSignIn;
     private int RC_SIGN_IN;
     private String gcmtoken;
-    private String userid;
+    private String userid = "saipranesh";
     private static final String TAG = "LoginActivity";
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -78,6 +80,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         sharedPreferences.edit().putString("userid",PLACE_YOUR_USER_ID).apply();
 
         String useridCheck = sharedPreferences.getString("userid",null);
+
+        SharedPreferences preferences = context.getSharedPreferences(TAG,Context.MODE_PRIVATE);
+
         Log.i(TAG, useridCheck); */
 
         //Initializing the facebook sdk and initializing the callbackmanager
@@ -147,8 +152,14 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         googleSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-                startActivityForResult(signInIntent, RC_SIGN_IN);
+             /*   Intent i = new Intent(getApplicationContext(), TenantSearchActivity.class);
+                i.putExtra("USERID", userid);
+                startActivity(i); */
+                Intent i = new Intent(getApplicationContext(), PropertiesListLandlordActivity.class);
+                i.putExtra("USERID", userid);
+                startActivity(i);
+                /*Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+                startActivityForResult(signInIntent, RC_SIGN_IN);*/
             }
         });
 
@@ -159,6 +170,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 //loginResult.getAccessToken().getUserId();
                 //loginResult.getAccessToken().getToken();
                 afterSuccessfulLogin(loginResult.getAccessToken().getUserId(),loginResult.getAccessToken().getToken(),"");
+
             }
 
             @Override
@@ -264,6 +276,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         //Navigate to next activity
 
         //new LoginApi().execute("URL",userid,token,email);
+
         this.userid = userid;
 
         Map parampost = new HashMap();
