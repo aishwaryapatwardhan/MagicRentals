@@ -119,9 +119,10 @@ public class PropertyListLandlordFragment extends ListFragment {
         setListAdapter(mPropertyListAdapter);
         //  listView = (findViewById(R.id.la);
         listView = getListView();
+       // listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
-        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-        // listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+       listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+//        // listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
             @Override
             public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
@@ -184,7 +185,6 @@ public class PropertyListLandlordFragment extends ListFragment {
 //                        getActivity().getSupportFragmentManager().beginTransaction().
 //                                replace(R.id.fragmentContainer, fragment).commit();
 
-
                 }
                 return false;
             }
@@ -202,7 +202,18 @@ public class PropertyListLandlordFragment extends ListFragment {
                 PropertyModel prop = (PropertyModel) parent.getItemAtPosition(position);
                  mCallbacks.onPropertyClicked(prop);
             }
+
         });
+//        listView.setOnClickListener(new View.OnClickListener(){
+////            @Override
+////            public void onClick(View v) {
+////                MenuInflater inflater = v.getParent();
+////                inflater.inflate(R.menu.menu_landlord_context, menu);
+////
+////            }
+//            public boolean onCreateActionMode
+//        });
+
 
 //
 //        listView.setOnClickListener(new View.OnClickListener() {

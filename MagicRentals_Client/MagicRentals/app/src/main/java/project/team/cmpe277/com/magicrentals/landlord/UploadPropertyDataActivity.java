@@ -72,6 +72,9 @@ public class UploadPropertyDataActivity extends AppCompatActivity {
 
                 property.setRent(rent.getText().toString());
 
+                if (LandlordUtils.isValidEmail(email.getText().toString()));
+                email.setError("Invalid Email");
+
                 property.setEmail(email.getText().toString());
 
                 property.setMobile(mobile.getText().toString());
