@@ -75,10 +75,10 @@ exports.addPost = function(req, res){
 					
 						 if(err){
 							 result.code = 208;
-							 result.status = "Unable to insert to mongo";
+							 result.status = "Duplicate records";
 							 res.json(result);
 						 }else{
-							 utils.notify(id,"1",function(){
+							 utils.notify(id,1,function(){
 								 console.log('notification triggered.');
 								 
 								 mailer.sendMail(function(error, success) {
@@ -396,13 +396,15 @@ exports.searchPosts = function(req, res){
 						},function(err, docs) {
 							
 							 if(err){
-								 result.code = 208;
-								 result.status = "Unable to insert to mongo";
+//								 result.code = 208;
+//								 result.status = "Unable to insert to mongo";
+								 console.log("Unable to insert to mongo");
 							 }else{
-								 mailer.sendMail(function(error, success) {
-									 result.code = 200; 
-									 result.status = "Successfully inserted";
-								 });
+//								 mailer.sendMail(function(error, success) {
+//									 result.code = 200; 
+//									 result.status = "Successfully inserted";
+//								 });
+								 console.log("Search results saved");
 							 }	
 						});
 			}
