@@ -1,4 +1,4 @@
-package project.team.cmpe277.com.magicrentals1;
+package project.team.cmpe277.com.magicrentals1.utility;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;

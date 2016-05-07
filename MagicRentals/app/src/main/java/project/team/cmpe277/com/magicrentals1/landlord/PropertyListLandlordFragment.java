@@ -121,7 +121,7 @@ public class PropertyListLandlordFragment extends ListFragment {
        // listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-//        // listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+       // listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
             @Override
             public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {

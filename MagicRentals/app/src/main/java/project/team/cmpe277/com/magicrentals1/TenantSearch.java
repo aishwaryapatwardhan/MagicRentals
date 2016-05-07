@@ -1,6 +1,8 @@
 package project.team.cmpe277.com.magicrentals1;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -29,6 +31,8 @@ public class TenantSearch extends AppCompatActivity implements AdapterView.OnIte
     private Spinner pricerangevalue;
     private Button mSearch;
 
+    private static final String TAG = "TenSrch";
+    SharedPreferences preferences = this.getSharedPreferences(TAG, Context.MODE_PRIVATE);
     SearchParameters sp = new SearchParameters();
 
 
@@ -37,8 +41,7 @@ public class TenantSearch extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.searchfragment_tenant);
 
-        userid = getIntent()
-                .getSerializableExtra("USERID").toString();
+        userid = preferences.getString(LoginActivity.USERID,null);
 
         Spinner propertyvalue = (Spinner) findViewById(R.id.propertyvalue);
         ArrayAdapter adapter1 = ArrayAdapter.createFromResource(this, R.array.proptypelist, android.R.layout.simple_spinner_item);

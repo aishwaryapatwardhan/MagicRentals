@@ -63,8 +63,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private SignInButton googleSignIn;
     private int RC_SIGN_IN;
     private String gcmtoken;
-    private String userid = "saipranesh";
+    private String userid;
     private static final String TAG = "LoginActivity";
+    public static final String USERID = "project.team.cmpe277.com.magicrentals1.USERID" ;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -156,7 +157,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 i.putExtra("USERID", userid);
                 startActivity(i); */
                 Intent i = new Intent(getApplicationContext(), PropertiesListLandlordActivity.class);
-                i.putExtra("USERID", userid);
                 startActivity(i);
                 /*Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
                 startActivityForResult(signInIntent, RC_SIGN_IN);*/
@@ -281,7 +281,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         Map parampost = new HashMap();
         parampost.put("userid",userid);
-
+        //Adding userid to shared preferences
+        SharedPreferences sharedPreferences = this.getSharedPreferences(TAG,Context.MODE_PRIVATE);
+        sharedPreferences.edit().putString(USERID,userid).apply();
 
         parampost.put("devicetoken",gcmtoken);
         parampost.put("email", email);
@@ -413,7 +415,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     String statuscode = object.getString("statuscode");
                     if(statuscode.equals(200)){
                         Intent i = new Intent(getApplicationContext(), TenantSearchActivity.class);
-                        i.putExtra("USERID", userid);
                         startActivity(i);
                     }else{
                         Toast.makeText(getApplicationContext(), "Login API Error", Toast.LENGTH_SHORT).show();

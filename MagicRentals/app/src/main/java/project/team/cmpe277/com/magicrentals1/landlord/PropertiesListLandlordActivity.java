@@ -66,8 +66,8 @@ public class PropertiesListLandlordActivity   extends AppCompatActivity implemen
     public boolean onOptionsItemSelected(MenuItem item) {
         Bundle bundle = new Bundle();
 
-        userid = getIntent()
-                .getSerializableExtra("USERID").toString();
+/*        userid = getIntent()
+                .getSerializableExtra("USERID").toString();*/
         Intent i = new Intent(getApplicationContext(), UploadPropertyDataActivity.class);
         i.putExtra("USERID", userid);
         startActivity(i);

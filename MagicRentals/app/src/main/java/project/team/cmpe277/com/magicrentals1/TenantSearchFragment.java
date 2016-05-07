@@ -1,8 +1,10 @@
 package project.team.cmpe277.com.magicrentals1;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -26,14 +28,14 @@ import android.widget.Toast;
  */
 public class TenantSearchFragment extends android.app.Fragment implements AdapterView.OnItemSelectedListener {
 
-    private static String userid;
     private EditText locationvalue;
     private EditText keywordvalue;
     private Spinner propertyvalue;
     private Spinner pricerangevalue;
     private Button mSearch;
     AlertDialog actions;
-
+    private static final String TAG = "TenSrchF";
+    SharedPreferences preferences = getActivity().getSharedPreferences(TAG, Context.MODE_PRIVATE);
     SearchParameters sp = new SearchParameters();
 
     @Override
