@@ -17,7 +17,7 @@ public class PopUp extends AppCompatActivity {
     public static final String PHOTO_OPTION = "project.team.cmpe277.com.magicrentals1.utility.PopUp.PHOTO_OPTION";
     public static final String TAKE_PHOTO_OPTION =  "project.team.cmpe277.com.magicrentals1.utility.PopUp.TAKE_PHOTO_OPTION";
     public static final String UPLOAD_PHOTO_OPTION = "project.team.cmpe277.com.magicrentals1.utility.PopUp.UPLOAD_PHOTO_OPTION";
-    public static final int UPLOAD_OR_TAKE_PHOTO = 1;
+    public static final int UPLOAD_OR_TAKE_PHOTO = 1234;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

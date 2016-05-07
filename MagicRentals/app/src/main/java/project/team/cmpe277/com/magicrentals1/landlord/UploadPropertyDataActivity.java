@@ -1,8 +1,13 @@
 package project.team.cmpe277.com.magicrentals1.landlord;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +15,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import project.team.cmpe277.com.magicrentals1.R;
 import project.team.cmpe277.com.magicrentals1.landlord.PropertyModel;
@@ -28,9 +39,11 @@ public class UploadPropertyDataActivity extends AppCompatActivity {
     private Intent popUp;
     Spinner SpinPropertyType, bath, rooms;
     private static final String TAG = "UploadProperty";
-
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_THUMBNAIL_CAPTURE =2;
+    private String mCurrentPhotoPath;
+    private File uploadFile;
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_upload_data);
@@ -147,7 +160,90 @@ public class UploadPropertyDataActivity extends AppCompatActivity {
                 Log.i(TAG,"You've clicked upload photo");
             }else if(userOption.equals(PopUp.TAKE_PHOTO_OPTION)){
                 Log.i(TAG,"You've clicked take photo");
+                dispatchTakePictureIntent();
             }
+        }else if( requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
+
+            Log.i(TAG,"Image Capture Successful");
+            int targetW = postPicBtn.getWidth();
+            int targetH = postPicBtn.getHeight();
+
+            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+            bmOptions.inJustDecodeBounds = true;
+            BitmapFactory.decodeFile(mCurrentPhotoPath);
+            int photoW = bmOptions.outWidth;
+            int photoH = bmOptions.outHeight;
+
+            int scaleFactor = 1;
+            if((targetH > 0) || (targetW > 0)){
+                scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+            }
+
+            bmOptions.inJustDecodeBounds = false;
+            bmOptions.inSampleSize = scaleFactor;
+
+            Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath,bmOptions);
+
+            postPicBtn.setImageBitmap(bitmap);
+            postPicBtn.setAdjustViewBounds(true);
+            postPicBtn.setVisibility(View.VISIBLE);
+            addToGallery();
+
+
+        }else if( requestCode == REQUEST_THUMBNAIL_CAPTURE && resultCode == RESULT_OK && data != null){
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            postPicBtn.setImageBitmap(imageBitmap);
+
         }
     }
+
+    private File createImageFile() throws IOException{
+
+        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timestamp + "_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
+        mCurrentPhotoPath = "file:" + image.getAbsolutePath();
+        return image;
+    }
+
+    private void dispatchTakePictureIntent(){
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        if(takePictureIntent.resolveActivity(this.getPackageManager()) != null){
+            File photoFile = null;
+            try{
+                photoFile = createImageFile();
+                mCurrentPhotoPath = photoFile.getAbsolutePath();
+
+            }catch(IOException ioe){
+                ioe.printStackTrace();
+            }
+
+            if(photoFile != null){
+                Log.i(TAG,"inside dispatchTakePictureIntent");
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            }
+        }else{
+            Toast.makeText(getApplicationContext(),"Sorry, Camera not supported", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void addToGallery(){
+        Intent mediaScanIntent = new Intent("android.intent.action.MEDIA_SCANNER_SCAN_FILE");
+        File f = new File(mCurrentPhotoPath);
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        this.sendBroadcast(mediaScanIntent);
+    }
+
+    private void captureThumbnailImage(){
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if(takePictureIntent.resolveActivity(this.getPackageManager()) != null){
+            startActivityForResult(takePictureIntent, REQUEST_THUMBNAIL_CAPTURE);
+        }
+    }
+
 }
