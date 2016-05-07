@@ -41,6 +41,7 @@ public class UploadPropertyDataActivity extends AppCompatActivity {
     private static final String TAG = "UploadProperty";
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_THUMBNAIL_CAPTURE =2;
+    private static final int PICK_IMAGE_REQUEST =3;
     private String mCurrentPhotoPath;
     private File uploadFile;
     @Override
@@ -158,6 +159,7 @@ public class UploadPropertyDataActivity extends AppCompatActivity {
 
             if(userOption.equals(PopUp.UPLOAD_PHOTO_OPTION)){
                 Log.i(TAG,"You've clicked upload photo");
+                uploadPicFromGallery();
             }else if(userOption.equals(PopUp.TAKE_PHOTO_OPTION)){
                 Log.i(TAG,"You've clicked take photo");
                 dispatchTakePictureIntent();
@@ -194,6 +196,16 @@ public class UploadPropertyDataActivity extends AppCompatActivity {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             postPicBtn.setImageBitmap(imageBitmap);
+
+        }else if( requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null){
+            Uri uri =  data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),uri);
+                postPicBtn.setImageBitmap(bitmap);
+                postPicBtn.setAdjustViewBounds(true);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         }
     }
@@ -244,6 +256,13 @@ public class UploadPropertyDataActivity extends AppCompatActivity {
         if(takePictureIntent.resolveActivity(this.getPackageManager()) != null){
             startActivityForResult(takePictureIntent, REQUEST_THUMBNAIL_CAPTURE);
         }
+    }
+
+    private void uploadPicFromGallery(){
+        Intent uploadPicFromGallery = new Intent();
+        uploadPicFromGallery.setType("image/*");
+        uploadPicFromGallery.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(uploadPicFromGallery,"Upload Picture"),3);
     }
 
 }
