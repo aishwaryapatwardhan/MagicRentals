@@ -5,6 +5,8 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -21,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleCursorAdapter;
@@ -29,6 +32,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import project.team.cmpe277.com.magicrentals1.R;
+import project.team.cmpe277.com.magicrentals1.utility.ThumbnailDownloader;
 
 /**
  * Created by savani on 4/26/16.
@@ -45,6 +49,13 @@ public class PropertyListLandlordFragment extends ListFragment {
     Activity activity;
     public Callbacks mCallbacks;
 
+    static ThumbnailDownloader<ImageView> mThumbnailThread;
+
+
+
+
+
+
     public PropertyListLandlordFragment() {
 
     }
@@ -60,6 +71,16 @@ public class PropertyListLandlordFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        mThumbnailThread = new ThumbnailDownloader<>(new Handler());
+        mThumbnailThread.setListener(new ThumbnailDownloader.Listener<ImageView>() {
+            public void onThumbnailDownloaded(ImageView imageView, Bitmap thumbnail) {
+                if (isVisible()) {
+                    imageView.setImageBitmap(thumbnail);
+                }
+            }
+        });
+        mThumbnailThread.start();
+        mThumbnailThread.getLooper();
 
 
     }

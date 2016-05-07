@@ -50,7 +50,12 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".landlord.UploadPropertyDataActivity" />
+            android:name=".landlord.UploadPropertyDataActivity"
+            >
+            <meta-data
+                android:name = "android.support.PARENT_ACTIVITY"
+                android:value="project.team.cmpe277.com.magicrentals1.landlord.PropertiesListLandlordActivity"></meta-data>
+        </activity>
         <activity
             android:name=".landlord.PropertyDetailActivity"
             android:label="@string/app_name"

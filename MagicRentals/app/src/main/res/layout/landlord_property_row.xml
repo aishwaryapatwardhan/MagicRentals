@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/nick_name"
-                android:text="@string/input_name"
+                android:text="@string/propertyName"
                 android:layout_gravity="left"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 />
@@ -59,9 +59,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/view_count"
-            android:text="@string/input_name"
+            android:text="@string/viewCount"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            />
+            android:layout_marginRight="5dp"
+            android:paddingRight="5dp" />
 
     </LinearLayout>
 

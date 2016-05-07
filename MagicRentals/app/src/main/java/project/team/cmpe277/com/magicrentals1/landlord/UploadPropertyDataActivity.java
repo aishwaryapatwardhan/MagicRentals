@@ -47,7 +47,9 @@ public class UploadPropertyDataActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setTitle("Edit Post");
         setContentView(R.layout.fragment_upload_data);
+
         Log.i(TAG,"Inside UploadProperty");
          postPicBtn =(ImageButton) findViewById(R.id.postPicButton);
          area = (EditText) findViewById(R.id.area);
