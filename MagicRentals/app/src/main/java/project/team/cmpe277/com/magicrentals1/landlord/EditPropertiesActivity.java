@@ -19,6 +19,9 @@ import project.team.cmpe277.com.magicrentals1.R;
  */
 public class EditPropertiesActivity extends AppCompatActivity {
 
+    private static final String ERROR = "Please fill required entries";
+    private static final String REQUIRED = "required";
+    Boolean isValid = true;
     ArrayList<PropertyModel> mPropertyList;
     PropertiesResultLab mPropertyResultLab;
     PropertyModel mPropertyModel;
@@ -71,7 +74,7 @@ public class EditPropertiesActivity extends AppCompatActivity {
         description.setText(mPropertyModel.getDescription());
 
          rooms = (Spinner)findViewById(R.id.roomscount);
-        rooms.setSelection(3);//roomArr.indexOf(mPropertyModel.getRoom()));
+        rooms.setSelection(Integer.parseInt(mPropertyModel.getRoom())-1);//roomArr.indexOf(mPropertyModel.getRoom()));
          bath = (Spinner)findViewById(R.id.bathroomcount);
         rooms.setSelection(Integer.parseInt(mPropertyModel.getBath())-1);
        // spinProprtyType.setSelection(3);//roomArr.indexOf(mPropertyModel.getBath()));
@@ -82,11 +85,11 @@ public class EditPropertiesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Read the data from the form and pass it to the backend service
-                // Button btnSubmit = (Button) (v);
-                System.out.println("in Savkwjjetwe........................."+v.getId());
+
                 //  Spinner spinProprtyType = (Spinner)v.findViewById(R.id.property_type);
                 // property.setProperty_type(spinProprtyType.getSelectedItem().toString());
 
+                isValid = true;
 
                 mPropertyModel.setArea(area.getText().toString());
 
@@ -128,6 +131,13 @@ public class EditPropertiesActivity extends AppCompatActivity {
 
 
 
+
+    }
+    void validate(EditText etext){
+        if (etext.getText().toString().length() == 0 ){
+            isValid = false;
+            etext.setError(REQUIRED);
+        }
 
     }
 }

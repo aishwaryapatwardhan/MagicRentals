@@ -47,7 +47,7 @@ public class UploadPropertyDataActivity extends AppCompatActivity {
     private static final String ERROR = "Please fill required entries";
     private static final String REQUIRED = "required";
     Button btnSubmit;
-   // FloatingActionButton btnSubmit;
+    // FloatingActionButton btnSubmit;
     PropertyModel property;
     Boolean isValid = true;
     Spinner spinPropertyType;
@@ -66,30 +66,19 @@ public class UploadPropertyDataActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setTitle("Edit Post");
         setContentView(R.layout.fragment_upload_data);
-
-
-        area = (EditText) findViewById(R.id.area);
-        area.addTextChangedListener(new TextValidator(area));
-        street = (EditText)findViewById(R.id.street);
-        street.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
         Log.i(TAG,"Inside UploadProperty");
-         postPicBtn =(ImageButton) findViewById(R.id.postPicButton);
-         area = (EditText) findViewById(R.id.area);
-         street = (EditText)findViewById(R.id.street);
-         city = (EditText)findViewById(R.id.city);
-         state = ((EditText)findViewById(R.id.state));
-         zip = (EditText)findViewById(R.id.zipcode);
-         rent = (EditText)findViewById(R.id.rent);
-         email = (EditText)findViewById(R.id.email);
-         mobile = (EditText)findViewById(R.id.phone);
-         description = (EditText)findViewById(R.id.description);
-         rooms = (Spinner)findViewById(R.id.roomscount);
-         bath = (Spinner)findViewById(R.id.bathroomcount);
+        postPicBtn =(ImageButton) findViewById(R.id.postPicButton);
+
+//        street = (EditText)findViewById(R.id.street);
+//        city = (EditText)findViewById(R.id.city);
+//        state = ((EditText)findViewById(R.id.state));
+//        zip = (EditText)findViewById(R.id.zipcode);
+//        rent = (EditText)findViewById(R.id.rent);
+//        email = (EditText)findViewById(R.id.email);
+//        mobile = (EditText)findViewById(R.id.phone);
+//        description = (EditText)findViewById(R.id.description);
+//        rooms = (Spinner)findViewById(R.id.roomscount);
+//        bath = (Spinner)findViewById(R.id.bathroomcount);
 
         postPicBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +90,18 @@ public class UploadPropertyDataActivity extends AppCompatActivity {
         });
 
         property = new PropertyModel();
+
+
+
+        area = (EditText) findViewById(R.id.area);
+        area.addTextChangedListener(new TextValidator(area));
+        street = (EditText)findViewById(R.id.street);
+        street.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
 
 
             @Override
@@ -352,3 +353,4 @@ public class UploadPropertyDataActivity extends AppCompatActivity {
 
 
 }
+

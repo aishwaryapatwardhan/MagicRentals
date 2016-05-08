@@ -184,6 +184,7 @@ public class PropertyListLandlordFragment extends ListFragment {
                 }
                 switch (item.getItemId()) {
                     case R.id.deleteM:
+                        System.out.println("inside deleted.......");
                         resultsLab.delete(selected_line_al);
                         break;
                     case R.id.editM:
@@ -194,6 +195,7 @@ public class PropertyListLandlordFragment extends ListFragment {
                         Intent i = new Intent(getActivity(), EditPropertiesActivity.class);
                         i.putExtras(bundle);
                         startActivity(i);
+                        break;
 //                        Intent i = new Intent(listView.getApplicationContext(), UploadPropertyDataActivity.class);
 //                        i.putExtra("USERID", userid);
 //                        startActivity(i);
@@ -204,6 +206,9 @@ public class PropertyListLandlordFragment extends ListFragment {
 //                        // fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
 //                        getActivity().getSupportFragmentManager().beginTransaction().
 //                                replace(R.id.fragmentContainer, fragment).commit();
+                    case R.id.cancelM:
+                        resultsLab.cancel(selected_line_al);
+                        break;
 
                 }
                 return false;

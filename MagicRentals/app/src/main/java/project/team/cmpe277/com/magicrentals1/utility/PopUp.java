@@ -7,6 +7,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 
+
 import project.team.cmpe277.com.magicrentals1.R;
 
 public class PopUp extends AppCompatActivity {
