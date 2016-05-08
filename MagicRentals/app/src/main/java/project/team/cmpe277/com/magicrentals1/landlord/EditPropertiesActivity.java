@@ -11,8 +11,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import project.team.cmpe277.com.magicrentals1.R;
+import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
 
 /**
  * Created by savani on 5/5/16.
@@ -89,7 +91,18 @@ public class EditPropertiesActivity extends AppCompatActivity {
                 //  Spinner spinProprtyType = (Spinner)v.findViewById(R.id.property_type);
                 // property.setProperty_type(spinProprtyType.getSelectedItem().toString());
 
+
+                // System.out.println("isndie jdjjj url ");
                 isValid = true;
+
+                validate(area);
+                validate(street);
+                validate(city);
+                validate(state);
+                validate(rent);
+                LandlordUtils.isValidEmail(email.getText().toString());
+                LandlordUtils.isValidZip(zip.getText().toString());
+
 
                 mPropertyModel.setArea(area.getText().toString());
 
@@ -112,8 +125,17 @@ public class EditPropertiesActivity extends AppCompatActivity {
                 mPropertyModel.setRoom(rooms.getSelectedItem().toString());
 
                 mPropertyModel.setBath(bath.getSelectedItem().toString());
+
                 System.out.println("Hello    ......................."+mPropertyModel + mPropertyModel.getBath());
                 //  convert into json and call service..
+
+
+                HashMap<String, String> hm = LandlordUtils.serialize(mPropertyModel);
+
+                // HashMap<String, File> file = new HashMap<String, File>();
+                String url = "http://54.153.2.150:3000/updatePostings";
+                new MultipartUtilityAsyncTask(hm, null).execute(url);
+
                 PropertiesResultLab.getPropertiesResultLabNew(getApplicationContext());
                 Intent i = new Intent(getApplicationContext(), PropertiesListLandlordActivity.class);
                 i.putExtra("USERID", userid);

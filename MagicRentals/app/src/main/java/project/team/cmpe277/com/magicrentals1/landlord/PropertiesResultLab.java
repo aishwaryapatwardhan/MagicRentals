@@ -3,6 +3,9 @@ package project.team.cmpe277.com.magicrentals1.landlord;
 import android.content.Context;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
 
 /**
  * Created by savani on 4/26/16.
@@ -53,6 +56,10 @@ public class PropertiesResultLab {
     }
 
     private ArrayList<PropertyModel> retrieveProperties(){
+//        String url = "http://54.153.2.150:3000/getPostsByUser";
+//        HashMap<String, String > hm = new HashMap<>();
+//        hm.put("userid","mittu");
+//        new MultipartUtilityAsyncTask(hm, null).execute(url);
          ArrayList<PropertyModel> tempPropertyList;
         PropertyModel p = new PropertyModel();
         p.setKey("001");
