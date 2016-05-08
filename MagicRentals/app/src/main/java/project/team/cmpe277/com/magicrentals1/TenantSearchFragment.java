@@ -35,7 +35,7 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
     private Button mSearch;
     AlertDialog actions;
     private static final String TAG = "TenSrchF";
-    SharedPreferences preferences = getActivity().getSharedPreferences(TAG, Context.MODE_PRIVATE);
+
     SearchParameters sp = new SearchParameters();
 
     @Override
@@ -43,7 +43,7 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-
+        SharedPreferences preferences = getActivity().getApplicationContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Select notification frequency");
         String[] options = { "Real-time", "Daily", "Weekly" };

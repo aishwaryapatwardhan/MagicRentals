@@ -63,7 +63,7 @@ function constructNotification1 (myarr, type, id){
 		}else{
 			
 			var coll = mongo.collection('rental_posting');
-			uid = myarr.user_id;
+			const uid = myarr.user_id;
 			coll.find( { $and : [ { "description" : { $regex: myarr.description } }, 
 			                      { "address.City" : { $regex: myarr.City } }, 
 			                      { "address.Zip" : { $regex: myarr.Zip } }, 
@@ -85,12 +85,16 @@ function constructNotification1 (myarr, type, id){
 			                    							  console.log('user details');
 			                    							  console.log(doc);
 			                    							  console.log(results);
+			                    							  push(results, 'New Postngs', doc.deviceID , function(){
+			                    								  console.log('notified users');
+			                    							  });
 			                    						  }
 			                    					  });
 			                    				  }
 			                    			  }
 			                    		  }else if(type ==2 || type ==3){
 			                    			  console.log('weekly and monthly notifications');
+			                    			  const resul = docs;
 			                    		  }
 			                    	  }else{						
 			                    		  console.log('No updates');
@@ -101,25 +105,30 @@ function constructNotification1 (myarr, type, id){
 }
 
 
-exports.push = function (query,itmnm, itmdsc, type, device_tokens, callback){	
+function push( msg , header, device_tokens, callback){	
 	
-		//var device_tokens = []; //create array for storing device tokens
-		//var device_tokens = "APA91bG-6WnC1_qLPT3Pq69OEFj2MUxbaI2j9X1kXlBE0NFb9ZHU_k56eO6fCNlDUEIu-qdJ6OWTsiD6YM11aMF2ULhfON78vc8yalCP2auNYsro2jVl0tx8LYOhHwCrR7G-UGYUCyQK"
-	    var retry_times = 4; //the number of times to retry sending the message if it fails
+    var retry_times = 4; //the number of times to retry sending the message if it fails
 
-	    var sender = new gcm.Sender('AIzaSyBtXqwpDcgQRfkB05emjYLqeooq1Hkw1YE'); //create a new sender
-	    var message = new gcm.Message(); //create a new message
+    var sender = new gcm.Sender('AIzaSyBVOlwfd-QbjcimJWfrTV4q2Jze1x70l3M'); //create a new sender
+    var message = new gcm.Message(); //create a new message
 
-	    message.addData('title', type +' Alert - '+itmnm );
-	    message.addData('message', itmdsc);
-	    message.addData('sound', 'notification');
+    message.addData('title', header );
+    message.addData('message', msg);
+    message.addData('sound', 'notification');
 
-	    message.collapseKey = 'testing'; //grouping messages
-	    message.delayWhileIdle = true; //delay sending while receiving device is offline
-	    message.timeToLive = 3; //the number of seconds to keep the message on the server if the device is offline
-		
-	};
-	
+    message.collapseKey = 'testing'; //grouping messages
+    message.delayWhileIdle = true; //delay sending while receiving device is offline
+    message.timeToLive = 3; //the number of seconds to keep the message on the server if the device is offline
+
+    console.log('in push msg');
+    console.log(message);
+    console.log(message + " " + device_tokens  );
+//    sender.send(message, device_tokens, retry_times, function(result){
+//        console.log(result);
+//        console.log('push sent to: ' + device_tokens);
+//    });
+    callback();
+}
 	
 exports.notify = function(id, type, callback){
 	
@@ -175,4 +184,3 @@ exports.notify = function(id, type, callback){
 	}
 };
 	
-

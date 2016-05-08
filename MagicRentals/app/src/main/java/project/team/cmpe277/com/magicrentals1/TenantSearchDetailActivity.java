@@ -15,14 +15,14 @@ import android.view.MenuItem;
 public class TenantSearchDetailActivity extends AppCompatActivity {
     public static String userid;
     private static final String TAG = "TenantSearchDetailActivity";
-    SharedPreferences preferences = this.getSharedPreferences(TAG, Context.MODE_PRIVATE);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.searchdetailactivity_tenant);
-
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
         userid = preferences.getString(LoginActivity.USERID,null);
 
         String uuid = getIntent()

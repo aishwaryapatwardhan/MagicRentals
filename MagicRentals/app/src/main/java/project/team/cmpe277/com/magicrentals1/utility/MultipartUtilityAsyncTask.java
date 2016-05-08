@@ -20,7 +20,7 @@ public class MultipartUtilityAsyncTask extends AsyncTask<String, Void, Boolean> 
     String status = "";
     Boolean httpStatus;
 
-    MultipartUtilityAsyncTask(HashMap<String,String> formFields, HashMap<String,File> imageFiles){
+    public MultipartUtilityAsyncTask(HashMap<String,String> formFields, HashMap<String,File> imageFiles){
         this.formFields = formFields;
         this.imageFiles = imageFiles;
     }
@@ -44,13 +44,16 @@ public class MultipartUtilityAsyncTask extends AsyncTask<String, Void, Boolean> 
                 }
             }
 
-            if(!(imageFiles.isEmpty())){
-                for (HashMap.Entry<String, File> entry : imageFiles.entrySet()) {
-                    String key = entry.getKey();
-                    File value = entry.getValue();
-                    multipart.addFilePart(key, value);
+            if(imageFiles != null){
+                if(!(imageFiles.isEmpty())){
+                    for (HashMap.Entry<String, File> entry : imageFiles.entrySet()) {
+                        String key = entry.getKey();
+                        File value = entry.getValue();
+                        multipart.addFilePart(key, value);
+                    }
                 }
             }
+
 
 
 

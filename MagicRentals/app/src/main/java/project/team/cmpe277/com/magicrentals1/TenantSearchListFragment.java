@@ -22,7 +22,7 @@ public class TenantSearchListFragment extends android.app.Fragment {
 
     private GridViewAdapter gridViewAdapter;
     private GridView gridView;
-    final ArrayList<GridImageItem> gridImageItems = new ArrayList<>();
+    final ArrayList<GridImageDetailItem> gridImageItems = new ArrayList<>();
 
     static ThumbnailDownloader<ImageView> mThumbnailThread;
 
@@ -54,7 +54,7 @@ public class TenantSearchListFragment extends android.app.Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                GridImageItem item = (GridImageItem)parent.getItemAtPosition(position);
+                GridImageDetailItem item = (GridImageDetailItem)parent.getItemAtPosition(position);
                 Intent i = new Intent(getActivity(),TenantSearchDetailActivity.class);
                 i.putExtra("USERID",TenantSearchListActivity.userid);
                 i.putExtra("UUID",item.getId());
@@ -65,14 +65,14 @@ public class TenantSearchListFragment extends android.app.Fragment {
         return searchlistview;
     }
 
-    private ArrayList<GridImageItem> getData(){
+    private ArrayList<GridImageDetailItem> getData(){
 
         for(int i = 0; i < 4; i++){
             //new UrlActivity().execute("$100","190 Ryland Street","http://s3-media3.fl.yelpcdn.com/bphoto/nQK-6_vZMt5n88zsAS94ew/ms.jpg");
-            gridImageItems.add(new GridImageItem("http://s3-media3.fl.yelpcdn.com/bphoto/nQK-6_vZMt5n88zsAS94ew/ms.jpg","190 Ryland Street","$101"));
-            gridImageItems.add(new GridImageItem("http://s3-media3.fl.yelpcdn.com/bphoto/nQK-6_vZMt5n88zsAS94ew/ms.jpg","190 Ryland Street","$101"));
-            gridImageItems.add(new GridImageItem("http://s3-media3.fl.yelpcdn.com/bphoto/nQK-6_vZMt5n88zsAS94ew/ms.jpg","190 Ryland Street","$101"));
-            gridImageItems.add(new GridImageItem("http://s3-media3.fl.yelpcdn.com/bphoto/nQK-6_vZMt5n88zsAS94ew/ms.jpg","190 Ryland Street","$101"));
+            /*gridImageItems.add(new GridImageDetailItem("http://s3-media3.fl.yelpcdn.com/bphoto/nQK-6_vZMt5n88zsAS94ew/ms.jpg","190 Ryland Street","$101"));
+            gridImageItems.add(new GridImageDetailItem("http://s3-media3.fl.yelpcdn.com/bphoto/nQK-6_vZMt5n88zsAS94ew/ms.jpg","190 Ryland Street","$101"));
+            gridImageItems.add(new GridImageDetailItem("http://s3-media3.fl.yelpcdn.com/bphoto/nQK-6_vZMt5n88zsAS94ew/ms.jpg","190 Ryland Street","$101"));
+            gridImageItems.add(new GridImageDetailItem("http://s3-media3.fl.yelpcdn.com/bphoto/nQK-6_vZMt5n88zsAS94ew/ms.jpg","190 Ryland Street","$101"));*/
         }
         return gridImageItems;
     }
@@ -96,7 +96,7 @@ public class TenantSearchListFragment extends android.app.Fragment {
                     connection.connect();
                     InputStream input = connection.getInputStream();
                     mybitmap = BitmapFactory.decodeStream(input);
-                    gridImageItems.add(new GridImageItem(mybitmap,address,price));
+                    gridImageItems.add(new GridImageDetailItem(mybitmap,address,price));
                     input.reset();
                 return mybitmap;
             } catch (IOException e) {
