@@ -11,12 +11,14 @@ import java.util.List;
 /**
  * Created by saipranesh on 5/7/16.
  */
-public class MultipartUtilityAsyncTask extends AsyncTask<String, Void, String> {
+public class MultipartUtilityAsyncTask extends AsyncTask<String, Void, Boolean> {
 
     String charset = "UTF-8";
     String requestURL;
     HashMap<String,String> formFields;
     HashMap<String,File> imageFiles;
+    String status = "";
+    Boolean httpStatus;
 
     MultipartUtilityAsyncTask(HashMap<String,String> formFields, HashMap<String,File> imageFiles){
         this.formFields = formFields;
@@ -25,7 +27,7 @@ public class MultipartUtilityAsyncTask extends AsyncTask<String, Void, String> {
 
 
     @Override
-    protected String doInBackground(String... url) {
+    protected Boolean doInBackground(String... url) {
 
 
         requestURL =  url[0];
@@ -59,13 +61,22 @@ public class MultipartUtilityAsyncTask extends AsyncTask<String, Void, String> {
             String path= null;
             for (String line : response) {
                 System.out.println(line);
+                if(line.contains("status")){
+                    status = line.substring(line.indexOf('\'') + 1, line.lastIndexOf('\''));
+                }
+
+            }
+            if(status.equals("OK")){
+                httpStatus = true;
+            }else{
+                httpStatus = false;
             }
 
         } catch (IOException ex) {
             System.err.println(ex);
         }
 
-        return null;
+        return httpStatus;
     }
 }
 
