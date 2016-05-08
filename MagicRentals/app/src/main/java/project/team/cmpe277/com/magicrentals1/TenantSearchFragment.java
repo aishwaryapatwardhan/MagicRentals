@@ -43,7 +43,7 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        SharedPreferences preferences = getActivity().getApplicationContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
+        //SharedPreferences preferences = getActivity().getApplicationContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Select notification frequency");
         String[] options = { "Real-time", "Daily", "Weekly" };
@@ -79,12 +79,12 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
 
 
         propertyvalue = (Spinner) searchview.findViewById(R.id.propertyvalue);
-        ArrayAdapter adapter1 = ArrayAdapter.createFromResource(this.getActivity(), R.array.proptypelist, android.R.layout.simple_spinner_item);
+        ArrayAdapter adapter1 = ArrayAdapter.createFromResource(this.getActivity(), R.array.proptypelist, R.layout.spinner_list);
 
         propertyvalue.setAdapter(adapter1);
 
         pricerangevalue = (Spinner) searchview.findViewById(R.id.pricerangevalue);
-        ArrayAdapter adapter2 = ArrayAdapter.createFromResource(this.getActivity(), R.array.pricerangelist, android.R.layout.simple_spinner_item);
+        ArrayAdapter adapter2 = ArrayAdapter.createFromResource(this.getActivity(), R.array.pricerangelist, R.layout.spinner_list);
 
         pricerangevalue.setAdapter(adapter2);
 
@@ -143,9 +143,9 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
         mSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Make an API call to display the search results
+                //Make an API call to display the search results - get results into PropSingleton
                 Intent i = new Intent(getActivity(), TenantSearchListActivity.class);
-                i.putExtra("USERID", TenantSearchActivity.userid);
+                //i.putExtra("USERID", TenantSearchActivity.userid);
                 startActivity(i);
             }
         });
@@ -188,22 +188,31 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+
+        switch(id){
+            case R.id.favorites:
+                //favourites activity
+                return true;
+            case R.id.createpost:
+                //savani your activity - to create a post
+                return true;
+            case R.id.mypostings:
+                //savani your activity to list the owner's previous posts if exists
+                return true;
+        }
+
         //noinspection SimplifiableIfStatement
-        if (id == R.id.save_search) {
+        /*if (id == R.id.save_search) {
             //make api call to save the search agent - only one search agent - update existing search agent
             actions.show();
             return true;
-        }
-        else if (id == R.id.favorites) {
-            //migrate to new favourites activity
-            return true;
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
 
 
-    public class LoginApi extends AsyncTask<Object, Void, Boolean> {
+    public class GetPostsAPI extends AsyncTask<Object, Void, Boolean> {
         private Exception exception;
 
 

@@ -16,13 +16,25 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+
     <style name="Text" parent="@android:style/TextAppearance.Medium">
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle"></item>
         <item name="android:typeface">sans</item>
     </style>
-    
 
+    <style name="Text1" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle"></item>
+        <item name="android:typeface">sans</item>
+        <item name="android:textColor">#ff6666</item>
+    </style>
+    <style name="Resp" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle"></item>
+        <item name="android:typeface">sans</item>
+        <item name="android:textColor">#7b68ee</item>
+    </style>
 
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

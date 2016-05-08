@@ -1,15 +1,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/lib"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="project.team.cmpe277.com.magicrentals1.TenantSearchActivity">
+
     <item
         android:id="@+id/favorites"
         android:orderInCategory="100"
         android:title="@string/favorites"
         app:showAsAction="never" />
     <item
-        android:id="@+id/save_search"
+        android:id="@+id/createpost"
         android:orderInCategory="100"
-        android:title="@string/save_search"
+        android:title="@string/createpost"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/mypostings"
+        android:orderInCategory="100"
+        android:title="@string/mypostings"
         app:showAsAction="never" />
 </menu>
