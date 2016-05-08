@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private SignInButton googleSignIn;
     private int RC_SIGN_IN;
     private String gcmtoken;
-    private String userid;
+    private String userid = "";
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
