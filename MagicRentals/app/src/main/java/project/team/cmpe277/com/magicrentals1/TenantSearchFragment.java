@@ -69,7 +69,7 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
                 .enableAutoManage((FragmentActivity) this.getActivity(), GOOGLE_API_CLIENT_ID, this)
                 .build();
 
-        //SharedPreferences preferences = getActivity().getApplicationContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
+        SharedPreferences preferences = getActivity().getApplicationContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Select notification frequency");
         String[] options = { "Real-time", "Daily", "Weekly" };

@@ -29,8 +29,8 @@ public class TenantSearchActivity extends AppCompatActivity {
 
         actionBar.setTitle("Magic Rentals");
 
-        /*SharedPreferences preferences = getApplicationContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
-        userid = preferences.getString(LoginActivity.USERID, null);*/
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
+        userid = preferences.getString(LoginActivity.USERID, null);
 
         /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);*/
