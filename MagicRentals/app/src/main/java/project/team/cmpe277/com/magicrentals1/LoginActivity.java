@@ -301,12 +301,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         startActivity(i);
 
 
-        /*try{
-            new LoginApi().execute("login-api",parampost);
-        }catch(Exception e){
-            e.printStackTrace();
-        }*/
-
     }
 
     @Override

@@ -1,14 +1,22 @@
 package project.team.cmpe277.com.magicrentals1;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+//import android.support.v4.app.ActivityCompat;
+import android.app.Activity;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
@@ -22,11 +30,20 @@ import android.widget.TextView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.places.PlaceLikelihood;
+import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
+import com.google.android.gms.location.places.Places;
+
+import com.google.android.gms.common.api.GoogleApiClient;
 
 /**
  * Created by Rekha on 4/26/2016.
  */
-public class TenantSearchFragment extends android.app.Fragment implements AdapterView.OnItemSelectedListener {
+public class TenantSearchFragment extends android.app.Fragment implements AdapterView.OnItemSelectedListener,GoogleApiClient.OnConnectionFailedListener{
 
     private EditText locationvalue;
     private EditText keywordvalue;
@@ -34,14 +51,23 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
     private Spinner pricerangevalue;
     private Button mSearch;
     AlertDialog actions;
+    private static final int GOOGLE_API_CLIENT_ID = 0;
+    private GoogleApiClient mGoogleApiClient;
+    private static final int PERMISSION_REQUEST_CODE = 100;
     private static final String TAG = "TenSrchF";
 
-    SearchParameters sp = new SearchParameters();
+    public static SearchParameters sp = new SearchParameters();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                .addApi(Places.PLACE_DETECTION_API)
+                .enableAutoManage((FragmentActivity) this.getActivity(), GOOGLE_API_CLIENT_ID, this)
+                .build();
 
         //SharedPreferences preferences = getActivity().getApplicationContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -144,9 +170,25 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
             @Override
             public void onClick(View v) {
                 //Make an API call to display the search results - get results into PropSingleton
-                Intent i = new Intent(getActivity(), TenantSearchListActivity.class);
+                if(sp.getLocation().toString().equals("")) {
+                    if (mGoogleApiClient.isConnected()) {
+                        if (ContextCompat.checkSelfPermission(getActivity(),
+                                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                                != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(getActivity(),
+                                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                                    PERMISSION_REQUEST_CODE);
+                        } else {
+                            callPlaceDetectionApi();
+                        }
+                    }
+                }
+
+
+
+                /*Intent i = new Intent(getActivity(), TenantSearchListActivity.class);
                 //i.putExtra("USERID", TenantSearchActivity.userid);
-                startActivity(i);
+                startActivity(i);*/
             }
         });
 
@@ -160,9 +202,20 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
             TextView mytext = (TextView) view;
             sp.setPropertytype(mytext.getText().toString());
 
-        } else if (parent.getId() == R.id.pricerangevalue) {
-            TextView mytext = (TextView) view;
-            sp.setPricerange(mytext.getText().toString());
+        } else {
+            if (parent.getId() == R.id.pricerangevalue) {
+                TextView mytext = (TextView) view;
+                String val[] = mytext.getText().toString().split("-", 2);
+                if (val.length > 1) {
+                    sp.setMinPrice(Integer.parseInt(val[0]));
+                    sp.setMaxPrice(Integer.parseInt(val[1]));
+                } else {
+                    sp.setMinPrice(Integer.parseInt(val[0]));
+                    sp.setMaxPrice(Integer.MAX_VALUE);
+                }
+
+
+            }
         }
     }
 
@@ -170,7 +223,6 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         sp.setPropertytype("");
-        sp.setPricerange("");
     }
 
 
@@ -233,6 +285,56 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
         protected void onPostExecute(Boolean result) {
 
         }
+    }
+
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        Log.e(TAG, "Google Places API connection failed with error code: "
+                + connectionResult.getErrorCode());
+
+        Toast.makeText(getActivity(),
+                "Google Places API connection failed with error code:" +
+                        connectionResult.getErrorCode(),
+                Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    callPlaceDetectionApi();
+                }
+                break;
+        }
+    }
+
+    private void callPlaceDetectionApi() throws SecurityException {
+        PendingResult<PlaceLikelihoodBuffer> result = Places.PlaceDetectionApi
+                .getCurrentPlace(mGoogleApiClient, null);
+        result.setResultCallback(new ResultCallback<PlaceLikelihoodBuffer>() {
+            @Override
+            public void onResult(PlaceLikelihoodBuffer likelyPlaces) {
+                double likelihoodvalue = 0.0;
+                String location = "";
+                for (PlaceLikelihood placeLikelihood : likelyPlaces) {
+                    Log.i(TAG, String.format("Place '%s' with " +
+                                    "likelihood: %g",
+                            placeLikelihood.getPlace().getName(),
+                            placeLikelihood.getLikelihood()));
+                    if(likelihoodvalue > placeLikelihood.getLikelihood()){
+                        likelihoodvalue = placeLikelihood.getLikelihood();
+                        location = placeLikelihood.getPlace().getName().toString();
+                    }
+                }
+                likelyPlaces.release();
+
+                sp.setLocation(location);
+            }
+        });
     }
 
 }
