@@ -1,9 +1,12 @@
 package project.team.cmpe277.com.magicrentals1;
 
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -13,6 +16,9 @@ import android.view.MenuItem;
 public class TenantSearchListActivity extends AppCompatActivity {
 
     public static String userid;
+    private static final String TAG = "TenSrchLA";
+    SharedPreferences preferences = this.getSharedPreferences(TAG, Context.MODE_PRIVATE);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,9 +26,8 @@ public class TenantSearchListActivity extends AppCompatActivity {
 
         setContentView(R.layout.searchlistactivity_tenant);
 
-        userid = getIntent()
-                .getSerializableExtra("USERID").toString();
-
+        userid = preferences.getString(LoginActivity.USERID,null);
+        Log.i(TAG,userid);
 
         FragmentManager fm = getFragmentManager();
         fm.beginTransaction().replace(R.id.searchlist_container, new TenantSearchListFragment()).commit();

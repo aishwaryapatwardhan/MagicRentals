@@ -1,10 +1,11 @@
-package project.team.cmpe277.com.magicrentals1;
+package project.team.cmpe277.com.magicrentals1.utility;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.HandlerThread;
 import android.os.Message;
+import android.support.v4.util.LruCache;
 import android.util.Log;
 
 import java.io.IOException;
@@ -23,6 +24,10 @@ import android.os.*;
 public class ThumbnailDownloader<Token> extends HandlerThread {
     private static final String TAG = "ThumbnailDownloader";
     private static final int MESSAGE_DOWNLOAD = 0;
+    private static final int MESSAGE_PRELOAD = 1;
+    private LruCache<String,Bitmap> mMemoryCache;
+    private final int CACHE_SIZE ;
+
     Handler mHandler;
     Map<Token, String> requestMap =
             Collections.synchronizedMap(new HashMap<Token, String>());
@@ -40,6 +45,9 @@ public class ThumbnailDownloader<Token> extends HandlerThread {
     public ThumbnailDownloader(Handler responseHandler) {
         super(TAG);
         mResponseHandler = responseHandler;
+        final int maxMemory = (int)(Runtime.getRuntime().maxMemory()) / 1024;
+        CACHE_SIZE = maxMemory / 4;
+        mMemoryCache = new LruCache<String,Bitmap>(CACHE_SIZE);
     }
 
     @SuppressLint("HandlerLeak")
@@ -53,6 +61,9 @@ public class ThumbnailDownloader<Token> extends HandlerThread {
                     Token token = (Token)msg.obj;
                     Log.i(TAG, "Got a request for url: " + requestMap.get(token));
                     handleRequest(token);
+                }else if (msg.what == MESSAGE_PRELOAD){
+                    String url = (String)msg.obj;
+                    preload(url);
                 }
             }
         };
@@ -67,40 +78,87 @@ public class ThumbnailDownloader<Token> extends HandlerThread {
     }
 
     private void handleRequest(final Token token) {
-        try {
+
             final String url = requestMap.get(token);
             if (url == null)
                 return;
 
-            URL urlS = new URL(url);
-            HttpURLConnection connection = (HttpURLConnection) urlS.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            final Bitmap bitmap = BitmapFactory.decodeStream(input);
-            /*byte[] bitmapBytes = new FlickrFetchr().getUrlBytes(url);
-            final Bitmap bitmap = BitmapFactory
-                    .decodeByteArray(bitmapBytes, 0, bitmapBytes.length);*/
-            Log.i(TAG, "Bitmap created");
+            final Bitmap bitmap = mMemoryCache.get(url);
 
             mResponseHandler.post(new Runnable() {
+                @Override
                 public void run() {
-                    if (requestMap.get(token) != url)
+                    if(requestMap.get(token) != url){
                         return;
+                    }
                     requestMap.remove(token);
-                    mListener.onThumbnailDownloaded(token, bitmap);
+
+                    mListener.onThumbnailDownloaded(token,bitmap);
                 }
             });
 
-        } catch (IOException ioe) {
-            Log.e(TAG, "Error downloading image", ioe);
-        }
-    }
 
+    }
 
     public void clearQueue() {
         mHandler.removeMessages(MESSAGE_DOWNLOAD);
         requestMap.clear();
     }
+
+
+    public void addBitmapToMemoryCache(String key, Bitmap bitmap){
+        if(getBitmapFromMemoryCache(key) == null){
+            mMemoryCache.put(key,bitmap);
+            Log.i(TAG,"cached values : " + key + " " + bitmap);
+        }
+    }
+
+    public Bitmap getBitmapFromMemoryCache(String key){
+        return mMemoryCache.get(key);
+    }
+
+    private void preload(final Token token){
+        String url = requestMap.get(token);
+        preload(url);
+    }
+
+    private void preload(String url){
+        if(url == null) return;
+
+        if(mMemoryCache.get(url) != null) return;
+
+        Bitmap bitmap = getBitmap(url);
+
+        if(bitmap != null){
+            mMemoryCache.put(url,bitmap);
+        }
+    }
+
+    private Bitmap getBitmap(String url){
+        try {
+            URL urlS = new URL(url);
+            HttpURLConnection connection = (HttpURLConnection) urlS.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            return BitmapFactory.decodeStream(input);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void queuePreload(String url){
+        if(mMemoryCache.get(url) != null) return;
+
+        mHandler.
+                obtainMessage(MESSAGE_PRELOAD,url).sendToTarget();
+
+    }
+
+    public Bitmap checkCache(String url){
+        return mMemoryCache.get(url);
+    }
+
 }
 

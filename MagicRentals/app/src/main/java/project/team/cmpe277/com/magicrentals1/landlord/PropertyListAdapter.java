@@ -2,11 +2,13 @@ package project.team.cmpe277.com.magicrentals1.landlord;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -71,6 +73,19 @@ public class PropertyListAdapter extends ArrayAdapter<PropertyModel> {
         TextView zipV = (TextView) convertView.findViewById(R.id.house_zip);
         zipV.setText(property.getZip());
 
+        ImageView propertyImage = (ImageView)convertView.findViewById(R.id.house_image);
+
+        //following is the code to do preloading and caching of images
+        /*Bitmap cacheHit = PropertyListLandlordFragment.mThumbnailThread.checkCache(property.getImages());
+        if(cacheHit != null){
+            propertyImage.setImageBitmap(cacheHit);
+        }else{
+            PropertyListLandlordFragment.mThumbnailThread.queueThumbnail(propertyImage,property.getImages());
+        }
+
+        for( int i = Math.max(0,position -10); i < Math.min(mPropertyList.size()-1, position+10); i++){
+            PropertyListLandlordFragment.mThumbnailThread.queuePreload(property.getImages());
+        }*/
 
 //        convertView.setOnClickListener(new View.OnClickListener() {
 //            @Override

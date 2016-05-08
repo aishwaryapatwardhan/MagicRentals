@@ -13,6 +13,8 @@ import android.widget.ImageView;
 
 import java.util.ArrayList;
 
+import project.team.cmpe277.com.magicrentals1.utility.ThumbnailDownloader;
+
 /**
  * Created by Rekha on 4/27/2016.
  */

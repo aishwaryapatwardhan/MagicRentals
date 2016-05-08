@@ -5,6 +5,8 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -21,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleCursorAdapter;
@@ -29,6 +32,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import project.team.cmpe277.com.magicrentals1.R;
+import project.team.cmpe277.com.magicrentals1.utility.ThumbnailDownloader;
 
 /**
  * Created by savani on 4/26/16.
@@ -45,6 +49,13 @@ public class PropertyListLandlordFragment extends ListFragment {
     Activity activity;
     public Callbacks mCallbacks;
 
+    static ThumbnailDownloader<ImageView> mThumbnailThread;
+
+
+
+
+
+
     public PropertyListLandlordFragment() {
 
     }
@@ -60,6 +71,16 @@ public class PropertyListLandlordFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        mThumbnailThread = new ThumbnailDownloader<>(new Handler());
+        mThumbnailThread.setListener(new ThumbnailDownloader.Listener<ImageView>() {
+            public void onThumbnailDownloaded(ImageView imageView, Bitmap thumbnail) {
+                if (isVisible()) {
+                    imageView.setImageBitmap(thumbnail);
+                }
+            }
+        });
+        mThumbnailThread.start();
+        mThumbnailThread.getLooper();
 
 
     }
@@ -79,8 +100,8 @@ public class PropertyListLandlordFragment extends ListFragment {
         // View v = super.onCreateView(inflater, container, savedInstanceState);
 
 
-        userid = getActivity().getIntent().getExtras().getString("USERID");
-        System.out.print("In createViews.." +userid);
+//        userid = getActivity().getIntent().getExtras().getString("USERID");
+ //       System.out.print("In createViews.." +userid);
         return inflater.inflate(R.layout.landlord_properties_fragment, container, false);
 //
 //        progress = (ProgressBar) listView1.findViewById(R.id.progressBar);
@@ -115,14 +136,13 @@ public class PropertyListLandlordFragment extends ListFragment {
 
         PropertyListAdapter mPropertyListAdapter = new PropertyListAdapter
                 (activity, R.layout.landlord_property_row, mPropertyList);
-        mPropertyListAdapter.notifyDataSetChanged();
         setListAdapter(mPropertyListAdapter);
         //  listView = (findViewById(R.id.la);
         listView = getListView();
        // listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-//        // listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+       // listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
             @Override
             public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
