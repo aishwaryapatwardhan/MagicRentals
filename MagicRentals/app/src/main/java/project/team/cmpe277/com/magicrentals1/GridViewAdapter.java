@@ -19,9 +19,9 @@ public class GridViewAdapter extends ArrayAdapter{
 
     private Context context;
     private int layoutResourceId;
-    private ArrayList<GridImageItem> data;
+    private ArrayList<GridImageDetailItem> data;
 
-    public GridViewAdapter(Context context,int layoutResourceId,ArrayList<GridImageItem> data){
+    public GridViewAdapter(Context context,int layoutResourceId,ArrayList<GridImageDetailItem> data){
         super(context,layoutResourceId,data);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
@@ -44,7 +44,7 @@ public class GridViewAdapter extends ArrayAdapter{
         }else {
             holder = (ViewHolder)row.getTag();
         }
-        GridImageItem item = data.get(position);
+        GridImageDetailItem item = data.get(position);
         Bitmap cacheHit = TenantSearchListFragment.mThumbnailThread.checkCache(item.getImage());
         if(cacheHit != null){
             holder.image.setImageBitmap(cacheHit);

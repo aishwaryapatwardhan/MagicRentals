@@ -54,6 +54,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 import project.team.cmpe277.com.magicrentals1.landlord.PropertiesListLandlordActivity;
+import project.team.cmpe277.com.magicrentals1.utility.MultipartUtility;
+import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
@@ -160,10 +162,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
              /*   Intent i = new Intent(getApplicationContext(), TenantSearchActivity.class);
                 i.putExtra("USERID", userid);
                 startActivity(i); */
-                Intent i = new Intent(getApplicationContext(), PropertiesListLandlordActivity.class);
-                startActivity(i);
-                /*Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-                startActivityForResult(signInIntent, RC_SIGN_IN);*/
+                /*Intent i = new Intent(getApplicationContext(), PropertiesListLandlordActivity.class);
+                startActivity(i);*/
+                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+                startActivityForResult(signInIntent, RC_SIGN_IN);
             }
         });
 
@@ -280,17 +282,25 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         //Navigate to next activity
 
         //new LoginApi().execute("URL",userid,token,email);
+        String url = "http://54.153.2.150:3000/addUser";
 
-        this.userid = userid;
+        HashMap<String,String> input = new HashMap<String,String>();
+        input.put("uid",userid);
+        input.put("email",email);
+        input.put("deviceID",gcmtoken);
 
-        Map parampost = new HashMap();
-        parampost.put("userid",userid);
+
+
+        try {
+            new MultipartUtilityAsyncTask(input,null).execute(url);
+        }catch(Exception e){
+            Toast.makeText(this.getApplicationContext(),"Login Error",Toast.LENGTH_LONG).show();
+        }
+
         //Adding userid to shared preferences
         SharedPreferences sharedPreferences = this.getSharedPreferences(TAG,Context.MODE_PRIVATE);
         sharedPreferences.edit().putString(USERID,userid).apply();
 
-        parampost.put("devicetoken",gcmtoken);
-        parampost.put("email", email);
 
 
         Intent i = new Intent(getApplicationContext(), TenantSearchActivity.class);

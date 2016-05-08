@@ -6,20 +6,26 @@ import java.util.ArrayList;
  * Created by Rekha on 5/1/2016.
  */
 public class GridImageDetailItem {
-    String streetAddr;
-    String cityAddr;
-    String stateAddr;
-    String zipCode;
-    String propertyType;
-    String noOfRooms;
-    String noOfBaths;
-    String sqFoot;
-    String rent;
-    String description;
-    String deposit;
-    String leaseType;
-    String imageIcon;
-    ArrayList<String> imagesPosted;
+
+
+    private String image;
+    private String address;
+    private String price;
+    private String id;
+    private String streetAddr;
+    private String cityAddr;
+    private String stateAddr;
+    private String zipCode;
+    private String propertyType;
+    private String noOfRooms;
+    private String noOfBaths;
+    private String sqFoot;
+    private String rent;
+    private String description;
+    private String deposit;
+    private String leaseType;
+    private String imageIcon;
+    private ArrayList<String> imagesPosted;
 
 
     public String getStreetAddr() {
@@ -134,5 +140,36 @@ public class GridImageDetailItem {
         this.imagesPosted = imagesPosted;
     }
 
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
 }

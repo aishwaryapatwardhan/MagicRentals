@@ -17,7 +17,7 @@ public class TenantSearchListActivity extends AppCompatActivity {
 
     public static String userid;
     private static final String TAG = "TenSrchLA";
-    SharedPreferences preferences = this.getSharedPreferences(TAG, Context.MODE_PRIVATE);
+
 
 
     @Override
@@ -25,7 +25,7 @@ public class TenantSearchListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.searchlistactivity_tenant);
-
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
         userid = preferences.getString(LoginActivity.USERID,null);
         Log.i(TAG,userid);
 

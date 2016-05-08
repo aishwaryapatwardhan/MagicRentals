@@ -14,7 +14,7 @@ public class TenantSearchActivity extends AppCompatActivity {
 
     public static String userid;
     private static final String TAG = "TenantSearchActivity";
-    SharedPreferences preferences = this.getSharedPreferences(TAG, Context.MODE_PRIVATE);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +22,8 @@ public class TenantSearchActivity extends AppCompatActivity {
 
         setContentView(R.layout.searchactivity_tenant);
 
-        userid = preferences.getString(LoginActivity.USERID,null);
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
+        userid = preferences.getString(LoginActivity.USERID, null);
 
         /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);*/
