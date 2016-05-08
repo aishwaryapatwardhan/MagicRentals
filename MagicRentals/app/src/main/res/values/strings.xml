@@ -40,9 +40,9 @@
     <string name="address">Address</string>
     <string name="phone">Phone</string>
     <string name="state">State</string>
-    <string name="propertydetails">Prperty Details</string>
+    <string name="propertydetails">Property Details</string>
     <string name="roomscount">Bedrooms</string>
-    <string name="bathroomcount">Bathroom</string>
+    <string name="bathroomcount">Bath</string>
     <string name="area">Area</string>
     <string name="sqft">Square Ft.</string>
     <string name="description">Descrciption</string>
@@ -57,12 +57,15 @@
     <string name="editproperty">Edit</string>
     <string name="deleteproperty">Delete</string>
     <string name="cancelproperty">Cancel</string>
+    <string name="required">Required</string>
+    
     <string-array name="property_type">
         <item>Apartment</item>
         <item>Condo</item>
         <item>Villa</item>
         <item>Town House</item>
         <item>Penthouse</item>
+        <item>Cottage</item>
     </string-array>
     <string-array name="rooms">
         <item>1</item>

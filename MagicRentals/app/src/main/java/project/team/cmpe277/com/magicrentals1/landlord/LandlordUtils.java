@@ -9,24 +9,18 @@ import java.util.regex.Pattern;
  * Created by savani on 5/5/16.
  */
 public  class LandlordUtils {
-
+    private static final String ZIP_REGEX = "\\d{5}";
 
         public static boolean isValidEmail(String email) {
-            String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-                    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+            String EMAIL_PATTERN = ".+\\@.+\\..+";
 
             Pattern pattern = Pattern.compile(EMAIL_PATTERN);
             Matcher matcher = pattern.matcher(email);
             return matcher.matches();
         }
 
-        // validating password with retype password
-        private boolean isValidPassword(String pass) {
-            if (pass != null && pass.length() > 6) {
-                return true;
-            }
-            return false;
-        }
-
+    public  static boolean isValidZip(String zip){
+        return Pattern.matches(ZIP_REGEX, zip);
+    }
 
 }
