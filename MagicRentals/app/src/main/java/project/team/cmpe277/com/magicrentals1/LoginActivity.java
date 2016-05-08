@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             public void onReceive(Context context, Intent intent) {
                 if(intent.getAction().endsWith(GCMRegistrationIntentService.REGISTRATION_SUCCESS)){
                     gcmtoken = intent.getStringExtra("token");
-                    Toast.makeText(getApplicationContext(),"GCM token:"+gcmtoken,Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(),"GCM token:"+gcmtoken,Toast.LENGTH_LONG).show();
                 }else if(intent.getAction().endsWith(GCMRegistrationIntentService.REGISTRATION_ERROR)){
                     Toast.makeText(getApplicationContext(),"GCM registration error:",Toast.LENGTH_LONG).show();
                 } else {
@@ -262,6 +262,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         parampost.put("devicetoken",gcmtoken);
         parampost.put("email", email);
 
+
+        Intent i = new Intent(getApplicationContext(), TenantSearchActivity.class);
+        i.putExtra("USERID", userid);
+        startActivity(i);
+
+
         /*try{
             new LoginApi().execute("login-api",parampost);
         }catch(Exception e){
@@ -400,5 +406,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }
