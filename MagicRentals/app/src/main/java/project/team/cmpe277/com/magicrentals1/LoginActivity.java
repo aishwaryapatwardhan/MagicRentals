@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -52,6 +53,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import project.team.cmpe277.com.magicrentals1.landlord.PropertiesListLandlordActivity;
+
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private BroadcastReceiver mRegistrationBroadcastReceiver;
@@ -60,7 +63,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private SignInButton googleSignIn;
     private int RC_SIGN_IN;
     private String gcmtoken;
-    private String userid = "";
+
+
+
+    private String userid;
+    private static final String TAG = "LoginActivity";
+    public static final String USERID = "project.team.cmpe277.com.magicrentals1.USERID" ;
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -70,6 +79,16 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Following is the code to store user-id and retrieve the user-id using shared preferences.
+      /*  SharedPreferences sharedPreferences = this.getSharedPreferences(TAG,Context.MODE_PRIVATE);
+        sharedPreferences.edit().putString("userid",PLACE_YOUR_USER_ID).apply();
+
+        String useridCheck = sharedPreferences.getString("userid",null);
+
+        SharedPreferences preferences = context.getSharedPreferences(TAG,Context.MODE_PRIVATE);
+
+        Log.i(TAG, useridCheck); */
 
         //Initializing the facebook sdk and initializing the callbackmanager
         FacebookSdk.sdkInitialize(getApplicationContext());
@@ -138,8 +157,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         googleSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-                startActivityForResult(signInIntent, RC_SIGN_IN);
+             /*   Intent i = new Intent(getApplicationContext(), TenantSearchActivity.class);
+                i.putExtra("USERID", userid);
+                startActivity(i); */
+                Intent i = new Intent(getApplicationContext(), PropertiesListLandlordActivity.class);
+                startActivity(i);
+                /*Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+                startActivityForResult(signInIntent, RC_SIGN_IN);*/
             }
         });
 
@@ -150,6 +174,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 //loginResult.getAccessToken().getUserId();
                 //loginResult.getAccessToken().getToken();
                 afterSuccessfulLogin(loginResult.getAccessToken().getUserId(),loginResult.getAccessToken().getToken(),"");
+
             }
 
             @Override
@@ -255,10 +280,15 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         //Navigate to next activity
 
         //new LoginApi().execute("URL",userid,token,email);
+
         this.userid = userid;
 
         Map parampost = new HashMap();
         parampost.put("userid",userid);
+        //Adding userid to shared preferences
+        SharedPreferences sharedPreferences = this.getSharedPreferences(TAG,Context.MODE_PRIVATE);
+        sharedPreferences.edit().putString(USERID,userid).apply();
+
         parampost.put("devicetoken",gcmtoken);
         parampost.put("email", email);
 
@@ -395,7 +425,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     String statuscode = object.getString("statuscode");
                     if(statuscode.equals(200)){
                         Intent i = new Intent(getApplicationContext(), TenantSearchActivity.class);
-                        i.putExtra("USERID", userid);
                         startActivity(i);
                     }else{
                         Toast.makeText(getApplicationContext(), "Login API Error", Toast.LENGTH_SHORT).show();

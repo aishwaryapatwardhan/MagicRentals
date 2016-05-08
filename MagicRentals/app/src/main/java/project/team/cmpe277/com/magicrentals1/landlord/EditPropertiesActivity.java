@@ -22,7 +22,7 @@ public class EditPropertiesActivity extends AppCompatActivity {
     ArrayList<PropertyModel> mPropertyList;
     PropertiesResultLab mPropertyResultLab;
     PropertyModel mPropertyModel;
-    ArrayList<String> listPropertyTypes;
+   // ArrayList<String> listPropertyTypes;
     //  ArrayList<String> bathroomArr;
     ArrayList<String> roomArr;
     EditText area, street, city, state, zip, rent, email, mobile, description;
@@ -37,8 +37,8 @@ public class EditPropertiesActivity extends AppCompatActivity {
         setContentView(R.layout.fragment_upload_data);
          userid = getIntent().getExtras().getString("USERID");
         int selectedLine = getIntent().getExtras().getInt("selectedLine");
-        listPropertyTypes = new ArrayList<>();
-        System.out.println("Array .property..... "+R.array.property_type);
+     //   listPropertyTypes = new ArrayList<>();
+       // System.out.println("Array .property..... "+R.array.property_type);
 //        roomArr = new ArrayList<>(R.array.rooms);
        mPropertyResultLab = PropertiesResultLab.getPropertiesResultLab(getApplicationContext());
         mPropertyList = mPropertyResultLab.getPropertyList();
@@ -46,9 +46,10 @@ public class EditPropertiesActivity extends AppCompatActivity {
         mPropertyModel = mPropertyList.get(selectedLine);
         System.out.println("Modelll........  +++ "+mPropertyModel.getNickname()+"djdjd  .. "+userid);
         Spinner spinProprtyType = (Spinner)findViewById(R.id.property_type);
+//        String tempProperty = mPropertyModel.getProperty_type().toString();
+//            spinProprtyType.setSelection(PropertyTypeE.mPropertyModel.);
 
-
-        spinProprtyType.setSelection(listPropertyTypes.indexOf(mPropertyModel.getProperty_type()));
+     //   spinProprtyType.setSelection(listPropertyTypes.indexOf(mPropertyModel.getProperty_type()));
 
         area = (EditText)findViewById(R.id.area);
         area.setText(mPropertyModel.getArea());
@@ -70,9 +71,10 @@ public class EditPropertiesActivity extends AppCompatActivity {
         description.setText(mPropertyModel.getDescription());
 
          rooms = (Spinner)findViewById(R.id.roomscount);
-        spinProprtyType.setSelection(5);//roomArr.indexOf(mPropertyModel.getRoom()));
+        rooms.setSelection(3);//roomArr.indexOf(mPropertyModel.getRoom()));
          bath = (Spinner)findViewById(R.id.bathroomcount);
-        spinProprtyType.setSelection(3);//roomArr.indexOf(mPropertyModel.getBath()));
+        rooms.setSelection(Integer.parseInt(mPropertyModel.getBath())-1);
+       // spinProprtyType.setSelection(3);//roomArr.indexOf(mPropertyModel.getBath()));
         //System.out.println("Hello    ......................."+property);
         btnSubmit = (Button) findViewById(R.id.submit1);
         btnSubmit.setText("Save");

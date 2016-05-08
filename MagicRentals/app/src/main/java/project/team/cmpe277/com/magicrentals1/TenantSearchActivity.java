@@ -1,7 +1,9 @@
 package project.team.cmpe277.com.magicrentals1;
 
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -11,6 +13,8 @@ import android.support.v7.app.AppCompatActivity;
 public class TenantSearchActivity extends AppCompatActivity {
 
     public static String userid;
+    private static final String TAG = "TenantSearchActivity";
+    SharedPreferences preferences = this.getSharedPreferences(TAG, Context.MODE_PRIVATE);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,8 +22,7 @@ public class TenantSearchActivity extends AppCompatActivity {
 
         setContentView(R.layout.searchactivity_tenant);
 
-        userid = getIntent()
-                .getSerializableExtra("USERID").toString();
+        userid = preferences.getString(LoginActivity.USERID,null);
 
         /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);*/

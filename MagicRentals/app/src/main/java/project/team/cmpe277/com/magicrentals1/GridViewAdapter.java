@@ -2,6 +2,7 @@ package project.team.cmpe277.com.magicrentals1;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,9 +45,16 @@ public class GridViewAdapter extends ArrayAdapter{
             holder = (ViewHolder)row.getTag();
         }
         GridImageItem item = data.get(position);
+        Bitmap cacheHit = TenantSearchListFragment.mThumbnailThread.checkCache(item.getImage());
+        if(cacheHit != null){
+            holder.image.setImageBitmap(cacheHit);
+        }else{
+            TenantSearchListFragment.mThumbnailThread.queueThumbnail(holder.image,item.getImage());
+        }
 
-        TenantSearchListFragment.mThumbnailThread.queueThumbnail(holder.image,item.getImage());
-        //holder.image.setImageBitmap(item.getImage());
+        for( int i = Math.max(0,position -10); i < Math.min(data.size()-1, position+10); i++){
+            TenantSearchListFragment.mThumbnailThread.queuePreload(item.getImage());
+        }
         holder.price.setText(item.getPrice());
         holder.address.setText(item.getAddress());
         return row;
