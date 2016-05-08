@@ -36,6 +36,7 @@ import java.util.Date;
 
 import project.team.cmpe277.com.magicrentals1.R;
 import project.team.cmpe277.com.magicrentals1.landlord.PropertyModel;
+import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
 import project.team.cmpe277.com.magicrentals1.utility.PopUp;
 
 
@@ -143,8 +144,9 @@ public class UploadPropertyDataActivity extends AppCompatActivity {
         property = new PropertyModel();
 
 
-       /* userid = getIntent()
-                .getSerializableExtra("USERID").toString();*/
+
+        userid = getIntent()
+                .getSerializableExtra("USERID").toString();
 
 
         btnSubmit = (Button) findViewById(R.id.submit1);
@@ -155,6 +157,7 @@ public class UploadPropertyDataActivity extends AppCompatActivity {
                 //Read the data from the form and pass it to the backend service
                 // Button btnSubmit = (Button) (v);
                 isValid = true;
+                property.setUser_id(userid);
                 System.out.println("in Savkwjjetwe........................."+v.getId());
                 //  Spinner spinProprtyType = (Spinner)v.findViewById(R.id.property_type);
                 property.setProperty_type(spinPropertyType.getSelectedItem().toString());
@@ -189,6 +192,11 @@ public class UploadPropertyDataActivity extends AppCompatActivity {
 
 
                 if(isValid){
+                   //hm LandlordUtils.serialize( property);
+
+
+
+                  //  new MultipartUtilityAsyncTask().execute
 //call service
                     Toast.makeText(UploadPropertyDataActivity.this, "Fine" , Toast.LENGTH_LONG).show();
                 }else
