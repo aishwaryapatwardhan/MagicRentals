@@ -119,6 +119,10 @@ public class PropertyListAdapter extends ArrayAdapter<PropertyModel> {
     void resetSelected(int position){
         selected.remove(position);
     }
+//    @Override
+//    void notifyDataSetChanged(){
+//
+//    }
 
 
 

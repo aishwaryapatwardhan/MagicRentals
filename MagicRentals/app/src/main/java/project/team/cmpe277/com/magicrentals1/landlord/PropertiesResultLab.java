@@ -35,8 +35,11 @@ public class PropertiesResultLab {
     public  void delete(ArrayList<Integer> al){
         //call service..
         System.out.println("Delete......   "+sPropertiesResultLab.mPropertyList.get(1).nickname);
-        System.out.println("del......." +sPropertiesResultLab.mPropertyList.remove(al));
-        sPropertiesResultLab.mPropertyList.get(1);
+
+
+
+        System.out.println("del......"+al.get(0)+"... row ...." +sPropertiesResultLab.mPropertyList.remove(1));
+        //sPropertiesResultLab.mPropertyList.get(1);
 
 
     }

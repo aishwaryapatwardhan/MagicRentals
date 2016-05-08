@@ -186,6 +186,8 @@ public class PropertyListLandlordFragment extends ListFragment {
                     case R.id.deleteM:
                         System.out.println("inside deleted.......");
                         resultsLab.delete(selected_line_al);
+
+                     //   mAdapter.notifyDatasetChanged();
                         break;
                     case R.id.editM:
                         Bundle bundle = new Bundle();
