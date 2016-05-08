@@ -6,6 +6,8 @@
 var mongo = require("./dbconfig");
 var mailer = require('./mailer');
 var utils = require('./utils');
+var formidable = require('formidable');
+
 //Add postings
 exports.addPost = function(req, res){
 		
@@ -13,88 +15,121 @@ exports.addPost = function(req, res){
 	
 	var result = {};
 	
-	var user_id = req.param('user_id');
-	var Street = req.param('Street');
-	var City = req.param('City');
-	var State = req.param('State');
-	var Zip = req.param('Zip');
-	var property_type = req.param('property_type');
-	var bath = Number(req.param('bath'));
-	var room = Number(req.param('room'));
-	var area = Number(req.param('area'));
-	var rent = Number(req.param('rent'));
-	var email = req.param('email');
-	var Mobile = req.param('Mobile');
-	var description = req.param('description');
-	var Images = req.param('Images');
-	var other_details = req.param('other_details');
-	var Status = req.param('Status');
-	var view_count = Number(req.param('view_count'));
-	var id;
-	mongo.connect(function(err, db){
+	
+	var form = new formidable.IncomingForm();
+	
+	form.parse(req, function(err, fields, files) {
+	     if(err){
+	       console.log(err);
+	       res.end("sorry, an error occurred");
+	       return;
+	     }
+	    
+//	    console.log(fields.user_id + ": user_id");
+//	    var user_id = fields.user_id;
+//	 	var Street = fields.Street;
+//	 	var City = fields.City;
+//	 	var State = fields.State;
+//	 	var Zip = fields.Zip;
+//	 	var property_type = fields.property_type;
+//	 	var bath = Number(fields.bath);
+//	 	var room = Number(fields.room);
+//	 	var area = Number(fields.area);
+//	 	var rent = Number(fields.rent);
+//	 	var email = req.param(fields.email);
+//	 	var Mobile = req.param(fields.Mobile);
+//	 	var description = req.param(fields.description);
+//	 	var Images = req.param(fields.Images);
+//	 	var other_details = req.param(fields.other_details);
+//	 	var Status = req.param(fields.Status);
+//	 	var view_count = Number(req.param(fields.view_count));
+	 	
+		var user_id = req.param('user_id');
+		var Street = req.param('Street');
+		var City = req.param('City');
+		var State = req.param('State');
+		var Zip = req.param('Zip');
+		var property_type = req.param('property_type');
+		var bath = Number(req.param('bath'));
+		var room = Number(req.param('room'));
+		var area = Number(req.param('area'));
+		var rent = Number(req.param('rent'));
+		var email = req.param('email');
+		var Mobile = req.param('Mobile');
+		var description = req.param('description');
+		var Images = req.param('Images');
+		var other_details = req.param('other_details');
+		var Status = req.param('Status');
+		var view_count = Number(req.param('view_count'));
+	 	
+		var id;
 		
-		if(err){
-			console.log("Unable to connect to mongo");
-			result.code = 209;
-			result.status = "Unable to connect to mongo";
-			res.json(result);
-		}else{
-			console.log("Connected to mongo");
+		mongo.connect(function(err, db){
 			
-			var coll = mongo.collection('rental_posting');
-			
-			id = user_id.replace(/\s+/g, '')+Street.replace(/\s+/g, '')+City.replace(/\s+/g, '')+State+Zip.replace(/\s+/g, '');
-			
-			coll.insertOne( 
-					 {
-						 	"_id" : id,
-							"user_id" : user_id,
-							"address" : {
-									"Street" : Street,
-									"City"   : City,
-									"State"  : State,
-									"Zip"    : Zip
-								    },
-							"property_type" : property_type,
-							"units"  : {
-									"bath" : bath,
-									"room" : room,
-									"area" : area 
-								   },
-							"rent"  : rent,
-							"Contact_info" : {
-									    "email" : email,
-									    "Mobile": Mobile
-									 },
-							"description" : description,
-							"Images" : Images,
-							"other_details" : other_details,
-							"Status" : Status,
-							"view_count" : view_count
-					 },   function(err, docs) {
-					
-						 if(err){
-							 result.code = 208;
-							 result.status = "Duplicate records";
-							 res.json(result);
-						 }else{
-							 utils.notify(id,1,function(){
-								 console.log('notification triggered.');
-								 
-								 mailer.sendMail(function(error, success) {
-									 console.log('Mail sent');
-								 });
-							 })
-							 
-							 result.code = 200; 
-							 result.status = "Successfully inserted";
-							 res.json(result);
-						 }	
+			if(err){
+				console.log("Unable to connect to mongo");
+				result.code = 209;
+				result.status = "Unable to connect to mongo";
+				res.json(result);
+			}else{
+				console.log("Connected to mongo");
+				
+				var coll = mongo.collection('rental_posting');
+				
+				id = user_id.replace(/\s+/g, '')+Street.replace(/\s+/g, '')+City.replace(/\s+/g, '')+State+Zip.replace(/\s+/g, '');
+				
+				coll.insertOne( 
+						 {
+							 	"_id" : id,
+								"user_id" : user_id,
+								"address" : {
+										"Street" : Street,
+										"City"   : City,
+										"State"  : State,
+										"Zip"    : Zip
+									    },
+								"property_type" : property_type,
+								"units"  : {
+										"bath" : bath,
+										"room" : room,
+										"area" : area 
+									   },
+								"rent"  : rent,
+								"Contact_info" : {
+										    "email" : email,
+										    "Mobile": Mobile
+										 },
+								"description" : description,
+								"Images" : Images,
+								"other_details" : other_details,
+								"Status" : Status,
+								"view_count" : view_count
+						 },   function(err, docs) {
 						
-					 }
-			);			
-		}	
-	});	
+							 if(err){
+								 result.code = 208;
+								 result.status = "Duplicate records";
+								 res.json(result);
+							 }else{
+								 utils.notify(id,1,function(){
+									 console.log('notification triggered.');
+									 
+									 mailer.sendMail(function(error, success) {
+										 console.log('Mail sent');
+									 });
+								 })
+								 
+								 result.code = 200; 
+								 result.status = "Successfully inserted";
+								 res.json(result);
+							 }	
+							
+						 }
+				);			
+			}	
+		});	
+	 	
+	});
 };
 
 //getPostings posts
