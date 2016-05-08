@@ -61,60 +61,11 @@ exports.addPost = function(req, res){
 //		var other_details = req.param('other_details');
 //		var Status = req.param('Status');
 //		var view_count = Number(req.param('view_count'));
-//	 	
+	 	
 		var id;
 		
 		mongo.connect(function(err, db){
 			
-
-			id = user_id.replace(/\s+/g, '')+Street.replace(/\s+/g, '')+City.replace(/\s+/g, '')+State+Zip.replace(/\s+/g, '');
-			
-			coll.insertOne( 
-					 {
-						 	"_id" : id,
-							"user_id" : user_id,
-							"address" : {
-									"Street" : Street,
-									"City"   : City,
-									"State"  : State,
-									"Zip"    : Zip
-								    },
-							"property_type" : property_type,
-							"units"  : {
-									"bath" : bath,
-									"room" : room,
-									"area" : area 
-								   },
-							"rent"  : rent,
-							"Contact_info" : {
-									    "email" : email,
-									    "Mobile": Mobile
-									 },
-							"description" : description,
-							"Images" : Images,
-							"other_details" : other_details,
-							"Status" : Status,
-							"view_count" : view_count
-					 },   function(err, docs) {
-					
-						 if(err){
-							 result.code = 208;
-							 result.status = "Unable to insert to mongo";
-							 res.json(result);
-						 }else{
-							 utils.notify(id,"1",function(){
-								 console.log('notification triggered.');
-								 
-								 mailer.sendMail(function(error, success) {
-									 console.log('Mail sent');
-								 });
-							 })
-							 
-							 result.code = 200; 
-							 result.status = "Successfully inserted";
-							 res.json(result);
-						 }	
-
 			if(err){
 				console.log("Unable to connect to mongo");
 				result.code = 209;
@@ -154,7 +105,6 @@ exports.addPost = function(req, res){
 								"Status" : Status,
 								"view_count" : view_count
 						 },   function(err, docs) {
-
 						
 							 if(err){
 								 result.code = 208;
@@ -481,13 +431,15 @@ exports.searchPosts = function(req, res){
 						},function(err, docs) {
 							
 							 if(err){
-								 result.code = 208;
-								 result.status = "Unable to insert to mongo";
+//								 result.code = 208;
+//								 result.status = "Unable to insert to mongo";
+								 console.log("Unable to insert to mongo");
 							 }else{
-								 mailer.sendMail(function(error, success) {
-									 result.code = 200; 
-									 result.status = "Successfully inserted";
-								 });
+//								 mailer.sendMail(function(error, success) {
+//									 result.code = 200; 
+//									 result.status = "Successfully inserted";
+//								 });
+								 console.log("Search results saved");
 							 }	
 						});
 			}

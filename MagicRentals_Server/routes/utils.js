@@ -2,9 +2,6 @@ var gcm = require('node-gcm');
 var mongo = require("./dbconfig");
 
 
-exports.push = function (query,itmnm, itmdsc, type, callback){	
-
-
 function constructNotification (myarr, type, id){
 	 
 	var uid;
@@ -108,11 +105,7 @@ function constructNotification1 (myarr, type, id){
 }
 
 
-
-	
-
 function push( msg , header, device_tokens, callback){	
-
 	
     var retry_times = 4; //the number of times to retry sending the message if it fails
 
@@ -122,12 +115,6 @@ function push( msg , header, device_tokens, callback){
     message.addData('title', header );
     message.addData('message', msg);
     message.addData('sound', 'notification');
-
-	    message.collapseKey = 'testing'; //grouping messages
-	    message.delayWhileIdle = true; //delay sending while receiving device is offline
-	    message.timeToLive = 3; //the number of seconds to keep the message on the server if the device is offline
-		
-	};
 
     message.collapseKey = 'testing'; //grouping messages
     message.delayWhileIdle = true; //delay sending while receiving device is offline
@@ -142,7 +129,6 @@ function push( msg , header, device_tokens, callback){
 //    });
     callback();
 }
-
 	
 exports.notify = function(id, type, callback){
 	
@@ -151,8 +137,9 @@ exports.notify = function(id, type, callback){
 	if(type == 1 || type == 2 || type == 3){
 		
 		console.log(' notify type ' + type);
-		
+		console.log(' ID ' + id);
 		if(type == 1 && id == null){
+			console.log('in callback');
 			callback();
 		}else{
 			mongo.connect(function(err, db){
@@ -161,15 +148,33 @@ exports.notify = function(id, type, callback){
 					callback();
 				}else{
 					var searchcol = mongo.collection('search_queries');
-					var cursor = searchcol.find( {  "rate" : type } );
-					cursor.each(function(err, doc) {
-					      if (doc != null) {
-					         console.log(doc);
-					      } else {
-					    	 console.log("no docs");
-					    	 callback();
-					      }
-					   });
+//					var cursor = searchcol.find( {  "rate" : type } );
+//					cursor.each(function(err, doc) {
+//					      if (doc != null) {
+//					    	 console.log("first");
+//					         console.log(doc);
+//					      } else {
+//					    	 console.log("no docs");
+//					    	 callback();
+//					      }
+//					   });
+					
+					searchcol.find( {  "rate" : type } ).toArray(function(err, docs) {
+						if(docs){												
+							var myArray = [];
+							for(var i=0; i<docs.length; i++){
+								//myArray.push({ "user_id":docs[i].user_id, "rate": docs[i].rate, "description":docs[i].description, "City":docs[i].City,"Zip": docs[i].Zip, "Make": docs[i].Make, "property_type":docs[i].property_type, "max_rent":docs[i].max_rent, "min_rent":docs[i].min_rent});
+								var ma = docs[i];
+								constructNotification1(ma, type, id);
+							}
+							console.log('length is '+ myArray.length);
+//							constructNotification1(myArray, type, id);
+						}else{						
+							console.log('No Docs');
+						}							
+						
+					});
+					
 				}
 			});
 		}	
@@ -179,4 +184,3 @@ exports.notify = function(id, type, callback){
 	}
 };
 	
-
