@@ -183,9 +183,9 @@ public class PropertyListLandlordFragment extends ListFragment {
                     }
                 }
                 switch (item.getItemId()) {
-                    case R.id.deleteM:
-                        System.out.println("inside deleted.......");
-                        resultsLab.delete(selected_line_al);
+                    case R.id.rentedM:
+                        System.out.println("inside rented.......");
+                        resultsLab.rented(selected_line_al);
 
                      //   mAdapter.notifyDatasetChanged();
                         break;

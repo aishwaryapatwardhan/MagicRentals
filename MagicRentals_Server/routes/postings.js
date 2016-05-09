@@ -139,6 +139,7 @@ exports.getAllPosts = function(req, res){
 	var result = {};
 	
 	//var user_id = req.param('user_id');
+	var form = new formidable.IncomingForm();
 	
 	form.parse(req, function(err, fields, files) {
 	     if(err){
@@ -187,6 +188,7 @@ exports.updatePost = function(req, res){
 		console.log("This is a UpdatePost API call");
 		
 		var result = {};
+		var form = new formidable.IncomingForm();
 		
 		form.parse(req, function(err, fields, files) {
 		     if(err){
@@ -310,7 +312,7 @@ exports.updateStatus = function(req, res){
 	console.log("This is a UpdatePost's status API call");
 	
 	var result = {};
-	
+	var form = new formidable.IncomingForm();
 	form.parse(req, function(err, fields, files) {
 	     if(err){
 	       console.log(err);
@@ -433,6 +435,8 @@ exports.searchPosts = function(req, res){
 	console.log("In search API");
 	var result = {};
 	
+	var form = new formidable.IncomingForm();
+	
 	form.parse(req, function(err, fields, files) {
 	     if(err){
 	       console.log(err);
@@ -440,48 +444,89 @@ exports.searchPosts = function(req, res){
 	       return;
 	     }
 	     
-	    var saveSearch = Boolean(fields.saveSearch);
-	 	var rate = Number(fields.rate);
-	 	var user_id = req.param(fields.user_id);
+//	    var saveSearch = Boolean(fields.saveSearch);
+//	 	var rate = Number(fields.rate);
+//	 	var user_id = req.param(fields.user_id);
+//	 	
+//	 	var description = req.param(fields.description);
+//	 	if(!description){
+//	 		description = '.';
+//	 	}
+//	 	console.log('desc - '+ description);
+//	 	
+//	 	var City = fields.City;
+//	 	if(!City){
+//	 		City = '.';
+//	 	}
+//	 	console.log('City - '+ City);
+//	 	
+//	 	var Zip = fields.Zip;
+//	 	if(!Zip){
+//	 		Zip = '.';
+//	 	}
+//	 	console.log('Zip - '+ Zip);
+//	 	
+//	 	var property_type = fields.property_type;
+//	 	if(!property_type){
+//	 		property_type = '.';
+//	 	}
+//	 	console.log('property_type - '+ property_type);
+//	 	
+//	 	//var min_rent = parseInt(req.param('min_rent'));
+//	 	var min_rent = Number(fields.min_rent) ;
+//	 	if(!min_rent){
+//	 		min_rent = 0;
+//	 	}
+//	 	console.log('min_rent - '+ min_rent);
+//	 	
+//	 	//var max_rent = parseInt(req.param('max_rent'));
+//	 	var max_rent = Number(fields.max_rent);
+//	 	if(!max_rent){
+//	 		max_rent = Number.MAX_VALUE;
+//	 	}
+//	 	console.log('max_rent - '+ max_rent);
 	 	
-	 	var description = req.param(fields.description);
+	     var saveSearch = Boolean(req.param('saveSearch'));
+	 	var rate = Number(req.param('rate'));
+	 	var user_id = req.param('user_id');
+	 	
+	 	var description = req.param('description');
 	 	if(!description){
 	 		description = '.';
 	 	}
 	 	console.log('desc - '+ description);
 	 	
-	 	var City = fields.City;
+	 	var City = req.param('City');
 	 	if(!City){
 	 		City = '.';
 	 	}
 	 	console.log('City - '+ City);
 	 	
-	 	var Zip = fields.Zip;
+	 	var Zip = req.param('Zip');
 	 	if(!Zip){
 	 		Zip = '.';
 	 	}
 	 	console.log('Zip - '+ Zip);
 	 	
-	 	var property_type = fields.property_type;
+	 	var property_type = req.param('property_type');
 	 	if(!property_type){
 	 		property_type = '.';
 	 	}
 	 	console.log('property_type - '+ property_type);
 	 	
 	 	//var min_rent = parseInt(req.param('min_rent'));
-	 	var min_rent = Number(fields.min_rent) ;
+	 	var min_rent = Number(req.param('min_rent')) ;
 	 	if(!min_rent){
 	 		min_rent = 0;
 	 	}
 	 	console.log('min_rent - '+ min_rent);
 	 	
 	 	//var max_rent = parseInt(req.param('max_rent'));
-	 	var max_rent = Number(fields.max_rent);
+	 	var max_rent = Number(req.param('max_rent'));
 	 	if(!max_rent){
 	 		max_rent = Number.MAX_VALUE;
 	 	}
 	 	console.log('max_rent - '+ max_rent);
-	 	
 	 	
 	 	mongo.connect(function(err, db){
 	 		

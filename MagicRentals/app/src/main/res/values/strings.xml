@@ -59,9 +59,9 @@
     <string name="add_property">Create</string>
     <string name="editproperty">Edit</string>
     <string name="deleteproperty">Delete</string>
+    <string name="rentedproperty">Rented</string>
     <string name="cancelproperty">Cancel</string>
     <string name="required">Required</string>
-    
     <string-array name="property_type">
         <item>Apartment</item>
         <item>Condo</item>
