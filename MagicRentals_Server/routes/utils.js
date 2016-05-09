@@ -95,6 +95,24 @@ function constructNotification1 (myarr, type, id){
 			                    		  }else if(type ==2 || type ==3){
 			                    			  console.log('weekly and monthly notifications');
 			                    			  const resul = docs;
+			                    			  console.log(resul);
+			                    			  for(var k = 0 ; k < resul.length; k++ ){
+		                    					  console.log('send notification to him');
+		                    					  var coll1 = mongo.collection('users');
+		                    					  coll1.findOne({ "uid" : uid },function(err, doc){
+		                    						  if(err){
+		                    							  console.log('error');
+		                    						  }else{
+		                    							  console.log('user details');
+		                    							  console.log(doc);
+		                    							  console.log(results);
+		                    							  push(resul, 'New Postngs', doc.deviceID , function(){
+		                    								  console.log('notified users');
+		                    							  });
+		                    						  }
+		                    					  });
+			                    				  
+			                    			  }
 			                    		  }
 			                    	  }else{						
 			                    		  console.log('No updates');
@@ -148,17 +166,7 @@ exports.notify = function(id, type, callback){
 					callback();
 				}else{
 					var searchcol = mongo.collection('search_queries');
-//					var cursor = searchcol.find( {  "rate" : type } );
-//					cursor.each(function(err, doc) {
-//					      if (doc != null) {
-//					    	 console.log("first");
-//					         console.log(doc);
-//					      } else {
-//					    	 console.log("no docs");
-//					    	 callback();
-//					      }
-//					   });
-					
+
 					searchcol.find( {  "rate" : type } ).toArray(function(err, docs) {
 						if(docs){												
 							var myArray = [];
