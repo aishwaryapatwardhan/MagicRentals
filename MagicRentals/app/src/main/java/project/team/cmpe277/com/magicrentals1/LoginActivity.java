@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -54,6 +55,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 import project.team.cmpe277.com.magicrentals1.landlord.PropertiesListLandlordActivity;
+import project.team.cmpe277.com.magicrentals1.utility.MultipartUtility;
+import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
@@ -63,9 +66,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private SignInButton googleSignIn;
     private int RC_SIGN_IN;
     private String gcmtoken;
+
+
+
     private String userid;
     private static final String TAG = "LoginActivity";
     public static final String USERID = "project.team.cmpe277.com.magicrentals1.USERID" ;
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -95,7 +102,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             public void onReceive(Context context, Intent intent) {
                 if(intent.getAction().endsWith(GCMRegistrationIntentService.REGISTRATION_SUCCESS)){
                     gcmtoken = intent.getStringExtra("token");
-                    Toast.makeText(getApplicationContext(),"GCM token:"+gcmtoken,Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(),"GCM token:"+gcmtoken,Toast.LENGTH_LONG).show();
                 }else if(intent.getAction().endsWith(GCMRegistrationIntentService.REGISTRATION_ERROR)){
                     Toast.makeText(getApplicationContext(),"GCM registration error:",Toast.LENGTH_LONG).show();
                 } else {
@@ -146,6 +153,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 .build();
 
         setContentView(R.layout.activity_login);
+
         loginButton = (LoginButton) findViewById(R.id.login_button);
         googleSignIn = (SignInButton) findViewById(R.id.sign_in_button);
 
@@ -156,10 +164,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
              /*   Intent i = new Intent(getApplicationContext(), TenantSearchActivity.class);
                 i.putExtra("USERID", userid);
                 startActivity(i); */
-                Intent i = new Intent(getApplicationContext(), PropertiesListLandlordActivity.class);
-                startActivity(i);
-                /*Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-                startActivityForResult(signInIntent, RC_SIGN_IN);*/
+                /*Intent i = new Intent(getApplicationContext(), PropertiesListLandlordActivity.class);
+                startActivity(i);*/
+                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+                startActivityForResult(signInIntent, RC_SIGN_IN);
             }
         });
 
@@ -169,7 +177,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 //Migrate to new activity on successful login
                 //loginResult.getAccessToken().getUserId();
                 //loginResult.getAccessToken().getToken();
-                afterSuccessfulLogin(loginResult.getAccessToken().getUserId(),loginResult.getAccessToken().getToken(),"");
+                afterSuccessfulLogin(loginResult.getAccessToken().getUserId(), loginResult.getAccessToken().getToken(), "");
 
             }
 
@@ -186,6 +194,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setLogo(R.drawable.ic_launcher);
 
         /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -254,16 +263,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        /*if (id == R.id.action_settings) {
-            return true;
-        }*/
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -276,23 +275,31 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         //Navigate to next activity
 
         //new LoginApi().execute("URL",userid,token,email);
+        String url = "http://54.153.2.150:3000/addUser";
 
-        this.userid = userid;
+        HashMap<String,String> input = new HashMap<String,String>();
+        input.put("uid",userid);
+        input.put("email",email);
+        input.put("deviceID",gcmtoken);
 
-        Map parampost = new HashMap();
-        parampost.put("userid",userid);
+
+
+        /*try {
+            new MultipartUtilityAsyncTask(input,null).execute(url);
+        }catch(Exception e){
+            Toast.makeText(this.getApplicationContext(),"Login Error",Toast.LENGTH_LONG).show();
+        }*/
+
         //Adding userid to shared preferences
         SharedPreferences sharedPreferences = this.getSharedPreferences(TAG,Context.MODE_PRIVATE);
         sharedPreferences.edit().putString(USERID,userid).apply();
 
-        parampost.put("devicetoken",gcmtoken);
-        parampost.put("email", email);
 
-        /*try{
-            new LoginApi().execute("login-api",parampost);
-        }catch(Exception e){
-            e.printStackTrace();
-        }*/
+
+        Intent i = new Intent(getApplicationContext(), TenantSearchActivity.class);
+        i.putExtra("USERID", userid);
+        startActivity(i);
+
 
     }
 
@@ -336,94 +343,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         client.disconnect();
     }
 
-
-    @SuppressWarnings("unchecked")
-    public class LoginApi extends AsyncTask<Object, Void, String> {
-        String urlString = null;
-        HashMap<String,String> inputMap;
-        String apiId = null;
-
-
-        public String doInBackground(Object... parameters) {
-            urlString = parameters[0].toString();
-            inputMap = (HashMap<String,String>)parameters[1];
-            String response = null;
-            HttpURLConnection conn = null;
-            String line = null;
-            URL url;
-
-            try {
-                url = new URL(inputMap.get(urlString));
-
-
-            } catch (MalformedURLException e) {
-                // Log exception
-                throw new IllegalArgumentException("Invalid URL");
-            }
-            StringBuilder builder = new StringBuilder();
-            Iterator<Map.Entry<String,String>> iterator= inputMap.entrySet().iterator();
-
-            while(iterator.hasNext()){
-                Map.Entry<String,String> param = iterator.next();
-                builder.append(param.getKey()).append('=').append(param.getValue());
-                if(iterator.hasNext()){
-                    builder.append('&');
-                }
-            }
-            String body = builder.toString();
-            Log.v("Parameters",body);
-            byte[] bytes=body.getBytes();
-            try{
-                conn = (HttpURLConnection)url.openConnection();
-                conn.setDoOutput(true);
-                conn.setUseCaches(false);
-                conn.setFixedLengthStreamingMode(bytes.length);
-                conn.setRequestMethod("POST");
-                conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
-
-                OutputStream outputStream = conn.getOutputStream();
-                outputStream.write(bytes);
-                outputStream.close();
-
-                int status = conn.getResponseCode();
-                if(status != 200){
-                    throw new IOException("Post fail in Login Api");
-                }
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                StringBuilder builder1 = new StringBuilder();
-                while((line = bufferedReader.readLine())!=null){
-                    builder1.append(line+'\n');
-                }
-                response=builder1.toString();
-                return response;
-            }catch(Exception e){
-                e.printStackTrace();
-                return null;
-            }finally {
-                conn.disconnect();
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String response) {
-            if(response == null){
-                //do something when no response
-                Toast.makeText(getApplicationContext(), "Network Error", Toast.LENGTH_SHORT).show();
-            }else{
-                try {
-                    JSONObject object = (JSONObject)new JSONTokener(response).nextValue();
-                    String statuscode = object.getString("statuscode");
-                    if(statuscode.equals(200)){
-                        Intent i = new Intent(getApplicationContext(), TenantSearchActivity.class);
-                        startActivity(i);
-                    }else{
-                        Toast.makeText(getApplicationContext(), "Login API Error", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    // Appropriate error handling code
-                }
-
-            }
-        }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

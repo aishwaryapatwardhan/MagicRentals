@@ -5,13 +5,18 @@ package project.team.cmpe277.com.magicrentals1;
  */
 public class SearchParameters {
 
-    private String pricerange;
+    private int minPrice;
+    private int maxPrice;
     private String propertytype;
     private String keywords;
     private String location;
 
-    public void setPricerange(String pricerange) {
-        this.pricerange = pricerange;
+    public SearchParameters() {
+        this.location = "";
+        this.keywords = "";
+        this.propertytype = "";
+        this.minPrice = 0;
+        this.maxPrice = 0;
     }
 
     public void setPropertytype(String propertytype) {
@@ -26,10 +31,6 @@ public class SearchParameters {
         this.location = location;
     }
 
-    public String getPricerange() {
-        return pricerange;
-    }
-
     public String getPropertytype() {
         return propertytype;
     }
@@ -40,6 +41,21 @@ public class SearchParameters {
 
     public String getKeywords() {
         return keywords;
+    }
+    public int getMinPrice() {
+        return minPrice;
+    }
+
+    public void setMinPrice(int minPrice) {
+        this.minPrice = minPrice;
+    }
+
+    public int getMaxPrice() {
+        return maxPrice;
+    }
+
+    public void setMaxPrice(int maxPrice) {
+        this.maxPrice = maxPrice;
     }
 
 }

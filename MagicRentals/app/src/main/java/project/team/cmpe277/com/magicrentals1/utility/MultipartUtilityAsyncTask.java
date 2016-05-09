@@ -56,11 +56,13 @@ public class MultipartUtilityAsyncTask extends AsyncTask<String, Void, JSONObjec
                 }
             }
 
-            if(!(imageFiles.isEmpty())){
-                for (HashMap.Entry<String, File> entry : imageFiles.entrySet()) {
-                    String key = entry.getKey();
-                    File value = entry.getValue();
-                    multipart.addFilePart(key, value);
+            if(imageFiles != null){
+                if(!(imageFiles.isEmpty())){
+                    for (HashMap.Entry<String, File> entry : imageFiles.entrySet()) {
+                        String key = entry.getKey();
+                        File value = entry.getValue();
+                        multipart.addFilePart(key, value);
+                    }
                 }
             }
 

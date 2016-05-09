@@ -1,6 +1,7 @@
 package project.team.cmpe277.com.magicrentals1.landlord;
 
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -33,9 +34,11 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 import project.team.cmpe277.com.magicrentals1.R;
 import project.team.cmpe277.com.magicrentals1.landlord.PropertyModel;
+import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
 import project.team.cmpe277.com.magicrentals1.utility.PopUp;
 
 
@@ -143,8 +146,9 @@ public class UploadPropertyDataActivity extends AppCompatActivity {
         property = new PropertyModel();
 
 
-       /* userid = getIntent()
-                .getSerializableExtra("USERID").toString();*/
+
+//        userid = getIntent()
+//                .getSerializableExtra("USERID").toString();
 
 
         btnSubmit = (Button) findViewById(R.id.submit1);
@@ -155,6 +159,8 @@ public class UploadPropertyDataActivity extends AppCompatActivity {
                 //Read the data from the form and pass it to the backend service
                 // Button btnSubmit = (Button) (v);
                 isValid = true;
+                property.setUser_id("savani");
+                property.setStatus("Created");
                 System.out.println("in Savkwjjetwe........................."+v.getId());
                 //  Spinner spinProprtyType = (Spinner)v.findViewById(R.id.property_type);
                 property.setProperty_type(spinPropertyType.getSelectedItem().toString());
@@ -180,6 +186,7 @@ public class UploadPropertyDataActivity extends AppCompatActivity {
                 property.setEmail(email.getText().toString());
 
                 property.setMobile(mobile.getText().toString());
+                System.out.println("sjsk "+mobile.getText().toString());
 
                 property.setDescription(description.getText().toString());
 
@@ -189,6 +196,12 @@ public class UploadPropertyDataActivity extends AppCompatActivity {
 
 
                 if(isValid){
+                   HashMap<String, String> hm = LandlordUtils.serialize(property);
+                   // HashMap<String, File> file = new HashMap<String, File>();
+                    String url = "http://54.153.2.150:3000/addPostings";
+                   // System.out.println("isndie jdjjj url ");
+
+                    new MultipartUtilityAsyncTask(hm, null).execute(url);
 //call service
                     Toast.makeText(UploadPropertyDataActivity.this, "Fine" , Toast.LENGTH_LONG).show();
                 }else
