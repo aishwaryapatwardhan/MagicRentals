@@ -1,7 +1,12 @@
 package project.team.cmpe277.com.magicrentals1.utility;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,23 +16,30 @@ import java.util.List;
 /**
  * Created by saipranesh on 5/7/16.
  */
-public class MultipartUtilityAsyncTask extends AsyncTask<String, Void, Boolean> {
+public class MultipartUtilityAsyncTask extends AsyncTask<String, Void, JSONObject> {
 
     String charset = "UTF-8";
     String requestURL;
     HashMap<String,String> formFields;
     HashMap<String,File> imageFiles;
     String status = "";
-    Boolean httpStatus;
+    JSONObject httpStatus ;
 
-    MultipartUtilityAsyncTask(HashMap<String,String> formFields, HashMap<String,File> imageFiles){
+    private Context mContext;
+    private TaskCompletedStatus mCallback;
+
+
+    public MultipartUtilityAsyncTask(Context context, HashMap<String,String> formFields, HashMap<String,File> imageFiles){
         this.formFields = formFields;
         this.imageFiles = imageFiles;
+        this.mContext = context;
+        this.mCallback = (TaskCompletedStatus) context;
+        httpStatus = new JSONObject();
     }
 
 
     @Override
-    protected Boolean doInBackground(String... url) {
+    protected JSONObject doInBackground(String... url) {
 
 
         requestURL =  url[0];
@@ -54,7 +66,7 @@ public class MultipartUtilityAsyncTask extends AsyncTask<String, Void, Boolean> 
 
 
 
-            List<String> response = multipart.finish();
+           /* List<String> response = multipart.finish();
 
             System.out.println("SERVER REPLIED:");
             String responseString = "";
@@ -70,6 +82,18 @@ public class MultipartUtilityAsyncTask extends AsyncTask<String, Void, Boolean> 
                 httpStatus = true;
             }else{
                 httpStatus = false;
+            }*/
+
+            String response = multipart.finishString();
+
+            if( response != null){
+                try {
+                   httpStatus = new JSONObject(response);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
 
         } catch (IOException ex) {
@@ -77,6 +101,13 @@ public class MultipartUtilityAsyncTask extends AsyncTask<String, Void, Boolean> 
         }
 
         return httpStatus;
+    }
+
+    @Override
+    protected void onPostExecute(JSONObject result) {
+        super.onPostExecute(result);
+
+        mCallback.onTaskCompleted(result);
     }
 }
 

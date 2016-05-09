@@ -9,10 +9,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
+import java.util.HashMap;
+
+import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
+import project.team.cmpe277.com.magicrentals1.utility.TaskCompletedStatus;
+
 /**
  * Created by Rekha on 5/1/2016.
  */
-public class TenantSearchDetailFragment extends android.app.Fragment {
+public class TenantSearchDetailFragment extends android.app.Fragment implements TaskCompletedStatus {
 
     private TextView streetValue;
     private TextView cityValue;
@@ -31,6 +38,9 @@ public class TenantSearchDetailFragment extends android.app.Fragment {
     private ImageView heartsImage;
     private ImageView iconImage;
     private Boolean heartflag;
+    private JSONObject apiCallStatus;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,6 +62,11 @@ public class TenantSearchDetailFragment extends android.app.Fragment {
         heartsImage = (ImageView)detailview.findViewById(R.id.heartsImage);
         iconImage = (ImageView)detailview.findViewById(R.id.iconImage);
         //Make API call to get the detail of the onclicked item
+
+
+        //pass in the hashmap and also the request url in execute method, pass in the application context as well
+        new MultipartUtilityAsyncTask(getActivity().getApplicationContext(),null,null).execute("");
+
         new GetDetailAPI().execute("01");
 
         heartsImage.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +99,13 @@ public class TenantSearchDetailFragment extends android.app.Fragment {
         return detailview;
     }
 
+    //override this method to get the json object
+
+    @Override
+    public void onTaskCompleted(JSONObject result) {
+        apiCallStatus = result;
+
+    }
 
 
     public class GetDetailAPI extends AsyncTask<Object, Void, GridImageDetailItem> {
