@@ -6,9 +6,9 @@
 
         />
     <item
-        android:id="@+id/deleteM"
-        android:title="@string/deleteproperty"
-        android:icon="@android:drawable/ic_menu_delete"/>
+        android:id="@+id/rentedM"
+        android:title="@string/rentedproperty"
+        />
     <item
         android:id="@+id/cancelM"
         android:title="@string/cancelproperty"/>
