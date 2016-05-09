@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -27,7 +28,13 @@ public class TenantSearchListActivity extends AppCompatActivity {
         setContentView(R.layout.searchlistactivity_tenant);
         SharedPreferences preferences = getApplicationContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
         userid = preferences.getString(LoginActivity.USERID,null);
-        Log.i(TAG,userid);
+        Log.i(TAG, userid);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setIcon(R.drawable.ic_launcher);
+
+        actionBar.setTitle("Magic Rentals");
 
         FragmentManager fm = getFragmentManager();
         fm.beginTransaction().replace(R.id.searchlist_container, new TenantSearchListFragment()).commit();

@@ -2,7 +2,7 @@
     <string name="app_name">MagicRentals</string>
     <string name="action_settings">Settings</string>
     <string name="facebook_app_id">215087245538598</string>
-    <string name="save_search">Setup SearchAgent</string>
+    <string name="save_search">Save SearchAgent</string>
     <string name="favorites">Favorites</string>
     <string name="createpost">Create Post</string>
     <string name="mypostings">My Postings</string>

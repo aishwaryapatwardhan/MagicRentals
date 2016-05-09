@@ -7,9 +7,6 @@ import java.util.ArrayList;
  */
 public class GridImageDetailItem {
 
-
-    private String image;
-    private String address;
     private String price;
     private String id;
     private String streetAddr;
@@ -26,7 +23,24 @@ public class GridImageDetailItem {
     private String leaseType;
     private String imageIcon;
     private ArrayList<String> imagesPosted;
+    private String contact;
+    private String email;
 
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getStreetAddr() {
         return streetAddr;
@@ -148,21 +162,6 @@ public class GridImageDetailItem {
         this.price = price;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
 
     public String getId() {
         return id;
@@ -172,4 +171,24 @@ public class GridImageDetailItem {
         this.id = id;
     }
 
+    public GridImageDetailItem(String price, String id, String streetAddr, String cityAddr, String stateAddr, String zipCode, String propertyType, String noOfRooms, String noOfBaths, String sqFoot, String rent, String description, String deposit, String leaseType, String imageIcon,String contact,String email) {
+
+        this.price = price;
+        this.id = id;
+        this.streetAddr = streetAddr;
+        this.cityAddr = cityAddr;
+        this.stateAddr = stateAddr;
+        this.zipCode = zipCode;
+        this.propertyType = propertyType;
+        this.noOfRooms = noOfRooms;
+        this.noOfBaths = noOfBaths;
+        this.sqFoot = sqFoot;
+        this.rent = rent;
+        this.description = description;
+        this.deposit = deposit;
+        this.leaseType = leaseType;
+        this.imageIcon = imageIcon;
+        this.contact = contact;
+        this.email = email;
+    }
 }

@@ -45,18 +45,18 @@ public class GridViewAdapter extends ArrayAdapter{
             holder = (ViewHolder)row.getTag();
         }
         GridImageDetailItem item = data.get(position);
-        Bitmap cacheHit = TenantSearchListFragment.mThumbnailThread.checkCache(item.getImage());
+        Bitmap cacheHit = TenantSearchListFragment.mThumbnailThread.checkCache(item.getImageIcon());
         if(cacheHit != null){
             holder.image.setImageBitmap(cacheHit);
         }else{
-            TenantSearchListFragment.mThumbnailThread.queueThumbnail(holder.image,item.getImage());
+            TenantSearchListFragment.mThumbnailThread.queueThumbnail(holder.image,item.getImageIcon());
         }
 
         for( int i = Math.max(0,position -10); i < Math.min(data.size()-1, position+10); i++){
-            TenantSearchListFragment.mThumbnailThread.queuePreload(item.getImage());
+            TenantSearchListFragment.mThumbnailThread.queuePreload(item.getImageIcon());
         }
         holder.price.setText(item.getPrice());
-        holder.address.setText(item.getAddress());
+        holder.address.setText(item.getStreetAddr());
         return row;
     }
 
