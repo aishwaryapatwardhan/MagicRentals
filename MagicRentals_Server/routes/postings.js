@@ -594,3 +594,161 @@ exports.searchPosts = function(req, res){
 	 	});
 	});	
 };
+
+//Add Fav
+exports.addFav = function(req, res){
+	
+	console.log("In search API");
+	var result = {};
+	
+	var form = new formidable.IncomingForm();
+	
+	form.parse(req, function(err, fields, files) {
+	     if(err){
+	       console.log(err);
+	       res.end("sorry, an error occurred");
+	       return;
+	     }
+	     
+	     var uid = req.param('uid');
+		 var ids = req.param('ids');
+		
+//	     var uid = fields.uid; 
+//	     var ids = refields.ids; 
+
+		 mongo.connect(function(err, db){
+				
+				if(err){
+					console.log("Unable to connect to mongo");
+					result.code = 209;
+					result.status = "Unable to connect to mongo";
+					res.json(result);
+				}else{
+					
+					var favcol = mongo.collection('favorites');
+					
+					favcol.update(
+							   { "uid" : uid },
+							   { $push: { "ids" : ids } },
+							   true,
+							   true,
+							   function(err, docs){
+								   if(docs){		
+					 					result.data = docs;
+					 					result.code = 200; 
+					 					result.status = "Successful";
+					 					
+					 				}else{						
+					 					 result.code = 208;
+					 					 result.status = "Unable to get data";
+					 				}							
+					 				res.json(result);
+							   }
+							);
+				}
+		 });
+	});
+};
+
+//Remove Fav
+exports.removeFav = function(req, res){
+	
+	console.log("In Remove Fav API");
+	var result = {};
+	
+	var form = new formidable.IncomingForm();
+	
+	form.parse(req, function(err, fields, files) {
+	     if(err){
+	       console.log(err);
+	       res.end("sorry, an error occurred");
+	       return;
+	     }
+	     
+	     var uid = req.param('uid');
+		 var ids = req.param('ids');
+		
+//	     var uid = fields.uid; 
+//	     var ids = refields.ids; 
+
+		 mongo.connect(function(err, db){
+				
+				if(err){
+					console.log("Unable to connect to mongo");
+					result.code = 209;
+					result.status = "Unable to connect to mongo";
+					res.json(result);
+				}else{
+					
+					var favcol = mongo.collection('favorites');
+					
+					favcol.update(
+							   { "uid" : uid },
+							   { $pull: { "ids" : ids } },
+							   true,
+							   true,
+							   function(err, docs){
+								   if(docs){		
+					 					result.data = docs;
+					 					result.code = 200; 
+					 					result.status = "Successful";
+					 					
+					 				}else{						
+					 					 result.code = 208;
+					 					 result.status = "Unable to get data";
+					 				}							
+					 				res.json(result);
+							   }
+							);
+				}
+		 });
+	});
+};
+
+//getAllFav
+exports.getAllFav = function(req, res){
+	
+	console.log("In getFav API");
+	var result = {};
+	
+	var form = new formidable.IncomingForm();
+	
+	form.parse(req, function(err, fields, files) {
+	     if(err){
+	       console.log(err);
+	       res.end("sorry, an error occurred");
+	       return;
+	     }
+	     
+	     var uid = req.param('uid');
+		
+//	     var uid = fields.uid; 
+
+		 mongo.connect(function(err, db){
+				
+				if(err){
+					console.log("Unable to connect to mongo");
+					result.code = 209;
+					result.status = "Unable to connect to mongo";
+					res.json(result);
+				}else{
+					
+					var favcol = mongo.collection('favorites');
+					
+					favcol.find(
+							{ "uid" : uid }
+					).toArray(function(err, docs){
+						if(docs){		
+		 					result.data = docs;
+		 					result.code = 200; 
+		 					result.status = "Successful";		
+		 				}else{						
+		 					 result.code = 208;
+		 					 result.status = "Unable to get data";
+		 				}							
+		 				res.json(result);
+					});
+				}
+		 });
+	});
+};
