@@ -1,9 +1,17 @@
 package project.team.cmpe277.com.magicrentals1.landlord;
 
 import android.content.Context;
+import android.util.Log;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.ResponseCache;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 
 import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
 
@@ -69,10 +77,23 @@ public class PropertiesResultLab {
     }
 
     private ArrayList<PropertyModel> retrieveProperties(){
-//        String url = "http://54.153.2.150:3000/getPostsByUser";
-//        HashMap<String, String > hm = new HashMap<>();
-//        hm.put("userid","mittu");
-//        new MultipartUtilityAsyncTask(hm, null).execute(url);
+//
+//        HttpURLConnection httpConn;
+//        String str = "http://54.153.2.150:3000/getPostsByUser?userid="+"savani";
+//        try {
+//            URL url = new URL(str);
+//            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//            conn.setRequestMethod("GET");
+//            int response  = conn.getResponseCode();
+//          //  conn.setRequestProperty("User-Agent", USER_AGENT));
+//
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        //String requestUrl = ;
+
          ArrayList<PropertyModel> tempPropertyList;
         PropertyModel p = new PropertyModel();
         p.setKey("001");
