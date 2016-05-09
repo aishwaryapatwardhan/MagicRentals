@@ -2,6 +2,7 @@ package project.team.cmpe277.com.magicrentals1;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +37,8 @@ public class TenantSearchDetailFragment extends android.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View detailview = inflater.inflate(R.layout.searchdetailfragment_tenant, container, false);
+        setHasOptionsMenu(true);
+
         streetValue = (TextView)detailview.findViewById(R.id.streetValue);
         cityValue = (TextView)detailview.findViewById(R.id.cityValue);
         zipcodeValue = (TextView)detailview.findViewById(R.id.zipcodeValue);
@@ -94,6 +97,11 @@ public class TenantSearchDetailFragment extends android.app.Fragment {
 
 
         switch(id){
+            case android.R.id.home:
+                if (NavUtils.getParentActivityName(getActivity()) != null) {
+                    NavUtils.navigateUpFromSameTask(getActivity());
+                }
+                return true;
             case R.id.favorites:
                 //favourites activity
                 return true;
