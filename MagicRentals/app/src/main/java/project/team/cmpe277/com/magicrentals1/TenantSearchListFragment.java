@@ -5,6 +5,9 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -30,6 +33,7 @@ public class TenantSearchListFragment extends android.app.Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
         mThumbnailThread = new ThumbnailDownloader<ImageView>(new Handler());
         mThumbnailThread.setListener(new ThumbnailDownloader.Listener<ImageView>() {
@@ -55,10 +59,10 @@ public class TenantSearchListFragment extends android.app.Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                GridImageDetailItem item = (GridImageDetailItem)parent.getItemAtPosition(position);
-                Intent i = new Intent(getActivity(),TenantSearchDetailActivity.class);
-                i.putExtra("USERID",TenantSearchListActivity.userid);
-                i.putExtra("UUID",item.getId());
+                GridImageDetailItem item = (GridImageDetailItem) parent.getItemAtPosition(position);
+                Intent i = new Intent(getActivity(), TenantSearchDetailActivity.class);
+                i.putExtra("USERID", TenantSearchListActivity.userid);
+                i.putExtra("UUID", item.getId());
                 startActivity(i);
             }
         });
@@ -78,4 +82,37 @@ public class TenantSearchListFragment extends android.app.Fragment {
         super.onDestroyView();
         mThumbnailThread.clearQueue();
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_search, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+
+        switch(id){
+            case R.id.favorites:
+                //favourites activity
+                return true;
+            case R.id.createpost:
+                //savani your activity - to create a post
+                return true;
+            case R.id.mypostings:
+                //savani your activity to list the owner's previous posts if exists
+                return true;
+            case R.id.save_search:
+                //api call
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }

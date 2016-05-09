@@ -3,6 +3,7 @@ package project.team.cmpe277.com.magicrentals1;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -84,6 +85,31 @@ public class TenantSearchDetailFragment extends android.app.Fragment {
         return detailview;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+
+        switch(id){
+            case R.id.favorites:
+                //favourites activity
+                return true;
+            case R.id.createpost:
+                //savani your activity - to create a post
+                return true;
+            case R.id.mypostings:
+                //savani your activity to list the owner's previous posts if exists
+                return true;
+            case R.id.save_search:
+                //api call
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
 
     public class GetDetailAPI extends AsyncTask<Object, Void, GridImageDetailItem> {
@@ -106,20 +132,20 @@ public class TenantSearchDetailFragment extends android.app.Fragment {
         @Override
         protected void onPostExecute(GridImageDetailItem gridImageDetailItem) {
             //set all the display text
-            streetValue.setText("190 Ryland Street");
-            cityValue.setText("San Jose");
-            zipcodeValue.setText("95110");
-            stateValue.setText("California");
-            proptypeValue.setText("Condo");
-            numRoomsValue.setText("2");
-            numBathsValue.setText("2");
-            sqFeetValue.setText("1200");
-            montlyRentValue.setText("$3200");
-            descriptionValue.setText("Its a spacious apartment");
-            depositValue.setText("$800");
-            leaseTypeValue.setText("12 months lease");
-            contactNumberValue.setText("4088568501");
-            contactEmailValue.setText("rekha@gmail.com");
+            streetValue.setText(gridImageDetailItem.getStreetAddr());
+            cityValue.setText(gridImageDetailItem.getCityAddr());
+            zipcodeValue.setText(gridImageDetailItem.getZipCode());
+            stateValue.setText(gridImageDetailItem.getStateAddr());
+            proptypeValue.setText(gridImageDetailItem.getPropertyType());
+            numRoomsValue.setText(gridImageDetailItem.getNoOfRooms());
+            numBathsValue.setText(gridImageDetailItem.getNoOfBaths());
+            sqFeetValue.setText(gridImageDetailItem.getSqFoot());
+            montlyRentValue.setText(gridImageDetailItem.getRent());
+            descriptionValue.setText(gridImageDetailItem.getDescription());
+            depositValue.setText(gridImageDetailItem.getDeposit());
+            leaseTypeValue.setText(gridImageDetailItem.getLeaseType());
+            contactNumberValue.setText(gridImageDetailItem.getContact());
+            contactEmailValue.setText(gridImageDetailItem.getEmail());
 
             int drawableId = getResources().getIdentifier("magicrentals1", "drawable", "project.team.cmpe277.com.magicrentals");
             iconImage.setBackgroundResource(drawableId);
