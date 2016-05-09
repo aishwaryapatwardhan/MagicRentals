@@ -35,29 +35,32 @@ public class PropertiesResultLab {
         return  sPropertiesResultLab;
     }
 
-    public  void rented(ArrayList<Integer> al){
+    public  boolean rented(ArrayList<Integer> al){
         //call service..
 
         System.out.println("Rented......   "+sPropertiesResultLab.mPropertyList.get(1).nickname);
         HashMap<String, String> hm= new HashMap<>();
         hm.put("userid", sPropertiesResultLab.mPropertyList.get(al.get(0)).getUser_id());
         hm.put("id",sPropertiesResultLab.mPropertyList.get(al.get(0)).getKey());
+        hm.put("Status","Rented");
         String url = "http://54.153.2.150:3000/updateStatus";
         new MultipartUtilityAsyncTask(hm, null).execute(url);
-
-
-
-
-
-
+        Boolean b = true;
+        return b;
 
       //  System.out.println("del......"+al.get(0)+"... row ...." +sPropertiesResultLab.mPropertyList.remove(1));
         //sPropertiesResultLab.mPropertyList.get(1);
-
-
     }
 
-    public void cancel(ArrayList<Integer> al){
+    public boolean cancel(ArrayList<Integer> al){
+        HashMap<String, String> hm= new HashMap<>();
+        hm.put("userid", sPropertiesResultLab.mPropertyList.get(al.get(0)).getUser_id());
+        hm.put("id",sPropertiesResultLab.mPropertyList.get(al.get(0)).getKey());
+        hm.put("Status","Cancelled");
+        String url = "http://54.153.2.150:3000/updateStatus";
+        new MultipartUtilityAsyncTask(hm, null).execute(url);
+        Boolean b = true;
+        return b;
 
     }
 
