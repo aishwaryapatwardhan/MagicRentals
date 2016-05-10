@@ -96,10 +96,6 @@ public class PropertyDetailFragment extends Fragment {
             roomsV.setText(mProperty.getRoom());
             bathsV.setText(mProperty.getBath());
             descV.setText(mProperty.getDescription());
-
-
-
-
         }
 
 

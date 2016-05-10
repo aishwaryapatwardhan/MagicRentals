@@ -55,11 +55,6 @@ public class PropertyListLandlordFragment extends ListFragment {
 
     static ThumbnailDownloader<ImageView> mThumbnailThread;
 
-
-
-
-
-
     public PropertyListLandlordFragment() {
 
     }
@@ -208,10 +203,8 @@ public class PropertyListLandlordFragment extends ListFragment {
                         builder.create();
                         builder.show();
                         if (rentedOk) {
-                            Boolean b = resultsLab.rented(selected_line_al);
+                            Boolean b = resultsLab.rented(selected_line_al, listView.getContext());
                         }
-
-
 
                         //   mAdapter.notifyDatasetChanged();
                         break;
@@ -254,7 +247,7 @@ public class PropertyListLandlordFragment extends ListFragment {
                         buildercan.create();
                         buildercan.show();
                         if (cancelOk) {
-                            Boolean b = resultsLab.cancel(selected_line_al);
+                            Boolean b = resultsLab.cancel(selected_line_al, listView.getContext());
                         }
                         break;
 

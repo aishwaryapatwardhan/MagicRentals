@@ -1,6 +1,7 @@
 package project.team.cmpe277.com.magicrentals1.landlord;
 
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -27,6 +28,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 
+import org.json.JSONObject;
+
 import project.team.cmpe277.com.magicrentals1.R;
 
 
@@ -40,15 +43,16 @@ import project.team.cmpe277.com.magicrentals1.R;
 import project.team.cmpe277.com.magicrentals1.landlord.PropertyModel;
 import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
 import project.team.cmpe277.com.magicrentals1.utility.PopUp;
+import project.team.cmpe277.com.magicrentals1.utility.TaskCompletedStatus;
 
 
 /**
  * Created by savani on 5/4/16.
  */
-public class UploadPropertyDataActivity extends AppCompatActivity {
+public class UploadPropertyDataActivity extends AppCompatActivity implements TaskCompletedStatus{
     static String userid;
     private static final String ERROR = "Please fill required entries";
-    private static final String REQUIRED = "required";
+    private static final String REQUIRED = "Required";
     Button btnSubmit;
     // FloatingActionButton btnSubmit;
     PropertyModel property;
@@ -198,10 +202,11 @@ public class UploadPropertyDataActivity extends AppCompatActivity {
                 if(isValid){
                    HashMap<String, String> hm = LandlordUtils.serialize(property);
                    // HashMap<String, File> file = new HashMap<String, File>();
-                    String url = "http://54.153.2.150:3000/addPostings";
+                   // String url = "http://54.153.2.150:3000/addPostings";
+                    String url = "http://192.168.1.173:3000/addPostings";
                    // System.out.println("isndie jdjjj url ");
 
-                    new MultipartUtilityAsyncTask(hm, null).execute(url);
+                    new MultipartUtilityAsyncTask(UploadPropertyDataActivity.this, hm, null).execute(url);
 //call service
                     Toast.makeText(UploadPropertyDataActivity.this, "Fine" , Toast.LENGTH_LONG).show();
                 }else
@@ -362,6 +367,11 @@ public class UploadPropertyDataActivity extends AppCompatActivity {
         uploadPicFromGallery.setType("image/*");
         uploadPicFromGallery.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(uploadPicFromGallery,"Upload Picture"),3);
+    }
+
+    public void onTaskCompleted(JSONObject jsonObject){
+        //
+        Log.i(TAG, "Response---- "+jsonObject );
     }
 
 

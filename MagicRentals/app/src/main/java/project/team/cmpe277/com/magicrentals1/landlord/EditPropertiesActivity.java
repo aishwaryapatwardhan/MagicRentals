@@ -3,6 +3,7 @@ package project.team.cmpe277.com.magicrentals1.landlord;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,16 +11,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import project.team.cmpe277.com.magicrentals1.R;
 import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
+import project.team.cmpe277.com.magicrentals1.utility.TaskCompletedStatus;
 
 /**
  * Created by savani on 5/5/16.
  */
-public class EditPropertiesActivity extends AppCompatActivity {
+public class EditPropertiesActivity extends AppCompatActivity implements TaskCompletedStatus {
 
     private static final String ERROR = "Please fill required entries";
     private static final String REQUIRED = "required";
@@ -34,6 +38,7 @@ public class EditPropertiesActivity extends AppCompatActivity {
     Spinner SpinPropertyType, bath, rooms;
     Button btnSubmit;
     String userid;
+   private static final String TAG = "EditPropertiesActivity";
 
 
     @Override
@@ -134,7 +139,7 @@ public class EditPropertiesActivity extends AppCompatActivity {
 
                 // HashMap<String, File> file = new HashMap<String, File>();
                 String url = "http://54.153.2.150:3000/updatePostings";
-                new MultipartUtilityAsyncTask(hm, null).execute(url);
+                new MultipartUtilityAsyncTask(getApplicationContext(),hm, null).execute(url);
 
                 PropertiesResultLab.getPropertiesResultLabNew(getApplicationContext());
                 Intent i = new Intent(getApplicationContext(), PropertiesListLandlordActivity.class);
@@ -161,5 +166,11 @@ public class EditPropertiesActivity extends AppCompatActivity {
             etext.setError(REQUIRED);
         }
 
+    }
+
+
+    public void onTaskCompleted(JSONObject jsonObject){
+        //
+        Log.i(TAG, "Response---- "+jsonObject );
     }
 }

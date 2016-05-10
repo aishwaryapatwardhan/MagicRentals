@@ -3,6 +3,8 @@ package project.team.cmpe277.com.magicrentals1.landlord;
 import android.content.Context;
 import android.util.Log;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.ResponseCache;
@@ -14,14 +16,16 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
+import project.team.cmpe277.com.magicrentals1.utility.TaskCompletedStatus;
 
 /**
  * Created by savani on 4/26/16.
  */
-public class PropertiesResultLab {
+public class PropertiesResultLab implements TaskCompletedStatus{
     private ArrayList<PropertyModel> mPropertyList;
     private static PropertiesResultLab sPropertiesResultLab;
     private Context mAppContext;
+    private static final String TAG = "LandlordPropertLab";
 
     private PropertiesResultLab(Context appContext){
         mAppContext = appContext;
@@ -43,16 +47,17 @@ public class PropertiesResultLab {
         return  sPropertiesResultLab;
     }
 
-    public  boolean rented(ArrayList<Integer> al){
+    public  boolean rented(ArrayList<Integer> al, Context context){
         //call service..
 
         System.out.println("Rented......   "+sPropertiesResultLab.mPropertyList.get(1).nickname);
         HashMap<String, String> hm= new HashMap<>();
-        hm.put("userid", sPropertiesResultLab.mPropertyList.get(al.get(0)).getUser_id());
+        hm.put("userid", mPropertyList.get(al.get(0)).getUser_id());
         hm.put("id",sPropertiesResultLab.mPropertyList.get(al.get(0)).getKey());
         hm.put("Status","Rented");
-        String url = "http://54.153.2.150:3000/updateStatus";
-        new MultipartUtilityAsyncTask(hm, null).execute(url);
+       // String url = "http://54.153.2.150:3000/updateStatus";
+        String url = "http://localhost:3000/updateStatus";
+        new MultipartUtilityAsyncTask(context, hm, null).execute(url);
         Boolean b = true;
         return b;
 
@@ -60,14 +65,22 @@ public class PropertiesResultLab {
         //sPropertiesResultLab.mPropertyList.get(1);
     }
 
-    public boolean cancel(ArrayList<Integer> al){
+    public boolean cancel(ArrayList<Integer> al, Context context){
         HashMap<String, String> hm= new HashMap<>();
         hm.put("userid", sPropertiesResultLab.mPropertyList.get(al.get(0)).getUser_id());
         hm.put("id",sPropertiesResultLab.mPropertyList.get(al.get(0)).getKey());
         hm.put("Status","Cancelled");
-        String url = "http://54.153.2.150:3000/updateStatus";
-        new MultipartUtilityAsyncTask(hm, null).execute(url);
+       // String url = "http://54.153.2.150:3000/updateStatus";
+        String url = "http://192.168.1.173:3000/updateStatus";
+       // new MultipartUtilityAsyncTask(hm, null).execute(url);
+        new MultipartUtilityAsyncTask(context, hm, null).execute(url);
         Boolean b = true;
+        int a = al.get(0);
+        System.out.println("array list length... "+al.size()+ "arrray value ...  "+al.get(0));
+        Log.i(TAG, "value of index --- "+a);
+        PropertyModel pm = sPropertiesResultLab.mPropertyList.remove(a);
+        Log.i(TAG, "value of deleted .... "+pm.getNickname());
+
         return b;
 
     }
@@ -77,14 +90,17 @@ public class PropertiesResultLab {
     }
 
     private ArrayList<PropertyModel> retrieveProperties(){
-//
+
 //        HttpURLConnection httpConn;
-//        String str = "http://54.153.2.150:3000/getPostsByUser?userid="+"savani";
+//       // String str = "http://54.153.2.150:3000/getPostsByUser?userid="+"savani";
+        String str = "http://192.168.1.173:3000/getPostsByUser?userid="+"savani";
 //        try {
 //            URL url = new URL(str);
 //            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 //            conn.setRequestMethod("GET");
 //            int response  = conn.getResponseCode();
+//            Log.i(TAG, "connection to api");
+//            System.out.println("connected  "+response);
 //          //  conn.setRequestProperty("User-Agent", USER_AGENT));
 //
 //        } catch (MalformedURLException e) {
@@ -151,6 +167,10 @@ public class PropertiesResultLab {
         return tempPropertyList;
 
 
+    }
+    public void onTaskCompleted(JSONObject jsonObject){
+        //
+        Log.i(TAG, "Response---- "+jsonObject );
     }
 
 }
