@@ -3,7 +3,9 @@ package project.team.cmpe277.com.magicrentals1.landlord;
 import android.annotation.TargetApi;
 //import android.app.ListFragment;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Handler;
@@ -48,6 +50,8 @@ public class PropertyListLandlordFragment extends ListFragment {
     String userid;
     Activity activity;
     public Callbacks mCallbacks;
+    private Boolean rentedOk = false;
+    private Boolean cancelOk = false;
 
     static ThumbnailDownloader<ImageView> mThumbnailThread;
 
@@ -185,9 +189,31 @@ public class PropertyListLandlordFragment extends ListFragment {
                 switch (item.getItemId()) {
                     case R.id.rentedM:
                         System.out.println("inside rented.......");
-                        resultsLab.rented(selected_line_al);
 
-                     //   mAdapter.notifyDatasetChanged();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(listView.getContext());
+                        builder.setMessage(R.string.alertrented)
+                                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                       //
+                                        rentedOk = true;
+                                    }
+                                })
+                                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                       // finish();
+                                        rentedOk = false;
+                                    }
+                                });
+                        builder.setCancelable(true);
+                        builder.create();
+                        builder.show();
+                        if (rentedOk) {
+                            Boolean b = resultsLab.rented(selected_line_al);
+                        }
+
+
+
+                        //   mAdapter.notifyDatasetChanged();
                         break;
                     case R.id.editM:
                         Bundle bundle = new Bundle();
@@ -209,7 +235,27 @@ public class PropertyListLandlordFragment extends ListFragment {
 //                        getActivity().getSupportFragmentManager().beginTransaction().
 //                                replace(R.id.fragmentContainer, fragment).commit();
                     case R.id.cancelM:
-                        resultsLab.cancel(selected_line_al);
+                        //resultsLab.cancel(selected_line_al);
+                        AlertDialog.Builder buildercan = new AlertDialog.Builder(listView.getContext());
+                        buildercan.setMessage(R.string.alertcancel)
+                                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        //
+                                        cancelOk = true;
+                                    }
+                                })
+                                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        // finish();
+                                        cancelOk = false;
+                                    }
+                                });
+                        buildercan.setCancelable(true);
+                        buildercan.create();
+                        buildercan.show();
+                        if (cancelOk) {
+                            Boolean b = resultsLab.cancel(selected_line_al);
+                        }
                         break;
 
                 }

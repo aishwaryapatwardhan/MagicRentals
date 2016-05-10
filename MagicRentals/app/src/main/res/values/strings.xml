@@ -62,6 +62,10 @@
     <string name="rentedproperty">Rented</string>
     <string name="cancelproperty">Cancel</string>
     <string name="required">Required</string>
+    <string name="alertrented"> Property will be set as rented</string>
+    <string name="alertcancel">Property will be cancelled</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
     <string-array name="property_type">
         <item>Apartment</item>
         <item>Condo</item>
