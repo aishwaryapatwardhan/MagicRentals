@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,23 +31,29 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleCursorAdapter;
 
+import org.json.JSONObject;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import project.team.cmpe277.com.magicrentals1.R;
+import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
+import project.team.cmpe277.com.magicrentals1.utility.TaskCompletedStatus;
 import project.team.cmpe277.com.magicrentals1.utility.ThumbnailDownloader;
 
 /**
  * Created by savani on 4/26/16.
  */
-public class PropertyListLandlordFragment extends ListFragment {
+public class PropertyListLandlordFragment extends ListFragment  {
     private static final String TAG = "PropertyListLandlordFragment";
     // PropertyListAdapter adapter ;
-    SimpleCursorAdapter mAdapter;
+   // SimpleCursorAdapter mAdapter;
     ProgressBar progress;
     ListView listView;
     ArrayList<PropertyModel> mPropertyList;
     PropertiesResultLab mPropertyResultLab;
+    PropertyListAdapter mAdapter;
     String userid;
     Activity activity;
     public Callbacks mCallbacks;
@@ -130,24 +137,39 @@ public class PropertyListLandlordFragment extends ListFragment {
         super.onActivityCreated(savedInstanceState);
         mPropertyResultLab = PropertiesResultLab.getPropertiesResultLab(getContext());
 //
+
+
+//        HashMap<String, String> hm= new HashMap<>();
+//        hm.put("user_id","savani");
+////
+//        String url = "http://192.168.1.173:3000/getPostsByUser";
+//        //    new MultipartUtilityAsyncTask(hm, null).execute(url);
+//        new MultipartUtilityAsyncTask(this.getContext(), hm, null).execute(url);
+        listView = getListView();
+        new PropertiesListAsyncTask("savani",this, listView).execute("savani");
         mPropertyList = mPropertyResultLab.getPropertyList();
 
+       // mAdapter = PropertyListAdapter(this.getActivity(), R.layout.landlord_property_row, mPropertyList);
 
-        PropertyListAdapter mPropertyListAdapter = new PropertyListAdapter
-                (activity, R.layout.landlord_property_row, mPropertyList);
-        setListAdapter(mPropertyListAdapter);
-        //  listView = (findViewById(R.id.la);
-        listView = getListView();
+//        PropertyListAdapter mPropertyListAdapter = new PropertyListAdapter
+//                (activity, R.layout.landlord_property_row, mPropertyList);
+//        setListAdapter(mPropertyListAdapter);
+//        //  listView = (findViewById(R.id.la);
+
        // listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
        // listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+            ArrayList<Integer> selected_line_al = new ArrayList<>();
             @Override
             public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
-                System.out.println("Selected item .... " + position);
-
-
+                System.out.println("Selected item .... " + position+"id  .. "+id);
+                if(checked){
+                  selected_line_al.add((int)id);
+                }else{
+                    selected_line_al.remove((int)id);
+                }
             }
 
             @Override
@@ -166,21 +188,23 @@ public class PropertyListLandlordFragment extends ListFragment {
 
             @Override
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-                ArrayList<Integer> selected_line_al = new ArrayList<>();
-                PropertyListAdapter pla = (PropertyListAdapter) getListAdapter();
+
+               // PropertyListAdapter pla = (PropertyListAdapter) getListAdapter();;
+               // PropertyListAdapter pla = ListView
+
                 PropertiesResultLab resultsLab = PropertiesResultLab.
                         getPropertiesResultLab(getActivity());
-                System.out.println("data.........   " + resultsLab);
-                for (int i = pla.getCount() - 1; i >= 0; i--) {
-                    System.out.print("In chk..");
-                    if (getListView().isItemChecked(i)) {
-                        selected_line_al.add(i);
-
-                        System.out.println("selected line-------- " + resultsLab.getPropertyList().get(i).getNickname());
-
-
-                    }
-                }
+                System.out.println("data.........   " + resultsLab );
+//                for (int i = pla.getCount() - 1; i >= 0; i--) {
+//                    System.out.print("In chk..");
+//                    if (getListView().isItemChecked(i)) {
+//                        selected_line_al.add(i);
+//
+//                        System.out.println("selected line-------- " + resultsLab.getPropertyList().get(i).getNickname());
+//
+//
+//                    }
+//                }
                 switch (item.getItemId()) {
                     case R.id.rentedM:
                         System.out.println("inside rented.......");
@@ -325,6 +349,72 @@ public class PropertyListLandlordFragment extends ListFragment {
         super.onDetach();
         mCallbacks = null;
     }
+   public void get( ArrayList<PropertyModel>  props){
+        mPropertyList = props;
+    }
+
+//    public void onTaskCompleted(JSONObject jsonObject){
+//        //
+//        //Log.i(TAG, "Response---- "+jsonObject );
+//        System.out.println("Response......"+jsonObject);
+//        ArrayList<PropertyModel> tempPropertyList;
+//        PropertyModel p = new PropertyModel();
+//        p.setKey("001");
+//        p.setNickname("First House");
+//        p.setStreet("2u28 duu");
+//        p.setCity("San Jose");
+//        p.setState("CA");
+//        p.setZip("83993");
+//        p.setView_count("10");
+//        p.setProperty_type("Villa");
+//        p.setBath("2");
+//        p.setView_count("123");
+//        p.setRent("12333");
+//        p.setArea("2222");
+//        p.setBath("2");
+//        p.setRoom("3");
+//        p.setDescription("sjsjsjs ejej");
+//        tempPropertyList = new ArrayList<>();
+//        mPropertyList.add(p);
+//        PropertyModel p1 = new PropertyModel();
+//        p1.setKey("002");
+//        p1.setNickname("Sec House");
+//        p1.setStreet("2u2jj8 duu");
+//        p1.setCity("San Joskke");
+//        p1.setState("CAjj");
+//        p1.setZip("8j993");
+//        p1.setView_count("39");
+//        p1.setView_count("100");
+//        p1.setRent("12333");
+//        p1.setArea("2222");
+//        p1.setBath("2");
+//        p1.setRoom("3");
+//        p1.setDescription("hi jjfjf lfo");
+//        // tempPropertyList = new ArrayList<>();
+//        mPropertyList.add(p1);
+//
+//        PropertyModel p3 = new PropertyModel();
+//        p3.setKey("003");
+//        p3.setNickname("Third House");
+//        p3.setStreet("2u2jejjjjj8 duu");
+//        p3.setCity("Seeean Joskke");
+//        p3.setState("C ejAjj");
+//        p3.setZip("82kkj993");
+//        p3.setView_count("334");
+//        p3.setView_count("144");
+//        p3.setRent("12333");
+//        p3.setArea("2222");
+//        p3.setBath("2");
+//        p3.setRoom("3");
+//        p3.setDescription("sjkkks dfj heii oo");
+//        // tempPropertyList = new ArrayList<>();
+//        mPropertyList.add(p3);
+//
+//      //  mPropertyList = tempPropertyList;
+//        //return tempPropertyList;
+//
+//    }
+
 
 }
 

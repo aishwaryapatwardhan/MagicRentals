@@ -204,9 +204,12 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
                    // HashMap<String, File> file = new HashMap<String, File>();
                    // String url = "http://54.153.2.150:3000/addPostings";
                     String url = "http://192.168.1.173:3000/addPostings";
+                  //  String url = "http://10.0.2.2:3000/addPostings";
                    // System.out.println("isndie jdjjj url ");
 
                     new MultipartUtilityAsyncTask(UploadPropertyDataActivity.this, hm, null).execute(url);
+
+
 //call service
                     Toast.makeText(UploadPropertyDataActivity.this, "Fine" , Toast.LENGTH_LONG).show();
                 }else

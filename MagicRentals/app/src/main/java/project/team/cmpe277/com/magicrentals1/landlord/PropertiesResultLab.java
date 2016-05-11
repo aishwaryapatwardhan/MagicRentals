@@ -5,7 +5,9 @@ import android.util.Log;
 
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.ResponseCache;
 import java.util.ArrayList;
@@ -31,7 +33,7 @@ public class PropertiesResultLab implements TaskCompletedStatus{
         mAppContext = appContext;
         mPropertyList = new ArrayList<>();
 
-        mPropertyList = retrieveProperties();
+       // mPropertyList = retrieveProperties();
 
     }
 
@@ -52,22 +54,21 @@ public class PropertiesResultLab implements TaskCompletedStatus{
 
         System.out.println("Rented......   "+sPropertiesResultLab.mPropertyList.get(1).nickname);
         HashMap<String, String> hm= new HashMap<>();
-        hm.put("userid", mPropertyList.get(al.get(0)).getUser_id());
-        hm.put("id",sPropertiesResultLab.mPropertyList.get(al.get(0)).getKey());
+       // hm.put("user_id", mPropertyList.get(al.get(0)).getUser_id());
+        hm.put("user_id", "savaniffwffyyfggq12345");
+       // hm.put("id",sPropertiesResultLab.mPropertyList.get(al.get(0)).getKey());
         hm.put("Status","Rented");
        // String url = "http://54.153.2.150:3000/updateStatus";
-        String url = "http://localhost:3000/updateStatus";
+        String url = "http://192.168.1.173:3000/updateStatus";
         new MultipartUtilityAsyncTask(context, hm, null).execute(url);
         Boolean b = true;
         return b;
 
-      //  System.out.println("del......"+al.get(0)+"... row ...." +sPropertiesResultLab.mPropertyList.remove(1));
-        //sPropertiesResultLab.mPropertyList.get(1);
     }
 
     public boolean cancel(ArrayList<Integer> al, Context context){
         HashMap<String, String> hm= new HashMap<>();
-        hm.put("userid", sPropertiesResultLab.mPropertyList.get(al.get(0)).getUser_id());
+        hm.put("user_id", sPropertiesResultLab.mPropertyList.get(al.get(0)).getUser_id());
         hm.put("id",sPropertiesResultLab.mPropertyList.get(al.get(0)).getKey());
         hm.put("Status","Cancelled");
        // String url = "http://54.153.2.150:3000/updateStatus";
@@ -91,13 +92,14 @@ public class PropertiesResultLab implements TaskCompletedStatus{
 
     private ArrayList<PropertyModel> retrieveProperties(){
 
-//        HttpURLConnection httpConn;
-//       // String str = "http://54.153.2.150:3000/getPostsByUser?userid="+"savani";
-        String str = "http://192.168.1.173:3000/getPostsByUser?userid="+"savani";
+     //   new PropertiesListAsyncTask("savani").execute("savani");
+
+
 //        try {
 //            URL url = new URL(str);
 //            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 //            conn.setRequestMethod("GET");
+//            //conn.getC
 //            int response  = conn.getResponseCode();
 //            Log.i(TAG, "connection to api");
 //            System.out.println("connected  "+response);
@@ -109,6 +111,12 @@ public class PropertiesResultLab implements TaskCompletedStatus{
 //            e.printStackTrace();
 //        }
         //String requestUrl = ;
+        HashMap<String, String> hm= new HashMap<>();
+        hm.put("user_id","savani");
+//
+        String url = "http://192.168.1.173:3000/updateStatus";
+     //    new MultipartUtilityAsyncTask(hm, null).execute(url);
+        new MultipartUtilityAsyncTask(mAppContext, hm, null).execute(url);
 
          ArrayList<PropertyModel> tempPropertyList;
         PropertyModel p = new PropertyModel();
