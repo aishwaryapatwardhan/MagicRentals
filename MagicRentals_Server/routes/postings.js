@@ -723,11 +723,12 @@ exports.getAllFav = function(req, res){
 	       return;
 	     }
 	     
-	     var uid = req.param('uid');
+//	     var uid = req.param('uid');
 		
-//	     var uid = fields.uid; 
-	     
-	     console.log('uid '+uid)
+	     var uid = fields.uid; 
+	     uid = uid.replace(/(\r\n|\n|\r)/gm,"");
+	     console.log('uid '+uid);
+	     console.log(uid);
 
 		 mongo.connect(function(err, db){
 				
