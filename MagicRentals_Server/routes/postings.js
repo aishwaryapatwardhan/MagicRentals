@@ -138,7 +138,7 @@ exports.getAllPosts = function(req, res){
 	console.log("In get postings API");
 	var result = {};
 	
-	//var user_id = req.param('user_id');
+	var user_id = req.param('user_id');
 	var form = new formidable.IncomingForm();
 	
 	form.parse(req, function(err, fields, files) {
@@ -148,7 +148,7 @@ exports.getAllPosts = function(req, res){
 	       return;
 	     }
 	     
-	     var user_id = fields.user_id; 
+	     //var user_id = fields.user_id; 
 	     
 	     mongo.connect(function(err, db){
 			
@@ -616,6 +616,7 @@ exports.addFav = function(req, res){
 //	     var uid = fields.uid; 
 //	     var ids = refields.ids; 
 
+		 console.log(uid + " " + ids);
 		 mongo.connect(function(err, db){
 				
 				if(err){
@@ -625,24 +626,23 @@ exports.addFav = function(req, res){
 					res.json(result);
 				}else{
 					
-					var favcol = mongo.collection('favorites');
+					var favcol = mongo.collection('users');
 					
 					favcol.update(
 							   { "uid" : uid },
 							   { $push: { "ids" : ids } },
-							   true,
-							   true,
 							   function(err, docs){
 								   if(docs){		
 					 					result.data = docs;
 					 					result.code = 200; 
 					 					result.status = "Successful";
+					 					res.json(result);
 					 					
 					 				}else{						
 					 					 result.code = 208;
 					 					 result.status = "Unable to get data";
+					 					 res.json(result);
 					 				}							
-					 				res.json(result);
 							   }
 							);
 				}
@@ -680,24 +680,24 @@ exports.removeFav = function(req, res){
 					res.json(result);
 				}else{
 					
-					var favcol = mongo.collection('favorites');
+					var favcol = mongo.collection('users');
 					
 					favcol.update(
 							   { "uid" : uid },
 							   { $pull: { "ids" : ids } },
-							   true,
-							   true,
 							   function(err, docs){
 								   if(docs){		
 					 					result.data = docs;
 					 					result.code = 200; 
 					 					result.status = "Successful";
+					 					res.json(result);
 					 					
 					 				}else{						
 					 					 result.code = 208;
 					 					 result.status = "Unable to get data";
+					 					 res.json(result);
 					 				}							
-					 				res.json(result);
+					 				
 							   }
 							);
 				}
@@ -723,6 +723,8 @@ exports.getAllFav = function(req, res){
 	     var uid = req.param('uid');
 		
 //	     var uid = fields.uid; 
+	     
+	     console.log('uid '+uid)
 
 		 mongo.connect(function(err, db){
 				
@@ -733,21 +735,41 @@ exports.getAllFav = function(req, res){
 					res.json(result);
 				}else{
 					
-					var favcol = mongo.collection('favorites');
+					var favcol = mongo.collection('users');
 					
-					favcol.find(
-							{ "uid" : uid }
-					).toArray(function(err, docs){
-						if(docs){		
-		 					result.data = docs;
-		 					result.code = 200; 
-		 					result.status = "Successful";		
-		 				}else{						
-		 					 result.code = 208;
-		 					 result.status = "Unable to get data";
-		 				}							
-		 				res.json(result);
-					});
+					favcol.findOne(
+							{ "uid" : uid },{"_id" : 0 , "ids" : 1 },
+							function(err, docs){
+
+								if(docs){	
+									console.log(docs);
+									const myfav = docs["ids"];
+									console.log(myfav);
+									var postcol = mongo.collection('rental_posting');
+									postcol.find(
+											{ "_id" : { $in : myfav}}
+									).toArray(function(err, result11) {
+										if(err){
+											result.code = 208;
+						 					result.status = "Unable to get data";
+						 					res.json(result);
+										}else{
+											result.data = result11;
+						 					result.code = 200; 
+						 					result.status = "Successful";	
+						 					res.json(result);
+										}
+									});
+				 						
+				 				}else{						
+				 					 result.code = 208;
+				 					 result.status = "Unable to get data";
+				 					res.json(result);
+				 				}							
+				 				
+							
+							}
+					);
 				}
 		 });
 	});
