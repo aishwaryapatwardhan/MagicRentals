@@ -186,7 +186,7 @@ exports.addPost = function(req, res){
 									mailer.sendMail(mailOptions, function(error, success) {
 										console.log('Mail sent');
 									});
-								 })
+								 });
 								 
 								 result.code = 200; 
 								 result.status = "Successfully inserted";
@@ -208,6 +208,7 @@ exports.getAllPosts = function(req, res){
 	var result = {};
 	
 	var user_id = req.param('user_id');
+	
 	var form = new formidable.IncomingForm();
 	
 	form.parse(req, function(err, fields, files) {
@@ -218,6 +219,13 @@ exports.getAllPosts = function(req, res){
 	     }
 	     
 	     //var user_id = fields.user_id; 
+	     
+	     if(user_id === null){
+	    	 console.log("User_Id null");
+				result.code = 210;
+				result.status = "User_Id null";
+				res.json(result);
+	     }
 	     
 	     mongo.connect(function(err, db){
 			
@@ -258,6 +266,7 @@ exports.updatePost = function(req, res){
 		
 		var result = {};
 		var form = new formidable.IncomingForm();
+		var mailOptions={};
 		
 		form.parse(req, function(err, fields, files) {
 		     if(err){
@@ -286,7 +295,9 @@ exports.updatePost = function(req, res){
 		 	var other_details = req.param(fields.other_details);
 		 	var Status = req.param(fields.Status);
 		 	var view_count = Number(req.param(fields.view_count));
-		 	
+		 	var nickName = fields.nickName;
+		     
+//		 	var nickName = req.param('nickName');
 //		 	var id = req.param('id');
 //			var user_id = req.param('user_id');
 //			var Street = req.param('Street');
@@ -306,6 +317,60 @@ exports.updatePost = function(req, res){
 //			var Status = req.param('Status');
 //			var view_count = Number(req.param('view_count'));
 			
+		 	if(nickName === null){
+				nickName = " ";
+			}
+			if(user_id === null){
+				user_id = " ";
+			}
+			if(Street === null){
+				Street = " ";
+			}
+			if(City === null){
+				City = " ";
+			}
+			if(State === null){
+				State = " ";
+			}
+			if(Zip === null){
+				Zip = " ";
+			}
+			if(property_type === null){
+				property_type = " ";
+			}
+			if(isNaN(bath)){
+				bath = 0;
+			}
+			if(isNaN(room)){
+				room = 0;
+			}
+			if(isNaN(area)){
+				area = 0;
+			}
+			if(isNaN(rent)){
+				rent = 0;
+			}
+			if(email === null){
+				email = "raghuisguru1@gmail.com";
+			}
+			if(Mobile === null){
+				Mobile = " ";
+			}
+			if(description === null){
+				description = " ";
+			}
+			if(Images === null){
+				Images = "https://upload.wikimedia.org/wikipedia/commons/1/1e/Stonehenge.jpg";
+			}
+			if(other_details === null){
+				other_details = " ";
+			}
+			if(Status === null){
+				Status = "Active";
+			}
+			if(isNaN(view_count)){
+				view_count = 0;
+			}
 			
 			mongo.connect(function(err, db){
 				
@@ -353,25 +418,28 @@ exports.updatePost = function(req, res){
 									"view_count" : view_count
 								}
 							},   function(err, docs) {
-							
-								 if(err){
-									 result.code = 208;
-									 result.status = "Unable to update to mongo";
-								 }else{
-									 mailer.sendMail(function(error, success) {
-										 result.code = 200; 
-										 result.status = "Successfully updated";
-										 result.data = docs;
-									 });
-								 }	
-								 res.json(result);
-							 }
-					);			
-				}	
-			});	
-		 	
-		 	
-		 	
+								 	if(err){
+								 		result.code = 208;
+								 		result.status = "Unable to update to mongo";
+								 	}else{
+								 		utils.notify(id,1,function(){
+											console.log('notification triggered.');
+											mailOptions.from = "magicrentals11@gmail.com";
+											mailOptions.to = email;
+											mailOptions.subject = "<no reply> New rental detils posted successful";
+											mailOptions.text = "mail from magicrentals.. test mail";
+											mailOptions.html = "Dear Customer, <br><br>Your add posted scuuesfully. <br><br>Thank you<br>MagicRentals Team";
+											mailer.sendMail(mailOptions, function(error, success) {
+												console.log('Mail sent');
+											});
+								 		});
+										result.code = 200; 
+										result.status = "Successfully inserted";
+										res.json(result);
+									 }
+							});
+				}
+			});
 		});
 };
 
@@ -393,8 +461,13 @@ exports.updateStatus = function(req, res){
 //			var Status = req.param('Status');
 		
      	var id = fields.user_id; 
-     	var Status = refields.Status; 
+     	var Status = fields.Status; 
      
+     	if(id === null || Status === null){
+     		result.code = 210;
+			result.status = "Data is empty";
+			res.json(result);
+     	}
 		mongo.connect(function(err, db){
 			
 			if(err){
@@ -438,7 +511,7 @@ exports.updateStatus = function(req, res){
 exports.updateViewCount = function(req, res){
 		
 	console.log("This is a UpdatePost's view count API call");
-	
+	var form = new formidable.IncomingForm();
 	var result = {};
 	
 	form.parse(req, function(err, fields, files) {
@@ -454,8 +527,13 @@ exports.updateViewCount = function(req, res){
 	     var id = fields.id;
 	     var view_count = fields.view_count;
 	 	
+	     if(id === null || view_count === null){
+	    	 result.code = 210;
+	 		 result.status = "input data is empty";
+	 		 res.json(result);
+	     }
+	     
 	 	 mongo.connect(function(err, db){
-	 		
 	 		if(err){
 	 			console.log("Unable to connect to mongo");
 	 			result.code = 209;
@@ -555,7 +633,7 @@ exports.searchPosts = function(req, res){
 //	 	}
 //	 	console.log('max_rent - '+ max_rent);
 	 	
-	     var saveSearch = Boolean(req.param('saveSearch'));
+	    var saveSearch = Boolean(req.param('saveSearch'));
 	 	var rate = Number(req.param('rate'));
 	 	var user_id = req.param('user_id');
 	 	
@@ -596,6 +674,12 @@ exports.searchPosts = function(req, res){
 	 		max_rent = Number.MAX_VALUE;
 	 	}
 	 	console.log('max_rent - '+ max_rent);
+	 	
+	 	if(user_id === null){
+	 		result.code = 210;
+ 			result.status = "User ID is empty";
+ 			res.json(result);
+	 	}
 	 	
 	 	mongo.connect(function(err, db){
 	 		
@@ -664,183 +748,3 @@ exports.searchPosts = function(req, res){
 	});	
 };
 
-//Add Fav
-exports.addFav = function(req, res){
-	
-	console.log("In search API");
-	var result = {};
-	
-	var form = new formidable.IncomingForm();
-	
-	form.parse(req, function(err, fields, files) {
-	     if(err){
-	       console.log(err);
-	       res.end("sorry, an error occurred");
-	       return;
-	     }
-	     
-	     var uid = req.param('uid');
-		 var ids = req.param('ids');
-		
-//	     var uid = fields.uid; 
-//	     var ids = refields.ids; 
-
-		 console.log(uid + " " + ids);
-		 mongo.connect(function(err, db){
-				
-				if(err){
-					console.log("Unable to connect to mongo");
-					result.code = 209;
-					result.status = "Unable to connect to mongo";
-					res.json(result);
-				}else{
-					
-					var favcol = mongo.collection('users');
-					
-					favcol.update(
-							   { "uid" : uid },
-							   { $push: { "ids" : ids } },
-							   function(err, docs){
-								   if(docs){		
-					 					result.data = docs;
-					 					result.code = 200; 
-					 					result.status = "Successful";
-					 					res.json(result);
-					 					
-					 				}else{						
-					 					 result.code = 208;
-					 					 result.status = "Unable to get data";
-					 					 res.json(result);
-					 				}							
-							   }
-							);
-				}
-		 });
-	});
-};
-
-//Remove Fav
-exports.removeFav = function(req, res){
-	
-	console.log("In Remove Fav API");
-	var result = {};
-	
-	var form = new formidable.IncomingForm();
-	
-	form.parse(req, function(err, fields, files) {
-	     if(err){
-	       console.log(err);
-	       res.end("sorry, an error occurred");
-	       return;
-	     }
-	     
-	     var uid = req.param('uid');
-		 var ids = req.param('ids');
-		
-//	     var uid = fields.uid; 
-//	     var ids = refields.ids; 
-
-		 mongo.connect(function(err, db){
-				
-				if(err){
-					console.log("Unable to connect to mongo");
-					result.code = 209;
-					result.status = "Unable to connect to mongo";
-					res.json(result);
-				}else{
-					
-					var favcol = mongo.collection('users');
-					
-					favcol.update(
-							   { "uid" : uid },
-							   { $pull: { "ids" : ids } },
-							   function(err, docs){
-								   if(docs){		
-					 					result.data = docs;
-					 					result.code = 200; 
-					 					result.status = "Successful";
-					 					res.json(result);
-					 					
-					 				}else{						
-					 					 result.code = 208;
-					 					 result.status = "Unable to get data";
-					 					 res.json(result);
-					 				}							
-					 				
-							   }
-							);
-				}
-		 });
-	});
-};
-
-//getAllFav
-exports.getAllFav = function(req, res){
-	
-	console.log("In getFav API");
-	var result = {};
-	
-	var form = new formidable.IncomingForm();
-	
-	form.parse(req, function(err, fields, files) {
-	     if(err){
-	       console.log(err);
-	       res.end("sorry, an error occurred");
-	       return;
-	     }
-	     
-//	     var uid = req.param('uid');
-		
-	     var uid = fields.uid; 
-	     uid = uid.replace(/(\r\n|\n|\r)/gm,"");
-	     console.log('uid '+uid);
-	     console.log(uid);
-
-		 mongo.connect(function(err, db){
-				
-				if(err){
-					console.log("Unable to connect to mongo");
-					result.code = 209;
-					result.status = "Unable to connect to mongo";
-					res.json(result);
-				}else{
-					
-					var favcol = mongo.collection('users');
-					
-					favcol.findOne(
-							{ "uid" : uid },{"_id" : 0 , "ids" : 1 },
-							function(err, docs){
-
-								if(docs){	
-									console.log(docs);
-									const myfav = docs["ids"];
-									console.log(myfav);
-									var postcol = mongo.collection('rental_posting');
-									postcol.find(
-											{ "_id" : { $in : myfav}}
-									).toArray(function(err, result11) {
-										if(err){
-											result.code = 208;
-						 					result.status = "Unable to get data";
-						 					res.json(result);
-										}else{
-											result.data = result11;
-						 					result.code = 200; 
-						 					result.status = "Successful";	
-						 					res.json(result);
-										}
-									});
-				 						
-				 				}else{						
-				 					 result.code = 208;
-				 					 result.status = "Unable to get data";
-				 					res.json(result);
-				 				}							
-				 				
-							
-							}
-					);
-				}
-		 });
-	});
-};
