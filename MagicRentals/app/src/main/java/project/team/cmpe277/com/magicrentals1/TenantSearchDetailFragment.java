@@ -1,5 +1,7 @@
 package project.team.cmpe277.com.magicrentals1;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -11,10 +13,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.security.Principal;
+import java.util.HashMap;
+
+import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
+import project.team.cmpe277.com.magicrentals1.utility.TaskCompletedStatus;
+
 /**
  * Created by Rekha on 5/1/2016.
  */
-public class TenantSearchDetailFragment extends android.app.Fragment {
+public class TenantSearchDetailFragment extends android.app.Fragment implements TaskCompletedStatus {
+
+
+    //Raghu's Variable
+    private String url;
+
 
     private TextView streetValue;
     private TextView cityValue;
@@ -62,18 +78,14 @@ public class TenantSearchDetailFragment extends android.app.Fragment {
             @Override
             public void onClick(View v) {
                 if (heartflag == false) {
-                    Toast.makeText(getActivity().getApplicationContext(), "Added to favourites", Toast.LENGTH_LONG).show();
-                    //api call to add to fav
-                    int drawableId = getResources().getIdentifier("solidheart", "drawable", "project.team.cmpe277.com.magicrentals");
-                    heartsImage.setBackgroundResource(drawableId);
-                    heartflag = true;
+                     url = getString(R.string.url)+"addFav";
                 } else {
-                    Toast.makeText(getActivity().getApplicationContext(), "Removed from favourites", Toast.LENGTH_LONG).show();
-                    //api call to remove from fav
-                    int drawableId = getResources().getIdentifier("shallowheart", "drawable", "project.team.cmpe277.com.magicrentals");
-                    heartsImage.setBackgroundResource(drawableId);
-                    heartflag = false;
+//                   url = getString(R.string.url)+"removeFav";
                 }
+                HashMap<String, String> hmap = new HashMap<>();
+                hmap.put("uid","Rekha");
+                hmap.put("uid","ids");
+                new MultipartUtilityAsyncTask(getActivity(),hmap,null).execute(url);
             }
         });
 
@@ -86,6 +98,22 @@ public class TenantSearchDetailFragment extends android.app.Fragment {
         });
 
         return detailview;
+    }
+
+    @Override
+    public void onTaskCompleted(JSONObject result) {
+
+        if (heartflag == false) {
+            Toast.makeText(getActivity().getApplicationContext(), "Added to favourites", Toast.LENGTH_LONG).show();
+            int drawableId = getResources().getIdentifier("solidheart", "drawable", "project.team.cmpe277.com.magicrentals");
+            heartsImage.setBackgroundResource(drawableId);
+            heartflag = true;
+        } else {
+            Toast.makeText(getActivity().getApplicationContext(), "Removed from favourites", Toast.LENGTH_LONG).show();
+            int drawableId = getResources().getIdentifier("shallowheart", "drawable", "project.team.cmpe277.com.magicrentals");
+            heartsImage.setBackgroundResource(drawableId);
+            heartflag = false;
+        }
     }
 
     @Override

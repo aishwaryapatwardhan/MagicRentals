@@ -39,8 +39,8 @@ public class TenantsFavActivity extends AppCompatActivity implements TaskComplet
         userid = preferences.getString(LoginActivity.USERID, null);
         userid = "Rekha";
         if(bFreshLoad){
-            //String url = R.string.url+"getAllFav";
-            String url =  "http://10.0.0.44:3000/getAllFav";
+            String url = getString(R.string.url)+"getAllFav";
+            //String url =  "http://10.0.0.44:3000/getAllFav";
             HashMap<String, String> hmap = new HashMap<>();
             hmap.put("uid",userid);
             new MultipartUtilityAsyncTask(this,hmap,null).execute(url);
@@ -57,7 +57,7 @@ public class TenantsFavActivity extends AppCompatActivity implements TaskComplet
 
     @Override
     public void onTaskCompleted(JSONObject result) {
-        System.out.print("test");
+       // System.out.print("test");
         JSONObject addr, units, contact;
 
         try{

@@ -2,6 +2,7 @@ package project.team.cmpe277.com.magicrentals1;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -78,6 +79,10 @@ public class TenantsFavListFragment extends android.app.Fragment implements Task
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //System.out.print("Item cliecked");
+                FavPropertieDetails favPropertieDetails = (FavPropertieDetails) parent.getItemAtPosition(position);
+                Intent i = new Intent(getActivity(), TenantsFavDetailActivity.class);
+                i.putExtra("RID", favPropertieDetails.getRid());
+                startActivity(i);
             }
         });
         return favListView;
