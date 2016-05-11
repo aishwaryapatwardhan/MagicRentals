@@ -64,9 +64,6 @@ public class PropertiesListAsyncTask extends AsyncTask<String, Void, Boolean>{
                 while ((temp = br.readLine()) != null){
                     System.out.println("readd input stream...."+temp);
                     sb.append(temp);
-                   // erdapJSON = new JSONObject(responseStrBuilder.toString()) ;
-                    //  json = new JSONObject(temp.toString());
-                    //System.out.println("readd json..... "+json);
                 }
                 json = new JSONObject(sb.toString());
                 int code = json.getInt("code");
@@ -96,9 +93,11 @@ public class PropertiesListAsyncTask extends AsyncTask<String, Void, Boolean>{
                             pm.setProperty_type(result.getString("property_type"));
                         if(result.has("units")){
                             JSONObject units = result.getJSONObject("units");
-                            if(units.has("bath"))
+                            if(units.has("bath") &&
+                                            units.getString("bath").matches(".*\\d+.*"))
                                 pm.setBath(units.getString("bath"));
-                            if(units.has("room"))
+                            if(units.has("room")&&
+                                    units.getString("room").matches(".*\\d+.*"))
                                 pm.setRoom(units.getString("room"));
                             if(units.has("area"))
                                 pm.setArea(units.getString("area"));
@@ -118,6 +117,8 @@ public class PropertiesListAsyncTask extends AsyncTask<String, Void, Boolean>{
                             pm.setStatus(result.getString("Status"));
                         if(result.has("view_count"))
                             pm.setView_count(result.getString("view_count"));
+                        if(result.has("nickname"))
+                            pm.setNickname(result.getString("nickname"));
 //                        {      "_id": "savaniffwffyyfggq12345",
 //                                "user_id": "savani",      "address": {
 //                            "Street": "ffw",        "City": "ffyy",

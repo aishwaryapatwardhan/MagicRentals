@@ -1,6 +1,8 @@
 package project.team.cmpe277.com.magicrentals1.landlord;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -10,12 +12,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import project.team.cmpe277.com.magicrentals1.LoginActivity;
 import project.team.cmpe277.com.magicrentals1.R;
 import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
 import project.team.cmpe277.com.magicrentals1.utility.TaskCompletedStatus;
@@ -47,18 +52,17 @@ public class EditPropertiesActivity extends AppCompatActivity implements TaskCom
         setContentView(R.layout.fragment_upload_data);
          userid = getIntent().getExtras().getString("USERID");
         int selectedLine = getIntent().getExtras().getInt("selectedLine");
+
      //   listPropertyTypes = new ArrayList<>();
        // System.out.println("Array .property..... "+R.array.property_type);
 //        roomArr = new ArrayList<>(R.array.rooms);
-       mPropertyResultLab = PropertiesResultLab.getPropertiesResultLab(getApplicationContext());
+        SharedPreferences preferences = this.getSharedPreferences(TAG, Context.MODE_PRIVATE);
+       // userid = preferences.getString(LoginActivity.USERID,null);
+     //   int selectedLine = preferences.getInt("selectedLine",0);
+        Log.i(TAG, "Line selected .... "+selectedLine);
+        mPropertyResultLab = PropertiesResultLab.getPropertiesResultLab(getApplicationContext());
         mPropertyList = mPropertyResultLab.getPropertyList();
         //
-
-
-
-
-
-
 
         //mpropertyModel = mPropertyList.get()
         mPropertyModel = mPropertyList.get(selectedLine);
@@ -146,20 +150,12 @@ public class EditPropertiesActivity extends AppCompatActivity implements TaskCom
                 HashMap<String, String> hm = LandlordUtils.serialize(mPropertyModel);
 
                 // HashMap<String, File> file = new HashMap<String, File>();
-                String url = "http://54.153.2.150:3000/updatePostings";
+                String url = LandlordUtils.url+"/updatePostings";
                 new MultipartUtilityAsyncTask(getApplicationContext(),hm, null).execute(url);
-
                 PropertiesResultLab.getPropertiesResultLabNew(getApplicationContext());
                 Intent i = new Intent(getApplicationContext(), PropertiesListLandlordActivity.class);
                 i.putExtra("USERID", userid);
                 startActivity(i);
-
-
-
-                //user_id , Street , City, State  , Zip    , property_type ,
-                // bath , room , area , rent  , email , Mobile , description ,
-                // Images (need to decide this yet..), other_details ,  Status , view_count
-
 
             }
         } );
@@ -180,5 +176,15 @@ public class EditPropertiesActivity extends AppCompatActivity implements TaskCom
     public void onTaskCompleted(JSONObject jsonObject){
         //
         Log.i(TAG, "Response---- "+jsonObject );
+        try {
+            if(jsonObject.getInt("code") == 200){
+                Toast.makeText(EditPropertiesActivity.this, "Successfully Updated", Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(EditPropertiesActivity.this, "Error! Please try again.", Toast.LENGTH_LONG).show();
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
