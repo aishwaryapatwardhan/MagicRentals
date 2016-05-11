@@ -25,42 +25,44 @@ exports.addPost = function(req, res){
 	       return;
 	     }
 	    
-//	    console.log(fields.user_id + ": user_id, "+fields.Street+" fields.Street, "+fields.bath+" fields.room "+ fields.room + " , " + fields.email +", "+ fields.Mobile);
-//	    var user_id = fields.user_id;
-//	 	var Street = fields.Street;
-//	 	var City = fields.City;
-//	 	var State = fields.State;
-//	 	var Zip = fields.Zip;
-//	 	var property_type = fields.property_type;
-//	 	var bath = Number(fields.bath);
-//	 	var room = Number(fields.room);
-//	 	var area = Number(fields.area);
-//	 	var rent = Number(fields.rent);
-//	 	var email = req.param(fields.email);
-//	 	var Mobile = req.param(fields.Mobile);
-//	 	var description = req.param(fields.description);
-//	 	var Images = req.param(fields.Images);
-//	 	var other_details = req.param(fields.other_details);
-//	 	var Status = req.param(fields.Status);
-//	 	var view_count = Number(req.param(fields.view_count));
-	 	
-		var user_id = req.param('user_id');
-		var Street = req.param('Street');
-		var City = req.param('City');
-		var State = req.param('State');
-		var Zip = req.param('Zip');
-		var property_type = req.param('property_type');
-		var bath = Number(req.param('bath'));
-		var room = Number(req.param('room'));
-		var area = Number(req.param('area'));
-		var rent = Number(req.param('rent'));
-		var email = req.param('email');
-		var Mobile = req.param('Mobile');
-		var description = req.param('description');
-		var Images = req.param('Images');
-		var other_details = req.param('other_details');
-		var Status = req.param('Status');
-		var view_count = Number(req.param('view_count'));
+	    console.log(fields.user_id + ": user_id, "+fields.Street+" fields.Street, "+fields.bath+" fields.room "+ fields.room + " , " + fields.email +", "+ fields.Mobile);
+	    var user_id = fields.user_id;
+	 	var Street = fields.Street;
+	 	var City = fields.City;
+	 	var State = fields.State;
+	 	var Zip = fields.Zip;
+	 	var property_type = fields.property_type;
+	 	var bath = Number(fields.bath);
+	 	var room = Number(fields.room);
+	 	var area = Number(fields.area);
+	 	var rent = Number(fields.rent);
+	 	var email = fields.email;
+	 	var Mobile = fields.Mobile;
+	 	var description = fields.description;
+	 	var Images = fields.Image;
+	 	var other_details = fields.other_details;
+	 	var Status = fields.Status;
+	 	var view_count = Number(fields.view_count);
+	    var nickName = fields.nickName;
+	     
+//	 	var nickName = req.param('nickName');
+//		var user_id = req.param('user_id');
+//		var Street = req.param('Street');
+//		var City = req.param('City');
+//		var State = req.param('State');
+//		var Zip = req.param('Zip');
+//		var property_type = req.param('property_type');
+//		var bath = Number(req.param('bath'));
+//		var room = Number(req.param('room'));
+//		var area = Number(req.param('area'));
+//		var rent = Number(req.param('rent'));
+//		var email = req.param('email');
+//		var Mobile = req.param('Mobile');
+//		var description = req.param('description');
+//		var Images = req.param('Images');
+//		var other_details = req.param('other_details');
+//		var Status = req.param('Status');
+//		var view_count = Number(req.param('view_count'));
 	 	
 		var id;
 		
@@ -82,6 +84,7 @@ exports.addPost = function(req, res){
 						 {
 							 	"_id" : id,
 								"user_id" : user_id,
+								"nickName" : nickName,
 								"address" : {
 										"Street" : Street,
 										"City"   : City,
@@ -138,7 +141,7 @@ exports.getAllPosts = function(req, res){
 	console.log("In get postings API");
 	var result = {};
 	
-	//var user_id = req.param('user_id');
+	var user_id = req.param('user_id');
 	var form = new formidable.IncomingForm();
 	
 	form.parse(req, function(err, fields, files) {
@@ -148,7 +151,7 @@ exports.getAllPosts = function(req, res){
 	       return;
 	     }
 	     
-	     var user_id = fields.user_id; 
+	     //var user_id = fields.user_id; 
 	     
 	     mongo.connect(function(err, db){
 			
@@ -616,6 +619,7 @@ exports.addFav = function(req, res){
 //	     var uid = fields.uid; 
 //	     var ids = refields.ids; 
 
+		 console.log(uid + " " + ids);
 		 mongo.connect(function(err, db){
 				
 				if(err){
@@ -625,24 +629,23 @@ exports.addFav = function(req, res){
 					res.json(result);
 				}else{
 					
-					var favcol = mongo.collection('favorites');
+					var favcol = mongo.collection('users');
 					
 					favcol.update(
 							   { "uid" : uid },
 							   { $push: { "ids" : ids } },
-							   true,
-							   true,
 							   function(err, docs){
 								   if(docs){		
 					 					result.data = docs;
 					 					result.code = 200; 
 					 					result.status = "Successful";
+					 					res.json(result);
 					 					
 					 				}else{						
 					 					 result.code = 208;
 					 					 result.status = "Unable to get data";
+					 					 res.json(result);
 					 				}							
-					 				res.json(result);
 							   }
 							);
 				}
@@ -680,24 +683,24 @@ exports.removeFav = function(req, res){
 					res.json(result);
 				}else{
 					
-					var favcol = mongo.collection('favorites');
+					var favcol = mongo.collection('users');
 					
 					favcol.update(
 							   { "uid" : uid },
 							   { $pull: { "ids" : ids } },
-							   true,
-							   true,
 							   function(err, docs){
 								   if(docs){		
 					 					result.data = docs;
 					 					result.code = 200; 
 					 					result.status = "Successful";
+					 					res.json(result);
 					 					
 					 				}else{						
 					 					 result.code = 208;
 					 					 result.status = "Unable to get data";
+					 					 res.json(result);
 					 				}							
-					 				res.json(result);
+					 				
 							   }
 							);
 				}
@@ -723,6 +726,8 @@ exports.getAllFav = function(req, res){
 	     var uid = req.param('uid');
 		
 //	     var uid = fields.uid; 
+	     
+	     console.log('uid '+uid)
 
 		 mongo.connect(function(err, db){
 				
@@ -733,21 +738,41 @@ exports.getAllFav = function(req, res){
 					res.json(result);
 				}else{
 					
-					var favcol = mongo.collection('favorites');
+					var favcol = mongo.collection('users');
 					
-					favcol.find(
-							{ "uid" : uid }
-					).toArray(function(err, docs){
-						if(docs){		
-		 					result.data = docs;
-		 					result.code = 200; 
-		 					result.status = "Successful";		
-		 				}else{						
-		 					 result.code = 208;
-		 					 result.status = "Unable to get data";
-		 				}							
-		 				res.json(result);
-					});
+					favcol.findOne(
+							{ "uid" : uid },{"_id" : 0 , "ids" : 1 },
+							function(err, docs){
+
+								if(docs){	
+									console.log(docs);
+									const myfav = docs["ids"];
+									console.log(myfav);
+									var postcol = mongo.collection('rental_posting');
+									postcol.find(
+											{ "_id" : { $in : myfav}}
+									).toArray(function(err, result11) {
+										if(err){
+											result.code = 208;
+						 					result.status = "Unable to get data";
+						 					res.json(result);
+										}else{
+											result.data = result11;
+						 					result.code = 200; 
+						 					result.status = "Successful";	
+						 					res.json(result);
+										}
+									});
+				 						
+				 				}else{						
+				 					 result.code = 208;
+				 					 result.status = "Unable to get data";
+				 					res.json(result);
+				 				}							
+				 				
+							
+							}
+					);
 				}
 		 });
 	});

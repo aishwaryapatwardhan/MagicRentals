@@ -43,6 +43,12 @@ app.get('/searchPosts', postings.searchPosts);
 app.post('/addUser', users.addUser);
 
 
+
+//Fav APIs
+app.get('/getAllFav', postings.getAllFav);
+app.post('/addFav',postings.addFav);
+app.get('/removeFav', postings.removeFav);
+
 //test API
 app.get('/test', routes.test123);
 
