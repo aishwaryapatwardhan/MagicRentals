@@ -14,7 +14,13 @@ exports.addPost = function(req, res){
 	console.log("This is a addPost API call");
 	
 	var result = {};
-	
+	var mailOptions={
+//	        from : "magicrentals11@gmail.com",
+//	        to : "raghavendra1810@gmail.com",
+//	        subject : "Message from magic rentals",
+//	        text : "mail from magicrentals.. test mail",
+//	        html : "HTML GENERATED"
+	};
 	
 	var form = new formidable.IncomingForm();
 	
@@ -63,6 +69,62 @@ exports.addPost = function(req, res){
 		var other_details = req.param('other_details');
 		var Status = req.param('Status');
 		var view_count = Number(req.param('view_count'));
+		
+		if(nickName === null){
+			nickName = " ";
+		}
+		if(user_id === null){
+			user_id = " ";
+		}
+		if(Street === null){
+			Street = " ";
+		}
+		if(City === null){
+			City = " ";
+		}
+		if(State === null){
+			State = " ";
+		}
+		if(Zip === null){
+			Zip = " ";
+		}
+		if(property_type === null){
+			property_type = " ";
+		}
+		if(isNaN(bath)){
+			bath = 0;
+		}
+		if(isNaN(room)){
+			room = 0;
+		}
+		if(isNaN(area)){
+			area = 0;
+		}
+		if(isNaN(rent)){
+			rent = 0;
+		}
+		if(email === null){
+			email = "raghuisguru1@gmail.com";
+		}
+		if(Mobile === null){
+			Mobile = " ";
+		}
+		if(description === null){
+			description = " ";
+		}
+		if(Images === null){
+			Images = "https://upload.wikimedia.org/wikipedia/commons/1/1e/Stonehenge.jpg";
+		}
+		if(other_details === null){
+			other_details = " ";
+		}
+		if(Status === null){
+			Status = "Active";
+		}
+		if(isNaN(view_count)){
+			view_count = 0;
+		}
+		
 	 	
 		var id;
 		
@@ -115,11 +177,15 @@ exports.addPost = function(req, res){
 								 res.json(result);
 							 }else{
 								 utils.notify(id,1,function(){
-									 console.log('notification triggered.');
-									 
-									 mailer.sendMail(function(error, success) {
-										 console.log('Mail sent');
-									 });
+									console.log('notification triggered.');
+									mailOptions.from = "magicrentals11@gmail.com";
+									mailOptions.to = email;
+									mailOptions.subject = "<no reply> New rental detils posted successful";
+									mailOptions.text = "mail from magicrentals.. test mail";
+									mailOptions.html = "Dear Customer, <br><br>Your add posted scuuesfully. <br><br>Thank you<br>MagicRentals Team";
+									mailer.sendMail(mailOptions, function(error, success) {
+										console.log('Mail sent');
+									});
 								 })
 								 
 								 result.code = 200; 

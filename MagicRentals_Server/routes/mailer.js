@@ -7,7 +7,7 @@ var nodemailer = require('nodemailer');
 var smtpTransport = require("nodemailer-smtp-transport");
 
 //send email
-exports.sendMail = function(callback){
+exports.sendMail = function(mailOptions, callback){
 
 	console.log("This is a send mail block - 1");
 	var transport = nodemailer.createTransport(smtpTransport({
@@ -21,14 +21,6 @@ exports.sendMail = function(callback){
 	}));
 	
 	console.log("This is a send mail block - 2");
-
-	var mailOptions={
-	        from : "magicrentals11@gmail.com",
-	        to : "raghavendra1810@gmail.com",
-	        subject : "Message from magic rentals",
-	        text : "mail from magicrentals.. test mail",
-	        html : "HTML GENERATED"
-	};
 	
 	console.log("This is a send mail block - 3");
 	console.log(mailOptions);
