@@ -52,6 +52,14 @@ public class EditPropertiesActivity extends AppCompatActivity implements TaskCom
 //        roomArr = new ArrayList<>(R.array.rooms);
        mPropertyResultLab = PropertiesResultLab.getPropertiesResultLab(getApplicationContext());
         mPropertyList = mPropertyResultLab.getPropertyList();
+        //
+
+
+
+
+
+
+
         //mpropertyModel = mPropertyList.get()
         mPropertyModel = mPropertyList.get(selectedLine);
         System.out.println("Modelll........  +++ "+mPropertyModel.getNickname()+"djdjd  .. "+userid);
