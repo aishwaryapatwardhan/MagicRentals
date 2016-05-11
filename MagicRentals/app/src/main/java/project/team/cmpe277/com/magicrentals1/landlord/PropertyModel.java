@@ -12,8 +12,8 @@ public class PropertyModel {
     String State;
     String Zip;
     String property_type;
-    String bath;
-    String room;
+    String bath = "0";
+    String room = "0";
     String area;
     String rent;
     String email;
@@ -22,7 +22,7 @@ public class PropertyModel {
     String images;
     String other_details;
     String Status;
-    String view_count;
+    String view_count = "0";
     String nickname;
     public String getUser_id() {
         return user_id;
