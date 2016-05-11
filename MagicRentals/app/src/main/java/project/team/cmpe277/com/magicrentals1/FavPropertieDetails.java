@@ -4,6 +4,15 @@ package project.team.cmpe277.com.magicrentals1;
  * Created by Raghu on 5/10/2016.
  */
 public class FavPropertieDetails {
+    public String getRid() {
+        return rid;
+    }
+
+    public void setRid(String rid) {
+        this.rid = rid;
+    }
+
+    String rid;
     String user_id;
     String Street;
     String City;
@@ -22,7 +31,8 @@ public class FavPropertieDetails {
     String Status;
     //String nickname;
 
-    public FavPropertieDetails(String user_id, String street, String city, String state, String zip, String property_type, String bath, String room, String area, String rent, String email, String mobile, String description, String other_details, String status, String img) {
+    public FavPropertieDetails(String user_id, String street, String city, String state, String zip, String property_type, String bath, String room, String area, String rent, String email, String mobile, String description, String other_details, String status, String img, String rid) {
+        this.rid = rid;
         this.user_id = user_id;
         Street = street;
         City = city;

@@ -108,7 +108,6 @@ public class MultipartUtilityAsyncTask extends AsyncTask<String, Void, JSONObjec
     @Override
     protected void onPostExecute(JSONObject result) {
         super.onPostExecute(result);
-
         mCallback.onTaskCompleted(result);
     }
 }
