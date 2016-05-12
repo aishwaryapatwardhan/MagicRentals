@@ -87,11 +87,8 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletedSta
         // Following is the code to store user-id and retrieve the user-id using shared preferences.
       /*  SharedPreferences sharedPreferences = this.getSharedPreferences(TAG,Context.MODE_PRIVATE);
         sharedPreferences.edit().putString("userid",PLACE_YOUR_USER_ID).apply();
-
         String useridCheck = sharedPreferences.getString("userid",null);
-
         SharedPreferences preferences = context.getSharedPreferences(TAG,Context.MODE_PRIVATE);
-
         Log.i(TAG, useridCheck); */
 
         //Initializing the facebook sdk and initializing the callbackmanager
@@ -138,9 +135,7 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletedSta
                 Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
             }
         } catch (PackageManager.NameNotFoundException e) {
-
         } catch (NoSuchAlgorithmException e) {
-
         }*/
 
         //Google Signin setup
