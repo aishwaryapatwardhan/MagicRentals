@@ -728,12 +728,13 @@ exports.saveSearchRes = function(req, res){
 	 								 result.code = 208;
 	 								 result.status = "Unable to insert to mongo";
 	 								 console.log("Unable to insert to mongo");
+	 								 res.json(result);
 	 							 }else{
-	 								 mailer.sendMail(function(error, success) {
-	 									 result.code = 200; 
-	 									 result.status = "Successfully inserted";
-	 								 });
+	 								 
+	 								 result.code = 200; 
+	 								 result.status = "Successfully inserted";
 	 								 console.log("Search results saved");
+	 								 res.json(result);
 	 							 }	
 	 						});
 	 			}
