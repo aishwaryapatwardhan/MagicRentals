@@ -597,7 +597,7 @@ exports.updateViewCount = function(req, res){
 exports.saveSearchRes = function(req, res){
 
 	
-	console.log("In search API");
+	console.log("In save search API");
 	var result = {};
 	
 	var form = new formidable.IncomingForm();
@@ -608,52 +608,12 @@ exports.saveSearchRes = function(req, res){
 	       res.end("sorry, an error occurred");
 	       return;
 	     }
-	     
-//	    var saveSearch = Boolean(fields.saveSearch);
-//	 	var rate = Number(fields.rate);
-//	 	var user_id = req.param(fields.user_id);
-//	 	
-//	 	var description = req.param(fields.description);
-//	 	if(!description){
-//	 		description = '.';
-//	 	}
-//	 	console.log('desc - '+ description);
-//	 	
-//	 	var City = fields.City;
-//	 	if(!City){
-//	 		City = '.';
-//	 	}
-//	 	console.log('City - '+ City);
-//	 	
-//	 	var Zip = fields.Zip;
-//	 	if(!Zip){
-//	 		Zip = '.';
-//	 	}
-//	 	console.log('Zip - '+ Zip);
-//	 	
-//	 	var property_type = fields.property_type;
-//	 	if(!property_type){
-//	 		property_type = '.';
-//	 	}
-//	 	console.log('property_type - '+ property_type);
-//	 	
-//	 	//var min_rent = parseInt(req.param('min_rent'));
-//	 	var min_rent = Number(fields.min_rent) ;
-//	 	if(!min_rent){
-//	 		min_rent = 0;
-//	 	}
-//	 	console.log('min_rent - '+ min_rent);
-//	 	
-//	 	//var max_rent = parseInt(req.param('max_rent'));
-//	 	var max_rent = Number(fields.max_rent);
-//	 	if(!max_rent){
-//	 		max_rent = Number.MAX_VALUE;
-//	 	}
-//	 	console.log('max_rent - '+ max_rent);
-	 	
+	     	 	
 	    var saveSearch = Boolean(req.param('saveSearch'));
 	 	var rate = Number(req.param('rate'));
 	 	var user_id = req.param('user_id');
+	 	
+	 	console.log(saveSearch + " , "+rate+" , "+user_id);
 	 	
 	 	var description = req.param('description');
 	 	if(!description){
