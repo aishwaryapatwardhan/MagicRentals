@@ -61,7 +61,7 @@ public class TenantSearchListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //GridImageDetailItem item = (GridImageDetailItem) parent.getItemAtPosition(position);
-                Intent i = new Intent(getActivity(), TenantSearchDetailActivity.class);
+                Intent i = new Intent(getActivity(), TenantDetailPagerActivity.class);
                 i.putExtra("USERID", TenantSearchListActivity.userid);
                 i.putExtra("POSITION", position);
                 startActivity(i);

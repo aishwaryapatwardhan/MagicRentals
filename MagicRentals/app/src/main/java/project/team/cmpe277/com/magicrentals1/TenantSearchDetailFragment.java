@@ -4,6 +4,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,7 +28,7 @@ import project.team.cmpe277.com.magicrentals1.utility.TaskCompletedStatus;
 /**
  * Created by Rekha on 5/1/2016.
  */
-public class TenantSearchDetailFragment extends android.app.Fragment implements TaskCompletedStatus {
+public class TenantSearchDetailFragment extends android.support.v4.app.Fragment implements TaskCompletedStatus {
 
 
     //Raghu's Variable
@@ -52,11 +53,15 @@ public class TenantSearchDetailFragment extends android.app.Fragment implements 
     private ImageView iconImage;
     private Boolean heartflag;
     private int position;
+    public static final String IDS = "project.team.cmpe277.com.magicrentals1.ID";
+    String refid;
+    GridImageDetailItem gridImageDetailItem;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        refid = getArguments().getSerializable(IDS).toString();
+        gridImageDetailItem = PropSingleton.get(getActivity()).getGridImageDetailItem(refid);
     }
 
     @Override
@@ -82,7 +87,7 @@ public class TenantSearchDetailFragment extends android.app.Fragment implements 
         heartsImage = (ImageView)detailview.findViewById(R.id.heartsImage);
         iconImage = (ImageView)detailview.findViewById(R.id.iconImage);
 
-       /* streetValue.setText(gridImageDetailItem.getStreetAddr());
+        streetValue.setText(gridImageDetailItem.getStreetAddr());
         cityValue.setText(gridImageDetailItem.getCityAddr());
         zipcodeValue.setText(gridImageDetailItem.getZipCode());
         stateValue.setText(gridImageDetailItem.getStateAddr());
@@ -95,7 +100,7 @@ public class TenantSearchDetailFragment extends android.app.Fragment implements 
         depositValue.setText(gridImageDetailItem.getDeposit());
         leaseTypeValue.setText(gridImageDetailItem.getLeaseType());
         contactNumberValue.setText(gridImageDetailItem.getContact());
-        contactEmailValue.setText(gridImageDetailItem.getEmail());*/
+        contactEmailValue.setText(gridImageDetailItem.getEmail());
 
         int drawableId = getResources().getIdentifier("magicrentals1", "drawable", "project.team.cmpe277.com.magicrentals");
         iconImage.setBackgroundResource(drawableId);
@@ -111,10 +116,10 @@ public class TenantSearchDetailFragment extends android.app.Fragment implements 
                 } else {
 //                   url = getString(R.string.url)+"removeFav";
                 }
-                HashMap<String, String> hmap = new HashMap<>();
+               /* HashMap<String, String> hmap = new HashMap<>();
                 hmap.put("uid","Rekha");
                 hmap.put("uid","ids");
-                new MultipartUtilityAsyncTask(getActivity(),hmap,null).execute(url);
+                new MultipartUtilityAsyncTask(getActivity(),hmap,null).execute(url);*/
             }
         });
 
@@ -127,6 +132,16 @@ public class TenantSearchDetailFragment extends android.app.Fragment implements 
         });
 
         return detailview;
+    }
+
+
+
+    public static android.support.v4.app.Fragment newInstance(String refid) {
+        Bundle args = new Bundle();
+        args.putSerializable(IDS, refid);
+        TenantSearchDetailFragment fragment = new TenantSearchDetailFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override

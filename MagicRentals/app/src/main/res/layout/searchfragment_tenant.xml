@@ -29,7 +29,7 @@
             android:ems="10"
             android:textAppearance="@style/Resp"
             android:textColor="#7b68ee"
-            android:hint="Enter city,zipcode"
+            android:hint="Enter city, zipcode"
             />
     </LinearLayout>
 
