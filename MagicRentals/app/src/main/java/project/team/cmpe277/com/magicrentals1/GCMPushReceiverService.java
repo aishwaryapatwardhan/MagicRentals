@@ -30,16 +30,26 @@ public class GCMPushReceiverService extends GcmListenerService {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, requestCode, intent, PendingIntent.FLAG_ONE_SHOT);
 
        /* try{
-            JSONArray jsonarray = message.getJSONArray("data");
-        GridImageDetailItem gridImageDetailItem = new GridImageDetailItem(jsonobject.getString("_id"), addr.getString("Street"), addr.getString("City"),
-                addr.getString("State"),
-                addr.getString("Zip"), jsonobject.getString("property_type"), units.getString("room"),
-                units.getString("bath"), units.getString("area"), jsonobject.getString("rent"), jsonobject.getString("description"),
-                jsonobject.getString("Others"), jsonobject.getString("Images"),contact.getString("Mobile"),contact.getString("email"));
-        gdl.add(gridImageDetailItem);
-    }
-    PropSingleton.get(this.getActivity()).clearList();
-    PropSingleton.get(this.getActivity()).setGridImageDetailItems(gdl);*/
+
+             JSONObject jsonobject = new JSONObject(sb.toString());
+
+             JSONObject addr, units, contact;
+
+             JSONObject jsonobject = jsonarray.getJSONObject(i);
+                    addr = jsonobject.getJSONObject("address");
+                    units = jsonobject.getJSONObject("units");
+                    contact = jsonobject.getJSONObject("Contact_info");
+
+                    GridImageDetailItem gridImageDetailItem = new GridImageDetailItem(jsonobject.getString("_id"), addr.getString("Street"), addr.getString("City"),
+                            addr.getString("State"),
+                            addr.getString("Zip"), jsonobject.getString("property_type"), units.getString("room"),
+                            units.getString("bath"), units.getString("area"), jsonobject.getString("rent"), jsonobject.getString("description"),
+                            jsonobject.getString("other_details"), jsonobject.getString("Images"),contact.getString("Mobile"),contact.getString("email"));
+
+                }
+                Intent i = new Intent(getActivity(), TenantSearchListActivity.class);
+                startActivity(i);*/
+
         Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         NotificationCompat.Builder noBuilder = new NotificationCompat.Builder(this)

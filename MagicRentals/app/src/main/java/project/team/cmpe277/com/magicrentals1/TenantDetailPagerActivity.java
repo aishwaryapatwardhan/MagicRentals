@@ -1,5 +1,6 @@
 package project.team.cmpe277.com.magicrentals1;
 
+import android.app.AlertDialog;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;

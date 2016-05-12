@@ -24,6 +24,15 @@ public class GridImageDetailItem {
     private ArrayList<String> imagesPosted;
     private String contact;
     private String email;
+    private int count;
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
 
     public String getContact() {
         return contact;

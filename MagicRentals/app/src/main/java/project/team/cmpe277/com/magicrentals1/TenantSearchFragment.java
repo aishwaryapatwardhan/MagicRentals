@@ -72,7 +72,7 @@ import project.team.cmpe277.com.magicrentals1.utility.TaskCompletedStatus;
 /**
  * Created by Rekha on 4/26/2016.
  */
-public class TenantSearchFragment extends android.app.Fragment implements AdapterView.OnItemSelectedListener,GoogleApiClient.OnConnectionFailedListener, TaskCompletedStatus{
+public class TenantSearchFragment extends android.app.Fragment implements AdapterView.OnItemSelectedListener,GoogleApiClient.OnConnectionFailedListener{
 
     private EditText locationvalue;
     private EditText keywordvalue;
@@ -88,7 +88,7 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
     public static HashMap<String,String> searchFilters = new HashMap<String,String>();
     String userid;
 
-    public static SearchParameters sp = new SearchParameters();
+    public static SearchParameters sp = SearchParameters.getSearchParameters();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -101,8 +101,8 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
                 .enableAutoManage((FragmentActivity) this.getActivity(), GOOGLE_API_CLIENT_ID, this)
                 .build();
 
-        SharedPreferences preferences = getActivity().getApplicationContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
-        userid = preferences.getString(LoginActivity.USERID,null);
+        SharedPreferences preferences = getActivity().getApplicationContext().getSharedPreferences("USER", Context.MODE_PRIVATE);
+        userid = preferences.getString("USERID",null);
         if(userid == null){
             userid = "Rekha";
         }
@@ -142,13 +142,14 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
 
         propertyvalue = (Spinner) searchview.findViewById(R.id.propertyvalue);
         ArrayAdapter adapter1 = ArrayAdapter.createFromResource(this.getActivity(), R.array.proptypelist, R.layout.spinner_list);
-
+        propertyvalue.setOnItemSelectedListener(this);
         propertyvalue.setAdapter(adapter1);
 
         pricerangevalue = (Spinner) searchview.findViewById(R.id.pricerangevalue);
         ArrayAdapter adapter2 = ArrayAdapter.createFromResource(this.getActivity(), R.array.pricerangelist, R.layout.spinner_list);
 
         pricerangevalue.setAdapter(adapter2);
+        pricerangevalue.setOnItemSelectedListener(this);
 
         keywordvalue = (EditText) searchview.findViewById(R.id.keywordvalue);
         locationvalue = (EditText) searchview.findViewById(R.id.locationvalue);
@@ -286,8 +287,8 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
                 TextView mytext = (TextView) view;
                 String val[] = mytext.getText().toString().split("-", 2);
                 if (val.length > 1) {
-                    sp.setMinPrice(Integer.parseInt(val[0]));
-                    sp.setMaxPrice(Integer.parseInt(val[1]));
+                    sp.setMinPrice(Integer.parseInt(val[0].substring(1)));
+                    sp.setMaxPrice(Integer.parseInt(val[1].substring(1)));
                 } else {
                     sp.setMinPrice(Integer.parseInt(val[0]));
                     sp.setMaxPrice(Integer.MAX_VALUE);
@@ -485,38 +486,6 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
         });
     }
 
-    @Override
-    public void onTaskCompleted(JSONObject result) {
-        JSONObject addr, units, contact;
-
-        try{
-            JSONArray jsonarray = result.getJSONArray("data");
-            ArrayList<GridImageDetailItem> gdl = new ArrayList<GridImageDetailItem>();
-
-            for (int i = 0; i < jsonarray.length(); i++) {
-                JSONObject jsonobject = jsonarray.getJSONObject(i);
-                addr = jsonobject.getJSONObject("address");
-                units = jsonobject.getJSONObject("units");
-                contact = jsonobject.getJSONObject("Contact_info");
-
-                GridImageDetailItem gridImageDetailItem = new GridImageDetailItem(jsonobject.getString("_id"), addr.getString("Street"), addr.getString("City"),
-                        addr.getString("State"),
-                        addr.getString("Zip"), jsonobject.getString("property_type"), units.getString("room"),
-                        units.getString("bath"), units.getString("area"), jsonobject.getString("rent"), jsonobject.getString("description"),
-                        jsonobject.getString("Others"), jsonobject.getString("Images"),contact.getString("Mobile"),contact.getString("email"));
-                gdl.add(gridImageDetailItem);
-            }
-            PropSingleton.get(this.getActivity()).clearList();
-            PropSingleton.get(this.getActivity()).setGridImageDetailItems(gdl);
-
-            Intent i = new Intent(getActivity(), TenantSearchListActivity.class);
-            startActivity(i);
-
-        }
-        catch (Exception ex){
-            //exception
-        }
-    }
 
 
     public class SearchApi extends AsyncTask<Object, Void, JSONObject>{
@@ -526,7 +495,7 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
         @Override
         protected JSONObject doInBackground(Object... parameters){
 
-            sP = (SearchParameters)parameters[0];
+            sp = SearchParameters.getSearchParameters();
             HttpURLConnection httpConn;
             // String str = "http://54.153.2.150:3000/getPostsByUser?userid="+"savani";
             String str = LoginActivity.urlip+"/searchPosts?user_id="+userid+"&saveSearch=false&description="+sp.getKeywords()+"&City="+sp.getCity()+"&Zip="+sp.getZipcode()+"&property_type="+sp.getPropertytype()+"&min_rent="+sp.getMinPrice()+"&max_rent="+sp.getMaxPrice()+"&street="+sp.getStreet();
@@ -590,6 +559,7 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
                             addr.getString("Zip"), jsonobject.getString("property_type"), units.getString("room"),
                             units.getString("bath"), units.getString("area"), jsonobject.getString("rent"), jsonobject.getString("description"),
                             jsonobject.getString("other_details"), jsonobject.getString("Images"),contact.getString("Mobile"),contact.getString("email"));
+                    gridImageDetailItem.setCount(Integer.parseInt(jsonobject.getString("view_count")));
                     gdl.add(gridImageDetailItem);
                 }
                 PropSingleton.get(getActivity()).clearList();
