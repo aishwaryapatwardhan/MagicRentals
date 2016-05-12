@@ -248,12 +248,6 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
             case R.id.favorites:
                 //favourites activity
                 return true;
-            case R.id.createpost:
-                //savani your activity - to create a post
-                return true;
-            case R.id.mypostings:
-                //savani your activity to list the owner's previous posts if exists
-                return true;
         }
 
         //noinspection SimplifiableIfStatement

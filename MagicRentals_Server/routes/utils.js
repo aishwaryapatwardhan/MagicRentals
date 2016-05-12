@@ -177,8 +177,10 @@ exports.notify = function(id, type, callback){
 							}
 							console.log('length is '+ myArray.length);
 //							constructNotification1(myArray, type, id);
+							callback();
 						}else{						
 							console.log('No Docs');
+							callback();
 						}							
 						
 					});

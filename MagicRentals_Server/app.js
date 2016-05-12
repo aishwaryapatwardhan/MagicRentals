@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes');
 var users = require('./routes/user');
-
+var fav = require('./routes/favorites');
 
 //postings APIs
 var postings = require('./routes/postings');
@@ -45,12 +45,11 @@ app.post('/searchPosts', postings.searchPosts);
 app.post('/addUser', users.addUser);
 
 
-
 //Fav APIs
-app.get('/getAllFav', postings.getAllFav);
-app.post('/getAllFav', postings.getAllFav);
-app.post('/addFav',postings.addFav);
-app.post('/removeFav', postings.removeFav);
+app.get('/getAllFav', fav.getAllFav);
+app.post('/getAllFav', fav.getAllFav);
+app.post('/addFav',fav.addFav);
+app.post('/removeFav', fav.removeFav);
 
 //test API
 app.get('/test', routes.test123);

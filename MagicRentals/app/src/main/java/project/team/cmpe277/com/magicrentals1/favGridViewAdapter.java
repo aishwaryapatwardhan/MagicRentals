@@ -22,10 +22,10 @@ public class favGridViewAdapter extends ArrayAdapter {
     private ArrayList<FavPropertieDetails> data;
 
     public favGridViewAdapter(Context context,int layoutResourceId){
-        super(context,layoutResourceId,FavPropCollections.getFavList());
+        super(context,layoutResourceId,FavPropCollections.favoriteAList);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
-        this.data = FavPropCollections.getFavList();
+        this.data = FavPropCollections.favoriteAList;
     }
 
 

@@ -1,5 +1,6 @@
 package project.team.cmpe277.com.magicrentals1;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
@@ -28,13 +29,14 @@ public class TenantSearchListActivity extends AppCompatActivity {
         setContentView(R.layout.searchlistactivity_tenant);
         SharedPreferences preferences = getApplicationContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
         userid = preferences.getString(LoginActivity.USERID,null);
-        Log.i(TAG, userid);
+        //Log.i(TAG, userid);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setIcon(R.drawable.ic_launcher);
 
         actionBar.setTitle("Magic Rentals");
+
 
         FragmentManager fm = getFragmentManager();
         fm.beginTransaction().replace(R.id.searchlist_container, new TenantSearchListFragment()).commit();
@@ -45,7 +47,7 @@ public class TenantSearchListActivity extends AppCompatActivity {
 
     }
 
-    @Override
+   /* @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_login, menu);
@@ -61,11 +63,11 @@ public class TenantSearchListActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        /*if (id == R.id.action_settings) {
+        *//*if (id == R.id.action_settings) {
             return true;
-        }*/
+        }*//*
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
 }
