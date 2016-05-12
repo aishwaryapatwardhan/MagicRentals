@@ -207,7 +207,7 @@ exports.getAllPosts = function(req, res){
 	console.log("In get postings API");
 	var result = {};
 	
-	var user_id = req.param('user_id');
+	//var user_id = req.param('user_id');
 	
 	var form = new formidable.IncomingForm();
 	
@@ -218,7 +218,7 @@ exports.getAllPosts = function(req, res){
 	       return;
 	     }
 	     
-	     //var user_id = fields.user_id; 
+	     var user_id = fields.user_id; 
 	     
 	     if(user_id === null){
 	    	 console.log("User_Id null");
@@ -448,6 +448,7 @@ exports.updateStatus = function(req, res){
 		
 	console.log("This is a UpdatePost's status API call");
 	
+	var mailOptions = {};
 	var result = {};
 	var form = new formidable.IncomingForm();
 	form.parse(req, function(err, fields, files) {
@@ -492,11 +493,14 @@ exports.updateStatus = function(req, res){
 								 result.code = 208;
 								 result.status = "Unable to update to mongo";
 							 }else{
-								 mailer.sendMail(function(error, success) {
-									 result.code = 200; 
-									 result.status = "Successfully updated";
-									 result.data = docs;
-								 });
+								 mailOptions.from = "magicrentals11@gmail.com";
+									mailOptions.to = email;
+									mailOptions.subject = "<no reply> New rental detils posted successful";
+									mailOptions.text = "mail from magicrentals.. test mail";
+									mailOptions.html = "Dear Customer, <br><br>Your add posted scuuesfully. <br><br>Thank you<br>MagicRentals Team";
+									mailer.sendMail(mailOptions, function(error, success) {
+										console.log('Mail sent');
+									});
 							 }	
 							 res.json(result);
 						 }
