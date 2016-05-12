@@ -40,7 +40,7 @@ app.post('/updateStatus', postings.updateStatus);
 app.post('/updateViewCount', postings.updateViewCount);
 app.get('/searchPosts', postings.searchPosts);
 app.post('/searchPosts', postings.searchPosts);
-
+app.get('/saveSearch',postings.saveSearchRes);
 //login APIs
 app.post('/addUser', users.addUser);
 
