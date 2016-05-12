@@ -220,7 +220,7 @@ exports.getAllPosts = function(req, res){
 	     
 	     var user_id = fields.user_id; 
 	     
-	     if(user_id === null){
+	     if(user_id  || user_id == null){
 	    	 console.log("User_Id null");
 				result.code = 210;
 				result.status = "User_Id null";
