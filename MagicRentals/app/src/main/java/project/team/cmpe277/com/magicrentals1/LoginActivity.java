@@ -57,8 +57,9 @@ import java.util.Map;
 import project.team.cmpe277.com.magicrentals1.landlord.PropertiesListLandlordActivity;
 import project.team.cmpe277.com.magicrentals1.utility.MultipartUtility;
 import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
+import project.team.cmpe277.com.magicrentals1.utility.TaskCompletedStatus;
 
-public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class LoginActivity extends AppCompatActivity implements TaskCompletedStatus, GoogleApiClient.OnConnectionFailedListener{
 
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     private LoginButton loginButton;
@@ -164,10 +165,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
              /*   Intent i = new Intent(getApplicationContext(), TenantSearchActivity.class);
                 i.putExtra("USERID", userid);
                 startActivity(i); */
-                /*Intent i = new Intent(getApplicationContext(), PropertiesListLandlordActivity.class);
-                startActivity(i);*/
-                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-                startActivityForResult(signInIntent, RC_SIGN_IN);
+                Intent i = new Intent(getApplicationContext(), PropertiesListLandlordActivity.class);
+                startActivity(i);
+//                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+//                startActivityForResult(signInIntent, RC_SIGN_IN);
             }
         });
 
@@ -275,31 +276,18 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         //Navigate to next activity
 
         //new LoginApi().execute("URL",userid,token,email);
-        String url = "http://54.153.2.150:3000/addUser";
+        String url = getString(R.string.url)+"/addUser";
 
         HashMap<String,String> input = new HashMap<String,String>();
         input.put("uid",userid);
         input.put("email",email);
         input.put("deviceID",gcmtoken);
 
-
-
-        /*try {
-            new MultipartUtilityAsyncTask(input,null).execute(url);
-        }catch(Exception e){
-            Toast.makeText(this.getApplicationContext(),"Login Error",Toast.LENGTH_LONG).show();
-        }*/
+        new MultipartUtilityAsyncTask(this,input,null).execute(url);
 
         //Adding userid to shared preferences
         SharedPreferences sharedPreferences = this.getSharedPreferences(TAG,Context.MODE_PRIVATE);
         sharedPreferences.edit().putString(USERID,userid).apply();
-
-
-
-        Intent i = new Intent(getApplicationContext(), TenantSearchActivity.class);
-        i.putExtra("USERID", userid);
-        startActivity(i);
-
 
     }
 
@@ -341,6 +329,15 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         );
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
+    }
+
+    @Override
+    public void onTaskCompleted(JSONObject result) {
+
+        Intent i = new Intent(getApplicationContext(), TenantSearchActivity.class);
+        i.putExtra("USERID", userid);
+        startActivity(i);
+
     }
 
     @Override

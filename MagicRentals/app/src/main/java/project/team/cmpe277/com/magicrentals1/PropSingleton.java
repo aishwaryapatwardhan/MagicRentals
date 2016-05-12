@@ -18,7 +18,7 @@ public class PropSingleton {
         private PropSingleton(Context appContext) {
             mAppContext = appContext;
             mgridImageDetailItem = new ArrayList<GridImageDetailItem>();
-            mgridImageDetailItem.add(new GridImageDetailItem("$100","1","190 RYland Street","San JOse","isdhfis","13913803","Condo","10","2","100", "2000","gesghekslgjhewgjldsjvdslbndklnbldkbhreiohgeriogewropgjds;lvsdmvlsrjboeriheiroghsogjvdsop", "2913","hkdsjhdigh","https://upload.wikimedia.org/wikipedia/commons/1/1e/Stonehenge.jpg","jfjfwo","vjoesigjieosjgs"));
+            /*mgridImageDetailItem.add(new GridImageDetailItem("$100","1","190 RYland Street","San JOse","isdhfis","13913803","Condo","10","2","100", "2000","gesghekslgjhewgjldsjvdslbndklnbldkbhreiohgeriogewropgjds;lvsdmvlsrjboeriheiroghsogjvdsop", "2913","hkdsjhdigh","https://upload.wikimedia.org/wikipedia/commons/1/1e/Stonehenge.jpg","jfjfwo","vjoesigjieosjgs"));
             mgridImageDetailItem.add(new GridImageDetailItem("$100","2","190 RYland Street","San JOse","isdhfis","13913803","Condo","10","2","100", "2000","gesghekslgjhewgjldsjvdslbndklnbldkbhreiohgeriogewropgjds;lvsdmvlsrjboeriheiroghsogjvdsop", "2913","hkdsjhdigh","https://upload.wikimedia.org/wikipedia/commons/1/1e/Stonehenge.jpg","jfjfwo","vjoesigjieosjgs"));
             mgridImageDetailItem.add(new GridImageDetailItem("$100","3","190 RYland Street","San JOse","isdhfis","13913803","Condo","10","2","100", "2000","gesghekslgjhewgjldsjvdslbndklnbldkbhreiohgeriogewropgjds;lvsdmvlsrjboeriheiroghsogjvdsop", "2913","hkdsjhdigh","https://upload.wikimedia.org/wikipedia/commons/1/1e/Stonehenge.jpg","jfjfwo","vjoesigjieosjgs"));
             mgridImageDetailItem.add(new GridImageDetailItem("$100","4","190 RYland Street","San JOse","isdhfis","13913803","Condo","10","2","100", "2000","gesghekslgjhewgjldsjvdslbndklnbldkbhreiohgeriogewropgjds;lvsdmvlsrjboeriheiroghsogjvdsop", "2913","hkdsjhdigh","https://upload.wikimedia.org/wikipedia/commons/1/1e/Stonehenge.jpg","jfjfwo","vjoesigjieosjgs"));
@@ -34,6 +34,7 @@ public class PropSingleton {
             mgridImageDetailItem.add(new GridImageDetailItem("$100","14","190 RYland Street","San JOse","isdhfis","13913803","Condo","10","2","100", "2000","gesghekslgjhewgjldsjvdslbndklnbldkbhreiohgeriogewropgjds;lvsdmvlsrjboeriheiroghsogjvdsop", "2913","hkdsjhdigh","https://upload.wikimedia.org/wikipedia/commons/1/1e/Stonehenge.jpg","jfjfwo","vjoesigjieosjgs"));
             mgridImageDetailItem.add(new GridImageDetailItem("$100","15","190 RYland Street","San JOse","isdhfis","13913803","Condo","10","2","100", "2000","gesghekslgjhewgjldsjvdslbndklnbldkbhreiohgeriogewropgjds;lvsdmvlsrjboeriheiroghsogjvdsop", "2913","hkdsjhdigh","https://upload.wikimedia.org/wikipedia/commons/1/1e/Stonehenge.jpg","jfjfwo","vjoesigjieosjgs"));
             mgridImageDetailItem.add(new GridImageDetailItem("$100","16","190 RYland Street","San JOse","isdhfis","13913803","Condo","10","2","100", "2000","gesghekslgjhewgjldsjvdslbndklnbldkbhreiohgeriogewropgjds;lvsdmvlsrjboeriheiroghsogjvdsop", "2913","hkdsjhdigh","https://upload.wikimedia.org/wikipedia/commons/1/1e/Stonehenge.jpg","jfjfwo","vjoesigjieosjgs"));
+        */
         }
 
         public static PropSingleton get(Context c) {
