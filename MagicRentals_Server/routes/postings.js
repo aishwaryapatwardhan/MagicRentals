@@ -487,7 +487,7 @@ exports.updateStatus = function(req, res){
 				var coll = mongo.collection('rental_posting');
 							
 				coll.update( 
-						{ _id : id}, 
+						{ "_id" : id}, 
 						{
 							$set : {
 								"Status" : Status
@@ -497,6 +497,7 @@ exports.updateStatus = function(req, res){
 							 if(err){
 								 result.code = 208;
 								 result.status = "Unable to update to mongo";
+								 res.json(result)
 							 }else{
 								 mailOptions.from = "magicrentals11@gmail.com";
 									mailOptions.to = email;
@@ -506,8 +507,8 @@ exports.updateStatus = function(req, res){
 									mailer.sendMail(mailOptions, function(error, success) {
 										console.log('Mail sent');
 									});
+									res.json(result)
 							 }	
-							 res.json(result);
 						 }
 				);			
 			}	
