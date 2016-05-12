@@ -44,7 +44,7 @@ public class PropertiesListAsyncTask extends AsyncTask<String, Void, Boolean>{
     protected Boolean doInBackground(String... userid){
         HttpURLConnection httpConn;
         // String str = "http://54.153.2.150:3000/getPostsByUser?userid="+"savani";
-        String str = "http://192.168.1.173:3000/getPostsByUser?user_id="+"savani";
+        String str = LandlordUtils.url+"/getPostsByUser?user_id="+"savani";
         System.out.println(str);
 
         URL url = null;
@@ -73,20 +73,20 @@ public class PropertiesListAsyncTask extends AsyncTask<String, Void, Boolean>{
                     for(int i = 0; i < ja.length(); i++ ){
                         PropertyModel pm = new PropertyModel();
                         JSONObject result =  ja.getJSONObject(i);
-                        if(result.has("id"))
-                            pm.setKey(result.getString("key"));
+                        if(result.has("_id"))
+                            pm.setKey(result.getString("_id"));
                         if(result.has("user_id"))
                             pm.setUser_id(result.getString("user_id"));
                         if(result.has("address")){
                             JSONObject address = result.getJSONObject("address");
-                            if(address.has("Street"))
-                                pm.setStreet(address.getString("Street"));
+                            if(address.has("Street")){
+                                pm.setStreet(changeNull(address.getString("Street"), false));}
                             if(address.has("City"))
-                                pm.setCity(address.getString("City"));
+                                pm.setCity(changeNull(address.getString("City"), false));
                             if(address.has("State"))
-                                pm.setState(address.getString("State"));
+                                pm.setState(changeNull(address.getString("State"), false));
                             if(address.has("Zip"))
-                                pm.setZip(address.getString("Zip"));
+                                pm.setZip(changeNull(address.getString("Zip"), false));
 
                         }
                         if(result.has("property_type"))
@@ -95,30 +95,30 @@ public class PropertiesListAsyncTask extends AsyncTask<String, Void, Boolean>{
                             JSONObject units = result.getJSONObject("units");
                             if(units.has("bath") &&
                                             units.getString("bath").matches(".*\\d+.*"))
-                                pm.setBath(units.getString("bath"));
+                                pm.setBath(changeNull(units.getString("bath"), true));
                             if(units.has("room")&&
                                     units.getString("room").matches(".*\\d+.*"))
-                                pm.setRoom(units.getString("room"));
+                                pm.setRoom(changeNull(units.getString("room"), true));
                             if(units.has("area"))
-                                pm.setArea(units.getString("area"));
+                                pm.setArea(changeNull(units.getString("area"), true));
                         }
                         if(result.has("rent"))
-                            pm.setRent(result.getString("rent"));
+                            pm.setRent(changeNull(result.getString("rent"), true));
                         if(result.has("Contact_info")){
                             JSONObject contact = result.getJSONObject("Contact_info");
                             if(contact.has("email"))
-                                pm.setEmail(contact.getString("email"));
+                                pm.setEmail(changeNull(contact.getString("email"), false));
                             if(contact.has("Mobile"))
-                                pm.setMobile(contact.getString("Mobile"));
+                                pm.setMobile(changeNull(contact.getString("Mobile"), true));
                         }
                         if(result.has("description"))
-                            pm.setDescription(result.getString("description"));
+                            pm.setDescription(changeNull(result.getString("description"), false));
                         if(result.has("Status"))
-                            pm.setStatus(result.getString("Status"));
-                        if(result.has("view_count"))
-                            pm.setView_count(result.getString("view_count"));
+                            pm.setStatus(changeNull(result.getString("Status"), false));
+                        if(result.has("view_count") )
+                            pm.setView_count(changeNull(result.getString("view_count"), true));
                         if(result.has("nickname"))
-                            pm.setNickname(result.getString("nickname"));
+                            pm.setNickname(changeNull(result.getString("nickname"), false));
 //                        {      "_id": "savaniffwffyyfggq12345",
 //                                "user_id": "savani",      "address": {
 //                            "Street": "ffw",        "City": "ffyy",
@@ -225,10 +225,7 @@ public class PropertiesListAsyncTask extends AsyncTask<String, Void, Boolean>{
                     (mPropertyFragment.getActivity(), R.layout.landlord_property_row, mPropertyList);
           //  mPropertyListAdapter.notifyDataSetChanged();
             mListView.setAdapter(mPropertyListAdapter);
-           // setListAdapter(mPropertyListAdapter);
 
-            //  listView = (findViewById(R.id.la);
-           // mlistView = getListView();
         }
 //        else if(mListFragment.isVisible() && result.equals(false)){
 //            Toast.makeText(mListFragment.getContext(), "No results to show", Toast.LENGTH_SHORT).show();
@@ -243,5 +240,16 @@ public class PropertiesListAsyncTask extends AsyncTask<String, Void, Boolean>{
 
 
 }
+    String changeNull(String str, boolean num){
+        if(str.equals("null") && !num ){
+            String a = "";
+            return a;
+        }else  if(str.equals("null") && num ){
+            String a = "0";
+            return a;
+        }
+        return str;
+    }
+
 
 }

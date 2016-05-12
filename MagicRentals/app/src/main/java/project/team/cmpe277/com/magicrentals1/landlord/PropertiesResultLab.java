@@ -5,11 +5,7 @@ import android.util.Log;
 
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.ResponseCache;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -52,15 +48,21 @@ public class PropertiesResultLab implements TaskCompletedStatus{
     public  boolean rented(ArrayList<Integer> al, Context context){
         //call service..
 
-        System.out.println("Rented......   "+sPropertiesResultLab.mPropertyList.get(1).nickname);
+       PropertiesResultLab lPropResult =   PropertiesResultLab.getPropertiesResultLab(context);
+         ArrayList<PropertyModel> lPropertyList;
+        System.out.println("Rented......   "+sPropertiesResultLab.mPropertyList.get(1).nickname+
+        "posiyion  ... "+al.get(0));
         HashMap<String, String> hm= new HashMap<>();
        // hm.put("user_id", mPropertyList.get(al.get(0)).getUser_id());
-        hm.put("user_id", "savaniffwffyyfggq12345");
+       // hm.put("user_id", "savaniffwffyyfggq12345");
        // hm.put("id",sPropertiesResultLab.mPropertyList.get(al.get(0)).getKey());
+        System.out.println("Plzzzzzzz   ....... "+sPropertiesResultLab.mPropertyList.get(al.get(0)).getKey());
+        hm.put("user_id", sPropertiesResultLab.mPropertyList.get(al.get(0)).getKey());
+        Log.i(TAG, hm.get("user_id")+"USersssss.......");
         hm.put("Status","Rented");
        // String url = "http://54.153.2.150:3000/updateStatus";
         String url = "http://192.168.1.173:3000/updateStatus";
-        new MultipartUtilityAsyncTask(context, hm, null).execute(url);
+       // new MultipartUtilityAsyncTask(context, hm, null).execute(url);
         Boolean b = true;
         return b;
 
@@ -68,8 +70,9 @@ public class PropertiesResultLab implements TaskCompletedStatus{
 
     public boolean cancel(ArrayList<Integer> al, Context context){
         HashMap<String, String> hm= new HashMap<>();
-        hm.put("user_id", sPropertiesResultLab.mPropertyList.get(al.get(0)).getUser_id());
-        hm.put("id",sPropertiesResultLab.mPropertyList.get(al.get(0)).getKey());
+        hm.put("user_id", sPropertiesResultLab.mPropertyList.get(al.get(0)).getKey());
+        Log.i(TAG, hm.get("user_id")+"USersssss.......");
+      //  hm.put("_id",sPropertiesResultLab.mPropertyList.get(al.get(0)).getKey());
         hm.put("Status","Cancelled");
        // String url = "http://54.153.2.150:3000/updateStatus";
         String url = "http://192.168.1.173:3000/updateStatus";
