@@ -207,7 +207,7 @@ exports.getAllPosts = function(req, res){
 	console.log("In get postings API");
 	var result = {};
 	
-	//var user_id = req.param('user_id');
+	var user_id = req.param('user_id');
 	
 	var form = new formidable.IncomingForm();
 	
@@ -218,7 +218,7 @@ exports.getAllPosts = function(req, res){
 	       return;
 	     }
 	     
-	     var user_id = fields.user_id; 
+	   //  var user_id = fields.user_id; 
 	     
 	     if(user_id  || user_id == null){
 	    	 console.log("User_Id null");
@@ -226,7 +226,8 @@ exports.getAllPosts = function(req, res){
 				result.status = "User_Id null";
 				res.json(result);
 	     }
-	     
+	    
+	     console.log('uid is ' + user_id); 
 	     mongo.connect(function(err, db){
 			
 			if(err){
@@ -244,7 +245,7 @@ exports.getAllPosts = function(req, res){
 					if(docs){		
 						result.data = docs;
 						result.code = 200; 
-						result.status = "Successful";
+						result.status = "Successful 123";
 						
 					}else{						
 						 result.code = 208;
