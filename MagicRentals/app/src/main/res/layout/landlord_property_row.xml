@@ -54,6 +54,18 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/house_zip"
                 />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/status"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/statuscurr"/>
+            </LinearLayout>
         </LinearLayout>
         <TextView
             android:layout_width="wrap_content"

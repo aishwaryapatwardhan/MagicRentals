@@ -21,7 +21,7 @@ public class PropertyModel {
     String description;
     String images;
     String other_details;
-    String Status;
+    String Status= "Created";
     String view_count = "0";
     String nickname;
     public String getUser_id() {

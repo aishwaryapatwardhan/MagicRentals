@@ -49,9 +49,9 @@ import project.team.cmpe277.com.magicrentals1.utility.ThumbnailDownloader;
  */
 public class PropertyListLandlordFragment extends ListFragment  {
     private static final String TAG = "ListLandlordFragment";
-    // PropertyListAdapter adapter ;
-   // SimpleCursorAdapter mAdapter;
-    ProgressBar progress;
+     PropertyListAdapter madapter ;
+     ProgressBar progress;
+
     ListView listView;
     ArrayList<PropertyModel> mPropertyList;
     PropertiesResultLab mPropertyResultLab;
@@ -93,6 +93,8 @@ public class PropertyListLandlordFragment extends ListFragment  {
         mThumbnailThread.getLooper();
 
 
+
+
     }
 
     @Override
@@ -107,18 +109,23 @@ public class PropertyListLandlordFragment extends ListFragment  {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+      View v = inflater.inflate(R.layout.landlord_properties_fragment, container, false);
+        progress = (ProgressBar) v.findViewById(R.id.progressbar);
 
-        return inflater.inflate(R.layout.landlord_properties_fragment, container, false);
+        return v;
 
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+
         mPropertyResultLab = PropertiesResultLab.getPropertiesResultLab(getContext());
         SharedPreferences preferences = getActivity().getApplicationContext().getSharedPreferences
                                                         (TAG, Context.MODE_PRIVATE);
         userid = preferences.getString(LoginActivity.USERID,null);
+        mPropertyResultLab.getPropertyList().clear();
         System.out.println("USERID......... "+userid);
 //
 
@@ -130,17 +137,24 @@ public class PropertyListLandlordFragment extends ListFragment  {
 //        //    new MultipartUtilityAsyncTask(hm, null).execute(url);
 //        new MultipartUtilityAsyncTask(this.getContext(), hm, null).execute(url);
         listView = getListView();
-        new PropertiesListAsyncTask("savani",this, listView).execute(userid);
+        new PropertiesListAsyncTask("savani",this, listView, progress).execute(userid);
         mPropertyList = mPropertyResultLab.getPropertyList();
+        madapter = (PropertyListAdapter) getListAdapter();
 
-       // mAdapter = PropertyListAdapter(this.getActivity(), R.layout.landlord_property_row, mPropertyList);
+        if(madapter == null){
+            Log.i(TAG, "null adapter");
+        }
+        madapter = (PropertyListAdapter) this.getListAdapter();
+        if(madapter == null){
+            Log.i(TAG, "null adapter");
+        }
+      //test
+//         madapter = new PropertyListAdapter
+//                (getContext(), R.layout.landlord_property_row, mPropertyList);
+//          mPropertyListAdapter.notifyDataSetChanged();
+//        listView.setAdapter(mPropertyListAdapter);
 
-//        PropertyListAdapter mPropertyListAdapter = new PropertyListAdapter
-//                (activity, R.layout.landlord_property_row, mPropertyList);
-//        setListAdapter(mPropertyListAdapter);
-//        //  listView = (findViewById(R.id.la);
 
-       // listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
        // listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
@@ -171,7 +185,7 @@ public class PropertyListLandlordFragment extends ListFragment  {
             }
 
             @Override
-            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            public boolean onActionItemClicked(final ActionMode mode, MenuItem item) {
 
                // PropertyListAdapter pla = (PropertyListAdapter) getListAdapter();;
                // PropertyListAdapter pla = ListView
@@ -193,33 +207,43 @@ public class PropertyListLandlordFragment extends ListFragment  {
                 switch (item.getItemId()) {
                     case R.id.rentedM:
                         System.out.println("inside rented.......");
-                        System.out.println("selcted line before OK..  "+selected_line_al.size());
+                        System.out.println("selected line before OK..  "+selected_line_al.size());
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(listView.getContext());
 
                         builder.setMessage(R.string.alertrented)
-                                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener()  {
                                     public void onClick(DialogInterface dialog, int id) {
                                        //
                                         Log.i(TAG, "Inisde OK");
+//                                        PropertyModel pm =  new PropertyModel();
+//                                        pm =
                                         rentedOk = true;
+                                        mPropertyList = mCallbacks.onRentedClicked(selected_line_al, madapter);
+//                                        madapter = new PropertyListAdapter
+//                                                (getContext(), R.layout.landlord_property_row, mPropertyList);
+//                                        madapter.notifyDataSetChanged();
+//                                        listView.setAdapter(madapter);
+                                       // Boolean b = resultsLab.rented(selected_line_al, listView.getContext());
                                     }
                                 })
                                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         Log.i(TAG, "Inisde Cancel");
+                                     //
                                        // finish();
-                                        rentedOk = false;
+                                       // rentedOk = false;
                                     }
                                 });
                         builder.setCancelable(true);
                         builder.create();
                         builder.show();
                         Log.i(TAG, "after button alert.. ");
-                        if (rentedOk) {
-                            System.out.println("selcted line   "+selected_line_al.size());
-                            Boolean b = resultsLab.rented(selected_line_al, listView.getContext());
-                        }
+                        System.out.println(rentedOk);
+//                        if (rentedOk) {
+//                            System.out.println("selcted line   "+selected_line_al.size());
+//                            Boolean b = resultsLab.rented(selected_line_al, listView.getContext());
+//                        }
 
                         //   mAdapter.notifyDatasetChanged();
                         break;
@@ -252,6 +276,7 @@ public class PropertyListLandlordFragment extends ListFragment  {
                                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         //
+                                        mCallbacks.onCancelClicked(selected_line_al,madapter);
                                         cancelOk = true;
                                     }
                                 })
@@ -309,36 +334,15 @@ public class PropertyListLandlordFragment extends ListFragment  {
 
 
 //
-//        listView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                System.out.println("inside click detail.......");
-//                String selectedValue = (String) getListAdapter().getItem();
 
-//            public void onPropertyClicked(PropertyModel property) {
-//                if (findViewById(R.id.detailPropFragmentContainer) == null) {
-//                    Intent i = new Intent(this, PropertyDetailActivity.class);
-//                    i.putExtra(PropertyDetailFragment.PROPERTY_KEY, property.getKey());
-//                    startActivity(i);
-//                } else {
-//                    FragmentManager fm = getSupportFragmentManager();
-//                    FragmentTransaction ft = fm.beginTransaction();
-//                    Fragment oldDetail = fm.findFragmentById(R.id.detailPropFragmentContainer);
-//                    Fragment newDetail = PropertyDetailFragment.newInstance(property.getKey());
-//                    if (oldDetail != null) {
-//                        ft.remove(oldDetail);
-//                    }
-//                    ft.add(R.id.detailPropFragmentContainer, newDetail);
-//                    ft.commit();
-//                }
-//            }
-//        }
-//        });
 
     }
 
     public interface Callbacks{
         void onPropertyClicked(PropertyModel property);
+        ArrayList<PropertyModel> onRentedClicked(ArrayList<Integer> selected_lines,
+                                                 PropertyListAdapter adapter);
+        void onCancelClicked(ArrayList<Integer> selected_lines, PropertyListAdapter adapter);
     }
 
     @Override
@@ -419,6 +423,11 @@ public class PropertyListLandlordFragment extends ListFragment  {
 //    }
 
 
+    @Override
+    public void onResume() {
+        super.onResume();
+     //   madapter.notifyDataSetChanged();
+    }
 }
 
 

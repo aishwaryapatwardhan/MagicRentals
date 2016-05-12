@@ -2,10 +2,12 @@ package project.team.cmpe277.com.magicrentals1.landlord;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -38,6 +40,7 @@ import project.team.cmpe277.com.magicrentals1.R;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -60,7 +63,7 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
     PropertyModel property;
     Boolean isValid = true;
     Spinner spinPropertyType;
-    EditText area, street, city, state, zip, rent, email, mobile, description;
+    EditText area, street, city, state, zip, rent, email, mobile, description, other_details;
     ImageButton postPicBtn;
     private Intent popUp;
     Spinner SpinPropertyType, bath, rooms;
@@ -112,14 +115,10 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
         street.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
-
-
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
 
             @Override
@@ -137,6 +136,7 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
 
 
         });
+        other_details = (EditText)findViewById((R.id.other_details));
         city = (EditText)findViewById(R.id.city);
         city.addTextChangedListener(new TextValidator(city));
         state = ((EditText)findViewById(R.id.state));
@@ -203,23 +203,40 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
 
                 property.setBath(bath.getSelectedItem().toString());
 
+                property.setOther_details(other_details.getText().toString());
+
 
                 if(isValid){
                    HashMap<String, String> hm = LandlordUtils.serialize(property);
                    // HashMap<String, File> file = new HashMap<String, File>();
                    // String url = "http://54.153.2.150:3000/addPostings";
-                    String url = LandlordUtils.url+"/addPostings";
+                    String url = getString(R.string.url)+"/addPostings";
                   //  String url = "http://10.0.2.2:3000/addPostings";
                    // System.out.println("isndie jdjjj url ");
                     System.out.println("BATH... "+property.getBath()+"  Room.."+property.getRoom()+ "  Email"+property.getEmail());
-
+                   PropertiesResultLab propertiesResultLab=  PropertiesResultLab.
+                                                getPropertiesResultLab(getApplicationContext());
+                    ArrayList<PropertyModel> propertyList =  propertiesResultLab.getPropertyList();
                     new MultipartUtilityAsyncTask(UploadPropertyDataActivity.this, hm, null).execute(url);
+                    propertyList.add(property);
 
+                    AlertDialog alertDialog = new AlertDialog.Builder(UploadPropertyDataActivity.this).create();
+                    alertDialog.setTitle("Success");
+                    alertDialog.setMessage("Property created.");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                 //   UploadPropertyDataActivity.this.finish();
 
 //call service
-                    Toast.makeText(UploadPropertyDataActivity.this, "Fine" , Toast.LENGTH_LONG).show();
+                  //  Toast.makeText(UploadPropertyDataActivity.this, "Fine" , Toast.LENGTH_LONG).show();
                 }else
-                    Toast.makeText(UploadPropertyDataActivity.this, ERROR , Toast.LENGTH_LONG).show();
+              //     Toast.makeText(UploadPropertyDataActivity.this, ERROR , Toast.LENGTH_LONG).show();
+                Log.i(TAG,"Error in data");
 
     //   CheckBox ch1=(CheckBox)v.findViewById(R.id.condo);
                 // if (ch1.isChecked())
@@ -376,7 +393,7 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
     public void onTaskCompleted(JSONObject jsonObject){
         //
         Log.i(TAG, "Response---- "+jsonObject );
-        System.out.println("response++++++ "+jsonObject);
+      //  System.out.println("response++++++ "+jsonObject);
         try {
             if(jsonObject.getInt("code") == 200){
                 Toast.makeText(UploadPropertyDataActivity.this, "Successfully Updated", Toast.LENGTH_LONG).show();

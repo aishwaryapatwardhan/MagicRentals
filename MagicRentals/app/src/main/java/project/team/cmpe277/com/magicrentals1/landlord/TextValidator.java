@@ -24,7 +24,7 @@ public TextValidator(EditText editText) {
 final public void afterTextChanged(Editable s) {
     String text = editText.getText().toString();
     editText.setError(null);
-    System.out.println("validationnnn   "+text+"   value");
+
     // length 0 means there is no text
     if (text.length() == 0) {
         System.out.println("validationnnn  required ");

@@ -56,7 +56,7 @@ public class PropertiesResultLab implements TaskCompletedStatus{
        // hm.put("user_id", mPropertyList.get(al.get(0)).getUser_id());
        // hm.put("user_id", "savaniffwffyyfggq12345");
        // hm.put("id",sPropertiesResultLab.mPropertyList.get(al.get(0)).getKey());
-        System.out.println("Plzzzzzzz   ....... "+sPropertiesResultLab.mPropertyList.get(al.get(0)).getKey());
+
         hm.put("user_id", sPropertiesResultLab.mPropertyList.get(al.get(0)).getKey());
         Log.i(TAG, hm.get("user_id")+"USersssss.......");
         hm.put("Status","Rented");
