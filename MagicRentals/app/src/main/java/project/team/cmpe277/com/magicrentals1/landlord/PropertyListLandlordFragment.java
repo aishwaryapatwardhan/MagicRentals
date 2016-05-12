@@ -120,6 +120,11 @@ public class PropertyListLandlordFragment extends ListFragment  {
                                                         (TAG, Context.MODE_PRIVATE);
         userid = preferences.getString(LoginActivity.USERID,null);
         System.out.println("USERID......... "+userid);
+
+        //temp changes to pass UID
+//        if(userid.isEmpty()){
+            userid = "Rekha";
+  //      }
 //
 
 
