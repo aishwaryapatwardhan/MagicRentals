@@ -8,10 +8,14 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
+import org.json.JSONObject;
+
+import project.team.cmpe277.com.magicrentals1.utility.TaskCompletedStatus;
+
 /**
  * Created by Rekha on 4/27/2016.
  */
-public class TenantSearchActivity extends AppCompatActivity {
+public class TenantSearchActivity extends AppCompatActivity implements TaskCompletedStatus{
 
     public static String userid;
     private static final String TAG = "TenantSearchActivity";
@@ -44,4 +48,8 @@ public class TenantSearchActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onTaskCompleted(JSONObject result) {
+
+    }
 }

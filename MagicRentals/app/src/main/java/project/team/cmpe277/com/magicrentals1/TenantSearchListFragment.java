@@ -101,6 +101,8 @@ public class TenantSearchListFragment extends Fragment {
         switch(id){
             case R.id.favorites:
                 //favourites activity
+                Intent i = new Intent(getActivity().getApplicationContext(), TenantsFavActivity.class);
+                startActivity(i);
                 return true;
             case R.id.save_search:
                 //api call

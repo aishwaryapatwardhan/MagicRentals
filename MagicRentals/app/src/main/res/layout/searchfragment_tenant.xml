@@ -29,9 +29,32 @@
             android:ems="10"
             android:textAppearance="@style/Resp"
             android:textColor="#7b68ee"
-            android:hint="Enter city, zipcode"
+            android:hint="Enter city"
             />
     </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ZipCode"
+                android:layout_margin="10dp"
+                android:layout_gravity="left"
+                style="@style/Text1"/>
+            <EditText
+                android:id= "@+id/zipcodeval"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:ems="10"
+                android:textAppearance="@style/Resp"
+                android:textColor="#7b68ee"
+                android:hint="Enter zipcode"
+                />
+        </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -97,7 +120,8 @@
             android:entries="@array/pricerangelist"
             android:textAppearance="@style/Resp"
             android:layout_gravity="right"
-            android:spinnerMode="dropdown" />
+            android:spinnerMode="dropdown"
+            android:clickable="true" />
     </LinearLayout>
     <Button
         android:layout_width="match_parent"

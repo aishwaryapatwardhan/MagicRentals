@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletedSta
     private SignInButton googleSignIn;
     private int RC_SIGN_IN;
     private String gcmtoken;
-
+    public static String urlip;
 
 
     private String userid;
@@ -77,6 +77,7 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletedSta
         Log.i(TAG, useridCheck); */
 
         //Initializing the facebook sdk and initializing the callbackmanager
+        urlip = getString(R.string.url);
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
 
@@ -147,10 +148,10 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletedSta
              /*   Intent i = new Intent(getApplicationContext(), TenantSearchActivity.class);
                 i.putExtra("USERID", userid);
                 startActivity(i); */
-                Intent i = new Intent(getApplicationContext(), PropertiesListLandlordActivity.class);
-                startActivity(i);
-//                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-//                startActivityForResult(signInIntent, RC_SIGN_IN);
+                //Intent i = new Intent(getApplicationContext(), PropertiesListLandlordActivity.class);
+                //startActivity(i);
+                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+                startActivityForResult(signInIntent, RC_SIGN_IN);
             }
         });
 
@@ -271,7 +272,7 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletedSta
 
         //Adding userid to shared preferences
         SharedPreferences sharedPreferences = this.getSharedPreferences(TAG,Context.MODE_PRIVATE);
-        sharedPreferences.edit().putString(USERID,userid).apply();
+        sharedPreferences.edit().putString(USERID,userid).commit();
 
     }
 

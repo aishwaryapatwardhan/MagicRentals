@@ -55,7 +55,7 @@ public class GridViewAdapter extends ArrayAdapter{
         for( int i = Math.max(0,position -10); i < Math.min(data.size()-1, position+10); i++){
             TenantSearchListFragment.mThumbnailThread.queuePreload(item.getImageIcon());
         }
-        holder.price.setText(item.getPrice());
+        holder.price.setText(item.getRent());
         holder.address.setText(item.getStreetAddr());
         return row;
     }
