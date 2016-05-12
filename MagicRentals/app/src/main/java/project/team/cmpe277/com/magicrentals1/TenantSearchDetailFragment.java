@@ -1,16 +1,24 @@
 package project.team.cmpe277.com.magicrentals1;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.security.Principal;
 import java.util.HashMap;
 
 import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
@@ -20,6 +28,11 @@ import project.team.cmpe277.com.magicrentals1.utility.TaskCompletedStatus;
  * Created by Rekha on 5/1/2016.
  */
 public class TenantSearchDetailFragment extends android.app.Fragment implements TaskCompletedStatus {
+
+
+    //Raghu's Variable
+    private String url;
+
 
     private TextView streetValue;
     private TextView cityValue;
@@ -38,13 +51,20 @@ public class TenantSearchDetailFragment extends android.app.Fragment implements 
     private ImageView heartsImage;
     private ImageView iconImage;
     private Boolean heartflag;
-    private JSONObject apiCallStatus;
+    private int position;
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View detailview = inflater.inflate(R.layout.searchdetailfragment_tenant, container, false);
+        setHasOptionsMenu(true);
+
+
         streetValue = (TextView)detailview.findViewById(R.id.streetValue);
         cityValue = (TextView)detailview.findViewById(R.id.cityValue);
         zipcodeValue = (TextView)detailview.findViewById(R.id.zipcodeValue);
@@ -61,30 +81,40 @@ public class TenantSearchDetailFragment extends android.app.Fragment implements 
         contactEmailValue = (TextView)detailview.findViewById(R.id.contactEmailValue);
         heartsImage = (ImageView)detailview.findViewById(R.id.heartsImage);
         iconImage = (ImageView)detailview.findViewById(R.id.iconImage);
-        //Make API call to get the detail of the onclicked item
 
+       /* streetValue.setText(gridImageDetailItem.getStreetAddr());
+        cityValue.setText(gridImageDetailItem.getCityAddr());
+        zipcodeValue.setText(gridImageDetailItem.getZipCode());
+        stateValue.setText(gridImageDetailItem.getStateAddr());
+        proptypeValue.setText(gridImageDetailItem.getPropertyType());
+        numRoomsValue.setText(gridImageDetailItem.getNoOfRooms());
+        numBathsValue.setText(gridImageDetailItem.getNoOfBaths());
+        sqFeetValue.setText(gridImageDetailItem.getSqFoot());
+        montlyRentValue.setText(gridImageDetailItem.getRent());
+        descriptionValue.setText(gridImageDetailItem.getDescription());
+        depositValue.setText(gridImageDetailItem.getDeposit());
+        leaseTypeValue.setText(gridImageDetailItem.getLeaseType());
+        contactNumberValue.setText(gridImageDetailItem.getContact());
+        contactEmailValue.setText(gridImageDetailItem.getEmail());*/
 
-        //pass in the hashmap and also the request url in execute method, pass in the application context as well
-        new MultipartUtilityAsyncTask(getActivity().getApplicationContext(),null,null).execute("");
+        int drawableId = getResources().getIdentifier("magicrentals1", "drawable", "project.team.cmpe277.com.magicrentals");
+        iconImage.setBackgroundResource(drawableId);
 
-        new GetDetailAPI().execute("01");
+        //call CheckIfAlreadyInfav
+        new CheckIfAlreadyInFav().execute("01");
 
         heartsImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (heartflag == false) {
-                    Toast.makeText(getActivity().getApplicationContext(), "Added to favourites", Toast.LENGTH_LONG).show();
-                    //api call to add to fav
-                    int drawableId = getResources().getIdentifier("solidheart", "drawable", "project.team.cmpe277.com.magicrentals");
-                    heartsImage.setBackgroundResource(drawableId);
-                    heartflag = true;
+                     url = getString(R.string.url)+"addFav";
                 } else {
-                    Toast.makeText(getActivity().getApplicationContext(), "Removed from favourites", Toast.LENGTH_LONG).show();
-                    //api call to remove from fav
-                    int drawableId = getResources().getIdentifier("shallowheart", "drawable", "project.team.cmpe277.com.magicrentals");
-                    heartsImage.setBackgroundResource(drawableId);
-                    heartflag = false;
+//                   url = getString(R.string.url)+"removeFav";
                 }
+                HashMap<String, String> hmap = new HashMap<>();
+                hmap.put("uid","Rekha");
+                hmap.put("uid","ids");
+                new MultipartUtilityAsyncTask(getActivity(),hmap,null).execute(url);
             }
         });
 
@@ -99,57 +129,53 @@ public class TenantSearchDetailFragment extends android.app.Fragment implements 
         return detailview;
     }
 
-    //override this method to get the json object
-
     @Override
     public void onTaskCompleted(JSONObject result) {
-        apiCallStatus = result;
 
-    }
-
-
-    public class GetDetailAPI extends AsyncTask<Object, Void, GridImageDetailItem> {
-        private Exception exception;
-        GridImageDetailItem gridImageDetailItem;
-
-
-        public GridImageDetailItem doInBackground(Object... parameters) {
-
-            try {
-                //Make API call
-                return gridImageDetailItem;
-            } catch (Exception e) {
-                // Log exception
-                this.exception = e;
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(GridImageDetailItem gridImageDetailItem) {
-            //set all the display text
-            streetValue.setText("190 Ryland Street");
-            cityValue.setText("San Jose");
-            zipcodeValue.setText("95110");
-            stateValue.setText("California");
-            proptypeValue.setText("Condo");
-            numRoomsValue.setText("2");
-            numBathsValue.setText("2");
-            sqFeetValue.setText("1200");
-            montlyRentValue.setText("$3200");
-            descriptionValue.setText("Its a spacious apartment");
-            depositValue.setText("$800");
-            leaseTypeValue.setText("12 months lease");
-            contactNumberValue.setText("4088568501");
-            contactEmailValue.setText("rekha@gmail.com");
-
-            int drawableId = getResources().getIdentifier("magicrentals1", "drawable", "project.team.cmpe277.com.magicrentals");
-            iconImage.setBackgroundResource(drawableId);
-
-            //call CheckIfAlreadyInfav
-            new CheckIfAlreadyInFav().execute("01");
+        if (heartflag == false) {
+            Toast.makeText(getActivity().getApplicationContext(), "Added to favourites", Toast.LENGTH_LONG).show();
+            int drawableId = getResources().getIdentifier("solidheart", "drawable", "project.team.cmpe277.com.magicrentals");
+            heartsImage.setBackgroundResource(drawableId);
+            heartflag = true;
+        } else {
+            Toast.makeText(getActivity().getApplicationContext(), "Removed from favourites", Toast.LENGTH_LONG).show();
+            int drawableId = getResources().getIdentifier("shallowheart", "drawable", "project.team.cmpe277.com.magicrentals");
+            heartsImage.setBackgroundResource(drawableId);
+            heartflag = false;
         }
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+
+        switch(id){
+            case android.R.id.home:
+                if (NavUtils.getParentActivityName(getActivity()) != null) {
+                    NavUtils.navigateUpFromSameTask(getActivity());
+                }
+                return true;
+            case R.id.favorites:
+                //favourites activity
+                return true;
+            case R.id.save_search:
+                //api call
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_login, menu);
+    }
+
 
     public class CheckIfAlreadyInFav extends AsyncTask<Object, Void, Boolean> {
         private Exception exception;

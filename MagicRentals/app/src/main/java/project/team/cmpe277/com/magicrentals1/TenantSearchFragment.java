@@ -40,6 +40,8 @@ import com.google.android.gms.location.places.Places;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.io.Serializable;
+
 /**
  * Created by Rekha on 4/26/2016.
  */
@@ -169,7 +171,7 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
         mSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Make an API call to display the search results - get results into PropSingleton
+
                 if(sp.getLocation().toString().equals("")) {
                     if (mGoogleApiClient.isConnected()) {
                         if (ContextCompat.checkSelfPermission(getActivity(),
@@ -184,11 +186,12 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
                     }
                 }
 
+                //Make an API call to display the search results - get results into PropSingleton
 
-
-                /*Intent i = new Intent(getActivity(), TenantSearchListActivity.class);
-                //i.putExtra("USERID", TenantSearchActivity.userid);
-                startActivity(i);*/
+                //Inside async task call this
+                Intent i = new Intent(getActivity(), TenantSearchListActivity.class);
+                i.putExtra("USERID", TenantSearchActivity.userid);
+                startActivity(i);
             }
         });
 
@@ -244,12 +247,6 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
         switch(id){
             case R.id.favorites:
                 //favourites activity
-                return true;
-            case R.id.createpost:
-                //savani your activity - to create a post
-                return true;
-            case R.id.mypostings:
-                //savani your activity to list the owner's previous posts if exists
                 return true;
         }
 

@@ -1,9 +1,11 @@
 package project.team.cmpe277.com.magicrentals1.landlord;
 
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -27,6 +29,9 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import project.team.cmpe277.com.magicrentals1.R;
 
 
@@ -40,15 +45,16 @@ import project.team.cmpe277.com.magicrentals1.R;
 import project.team.cmpe277.com.magicrentals1.landlord.PropertyModel;
 import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
 import project.team.cmpe277.com.magicrentals1.utility.PopUp;
+import project.team.cmpe277.com.magicrentals1.utility.TaskCompletedStatus;
 
 
 /**
  * Created by savani on 5/4/16.
  */
-public class UploadPropertyDataActivity extends AppCompatActivity {
+public class UploadPropertyDataActivity extends AppCompatActivity implements TaskCompletedStatus{
     static String userid;
     private static final String ERROR = "Please fill required entries";
-    private static final String REQUIRED = "required";
+    private static final String REQUIRED = "Required";
     Button btnSubmit;
     // FloatingActionButton btnSubmit;
     PropertyModel property;
@@ -72,6 +78,13 @@ public class UploadPropertyDataActivity extends AppCompatActivity {
         Log.i(TAG,"Inside UploadProperty");
         postPicBtn =(ImageButton) findViewById(R.id.postPicButton);
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setIcon(R.drawable.ic_launcher);
+
+        actionBar.setTitle("Magic Rentals");
+
+
 //        street = (EditText)findViewById(R.id.street);
 //        city = (EditText)findViewById(R.id.city);
 //        state = ((EditText)findViewById(R.id.state));
@@ -93,9 +106,6 @@ public class UploadPropertyDataActivity extends AppCompatActivity {
         });
 
         property = new PropertyModel();
-
-
-
         area = (EditText) findViewById(R.id.area);
         area.addTextChangedListener(new TextValidator(area));
         street = (EditText)findViewById(R.id.street);
@@ -109,7 +119,6 @@ public class UploadPropertyDataActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
 
             }
 
@@ -198,21 +207,21 @@ public class UploadPropertyDataActivity extends AppCompatActivity {
                 if(isValid){
                    HashMap<String, String> hm = LandlordUtils.serialize(property);
                    // HashMap<String, File> file = new HashMap<String, File>();
-                    String url = "http://54.153.2.150:3000/addPostings";
+                   // String url = "http://54.153.2.150:3000/addPostings";
+                    String url = "http://192.168.1.173:3000/addPostings";
+                  //  String url = "http://10.0.2.2:3000/addPostings";
                    // System.out.println("isndie jdjjj url ");
+                    System.out.println("BATH... "+property.getBath()+"  Room.."+property.getRoom()+ "  Email"+property.getEmail());
 
-                    new MultipartUtilityAsyncTask(hm, null).execute(url);
+                    new MultipartUtilityAsyncTask(UploadPropertyDataActivity.this, hm, null).execute(url);
+
+
 //call service
                     Toast.makeText(UploadPropertyDataActivity.this, "Fine" , Toast.LENGTH_LONG).show();
                 }else
                     Toast.makeText(UploadPropertyDataActivity.this, ERROR , Toast.LENGTH_LONG).show();
 
-
-
-
-
-
-                //   CheckBox ch1=(CheckBox)v.findViewById(R.id.condo);
+    //   CheckBox ch1=(CheckBox)v.findViewById(R.id.condo);
                 // if (ch1.isChecked())
                 // property.setProperty_type(String.valueOf(R.string.condo));
 
@@ -362,6 +371,22 @@ public class UploadPropertyDataActivity extends AppCompatActivity {
         uploadPicFromGallery.setType("image/*");
         uploadPicFromGallery.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(uploadPicFromGallery,"Upload Picture"),3);
+    }
+
+    public void onTaskCompleted(JSONObject jsonObject){
+        //
+        Log.i(TAG, "Response---- "+jsonObject );
+        System.out.println("response++++++ "+jsonObject);
+        try {
+            if(jsonObject.getInt("code") == 200){
+                Toast.makeText(UploadPropertyDataActivity.this, "Successfully Updated", Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(UploadPropertyDataActivity.this, "Error! Please try again.", Toast.LENGTH_LONG).show();
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 

@@ -30,8 +30,8 @@ public class GCMPushReceiverService extends GcmListenerService {
         Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         NotificationCompat.Builder noBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentText("Magic Rentals Notification")
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setContentText("MagicRentals Notification")
                 .setContentText(message)
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent);

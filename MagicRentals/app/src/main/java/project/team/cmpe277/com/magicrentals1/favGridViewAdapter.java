@@ -13,20 +13,21 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Created by Rekha on 4/29/2016.
+ * Created by Raghu on 5/10/2016.
  */
-public class GridViewAdapter extends ArrayAdapter{
+public class favGridViewAdapter extends ArrayAdapter {
 
     private Context context;
     private int layoutResourceId;
-    private ArrayList<GridImageDetailItem> data;
+    private ArrayList<FavPropertieDetails> data;
 
-    public GridViewAdapter(Context context,int layoutResourceId,ArrayList<GridImageDetailItem> data){
-        super(context,layoutResourceId,data);
+    public favGridViewAdapter(Context context,int layoutResourceId){
+        super(context,layoutResourceId,FavPropCollections.favoriteAList);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
-        this.data = data;
+        this.data = FavPropCollections.favoriteAList;
     }
+
 
     @Override
     public View getView(int position,View convertView,ViewGroup parent){
@@ -44,19 +45,21 @@ public class GridViewAdapter extends ArrayAdapter{
         }else {
             holder = (ViewHolder)row.getTag();
         }
-        GridImageDetailItem item = data.get(position);
-        Bitmap cacheHit = TenantSearchListFragment.mThumbnailThread.checkCache(item.getImageIcon());
+        FavPropertieDetails item = data.get(position);
+        Bitmap cacheHit = TenantsFavListFragment.mThumbnailThread.checkCache(item.getImages());
         if(cacheHit != null){
             holder.image.setImageBitmap(cacheHit);
         }else{
-            TenantSearchListFragment.mThumbnailThread.queueThumbnail(holder.image,item.getImageIcon());
+            TenantsFavListFragment.mThumbnailThread.queueThumbnail(holder.image,item.getImages());
         }
 
         for( int i = Math.max(0,position -10); i < Math.min(data.size()-1, position+10); i++){
-            TenantSearchListFragment.mThumbnailThread.queuePreload(item.getImageIcon());
+            TenantsFavListFragment.mThumbnailThread.queuePreload(item.getImages());
         }
-        holder.price.setText(item.getPrice());
-        holder.address.setText(item.getStreetAddr());
+//        holder.image = (ImageView)row.findViewById(R.id.myImageView);
+
+        holder.price.setText(item.getRent().toString());
+        holder.address.setText(item.getStreet()+" "+item.getCity()+" "+item.getZip() );
         return row;
     }
 
@@ -65,6 +68,5 @@ public class GridViewAdapter extends ArrayAdapter{
         ImageView image;
         TextView price;
     }
-
-
 }
+

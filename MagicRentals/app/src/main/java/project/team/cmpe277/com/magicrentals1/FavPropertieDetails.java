@@ -1,19 +1,26 @@
-package project.team.cmpe277.com.magicrentals1.landlord;
+package project.team.cmpe277.com.magicrentals1;
 
 /**
- * Created by savani on 4/26/16.
+ * Created by Raghu on 5/10/2016.
  */
-public class PropertyModel {
+public class FavPropertieDetails {
+    public String getRid() {
+        return rid;
+    }
 
+    public void setRid(String rid) {
+        this.rid = rid;
+    }
+
+    String rid;
     String user_id;
-    String key;
     String Street;
     String City;
     String State;
     String Zip;
     String property_type;
-    String bath = "0";
-    String room = "0";
+    String bath;
+    String room;
     String area;
     String rent;
     String email;
@@ -22,8 +29,28 @@ public class PropertyModel {
     String images;
     String other_details;
     String Status;
-    String view_count = "0";
-    String nickname;
+    //String nickname;
+
+    public FavPropertieDetails(String user_id, String street, String city, String state, String zip, String property_type, String bath, String room, String area, String rent, String email, String mobile, String description, String other_details, String status, String img, String rid) {
+        this.rid = rid;
+        this.user_id = user_id;
+        Street = street;
+        City = city;
+        State = state;
+        Zip = zip;
+        images = img;
+        this.property_type = property_type;
+        this.bath = bath;
+        this.room = room;
+        this.area = area;
+        this.rent = rent;
+        this.email = email;
+        Mobile = mobile;
+        this.description = description;
+        this.other_details = other_details;
+        Status = status;
+    }
+
     public String getUser_id() {
         return user_id;
     }
@@ -32,23 +59,12 @@ public class PropertyModel {
         this.user_id = user_id;
     }
 
-    public String getKey(){
-        return key;
-    }
-    public  void setKey(String key){
-        this.key = key;
+    public String getImages() {
+        return images;
     }
 
-    public void setNickname(String nickname){ this.nickname = nickname; }
-
-    public String getNickname(){ return nickname; }
-
-    public String getCity() {
-        return City;
-    }
-
-    public void setCity(String city) {
-        City = city;
+    public void setImages(String images) {
+        this.images = images;
     }
 
     public String getStreet() {
@@ -57,6 +73,14 @@ public class PropertyModel {
 
     public void setStreet(String street) {
         Street = street;
+    }
+
+    public String getCity() {
+        return City;
+    }
+
+    public void setCity(String city) {
+        City = city;
     }
 
     public String getState() {
@@ -139,14 +163,6 @@ public class PropertyModel {
         this.description = description;
     }
 
-    public String getImages() {
-        return images;
-    }
-
-    public void setImages(String images) {
-        this.images = images;
-    }
-
     public String getOther_details() {
         return other_details;
     }
@@ -162,23 +178,6 @@ public class PropertyModel {
     public void setStatus(String status) {
         Status = status;
     }
-
-    public String getView_count() {
-        return view_count;
-    }
-
-    public void setView_count(String view_count) {
-        this.view_count = view_count;
-    }
-
-
-
-
-
-    //user_id , Street , City, State  , Zip    , property_type ,
-    // bath , room , area , rent  , email , Mobile , description ,
-    // Images (need to decide this yet..), other_details ,  Status , view_count
-
 
 
 }

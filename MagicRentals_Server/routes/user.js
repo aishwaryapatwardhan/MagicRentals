@@ -12,6 +12,7 @@ exports.addUser = function(req, res){
 	
 	var result = {};
 	
+	var form = new formidable.IncomingForm();
 	form.parse(req, function(err, fields, files) {
 	     if(err){
 	       console.log(err);
@@ -19,15 +20,15 @@ exports.addUser = function(req, res){
 	       return;
 	     }
 	     
-//	    var uid = req.param('uid');
-//	 	var email = req.param('email');
-//	 	var deviceID = req.param('deviceID');
+	    var uid = req.param('uid');
+	 	var email = req.param('email');
+	 	var deviceID = req.param('deviceID');
 //	 	var token = req.param('token');
 	    
-		var uid = fields.uid;
-		var email = fields.email;
-		var deviceID = fields.deviceID;
-	    
+//		var uid = fields.uid;
+//		var email = fields.email;
+//		var deviceID = fields.deviceID;
+//	    
 	 	mongo.connect(function(err, db){
 	 		
 	 		if(err){

@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
 
     <permission
         android:name="project.team.cmpe277.com.magicrentals1.permission.C2D_MESSAGE"
@@ -23,8 +23,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".LoginActivity"
-            android:label="@string/app_name"
             android:icon="@drawable/ic_launcher"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,20 +34,18 @@
         </activity>
         <activity
             android:name=".TenantSearchActivity"
-            android:label="@string/app_name"
             android:icon="@drawable/ic_launcher"
-            android:theme="@style/AppTheme">
-
-            </activity>
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".TenantSearchListActivity"
-            android:label="@string/app_name"
             android:icon="@drawable/ic_launcher"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".TenantSearchDetailActivity"
-            android:label="@string/app_name"
             android:icon="@drawable/ic_launcher"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -57,12 +55,10 @@
             android:name=".landlord.PropertiesListLandlordActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme" />
-        <activity
-            android:name=".landlord.UploadPropertyDataActivity"
-            >
+        <activity android:name=".landlord.UploadPropertyDataActivity">
             <meta-data
-                android:name = "android.support.PARENT_ACTIVITY"
-                android:value="project.team.cmpe277.com.magicrentals1.landlord.PropertiesListLandlordActivity"></meta-data>
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="project.team.cmpe277.com.magicrentals1.landlord.PropertiesListLandlordActivity" />
         </activity>
         <activity
             android:name=".landlord.PropertyDetailActivity"
@@ -119,14 +115,16 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAxh7OEn2aYzTFPxwZlwEn4ghItNpaLFao"/>
+            android:value="AIzaSyAxh7OEn2aYzTFPxwZlwEn4ghItNpaLFao" />
 
-        <activity android:name=".utility.PopUp"
-            android:theme="@style/AppTheme.customTheme">
+        <activity
+            android:name=".utility.PopUp"
+            android:theme="@style/AppTheme.customTheme" />
+        <activity android:name=".TenantsFavActivity">
         </activity>
+        <activity android:name=".TenantsFavDetailActivity"></activity>
     </application>
 
 </manifest>

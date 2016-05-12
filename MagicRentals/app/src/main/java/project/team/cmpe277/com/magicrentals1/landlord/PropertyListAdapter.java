@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,25 +33,40 @@ public class PropertyListAdapter extends ArrayAdapter<PropertyModel> {
     LayoutInflater inflater;
     Activity activity;
     ArrayList<Integer> selected;
+    LayoutInflater view;
+    private static final String TAG = "ADAPTER";
 
     public PropertyListAdapter(Context context, int resource, ArrayList<PropertyModel> propertyList) {
 
         super(context, resource, propertyList);
+
+        this.context = context.getApplicationContext();
+        this.resource = resource;
         selected = new ArrayList<>();
         activity = (Activity) context;
         mPropertyList = propertyList;
+        Log.i(TAG, "Inside adapter length "+mPropertyList.size());
+        if(mPropertyList!=null){
+            view = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);}
+        else Toast.makeText(context, "No Results to Show", Toast.LENGTH_SHORT).show();
+
+
 
 
     }
+    @Override
+
 
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            LayoutInflater inflater;
-            System.out.println("Savani   .......   " + Context.LAYOUT_INFLATER_SERVICE);
-            //convertView =
-            convertView = activity.getLayoutInflater()
-                    .inflate(R.layout.landlord_property_row, null);
-        }
+//            LayoutInflater inflater;
+//            System.out.println("Savani   .......   " + Context.LAYOUT_INFLATER_SERVICE);
+//            //convertView =
+//            convertView = activity.getLayoutInflater()
+//                    .inflate( R.layout.landlord_property_row, null);
+            LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(resource, parent, false);
+
         PropertyModel property = getItem(position);
         if(selected.equals(position)){
             convertView.setBackgroundColor(Color.LTGRAY);
@@ -73,7 +89,7 @@ public class PropertyListAdapter extends ArrayAdapter<PropertyModel> {
         TextView zipV = (TextView) convertView.findViewById(R.id.house_zip);
         zipV.setText(property.getZip());
 
-        ImageView propertyImage = (ImageView)convertView.findViewById(R.id.house_image);
+        ImageView propertyImage = (ImageView)convertView.findViewById(R.id.house_image);}
 
         //following is the code to do preloading and caching of images
         /*Bitmap cacheHit = PropertyListLandlordFragment.mThumbnailThread.checkCache(property.getImages());
