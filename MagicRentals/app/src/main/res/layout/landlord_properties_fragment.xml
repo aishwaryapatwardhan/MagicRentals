@@ -3,7 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@android:style/Widget.ProgressBar.Small"
+        android:layout_marginRight="5dp"
+        android:id="@+id/progressbar"/>
 
     <ListView
         android:id="@android:id/list"
@@ -12,5 +17,10 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true" />
+    <TextView android:id="@id/android:empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/empty_list_message"/>
+
 
 </RelativeLayout>

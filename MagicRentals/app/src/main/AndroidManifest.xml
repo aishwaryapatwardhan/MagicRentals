@@ -43,7 +43,7 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".TenantSearchDetailActivity"
+            android:name=".TenantDetailPagerActivity"
             android:icon="@drawable/ic_launcher"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">

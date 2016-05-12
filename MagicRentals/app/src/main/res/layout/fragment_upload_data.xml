@@ -3,9 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:orientation="vertical"
-    tools:context="project.team.cmpe277.com.magicrentals1.landlord.UploadDataFragment">
+    tools:context="project.team.cmpe277.com.magicrentals1.landlord.UploadPropertyDataActivity">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -92,7 +91,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/address"
-                    android:layout_margin="10dp"/>
+                    android:layout_margin="10dp"
+                    android:visibility="invisible"
+                    />
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -101,6 +102,7 @@
                     android:id="@+id/address"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
+                    android:visibility="invisible"
                     />
             </LinearLayout>
             <LinearLayout
@@ -208,9 +210,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:ems="10"
+                    android:ems="6"
                     android:id="@+id/area"
-                    android:layout_margin="10dp"
+                    android:layout_margin="5dp"
                     />
                 <TextView
                     android:layout_width="wrap_content"
@@ -224,7 +226,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/roomscount"
-                    android:layout_margin="10dp"/>
+                    android:layout_margin="2dp"/>
 
                 <Spinner
                     android:layout_width="wrap_content"
@@ -232,14 +234,14 @@
                     android:entries="@array/rooms"
                     android:ems="1"
                     android:id="@+id/roomscount"
-                    android:layout_margin="10dp"/>
+                    android:layout_margin="2dp"/>
 
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/bathroomcount"
-                    android:layout_margin="10dp"/>
+                    android:layout_margin="2dp"/>
 
                 <Spinner
                     android:layout_width="wrap_content"
@@ -247,7 +249,7 @@
                     android:entries="@array/rooms"
                     android:ems="1"
                     android:id="@+id/bathroomcount"
-                    android:layout_margin="10dp"
+                    android:layout_margin="2dp"
                     />
             </LinearLayout>
             <LinearLayout
@@ -347,16 +349,29 @@
                     android:layout_margin="10dp"
                     />
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/other_details"
+                    android:layout_margin="10dp"/>
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="20"
+                    android:id="@+id/other_details"
+                    android:layout_margin="10dp"
+                    />
+            </LinearLayout>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/submit1"
                 android:clickable="true"
                 android:text="@string/submit"
-
                 />
-
-
         </LinearLayout>
         </LinearLayout>
     </ScrollView>
