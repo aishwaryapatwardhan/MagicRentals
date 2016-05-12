@@ -464,7 +464,7 @@ exports.updateStatus = function(req, res){
 //	     	var email = req.param('email');
 	     
 		var email = fields.email;
-     	var id = fields.user_id; 
+     	var id = fields.id; 
      	var Status = fields.Status; 
      
      	console.log(email +" ,"+id+" , "+Status);
