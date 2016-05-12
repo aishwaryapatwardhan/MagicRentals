@@ -536,11 +536,11 @@ exports.updateViewCount = function(req, res){
 	       return;
 	     }
 	     
-//	    var id = req.param('id');
-//	 	var view_count = req.param('view_count');
+	    var id = req.param('id');
+	 	var view_count = req.param('view_count');
 	     
-	     var id = fields.id;
-	     var view_count = fields.view_count;
+//	     var id = fields.id;
+//	     var view_count = fields.view_count;
 	 	
 	     if(id === null || view_count === null){
 	    	 result.code = 210;
