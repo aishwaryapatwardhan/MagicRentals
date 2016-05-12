@@ -195,7 +195,7 @@ public class TenantSearchDetailFragment extends android.support.v4.app.Fragment 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_login, menu);
+        inflater.inflate(R.menu.menu_search, menu);
     }
 
 
