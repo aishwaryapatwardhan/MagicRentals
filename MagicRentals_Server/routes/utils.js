@@ -141,10 +141,10 @@ function push( msg , header, device_tokens, callback){
     console.log('in push msg');
     console.log(message);
     console.log(message + " " + device_tokens  );
-//    sender.send(message, device_tokens, retry_times, function(result){
-//        console.log(result);
-//        console.log('push sent to: ' + device_tokens);
-//    });
+    sender.send(message, device_tokens, retry_times, function(result){
+        console.log(result);
+        console.log('push sent to: ' + device_tokens);
+    });
     callback();
 }
 	
@@ -177,8 +177,10 @@ exports.notify = function(id, type, callback){
 							}
 							console.log('length is '+ myArray.length);
 //							constructNotification1(myArray, type, id);
+							callback();
 						}else{						
 							console.log('No Docs');
+							callback();
 						}							
 						
 					});

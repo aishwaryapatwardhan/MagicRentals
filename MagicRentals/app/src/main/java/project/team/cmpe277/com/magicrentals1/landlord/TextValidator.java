@@ -25,7 +25,6 @@ final public void afterTextChanged(Editable s) {
     String text = editText.getText().toString();
     editText.setError(null);
     System.out.println("validationnnn   "+text+"   value");
-
     // length 0 means there is no text
     if (text.length() == 0) {
         System.out.println("validationnnn  required ");
@@ -34,17 +33,11 @@ final public void afterTextChanged(Editable s) {
 }
 
 
+
+
 @Override
 final public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//    String text = editText.getText().toString();
-//    editText.setError(null);
-//    System.out.println("validationnnn   "+text+"   value");
-//
-//    // length 0 means there is no text
-//    if (text.length() == 0) {
-//        System.out.println("validationnnn  required ");
-//        editText.setError(REQUIRED);
-//    }
+
 }
 
 @Override

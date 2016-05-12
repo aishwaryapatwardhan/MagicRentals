@@ -11,6 +11,8 @@ import java.util.regex.Pattern;
  */
 public  class LandlordUtils {
     private static final String ZIP_REGEX = "\\d{5}";
+    public static final String url = "http://54.153.2.150:3000";
+
 
         public static boolean isValidEmail(String email) {
             String EMAIL_PATTERN = ".+\\@.+\\..+";
@@ -19,6 +21,7 @@ public  class LandlordUtils {
             Matcher matcher = pattern.matcher(email);
             return matcher.matches();
         }
+
 
     public  static boolean isValidZip(String zip){
         return Pattern.matches(ZIP_REGEX, zip);
@@ -41,6 +44,8 @@ public  class LandlordUtils {
         hm.put("Mobile",pm.getMobile());
         hm.put("description",pm.getDescription());
         hm.put("Status",pm.getStatus());
+        System.out.println("email........ "+hm.get("email"));
+
         return hm;
 
        // hm.put("",obj.)

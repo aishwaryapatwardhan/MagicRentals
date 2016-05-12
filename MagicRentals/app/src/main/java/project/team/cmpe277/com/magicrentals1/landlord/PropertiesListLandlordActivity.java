@@ -2,6 +2,8 @@ package project.team.cmpe277.com.magicrentals1.landlord;
 
 import android.annotation.TargetApi;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -22,20 +24,29 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Logger;
 /**
  * Created by savani on 4/26/16.
  */
 
+import project.team.cmpe277.com.magicrentals1.LoginActivity;
 import project.team.cmpe277.com.magicrentals1.R;
+import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
+import project.team.cmpe277.com.magicrentals1.utility.TaskCompletedStatus;
 
-public class PropertiesListLandlordActivity   extends AppCompatActivity implements PropertyListLandlordFragment.Callbacks
+public class PropertiesListLandlordActivity   extends AppCompatActivity
+        implements PropertyListLandlordFragment.Callbacks
        {
 
-
+           private static final String TAG = "LandlordListActivity";
 
     static String userid;
+           ArrayList<PropertyModel> mPropertyList;
+           PropertiesResultLab mPropertyResultLab;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +57,20 @@ public class PropertiesListLandlordActivity   extends AppCompatActivity implemen
 
   /*      userid = getIntent()
                 .getSerializableExtra("USERID").toString();*/
+
+//        mPropertyResultLab = PropertiesResultLab.getPropertiesResultLab(PropertiesListLandlordActivity.this);
+////
+//        mPropertyList = mPropertyResultLab.getPropertyList();
+//
+//        HashMap<String, String> hm= new HashMap<>();
+//        hm.put("user_id","savani");
+////
+//        String url = "http://192.168.1.173:3000/getPostsByUser";
+//        //    new MultipartUtilityAsyncTask(hm, null).execute(url);
+//        new MultipartUtilityAsyncTask(PropertiesListLandlordActivity.this, hm, null).execute(url);
+
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
+        userid = preferences.getString(LoginActivity.USERID,null);
         Fragment fragment = PropertyListLandlordFragment.getFragment(userid);
        // fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
