@@ -2,6 +2,9 @@ package project.team.cmpe277.com.magicrentals1;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,6 +22,10 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.security.Principal;
 import java.util.HashMap;
 
@@ -45,8 +52,7 @@ public class TenantSearchDetailFragment extends android.support.v4.app.Fragment 
     private TextView sqFeetValue;
     private TextView montlyRentValue;
     private TextView descriptionValue;
-    private TextView depositValue;
-    private TextView leaseTypeValue;
+    private TextView othersValue;
     private TextView contactNumberValue;
     private TextView contactEmailValue;
     private ImageView heartsImage;
@@ -80,8 +86,7 @@ public class TenantSearchDetailFragment extends android.support.v4.app.Fragment 
         sqFeetValue = (TextView)detailview.findViewById(R.id.sqFeetValue);
         montlyRentValue = (TextView)detailview.findViewById(R.id.monthlyRentValue);
         descriptionValue = (TextView)detailview.findViewById(R.id.descriptionValue);
-        depositValue = (TextView)detailview.findViewById(R.id.depositValue);
-        leaseTypeValue = (TextView)detailview.findViewById(R.id.leaseTypeValue);
+        othersValue = (TextView)detailview.findViewById(R.id.othersValue);
         contactNumberValue = (TextView)detailview.findViewById(R.id.contactNumberValue);
         contactEmailValue = (TextView)detailview.findViewById(R.id.contactEmailValue);
         heartsImage = (ImageView)detailview.findViewById(R.id.heartsImage);
@@ -97,13 +102,13 @@ public class TenantSearchDetailFragment extends android.support.v4.app.Fragment 
         sqFeetValue.setText(gridImageDetailItem.getSqFoot());
         montlyRentValue.setText(gridImageDetailItem.getRent());
         descriptionValue.setText(gridImageDetailItem.getDescription());
-        depositValue.setText(gridImageDetailItem.getDeposit());
-        leaseTypeValue.setText(gridImageDetailItem.getLeaseType());
+        othersValue.setText(gridImageDetailItem.getOthers());
         contactNumberValue.setText(gridImageDetailItem.getContact());
         contactEmailValue.setText(gridImageDetailItem.getEmail());
 
-        int drawableId = getResources().getIdentifier("magicrentals1", "drawable", "project.team.cmpe277.com.magicrentals");
-        iconImage.setBackgroundResource(drawableId);
+        //int drawableId = getResources().getIdentifier("magicrentals1", "drawable", "project.team.cmpe277.com.magicrentals");
+        //iconImage.setBackgroundResource(drawableId);
+        new UrlActivity().execute(gridImageDetailItem.getImageIcon());
 
         //call CheckIfAlreadyInfav
         new CheckIfAlreadyInFav().execute("01");
@@ -176,6 +181,8 @@ public class TenantSearchDetailFragment extends android.support.v4.app.Fragment 
                 return true;
             case R.id.favorites:
                 //favourites activity
+                Intent i = new Intent(getActivity().getApplicationContext(), TenantsFavActivity.class);
+                startActivity(i);
                 return true;
             case R.id.save_search:
                 //api call
@@ -221,6 +228,37 @@ public class TenantSearchDetailFragment extends android.support.v4.app.Fragment 
             int drawableId = getResources().getIdentifier("shallowheart", "drawable", "project.team.cmpe277.com.magicrentals");
             heartsImage.setBackgroundResource(drawableId);
             heartflag = true;
+        }
+    }
+
+
+    public class UrlActivity extends AsyncTask<String,Void,Bitmap> {
+
+        private Exception exception;
+        public Bitmap doInBackground(String... urls){
+            Bitmap mybitmap;
+
+            try {
+
+                URL url = new URL(urls[0]);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                mybitmap = BitmapFactory.decodeStream(input);
+
+                return mybitmap;
+            } catch (IOException e) {
+                // Log exception
+                this.exception = e;
+                return null;
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap mybitmap) {
+            iconImage.setImageBitmap(mybitmap);
         }
     }
 }

@@ -9,14 +9,16 @@ public class SearchParameters {
     private int maxPrice;
     private String propertytype;
     private String keywords;
-    private String location;
+    private String city;
+    private String zipcode;
+    private String street;
 
     public SearchParameters() {
-        this.location = "";
+        this.street = "";
         this.keywords = "";
         this.propertytype = "";
         this.minPrice = 0;
-        this.maxPrice = 0;
+        this.maxPrice = Integer.MAX_VALUE;
     }
 
     public void setPropertytype(String propertytype) {
@@ -27,16 +29,33 @@ public class SearchParameters {
         this.keywords = keywords;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
 
     public String getPropertytype() {
         return propertytype;
     }
 
-    public String getLocation() {
-        return location;
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getZipcode() {
+        return zipcode;
+    }
+
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
     }
 
     public String getKeywords() {

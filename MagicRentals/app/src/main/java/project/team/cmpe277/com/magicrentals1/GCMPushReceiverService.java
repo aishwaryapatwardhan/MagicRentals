@@ -12,6 +12,8 @@ import android.support.v4.app.NotificationCompat;
 
 import com.google.android.gms.gcm.GcmListenerService;
 
+import org.json.JSONArray;
+
 /**
  * Created by Rekha on 5/4/2016.
  */
@@ -25,8 +27,19 @@ public class GCMPushReceiverService extends GcmListenerService {
         Intent intent = new Intent(this,LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         int requestCode = 0;
-        PendingIntent pendingIntent = PendingIntent.getActivity(this,requestCode,intent,PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, requestCode, intent, PendingIntent.FLAG_ONE_SHOT);
 
+       /* try{
+            JSONArray jsonarray = message.getJSONArray("data");
+        GridImageDetailItem gridImageDetailItem = new GridImageDetailItem(jsonobject.getString("_id"), addr.getString("Street"), addr.getString("City"),
+                addr.getString("State"),
+                addr.getString("Zip"), jsonobject.getString("property_type"), units.getString("room"),
+                units.getString("bath"), units.getString("area"), jsonobject.getString("rent"), jsonobject.getString("description"),
+                jsonobject.getString("Others"), jsonobject.getString("Images"),contact.getString("Mobile"),contact.getString("email"));
+        gdl.add(gridImageDetailItem);
+    }
+    PropSingleton.get(this.getActivity()).clearList();
+    PropSingleton.get(this.getActivity()).setGridImageDetailItems(gdl);*/
         Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         NotificationCompat.Builder noBuilder = new NotificationCompat.Builder(this)
@@ -37,6 +50,6 @@ public class GCMPushReceiverService extends GcmListenerService {
                 .setContentIntent(pendingIntent);
 
         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0,noBuilder.build());
+        notificationManager.notify(0, noBuilder.build());
     }
 }

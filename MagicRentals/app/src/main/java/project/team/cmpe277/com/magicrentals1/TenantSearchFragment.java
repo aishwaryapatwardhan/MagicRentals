@@ -2,6 +2,8 @@ package project.team.cmpe277.com.magicrentals1;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,6 +11,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.AdapterView.OnItemSelectedListener;
 //import android.support.v4.app.ActivityCompat;
 import android.app.Activity;
 import android.support.v4.app.ActivityCompat;
@@ -25,6 +28,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.view.Menu;
@@ -40,23 +44,49 @@ import com.google.android.gms.location.places.Places;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import project.team.cmpe277.com.magicrentals1.landlord.LandlordUtils;
+import project.team.cmpe277.com.magicrentals1.landlord.PropertiesResultLab;
+import project.team.cmpe277.com.magicrentals1.landlord.PropertyListAdapter;
+import project.team.cmpe277.com.magicrentals1.landlord.PropertyListLandlordFragment;
+import project.team.cmpe277.com.magicrentals1.landlord.PropertyModel;
+import project.team.cmpe277.com.magicrentals1.landlord.ResponseModel;
+import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
+import project.team.cmpe277.com.magicrentals1.utility.StringManipul;
+import project.team.cmpe277.com.magicrentals1.utility.TaskCompletedStatus;
 
 /**
  * Created by Rekha on 4/26/2016.
  */
-public class TenantSearchFragment extends android.app.Fragment implements AdapterView.OnItemSelectedListener,GoogleApiClient.OnConnectionFailedListener{
+public class TenantSearchFragment extends android.app.Fragment implements AdapterView.OnItemSelectedListener,GoogleApiClient.OnConnectionFailedListener, TaskCompletedStatus{
 
     private EditText locationvalue;
     private EditText keywordvalue;
     private Spinner propertyvalue;
     private Spinner pricerangevalue;
     private Button mSearch;
+    private EditText zipcodeval;
     AlertDialog actions;
     private static final int GOOGLE_API_CLIENT_ID = 0;
     private GoogleApiClient mGoogleApiClient;
     private static final int PERMISSION_REQUEST_CODE = 100;
     private static final String TAG = "TenSrchF";
+    public static HashMap<String,String> searchFilters = new HashMap<String,String>();
+    String userid;
 
     public static SearchParameters sp = new SearchParameters();
 
@@ -72,6 +102,10 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
                 .build();
 
         SharedPreferences preferences = getActivity().getApplicationContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
+        userid = preferences.getString(LoginActivity.USERID,null);
+        if(userid == null){
+            userid = "Rekha";
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Select notification frequency");
         String[] options = { "Real-time", "Daily", "Weekly" };
@@ -118,6 +152,7 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
 
         keywordvalue = (EditText) searchview.findViewById(R.id.keywordvalue);
         locationvalue = (EditText) searchview.findViewById(R.id.locationvalue);
+        zipcodeval = (EditText) searchview.findViewById(R.id.zipcodeval);
         mSearch = (Button) searchview.findViewById(R.id.search);
 
 
@@ -157,11 +192,34 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.toString().equals(null)) {
-                    sp.setLocation("");
+                    sp.setCity("");
                 } else {
 
                     //This should be set to current location when no location is mentioned
-                    sp.setLocation(s.toString());
+                    sp.setCity(s.toString());
+                }
+            }
+        });
+
+        zipcodeval.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().equals(null)) {
+                    sp.setZipcode("");
+                } else {
+
+                    //This should be set to current location when no location is mentioned
+                    sp.setZipcode(s.toString());
                 }
             }
         });
@@ -172,7 +230,8 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
             @Override
             public void onClick(View v) {
 
-                if(sp.getLocation().toString().equals("")) {
+
+                if(sp.getCity() == null & sp.getZipcode() == null) {
                     if (mGoogleApiClient.isConnected()) {
                         if (ContextCompat.checkSelfPermission(getActivity(),
                                 android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -184,22 +243,107 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
                             callPlaceDetectionApi();
                         }
                     }
+                } else{
+                    new SearchApi().execute(sp);
                 }
 
                 //Make an API call to display the search results - get results into PropSingleton
 
+                /*String url = getString(R.string.url)+"/searchPosts";
+
+                searchFilters = new HashMap<String,String>();
+                searchFilters.put("saveSearch","false");
+                searchFilters.put("user_id",userid);
+                searchFilters.put("description",sp.getKeywords());
+                searchFilters.put("City", sp.getCity());
+                searchFilters.put("Zip",sp.getZipcode());
+                searchFilters.put("property_type",sp.getPropertytype());
+                searchFilters.put("min_rent","sp.getMinPrice()");
+                searchFilters.put("max_rent","sp.getMaxPrice()");*/
+
+
+                //new MultipartUtilityAsyncTask(getActivity(),searchFilters,null).execute(url);
                 //Inside async task call this
-                Intent i = new Intent(getActivity(), TenantSearchListActivity.class);
+                /*Intent i = new Intent(getActivity(), TenantSearchListActivity.class);
                 i.putExtra("USERID", TenantSearchActivity.userid);
-                startActivity(i);
+                startActivity(i);*/
+
+
             }
         });
 
         return searchview;
     }
 
-    //Get the values from Spinner
     @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (parent.getId() == R.id.propertyvalue) {
+            TextView mytext = (TextView) view;
+            sp.setPropertytype(mytext.getText().toString());
+
+        } else {
+            if (parent.getId() == R.id.pricerangevalue) {
+                TextView mytext = (TextView) view;
+                String val[] = mytext.getText().toString().split("-", 2);
+                if (val.length > 1) {
+                    sp.setMinPrice(Integer.parseInt(val[0]));
+                    sp.setMaxPrice(Integer.parseInt(val[1]));
+                } else {
+                    sp.setMinPrice(Integer.parseInt(val[0]));
+                    sp.setMaxPrice(Integer.MAX_VALUE);
+                }
+
+
+            }
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+    }
+
+   /* propertyvalue.setOnItemSelectedListener(new OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+            // your code here
+            TextView mytext = (TextView) selectedItemView;
+            sp.setPropertytype(mytext.getText().toString());
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parentView) {
+            // your code here
+            sp.setPropertytype("");
+        }
+
+    });
+
+    pricerangevalue.setOnItemSelectedListener(new OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+            // your code here
+            TextView mytext = (TextView) selectedItemView;
+            String val[] = mytext.getText().toString().split("-", 2);
+            if (val.length > 1) {
+                sp.setMinPrice(Integer.parseInt(val[0]));
+                sp.setMaxPrice(Integer.parseInt(val[1]));
+            } else {
+                sp.setMinPrice(Integer.parseInt(val[0]));
+                sp.setMaxPrice(Integer.MAX_VALUE);
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parentView) {
+            // your code here
+            sp.setMaxPrice(Integer.MAX_VALUE);
+            sp.setMinPrice(0);
+        }
+
+    });*/
+
+    //Get the values from Spinner
+/*    @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId() == R.id.propertyvalue) {
             TextView mytext = (TextView) view;
@@ -226,7 +370,7 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         sp.setPropertytype("");
-    }
+    }*/
 
 
     @Override
@@ -247,6 +391,10 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
         switch(id){
             case R.id.favorites:
                 //favourites activity
+
+                Intent i = new Intent(getActivity().getApplicationContext(), TenantsFavActivity.class);
+                startActivity(i);
+
                 return true;
         }
 
@@ -328,10 +476,135 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
                     }
                 }
                 likelyPlaces.release();
-
-                sp.setLocation(location);
+                if(location == ""){
+                    location = "San Jose";
+                }
+                sp.setStreet(location);
+                new SearchApi().execute(sp);
             }
         });
     }
+
+    @Override
+    public void onTaskCompleted(JSONObject result) {
+        JSONObject addr, units, contact;
+
+        try{
+            JSONArray jsonarray = result.getJSONArray("data");
+            ArrayList<GridImageDetailItem> gdl = new ArrayList<GridImageDetailItem>();
+
+            for (int i = 0; i < jsonarray.length(); i++) {
+                JSONObject jsonobject = jsonarray.getJSONObject(i);
+                addr = jsonobject.getJSONObject("address");
+                units = jsonobject.getJSONObject("units");
+                contact = jsonobject.getJSONObject("Contact_info");
+
+                GridImageDetailItem gridImageDetailItem = new GridImageDetailItem(jsonobject.getString("_id"), addr.getString("Street"), addr.getString("City"),
+                        addr.getString("State"),
+                        addr.getString("Zip"), jsonobject.getString("property_type"), units.getString("room"),
+                        units.getString("bath"), units.getString("area"), jsonobject.getString("rent"), jsonobject.getString("description"),
+                        jsonobject.getString("Others"), jsonobject.getString("Images"),contact.getString("Mobile"),contact.getString("email"));
+                gdl.add(gridImageDetailItem);
+            }
+            PropSingleton.get(this.getActivity()).clearList();
+            PropSingleton.get(this.getActivity()).setGridImageDetailItems(gdl);
+
+            Intent i = new Intent(getActivity(), TenantSearchListActivity.class);
+            startActivity(i);
+
+        }
+        catch (Exception ex){
+            //exception
+        }
+    }
+
+
+    public class SearchApi extends AsyncTask<Object, Void, JSONObject>{
+
+        SearchParameters sP;
+
+        @Override
+        protected JSONObject doInBackground(Object... parameters){
+
+            sP = (SearchParameters)parameters[0];
+            HttpURLConnection httpConn;
+            // String str = "http://54.153.2.150:3000/getPostsByUser?userid="+"savani";
+            String str = LoginActivity.urlip+"/searchPosts?user_id="+userid+"&saveSearch=false&description="+sp.getKeywords()+"&City="+sp.getCity()+"&Zip="+sp.getZipcode()+"&property_type="+sp.getPropertytype()+"&min_rent="+sp.getMinPrice()+"&max_rent="+sp.getMaxPrice()+"&street="+sp.getStreet();
+            System.out.println(str);
+            str = StringManipul.replace(str);
+            System.out.println(str);
+            URL url = null;
+            JSONObject json = null;
+            try {
+                url = new URL(str);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                try {
+
+                    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                    BufferedReader br
+                            = new BufferedReader(new InputStreamReader(in));
+
+                    String temp = null;
+
+                    StringBuilder sb = new StringBuilder();
+
+                    while ((temp = br.readLine()) != null){
+                        System.out.println("read input stream...."+temp);
+                        sb.append(temp);
+                    }
+                    json = new JSONObject(sb.toString());
+
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    urlConnection.disconnect();
+                }
+
+            }catch (MalformedURLException e) {
+                e.printStackTrace(); } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject result) {
+            super.onPostExecute(result);
+
+            JSONObject addr, units, contact;
+
+            try{
+                JSONArray jsonarray = result.getJSONArray("data");
+                ArrayList<GridImageDetailItem> gdl = new ArrayList<GridImageDetailItem>();
+
+                for (int i = 0; i < jsonarray.length(); i++) {
+                    JSONObject jsonobject = jsonarray.getJSONObject(i);
+                    addr = jsonobject.getJSONObject("address");
+                    units = jsonobject.getJSONObject("units");
+                    contact = jsonobject.getJSONObject("Contact_info");
+
+                    GridImageDetailItem gridImageDetailItem = new GridImageDetailItem(jsonobject.getString("_id"), addr.getString("Street"), addr.getString("City"),
+                            addr.getString("State"),
+                            addr.getString("Zip"), jsonobject.getString("property_type"), units.getString("room"),
+                            units.getString("bath"), units.getString("area"), jsonobject.getString("rent"), jsonobject.getString("description"),
+                            jsonobject.getString("other_details"), jsonobject.getString("Images"),contact.getString("Mobile"),contact.getString("email"));
+                    gdl.add(gridImageDetailItem);
+                }
+                PropSingleton.get(getActivity()).clearList();
+                PropSingleton.get(getActivity()).setGridImageDetailItems(gdl);
+
+                Intent i = new Intent(getActivity(), TenantSearchListActivity.class);
+                startActivity(i);
+
+            }
+            catch (Exception ex){
+                System.out.print("Hi");
+            }
+        }
+
+    }
+
 
 }

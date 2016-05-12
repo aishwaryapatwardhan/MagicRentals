@@ -48,6 +48,10 @@ public class PropSingleton {
             return mgridImageDetailItem;
         }
 
+        public void setGridImageDetailItems(ArrayList<GridImageDetailItem> list){
+            mgridImageDetailItem = list;
+        }
+
         public GridImageDetailItem getGridImageDetailItem(String refid){
             for(GridImageDetailItem rs: mgridImageDetailItem){
                 if (rs.getId().equals(refid)){
