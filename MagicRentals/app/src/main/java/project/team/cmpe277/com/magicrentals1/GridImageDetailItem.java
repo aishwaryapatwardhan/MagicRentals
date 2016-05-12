@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class GridImageDetailItem {
 
-    private String price;
+
     private String id;
     private String streetAddr;
     private String cityAddr;
@@ -19,8 +19,7 @@ public class GridImageDetailItem {
     private String sqFoot;
     private String rent;
     private String description;
-    private String deposit;
-    private String leaseType;
+    private String others;
     private String imageIcon;
     private ArrayList<String> imagesPosted;
     private String contact;
@@ -122,20 +121,12 @@ public class GridImageDetailItem {
         this.description = description;
     }
 
-    public String getDeposit() {
-        return deposit;
+    public String getOthers() {
+        return others;
     }
 
-    public void setDeposit(String deposit) {
-        this.deposit = deposit;
-    }
-
-    public String getLeaseType() {
-        return leaseType;
-    }
-
-    public void setLeaseType(String leaseType) {
-        this.leaseType = leaseType;
+    public void setOthers(String others) {
+        this.others = others;
     }
 
     public String getImageIcon() {
@@ -154,14 +145,6 @@ public class GridImageDetailItem {
         this.imagesPosted = imagesPosted;
     }
 
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
 
     public String getId() {
         return id;
@@ -171,9 +154,8 @@ public class GridImageDetailItem {
         this.id = id;
     }
 
-    public GridImageDetailItem(String price, String id, String streetAddr, String cityAddr, String stateAddr, String zipCode, String propertyType, String noOfRooms, String noOfBaths, String sqFoot, String rent, String description, String deposit, String leaseType, String imageIcon,String contact,String email) {
+    public GridImageDetailItem(String id, String streetAddr, String cityAddr, String stateAddr, String zipCode, String propertyType, String noOfRooms, String noOfBaths, String sqFoot, String rent, String description, String others, String imageIcon,String contact,String email) {
 
-        this.price = price;
         this.id = id;
         this.streetAddr = streetAddr;
         this.cityAddr = cityAddr;
@@ -185,8 +167,7 @@ public class GridImageDetailItem {
         this.sqFoot = sqFoot;
         this.rent = rent;
         this.description = description;
-        this.deposit = deposit;
-        this.leaseType = leaseType;
+        this.others = others;
         this.imageIcon = imageIcon;
         this.contact = contact;
         this.email = email;
