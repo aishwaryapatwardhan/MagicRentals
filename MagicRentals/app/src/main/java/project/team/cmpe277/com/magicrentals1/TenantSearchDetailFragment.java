@@ -33,11 +33,19 @@ public class TenantSearchDetailFragment extends android.app.Fragment {
     private ImageView heartsImage;
     private ImageView iconImage;
     private Boolean heartflag;
+    private int position;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View detailview = inflater.inflate(R.layout.searchdetailfragment_tenant, container, false);
         setHasOptionsMenu(true);
+
 
         streetValue = (TextView)detailview.findViewById(R.id.streetValue);
         cityValue = (TextView)detailview.findViewById(R.id.cityValue);
@@ -55,8 +63,27 @@ public class TenantSearchDetailFragment extends android.app.Fragment {
         contactEmailValue = (TextView)detailview.findViewById(R.id.contactEmailValue);
         heartsImage = (ImageView)detailview.findViewById(R.id.heartsImage);
         iconImage = (ImageView)detailview.findViewById(R.id.iconImage);
-        //Make API call to get the detail of the onclicked item
-        new GetDetailAPI().execute("01");
+
+       /* streetValue.setText(gridImageDetailItem.getStreetAddr());
+        cityValue.setText(gridImageDetailItem.getCityAddr());
+        zipcodeValue.setText(gridImageDetailItem.getZipCode());
+        stateValue.setText(gridImageDetailItem.getStateAddr());
+        proptypeValue.setText(gridImageDetailItem.getPropertyType());
+        numRoomsValue.setText(gridImageDetailItem.getNoOfRooms());
+        numBathsValue.setText(gridImageDetailItem.getNoOfBaths());
+        sqFeetValue.setText(gridImageDetailItem.getSqFoot());
+        montlyRentValue.setText(gridImageDetailItem.getRent());
+        descriptionValue.setText(gridImageDetailItem.getDescription());
+        depositValue.setText(gridImageDetailItem.getDeposit());
+        leaseTypeValue.setText(gridImageDetailItem.getLeaseType());
+        contactNumberValue.setText(gridImageDetailItem.getContact());
+        contactEmailValue.setText(gridImageDetailItem.getEmail());*/
+
+        int drawableId = getResources().getIdentifier("magicrentals1", "drawable", "project.team.cmpe277.com.magicrentals");
+        iconImage.setBackgroundResource(drawableId);
+
+        //call CheckIfAlreadyInfav
+        new CheckIfAlreadyInFav().execute("01");
 
         heartsImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,48 +147,6 @@ public class TenantSearchDetailFragment extends android.app.Fragment {
     }
 
 
-    public class GetDetailAPI extends AsyncTask<Object, Void, GridImageDetailItem> {
-        private Exception exception;
-        GridImageDetailItem gridImageDetailItem;
-
-
-        public GridImageDetailItem doInBackground(Object... parameters) {
-
-            try {
-                //Make API call
-                return gridImageDetailItem;
-            } catch (Exception e) {
-                // Log exception
-                this.exception = e;
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(GridImageDetailItem gridImageDetailItem) {
-            //set all the display text
-            streetValue.setText(gridImageDetailItem.getStreetAddr());
-            cityValue.setText(gridImageDetailItem.getCityAddr());
-            zipcodeValue.setText(gridImageDetailItem.getZipCode());
-            stateValue.setText(gridImageDetailItem.getStateAddr());
-            proptypeValue.setText(gridImageDetailItem.getPropertyType());
-            numRoomsValue.setText(gridImageDetailItem.getNoOfRooms());
-            numBathsValue.setText(gridImageDetailItem.getNoOfBaths());
-            sqFeetValue.setText(gridImageDetailItem.getSqFoot());
-            montlyRentValue.setText(gridImageDetailItem.getRent());
-            descriptionValue.setText(gridImageDetailItem.getDescription());
-            depositValue.setText(gridImageDetailItem.getDeposit());
-            leaseTypeValue.setText(gridImageDetailItem.getLeaseType());
-            contactNumberValue.setText(gridImageDetailItem.getContact());
-            contactEmailValue.setText(gridImageDetailItem.getEmail());
-
-            int drawableId = getResources().getIdentifier("magicrentals1", "drawable", "project.team.cmpe277.com.magicrentals");
-            iconImage.setBackgroundResource(drawableId);
-
-            //call CheckIfAlreadyInfav
-            new CheckIfAlreadyInFav().execute("01");
-        }
-    }
 
     public class CheckIfAlreadyInFav extends AsyncTask<Object, Void, Boolean> {
         private Exception exception;
