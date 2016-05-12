@@ -106,7 +106,6 @@ public class TenantSearchListFragment extends Fragment {
                 //api call
                 return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
