@@ -53,9 +53,6 @@ public class EditPropertiesActivity extends AppCompatActivity implements TaskCom
          userid = getIntent().getExtras().getString("USERID");
         int selectedLine = getIntent().getExtras().getInt("selectedLine");
 
-     //   listPropertyTypes = new ArrayList<>();
-       // System.out.println("Array .property..... "+R.array.property_type);
-//        roomArr = new ArrayList<>(R.array.rooms);
         SharedPreferences preferences = this.getSharedPreferences(TAG, Context.MODE_PRIVATE);
        // userid = preferences.getString(LoginActivity.USERID,null);
      //   int selectedLine = preferences.getInt("selectedLine",0);
@@ -149,13 +146,16 @@ public class EditPropertiesActivity extends AppCompatActivity implements TaskCom
 
                 HashMap<String, String> hm = LandlordUtils.serialize(mPropertyModel);
 
+                hm.put("_id", mPropertyModel.getKey());
+
                 // HashMap<String, File> file = new HashMap<String, File>();
                 String url = LandlordUtils.url+"/updatePostings";
-                new MultipartUtilityAsyncTask(getApplicationContext(),hm, null).execute(url);
-                PropertiesResultLab.getPropertiesResultLabNew(getApplicationContext());
-                Intent i = new Intent(getApplicationContext(), PropertiesListLandlordActivity.class);
-                i.putExtra("USERID", userid);
-                startActivity(i);
+                new MultipartUtilityAsyncTask(EditPropertiesActivity.this,hm, null).execute(url);
+             //   PropertiesResultLab.getPropertiesResultLabNew(getApplicationContext());
+//                Intent i = new Intent(getApplicationContext(), PropertiesListLandlordActivity.class);
+//                i.putExtra("USERID", userid);
+//                startActivity(i);
+                EditPropertiesActivity.this.finish();
 
             }
         } );

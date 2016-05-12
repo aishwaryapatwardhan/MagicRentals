@@ -208,7 +208,7 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
                    HashMap<String, String> hm = LandlordUtils.serialize(property);
                    // HashMap<String, File> file = new HashMap<String, File>();
                    // String url = "http://54.153.2.150:3000/addPostings";
-                    String url = "http://192.168.1.173:3000/addPostings";
+                    String url = LandlordUtils.url+"/addPostings";
                   //  String url = "http://10.0.2.2:3000/addPostings";
                    // System.out.println("isndie jdjjj url ");
                     System.out.println("BATH... "+property.getBath()+"  Room.."+property.getRoom()+ "  Email"+property.getEmail());

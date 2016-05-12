@@ -11,7 +11,8 @@ import java.util.regex.Pattern;
  */
 public  class LandlordUtils {
     private static final String ZIP_REGEX = "\\d{5}";
-    public static final String url = "http://54.153.2.150:3000";
+  //  public static final String url = "http://54.153.2.150:3000";
+    public static final String url = "http://192.168.1.173:3000";
 
 
         public static boolean isValidEmail(String email) {
@@ -29,6 +30,7 @@ public  class LandlordUtils {
 
     public static HashMap<String, String> serialize(PropertyModel pm){
         HashMap<String, String> hm = new HashMap<>();
+       // hm.put("_id",pm.getKey());
         hm.put("user_id", pm.getUser_id());
         hm.put("nickname", pm.getNickname());
         hm.put("City", pm.getCity());

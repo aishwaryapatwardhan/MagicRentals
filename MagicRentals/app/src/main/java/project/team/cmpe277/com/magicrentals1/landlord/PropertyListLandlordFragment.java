@@ -48,7 +48,7 @@ import project.team.cmpe277.com.magicrentals1.utility.ThumbnailDownloader;
  * Created by savani on 4/26/16.
  */
 public class PropertyListLandlordFragment extends ListFragment  {
-    private static final String TAG = "PropertyListLandlordFragment";
+    private static final String TAG = "ListLandlordFragment";
     // PropertyListAdapter adapter ;
    // SimpleCursorAdapter mAdapter;
     ProgressBar progress;
@@ -193,17 +193,21 @@ public class PropertyListLandlordFragment extends ListFragment  {
                 switch (item.getItemId()) {
                     case R.id.rentedM:
                         System.out.println("inside rented.......");
+                        System.out.println("selcted line before OK..  "+selected_line_al.size());
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(listView.getContext());
+
                         builder.setMessage(R.string.alertrented)
                                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                        //
+                                        Log.i(TAG, "Inisde OK");
                                         rentedOk = true;
                                     }
                                 })
                                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
+                                        Log.i(TAG, "Inisde Cancel");
                                        // finish();
                                         rentedOk = false;
                                     }
@@ -211,7 +215,9 @@ public class PropertyListLandlordFragment extends ListFragment  {
                         builder.setCancelable(true);
                         builder.create();
                         builder.show();
+                        Log.i(TAG, "after button alert.. ");
                         if (rentedOk) {
+                            System.out.println("selcted line   "+selected_line_al.size());
                             Boolean b = resultsLab.rented(selected_line_al, listView.getContext());
                         }
 
@@ -276,8 +282,17 @@ public class PropertyListLandlordFragment extends ListFragment  {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println("mListView  called........ ");
-                PropertyModel prop = (PropertyModel) parent.getItemAtPosition(position);
+                System.out.println("mListView  called........ "+position+"id === "+id+"view... "+view
+                +"size === "+mPropertyList.size());
+                ;
+               // PropertyModel prop = (PropertyModel) parent.getItemAtPosition(position);
+                PropertyModel prop = new PropertyModel();
+
+                prop = mPropertyList.get((int)id);
+
+               // System.out.println("KEy" +prop.getKey();
+
+
                  mCallbacks.onPropertyClicked(prop);
             }
 
