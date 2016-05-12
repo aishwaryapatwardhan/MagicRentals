@@ -612,9 +612,7 @@ exports.saveSearchRes = function(req, res){
 	    var saveSearch = Boolean(req.param('saveSearch'));
 	 	var rate = Number(req.param('rate'));
 	 	var user_id = req.param('user_id');
-	 	
-	 	console.log(saveSearch + " , "+rate+" , "+user_id);
-	 	
+	 		 	
 	 	var description = req.param('description');
 	 	if(!description){
 	 		description = '.';
@@ -721,49 +719,7 @@ exports.searchPosts = function(req, res){
 	       res.end("sorry, an error occurred");
 	       return;
 	     }
-	     
-//	    var saveSearch = Boolean(fields.saveSearch);
-//	 	var rate = Number(fields.rate);
-//	 	var user_id = req.param(fields.user_id);
-//	 	
-//	 	var description = req.param(fields.description);
-//	 	if(!description){
-//	 		description = '.';
-//	 	}
-//	 	console.log('desc - '+ description);
-//	 	
-//	 	var City = fields.City;
-//	 	if(!City){
-//	 		City = '.';
-//	 	}
-//	 	console.log('City - '+ City);
-//	 	
-//	 	var Zip = fields.Zip;
-//	 	if(!Zip){
-//	 		Zip = '.';
-//	 	}
-//	 	console.log('Zip - '+ Zip);
-//	 	
-//	 	var property_type = fields.property_type;
-//	 	if(!property_type){
-//	 		property_type = '.';
-//	 	}
-//	 	console.log('property_type - '+ property_type);
-//	 	
-//	 	//var min_rent = parseInt(req.param('min_rent'));
-//	 	var min_rent = Number(fields.min_rent) ;
-//	 	if(!min_rent){
-//	 		min_rent = 0;
-//	 	}
-//	 	console.log('min_rent - '+ min_rent);
-//	 	
-//	 	//var max_rent = parseInt(req.param('max_rent'));
-//	 	var max_rent = Number(fields.max_rent);
-//	 	if(!max_rent){
-//	 		max_rent = Number.MAX_VALUE;
-//	 	}
-//	 	console.log('max_rent - '+ max_rent);
-	 	
+	     	 	
 	    var saveSearch = Boolean(req.param('saveSearch'));
 	 	var rate = Number(req.param('rate'));
 	 	var user_id = req.param('user_id');
@@ -826,45 +782,14 @@ exports.searchPosts = function(req, res){
 	 			result.status = "Unable to connect to mongo";
 	 			res.json(result);
 	 		}else{
-	 			
-	 			if(saveSearch === true){
-	 				var searchcol = mongo.collection('search_queries');
-	 				
-	 				searchcol.insertOne(
-	 						{
-	 							"user_id" : user_id,
-	 							"rate" : rate,
-	 							"description" : description,
-	 							"City" : City,
-	 							"Zip" : Zip,
-	 							"property_type" : property_type,
-	 							"max_rent" : max_rent,
-	 							"min_rent" : min_rent						
-	 							
-	 						},function(err, docs) {
-	 							
-	 							 if(err){
-//	 								 result.code = 208;
-//	 								 result.status = "Unable to insert to mongo";
-	 								 console.log("Unable to insert to mongo");
-	 							 }else{
-//	 								 mailer.sendMail(function(error, success) {
-//	 									 result.code = 200; 
-//	 									 result.status = "Successfully inserted";
-//	 								 });
-	 								 console.log("Search results saved");
-	 							 }	
-	 						});
-	 			}
-	 	
+
 	 			console.log("Connected to mongo");
 	 			var coll = mongo.collection('rental_posting');
-	 			 { $and : [ { "description" : { $regex: description } }, 
+	 			coll.find( { $and : [ { "description" : { $regex: description } }, 
 	 			                      { "address.City" : { $regex: City } }, 
 	 			                      { "address.Zip" : { $regex: Zip } }, 
 	 			                      { "property_type" : { $regex: property_type } },
-	 			                      { "rent" : { $lt : max_rent, $gt : min_rent } }] } 
-	 			coll.find()
+	 			                      { "rent" : { $lt : max_rent, $gt : min_rent } }] } )
 	 			                      .toArray(function(err, docs) {	
 	 				var myArray = [];
 	 				if(docs){		

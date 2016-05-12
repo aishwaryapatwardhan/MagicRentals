@@ -52,6 +52,7 @@ app.post('/getAllFav', fav.getAllFav);
 app.get('/addFav',fav.addFav);
 //app.post('/removeFav', fav.removeFav);
 app.get('/removeFav', fav.removeFav);
+//app.get('/checkFav','')
 
 //test API
 app.get('/test', routes.test123);
