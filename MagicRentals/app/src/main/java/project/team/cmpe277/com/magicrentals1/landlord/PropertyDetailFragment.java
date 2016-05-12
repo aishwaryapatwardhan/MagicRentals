@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 import project.team.cmpe277.com.magicrentals1.R;
@@ -34,6 +36,7 @@ public class PropertyDetailFragment extends Fragment {
     private TextView roomsV;
     private TextView bathsV;
     private TextView descV;
+    private TextView statusV;
 
     public static final String PROPERTY_KEY = "Property_key";
     public PropertyDetailFragment() {
@@ -82,6 +85,7 @@ public class PropertyDetailFragment extends Fragment {
         roomsV = (TextView)view.findViewById(R.id.bedroom_detail);
         bathsV = (TextView)view.findViewById(R.id.baths_detail);
         descV = (TextView)view.findViewById(R.id.desc_detail);
+        statusV = (TextView)view.findViewById(R.id.statuscurr);
 
         if(mProperty != null){
             //set image Sai....
@@ -96,10 +100,9 @@ public class PropertyDetailFragment extends Fragment {
             roomsV.setText(mProperty.getRoom());
             bathsV.setText(mProperty.getBath());
             descV.setText(mProperty.getDescription());
+
+            statusV.setText(mProperty.getStatus());
         }
-
-
-
 
         return view;
 

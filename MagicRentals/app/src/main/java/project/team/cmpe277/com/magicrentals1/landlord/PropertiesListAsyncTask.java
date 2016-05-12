@@ -1,7 +1,9 @@
 package project.team.cmpe277.com.magicrentals1.landlord;
 
 import android.os.AsyncTask;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,23 +30,33 @@ import project.team.cmpe277.com.magicrentals1.R;
 public class PropertiesListAsyncTask extends AsyncTask<String, Void, Boolean>{
 
     private String userid;
+    ProgressBar mProgressBar;
     private PropertyListLandlordFragment mPropertyFragment;
     private ListView mListView;
     ArrayList<PropertyModel> mPropertyList;
     PropertiesResultLab mPropertyResultLab;
-    public PropertiesListAsyncTask(String userid, PropertyListLandlordFragment listFragment, ListView listView){
+    String newurl ;
+    public PropertiesListAsyncTask(String userid, PropertyListLandlordFragment listFragment,
+                                   ListView listView, ProgressBar progressBar){
        this.userid = userid;
         this.mPropertyFragment = listFragment;
         this.mListView = listView;
         mPropertyResultLab = PropertiesResultLab.getPropertiesResultLab(listFragment.getContext());
+        this.mProgressBar = progressBar;
 //
+        newurl = mPropertyFragment.getString(R.string.url);
         mPropertyList = mPropertyResultLab.getPropertyList();
+    }
+    @Override
+    protected void onPreExecute() {
+        mProgressBar.setVisibility(View.VISIBLE);
     }
     @Override
     protected Boolean doInBackground(String... userid){
         HttpURLConnection httpConn;
         // String str = "http://54.153.2.150:3000/getPostsByUser?userid="+"savani";
-        String str = LandlordUtils.url+"/getPostsByUser?user_id="+"savani";
+        String str = newurl+"/getPostsByUser?user_id="+"savani";
+
         System.out.println(str);
 
         URL url = null;
@@ -119,6 +131,8 @@ public class PropertiesListAsyncTask extends AsyncTask<String, Void, Boolean>{
                             pm.setView_count(changeNull(result.getString("view_count"), true));
                         if(result.has("nickname"))
                             pm.setNickname(changeNull(result.getString("nickname"), false));
+                        if(result.has("other_details"))
+                            pm.setOther_details(changeNull(result.getString("other_details"), false));
 //                        {      "_id": "savaniffwffyyfggq12345",
 //                                "user_id": "savani",      "address": {
 //                            "Street": "ffw",        "City": "ffyy",
@@ -135,19 +149,12 @@ public class PropertiesListAsyncTask extends AsyncTask<String, Void, Boolean>{
 
                 }
 
-
-
-//                String str1 = sb.toString();
-//                Gson gson = new Gson();
                 ResponseModel responseModel = new ResponseModel();
               //  responseModel = gson.fromJson(str1, ResponseModel.class);
                 System.out.println("Response ..... "+responseModel.getData());
                 if ( responseModel.getCode() == 200 ){
                     System.out.println("Status..... "+responseModel.getStatus());
                 }
-
-
-
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -182,6 +189,7 @@ public class PropertiesListAsyncTask extends AsyncTask<String, Void, Boolean>{
         p.setBath("2");
         p.setRoom("3");
         p.setDescription("sjsjsjs ejej");
+        p.setOther_details("new new");
         tempPropertyList = new ArrayList<>();
         mPropertyList.add(p);
         PropertyModel p1 = new PropertyModel();
@@ -199,6 +207,7 @@ public class PropertiesListAsyncTask extends AsyncTask<String, Void, Boolean>{
         p1.setRoom("3");
         p1.setDescription("hi jjfjf lfo");
         // tempPropertyList = new ArrayList<>();
+        p1.setOther_details("new n333ew");
         mPropertyList.add(p1);
 
         PropertyModel p3 = new PropertyModel();
@@ -215,27 +224,18 @@ public class PropertiesListAsyncTask extends AsyncTask<String, Void, Boolean>{
         p3.setBath("2");
         p3.setRoom("3");
         p3.setDescription("sjkkks dfj heii oo");
+        p3.setOther_details("neeeeeew new");
+
         // tempPropertyList = new ArrayList<>();
         mPropertyList.add(p3);
-
-        //  mPropertyList = tempPropertyList;
-
+        mProgressBar.setVisibility(View.GONE);
         if(  mPropertyFragment.isVisible()){
             PropertyListAdapter mPropertyListAdapter = new PropertyListAdapter
-                    (mPropertyFragment.getActivity(), R.layout.landlord_property_row, mPropertyList);
+                    (mPropertyFragment.getContext(), R.layout.landlord_property_row, mPropertyList);
           //  mPropertyListAdapter.notifyDataSetChanged();
             mListView.setAdapter(mPropertyListAdapter);
 
         }
-//        else if(mListFragment.isVisible() && result.equals(false)){
-//            Toast.makeText(mListFragment.getContext(), "No results to show", Toast.LENGTH_SHORT).show();
-//            mProgressBar.setVisibility(View.GONE);
-//        }
-
-
-//        //return tempPropertyList;
-
- //   }
 
 
 

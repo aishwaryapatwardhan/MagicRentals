@@ -31,7 +31,7 @@ public class PropertyListAdapter extends ArrayAdapter<PropertyModel> {
     int resource;
     Context context;
     LayoutInflater inflater;
-    Activity activity;
+
     ArrayList<Integer> selected;
     LayoutInflater view;
     private static final String TAG = "ADAPTER";
@@ -39,16 +39,16 @@ public class PropertyListAdapter extends ArrayAdapter<PropertyModel> {
     public PropertyListAdapter(Context context, int resource, ArrayList<PropertyModel> propertyList) {
 
         super(context, resource, propertyList);
-
-        this.context = context.getApplicationContext();
+        this.context = context;
+        //this.context = context.getApplicationContext();
         this.resource = resource;
         selected = new ArrayList<>();
-        activity = (Activity) context;
+
         mPropertyList = propertyList;
         Log.i(TAG, "Inside adapter length "+mPropertyList.size());
-        if(mPropertyList!=null){
-            view = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);}
-        else Toast.makeText(context, "No Results to Show", Toast.LENGTH_SHORT).show();
+//        if(mPropertyList!=null){
+//            view = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);}
+//        else Toast.makeText(context, "No Results to Show", Toast.LENGTH_SHORT).show();
     }
     @Override
 

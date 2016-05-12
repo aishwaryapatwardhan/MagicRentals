@@ -39,7 +39,7 @@ public class EditPropertiesActivity extends AppCompatActivity implements TaskCom
    // ArrayList<String> listPropertyTypes;
     //  ArrayList<String> bathroomArr;
     ArrayList<String> roomArr;
-    EditText area, street, city, state, zip, rent, email, mobile, description;
+    EditText area, street, city, state, zip, rent, email, mobile, description, other_details, nickname;
     Spinner SpinPropertyType, bath, rooms;
     Button btnSubmit;
     String userid;
@@ -65,6 +65,7 @@ public class EditPropertiesActivity extends AppCompatActivity implements TaskCom
         mPropertyModel = mPropertyList.get(selectedLine);
         System.out.println("Modelll........  +++ "+mPropertyModel.getNickname()+"djdjd  .. "+userid);
         Spinner spinProprtyType = (Spinner)findViewById(R.id.property_type);
+      //  R.string-spinProprtyType.get
 //        String tempProperty = mPropertyModel.getProperty_type().toString();
 //            spinProprtyType.setSelection(PropertyTypeE.mPropertyModel.);
 
@@ -88,10 +89,15 @@ public class EditPropertiesActivity extends AppCompatActivity implements TaskCom
         mobile.setText(mPropertyModel.getMobile());
         description = (EditText)findViewById(R.id.description);
         description.setText(mPropertyModel.getDescription());
+        other_details = (EditText)findViewById(R.id.other_details);
+        other_details.setText(mPropertyModel.getOther_details());
+        nickname = (EditText)findViewById(R.id.nickname);
+        nickname.setText(mPropertyModel.getNickname());
 
-         rooms = (Spinner)findViewById(R.id.roomscount);
+        rooms = (Spinner)findViewById(R.id.roomscount);
+        Log.i(TAG, Integer.parseInt(mPropertyModel.getRoom())+"rooms");
         rooms.setSelection(Integer.parseInt(mPropertyModel.getRoom())-1);//roomArr.indexOf(mPropertyModel.getRoom()));
-         bath = (Spinner)findViewById(R.id.bathroomcount);
+        bath = (Spinner)findViewById(R.id.bathroomcount);
         rooms.setSelection(Integer.parseInt(mPropertyModel.getBath())-1);
        // spinProprtyType.setSelection(3);//roomArr.indexOf(mPropertyModel.getBath()));
         //System.out.println("Hello    ......................."+property);
@@ -117,7 +123,7 @@ public class EditPropertiesActivity extends AppCompatActivity implements TaskCom
                 LandlordUtils.isValidEmail(email.getText().toString());
                 LandlordUtils.isValidZip(zip.getText().toString());
 
-
+                mPropertyModel.setNickname(nickname.getText().toString());
                 mPropertyModel.setArea(area.getText().toString());
 
                 mPropertyModel.setStreet(street.getText().toString());
@@ -140,6 +146,8 @@ public class EditPropertiesActivity extends AppCompatActivity implements TaskCom
 
                 mPropertyModel.setBath(bath.getSelectedItem().toString());
 
+                mPropertyModel.setOther_details(other_details.getText().toString());
+
                 System.out.println("Hello    ......................."+mPropertyModel + mPropertyModel.getBath());
                 //  convert into json and call service..
 
@@ -147,9 +155,8 @@ public class EditPropertiesActivity extends AppCompatActivity implements TaskCom
                 HashMap<String, String> hm = LandlordUtils.serialize(mPropertyModel);
 
                 hm.put("_id", mPropertyModel.getKey());
-
-                // HashMap<String, File> file = new HashMap<String, File>();
-                String url = LandlordUtils.url+"/updatePostings";
+          // HashMap<String, File> file = new HashMap<String, File>();
+                String url = getString(R.string.url)+"/updatePostings";
                 new MultipartUtilityAsyncTask(EditPropertiesActivity.this,hm, null).execute(url);
              //   PropertiesResultLab.getPropertiesResultLabNew(getApplicationContext());
 //                Intent i = new Intent(getApplicationContext(), PropertiesListLandlordActivity.class);

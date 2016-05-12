@@ -29,7 +29,7 @@ public class PropertyDetailActivity extends AppCompatActivity{
         setContentView(mViewPager);
         mActionBar = getSupportActionBar();
         assert mActionBar != null;
-        mActionBar.setDisplayHomeAsUpEnabled(true);
+        //mActionBar.setDisplayHomeAsUpEnabled(true);
 
         mPropertyResults = PropertiesResultLab.getPropertiesResultLab(
                 getApplicationContext()).getPropertyList();

@@ -2,6 +2,7 @@ package project.team.cmpe277.com.magicrentals1.landlord;
 
 import android.annotation.TargetApi;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,8 +14,10 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,12 +42,12 @@ import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
 import project.team.cmpe277.com.magicrentals1.utility.TaskCompletedStatus;
 
 public class PropertiesListLandlordActivity   extends AppCompatActivity
-        implements PropertyListLandlordFragment.Callbacks
+        implements PropertyListLandlordFragment.Callbacks, TaskCompletedStatus
        {
 
            private static final String TAG = "LandlordListActivity";
 
-    static String userid;
+           static String userid;
            ArrayList<PropertyModel> mPropertyList;
            PropertiesResultLab mPropertyResultLab;
     @Override
@@ -52,31 +55,21 @@ public class PropertiesListLandlordActivity   extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_properties_landlord);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setIcon(R.drawable.ic_launcher);
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
   /*      userid = getIntent()
                 .getSerializableExtra("USERID").toString();*/
 
-//        mPropertyResultLab = PropertiesResultLab.getPropertiesResultLab(PropertiesListLandlordActivity.this);
-////
-//        mPropertyList = mPropertyResultLab.getPropertyList();
 //
-//        HashMap<String, String> hm= new HashMap<>();
-//        hm.put("user_id","savani");
-////
-//        String url = "http://192.168.1.173:3000/getPostsByUser";
-//        //    new MultipartUtilityAsyncTask(hm, null).execute(url);
-//        new MultipartUtilityAsyncTask(PropertiesListLandlordActivity.this, hm, null).execute(url);
-
         SharedPreferences preferences = getApplicationContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
         userid = preferences.getString(LoginActivity.USERID,null);
         Fragment fragment = PropertyListLandlordFragment.getFragment(userid);
        // fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
-
-
-
 
     }
 
@@ -96,12 +89,6 @@ public class PropertiesListLandlordActivity   extends AppCompatActivity
         Intent i = new Intent(getApplicationContext(), UploadPropertyDataActivity.class);
         i.putExtra("USERID", userid);
         startActivity(i);
-//        bundle.putString("USERID", userid);
-//        UploadDataFragment fragment = new UploadDataFragment();
-//        fragment.setArguments(bundle);
-//        // fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
-//        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
-
         return super.onOptionsItemSelected(item);
     }
     @Override
@@ -125,6 +112,48 @@ public class PropertiesListLandlordActivity   extends AppCompatActivity
             ft.commit();
         }
     }
+           @Override
+           public  ArrayList<PropertyModel> onRentedClicked(ArrayList<Integer> selected_line, PropertyListAdapter adapter){
+               PropertiesResultLab mPropertyResultLab;
+               mPropertyResultLab = PropertiesResultLab.getPropertiesResultLab(this);
+               mPropertyList = mPropertyResultLab.getPropertyList();
+               System.out.println("Inside callback"+ mPropertyList.size()+"first--- "+mPropertyList.get(0));
+               HashMap<String, String> hm= new HashMap<>();
+               // hm.put("user_id", mPropertyList.get(al.get(0)).getUser_id());
+               // hm.put("user_id", "savaniffwffyyfggq12345");
+               // hm.put("id",sPropertiesResultLab.mPropertyList.get(al.get(0)).getKey());
+
+               hm.put("id", mPropertyList.get(selected_line.get(0)).getKey());
+               Log.i(TAG, hm.get("id")+"USersssss.......");
+               hm.put("Status","Rented");
+               hm.put("email",mPropertyList.get(selected_line.get(0)).getEmail());
+               // String url = "http://54.153.2.150:3000/updateStatus";
+               String url = getString(R.string.url)+"/updateStatus";
+               PropertyModel pm =  mPropertyList.get(selected_line.get(0));
+               pm.setStatus("Rented");
 
 
+               new MultipartUtilityAsyncTask(PropertiesListLandlordActivity.this, hm, null).execute(url);
+               return mPropertyList;
+               //adapter.notifyDataSetChanged();
+//               PropertyListAdapter mAdapter = new PropertyListAdapter()
+//                       (this,R.layout.search_result_row, mPropertyList );
+//
+//               listView.setAdapter(mAdapter);
+
+
+
+           }
+
+           @Override
+           public void onCancelClicked(ArrayList<Integer> selected_line, PropertyListAdapter adapter) {
+
+
+           }
+
+
+           @Override
+           public void onTaskCompleted(JSONObject result) {
+
+           }
        }

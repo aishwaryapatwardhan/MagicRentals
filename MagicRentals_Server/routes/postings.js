@@ -797,44 +797,50 @@ exports.searchPosts = function(req, res){
 	 	var user_id = req.param('user_id');
 	 	
 	 	var description = req.param('description');
-	 	if(!description){
+	 	if(!description || description == null){
 	 		description = '.';
 	 	}
 	 	console.log('desc - '+ description);
 	 	
 	 	var City = req.param('City');
-	 	if(!City){
+	 	if(!City || City == null){
 	 		City = '.';
 	 	}
 	 	console.log('City - '+ City);
 	 	
 	 	var Zip = req.param('Zip');
-	 	if(!Zip){
+	 	if(!Zip || Zip == null ){
 	 		Zip = '.';
 	 	}
 	 	console.log('Zip - '+ Zip);
 	 	
 	 	var property_type = req.param('property_type');
-	 	if(!property_type){
+	 	if(!property_type || property_type == null){
 	 		property_type = '.';
 	 	}
 	 	console.log('property_type - '+ property_type);
 	 	
 	 	//var min_rent = parseInt(req.param('min_rent'));
 	 	var min_rent = Number(req.param('min_rent')) ;
-	 	if(!min_rent){
+	 	if(!min_rent || min_rent == null){
 	 		min_rent = 0;
+	 	}
+	 	console.log('min_rent - '+ min_rent);
+
+	 	var street = Number(req.param('street')) ;
+	 	if(!street || street == null){
+	 		street = ".";
 	 	}
 	 	console.log('min_rent - '+ min_rent);
 	 	
 	 	//var max_rent = parseInt(req.param('max_rent'));
 	 	var max_rent = Number(req.param('max_rent'));
-	 	if(!max_rent){
+	 	if(!max_rent || max_rent == null){
 	 		max_rent = Number.MAX_VALUE;
 	 	}
 	 	console.log('max_rent - '+ max_rent);
 	 	
-	 	if(user_id === null){
+	 	if(user_id == null){
 	 		result.code = 210;
  			result.status = "User ID is empty";
  			res.json(result);
@@ -881,12 +887,12 @@ exports.searchPosts = function(req, res){
 	 	
 	 			console.log("Connected to mongo");
 	 			var coll = mongo.collection('rental_posting');
-	 			
-	 			coll.find( { $and : [ { "description" : { $regex: description } }, 
+	 			 { $and : [ { "description" : { $regex: description } }, 
 	 			                      { "address.City" : { $regex: City } }, 
 	 			                      { "address.Zip" : { $regex: Zip } }, 
 	 			                      { "property_type" : { $regex: property_type } },
-	 			                      { "rent" : { $lt : max_rent, $gt : min_rent } }] } )
+	 			                      { "rent" : { $lt : max_rent, $gt : min_rent } }] } 
+	 			coll.find()
 	 			                      .toArray(function(err, docs) {	
 	 				var myArray = [];
 	 				if(docs){		
