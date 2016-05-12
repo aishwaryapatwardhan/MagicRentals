@@ -32,44 +32,44 @@ exports.addPost = function(req, res){
 	     }
 	    
 	    console.log(fields.user_id + ": user_id, "+fields.Street+" fields.Street, "+fields.bath+" fields.room "+ fields.room + " , " + fields.email +", "+ fields.Mobile);
-//	    var user_id = fields.user_id;
-//	 	var Street = fields.Street;
-//	 	var City = fields.City;
-//	 	var State = fields.State;
-//	 	var Zip = fields.Zip;
-//	 	var property_type = fields.property_type;
-//	 	var bath = Number(fields.bath);
-//	 	var room = Number(fields.room);
-//	 	var area = Number(fields.area);
-//	 	var rent = Number(fields.rent);
-//	 	var email = fields.email;
-//	 	var Mobile = fields.Mobile;
-//	 	var description = fields.description;
-//	 	var Images = fields.Image;
-//	 	var other_details = fields.other_details;
-//	 	var Status = fields.Status;
-//	 	var view_count = Number(fields.view_count);
-//	    var nickName = fields.nickName;
+	    var user_id = fields.user_id;
+	 	var Street = fields.Street;
+	 	var City = fields.City;
+	 	var State = fields.State;
+	 	var Zip = fields.Zip;
+	 	var property_type = fields.property_type;
+	 	var bath = Number(fields.bath);
+	 	var room = Number(fields.room);
+	 	var area = Number(fields.area);
+	 	var rent = Number(fields.rent);
+	 	var email = fields.email;
+	 	var Mobile = fields.Mobile;
+	 	var description = fields.description;
+	 	var Images = fields.Image;
+	 	var other_details = fields.other_details;
+	 	var Status = fields.Status;
+	 	var view_count = Number(fields.view_count);
+	    var nickName = fields.nickName;
 	     
-	 	var nickName = req.param('nickName');
-		var user_id = req.param('user_id');
-		var Street = req.param('Street');
-		var City = req.param('City');
-		var State = req.param('State');
-		var Zip = req.param('Zip');
-		var property_type = req.param('property_type');
-		var bath = Number(req.param('bath'));
-		var room = Number(req.param('room'));
-		var area = Number(req.param('area'));
-		var rent = Number(req.param('rent'));
-		var email = req.param('email');
-		var Mobile = req.param('Mobile');
-		var description = req.param('description');
-		var Images = req.param('Images');
-		var other_details = req.param('other_details');
-		var Status = req.param('Status');
-		var view_count = Number(req.param('view_count'));
-		
+//	 	var nickName = req.param('nickName');
+//		var user_id = req.param('user_id');
+//		var Street = req.param('Street');
+//		var City = req.param('City');
+//		var State = req.param('State');
+//		var Zip = req.param('Zip');
+//		var property_type = req.param('property_type');
+//		var bath = Number(req.param('bath'));
+//		var room = Number(req.param('room'));
+//		var area = Number(req.param('area'));
+//		var rent = Number(req.param('rent'));
+//		var email = req.param('email');
+//		var Mobile = req.param('Mobile');
+//		var description = req.param('description');
+//		var Images = req.param('Images');
+//		var other_details = req.param('other_details');
+//		var Status = req.param('Status');
+//		var view_count = Number(req.param('view_count'));
+
 		if(nickName === null){
 			nickName = " ";
 		}
