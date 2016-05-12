@@ -6,7 +6,7 @@ var formidable = require('formidable');
 //Add Fav
 exports.addFav = function(req, res){
 	
-	console.log("In search API");
+	console.log("In addfav API");
 	var result = {};
 	
 	var form = new formidable.IncomingForm();
