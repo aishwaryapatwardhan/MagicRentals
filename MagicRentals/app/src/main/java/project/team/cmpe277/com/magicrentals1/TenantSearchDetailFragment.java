@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -160,12 +162,6 @@ public class TenantSearchDetailFragment extends android.app.Fragment implements 
             case R.id.favorites:
                 //favourites activity
                 return true;
-            case R.id.createpost:
-                //savani your activity - to create a post
-                return true;
-            case R.id.mypostings:
-                //savani your activity to list the owner's previous posts if exists
-                return true;
             case R.id.save_search:
                 //api call
                 return true;
@@ -174,6 +170,11 @@ public class TenantSearchDetailFragment extends android.app.Fragment implements 
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_login, menu);
+    }
 
 
     public class CheckIfAlreadyInFav extends AsyncTask<Object, Void, Boolean> {

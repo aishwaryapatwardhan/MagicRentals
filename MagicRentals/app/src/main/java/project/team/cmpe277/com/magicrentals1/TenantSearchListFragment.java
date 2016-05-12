@@ -102,12 +102,6 @@ public class TenantSearchListFragment extends Fragment {
             case R.id.favorites:
                 //favourites activity
                 return true;
-            case R.id.createpost:
-                //savani your activity - to create a post
-                return true;
-            case R.id.mypostings:
-                //savani your activity to list the owner's previous posts if exists
-                return true;
             case R.id.save_search:
                 //api call
                 return true;
