@@ -22,9 +22,12 @@ public class TenantLandlordMainActivity extends AppCompatActivity{
         final TenantLandlordMainActivity tenantLand = this;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setLogo(R.drawable.ic_launcher);
         final Intent i = new Intent(tenantLand, LoginActivity.class);
         final Context context = getApplicationContext();
         TenantBtn = (Button) findViewById(R.id.tenantBtn);
+
+
         TenantBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

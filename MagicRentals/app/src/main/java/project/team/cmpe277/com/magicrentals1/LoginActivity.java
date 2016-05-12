@@ -282,8 +282,8 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletedSta
         new MultipartUtilityAsyncTask(this,input,null).execute(url);
 
         //Adding userid to shared preferences
-        SharedPreferences sharedPreferences = this.getSharedPreferences(TAG,Context.MODE_PRIVATE);
-        sharedPreferences.edit().putString(USERID,userid).commit();
+        SharedPreferences sharedPreferences = getSharedPreferences("USER",Context.MODE_PRIVATE);
+        sharedPreferences.edit().putString("USERID",userid).commit();
 
     }
 

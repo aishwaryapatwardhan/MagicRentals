@@ -5,6 +5,7 @@ package project.team.cmpe277.com.magicrentals1;
  */
 public class SearchParameters {
 
+    private static SearchParameters sp = null;
     private int minPrice;
     private int maxPrice;
     private String propertytype;
@@ -13,12 +14,19 @@ public class SearchParameters {
     private String zipcode;
     private String street;
 
-    public SearchParameters() {
+    private SearchParameters() {
         this.street = "";
         this.keywords = "";
         this.propertytype = "";
         this.minPrice = 0;
         this.maxPrice = Integer.MAX_VALUE;
+    }
+
+    public static SearchParameters getSearchParameters(){
+        if(sp == null){
+            sp = new SearchParameters();
+        }
+        return sp;
     }
 
     public void setPropertytype(String propertytype) {
