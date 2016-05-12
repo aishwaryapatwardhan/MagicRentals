@@ -20,15 +20,15 @@ exports.addUser = function(req, res){
 	       return;
 	     }
 	     
-	    var uid = req.param('uid');
-	 	var email = req.param('email');
-	 	var deviceID = req.param('deviceID');
+//	    var uid = req.param('uid');
+//	 	var email = req.param('email');
+//	 	var deviceID = req.param('deviceID');
 //	 	var token = req.param('token');
 	    
-//		var uid = fields.uid;
-//		var email = fields.email;
-//		var deviceID = fields.deviceID;
-//	    
+		var uid = fields.uid;
+		var email = fields.email;
+		var deviceID = fields.deviceID;
+	    console.log(uid + " " + email + " " + deviceID);
 	 	mongo.connect(function(err, db){
 	 		
 	 		if(err){
