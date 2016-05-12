@@ -20,7 +20,8 @@
     <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:id="@+id/heartsImage"/>
+            android:id="@+id/heartsImage"
+            android:layout_gravity="right"/>
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -38,7 +39,7 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
     <TextView
@@ -49,12 +50,20 @@
         android:layout_gravity="left"
         style="@style/Text1"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="streetValue"
+            android:id="@+id/streetValue"
+            android:layout_margin="10dp"
+            android:layout_gravity="left"
+            style="@style/Resp"/>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
     <TextView
@@ -65,11 +74,21 @@
         android:layout_gravity="left"
         style="@style/Text1"/>
 
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="cityValue"
+            android:id="@+id/cityValue"
+            android:layout_margin="10dp"
+            android:layout_gravity="left"
+            style="@style/Resp"/>
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
     <TextView
@@ -79,11 +98,20 @@
         android:layout_margin="10dp"
         android:layout_gravity="left"
         style="@style/Text1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="stateValue"
+            android:id="@+id/stateValue"
+            android:layout_margin="10dp"
+            android:layout_gravity="left"
+            style="@style/Resp"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
     <TextView
@@ -93,11 +121,21 @@
         android:layout_margin="10dp"
         android:layout_gravity="left"
         style="@style/Text1"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="zipcodeValue"
+            android:id="@+id/zipcodeValue"
+            android:layout_margin="10dp"
+            android:layout_gravity="left"
+            style="@style/Resp"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
     <TextView
@@ -107,11 +145,22 @@
         android:layout_margin="10dp"
         android:layout_gravity="left"
         style="@style/Text1"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="proptypeValue"
+            android:id="@+id/proptypeValue"
+            android:layout_margin="10dp"
+            android:layout_gravity="left"
+            style="@style/Resp"/>
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
     <TextView
@@ -121,11 +170,22 @@
         android:layout_margin="10dp"
         android:layout_gravity="left"
         style="@style/Text1"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="numRoomsValue"
+            android:id="@+id/numRoomsValue"
+            android:layout_margin="10dp"
+            android:layout_gravity="left"
+            style="@style/Resp"/>
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
     <TextView
@@ -135,11 +195,21 @@
         android:layout_margin="10dp"
         android:layout_gravity="left"
         style="@style/Text1"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="numBathsValue"
+            android:id="@+id/numBathsValue"
+            android:layout_margin="10dp"
+            android:layout_gravity="left"
+            style="@style/Resp"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
     <TextView
@@ -149,11 +219,21 @@
         android:layout_margin="10dp"
         android:layout_gravity="left"
         style="@style/Text1"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="sqFeetValue"
+            android:id="@+id/sqFeetValue"
+            android:layout_margin="10dp"
+            android:layout_gravity="left"
+            style="@style/Resp"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
     <TextView
@@ -163,11 +243,20 @@
         android:layout_margin="10dp"
         android:layout_gravity="left"
         style="@style/Text1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="montlyRentValue"
+            android:id="@+id/monthlyRentValue"
+            android:layout_margin="10dp"
+            android:layout_gravity="left"
+            style="@style/Resp"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
     <TextView
@@ -177,11 +266,20 @@
         android:layout_margin="10dp"
         android:layout_gravity="left"
         style="@style/Text1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="descriptionValue"
+            android:id="@+id/descriptionValue"
+            android:layout_margin="10dp"
+            android:layout_gravity="left"
+            style="@style/Resp"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
     <TextView
@@ -191,11 +289,21 @@
         android:layout_margin="10dp"
         android:layout_gravity="left"
         style="@style/Text1"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="depositValue"
+            android:id="@+id/depositValue"
+            android:layout_margin="10dp"
+            android:layout_gravity="left"
+            style="@style/Resp"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
     <TextView
@@ -205,11 +313,20 @@
         android:layout_margin="10dp"
         android:layout_gravity="left"
         style="@style/Text1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="leaseTypeValue"
+            android:id="@+id/leaseTypeValue"
+            android:layout_margin="10dp"
+            android:layout_gravity="left"
+            style="@style/Resp"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
     <TextView
@@ -220,11 +337,21 @@
         android:layout_margin="10dp"
         android:layout_gravity="left"
         style="@style/Text1"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="contactNumberValue"
+            android:id="@+id/contactNumberValue"
+            android:layout_margin="10dp"
+            android:layout_gravity="left"
+            style="@style/Resp"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
     <TextView
@@ -234,133 +361,16 @@
         android:layout_margin="10dp"
         android:layout_gravity="left"
         style="@style/Text1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="contactEmailValue"
+            android:id="@+id/contactEmailValue"
+            android:layout_margin="10dp"
+            android:layout_gravity="left"
+            style="@style/Resp"/>
     </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="streetValue"
-        android:id="@+id/streetValue"
-        android:layout_margin="10dp"
-        android:layout_gravity="left"
-        style="@style/Resp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="cityValue"
-        android:id="@+id/cityValue"
-        android:layout_margin="10dp"
-        android:layout_gravity="left"
-        style="@style/Resp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="stateValue"
-        android:id="@+id/stateValue"
-        android:layout_margin="10dp"
-        android:layout_gravity="left"
-        style="@style/Resp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="zipcodeValue"
-        android:id="@+id/zipcodeValue"
-        android:layout_margin="10dp"
-        android:layout_gravity="left"
-        style="@style/Resp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="proptypeValue"
-        android:id="@+id/proptypeValue"
-        android:layout_margin="10dp"
-        android:layout_gravity="left"
-        style="@style/Resp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="numRoomsValue"
-        android:id="@+id/numRoomsValue"
-        android:layout_margin="10dp"
-        android:layout_gravity="left"
-        style="@style/Resp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="numBathsValue"
-        android:id="@+id/numBathsValue"
-        android:layout_margin="10dp"
-        android:layout_gravity="left"
-        style="@style/Resp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="sqFeetValue"
-        android:id="@+id/sqFeetValue"
-        android:layout_margin="10dp"
-        android:layout_gravity="left"
-        style="@style/Resp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="montlyRentValue"
-        android:id="@+id/monthlyRentValue"
-        android:layout_margin="10dp"
-        android:layout_gravity="left"
-        style="@style/Resp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="descriptionValue"
-        android:id="@+id/descriptionValue"
-        android:layout_margin="10dp"
-        android:layout_gravity="left"
-        style="@style/Resp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="depositValue"
-        android:id="@+id/depositValue"
-        android:layout_margin="10dp"
-        android:layout_gravity="left"
-        style="@style/Resp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="leaseTypeValue"
-        android:id="@+id/leaseTypeValue"
-        android:layout_margin="10dp"
-        android:layout_gravity="left"
-        style="@style/Resp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="contactNumberValue"
-        android:id="@+id/contactNumberValue"
-        android:layout_margin="10dp"
-        android:layout_gravity="left"
-        style="@style/Resp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="contactEmailValue"
-        android:id="@+id/contactEmailValue"
-        android:layout_margin="10dp"
-        android:layout_gravity="left"
-        style="@style/Resp"/>
 
     </LinearLayout>
     </LinearLayout>
