@@ -467,6 +467,8 @@ exports.updateStatus = function(req, res){
      	var id = fields.user_id; 
      	var Status = fields.Status; 
      
+     	console.log(email +" ,"+id+" , "+Status);
+     	
      	if(id === null || Status === null){
      		result.code = 210;
 			result.status = "Data is empty";
