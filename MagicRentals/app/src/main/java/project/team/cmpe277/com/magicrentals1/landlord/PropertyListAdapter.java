@@ -49,10 +49,6 @@ public class PropertyListAdapter extends ArrayAdapter<PropertyModel> {
         if(mPropertyList!=null){
             view = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);}
         else Toast.makeText(context, "No Results to Show", Toast.LENGTH_SHORT).show();
-
-
-
-
     }
     @Override
 
@@ -75,7 +71,9 @@ public class PropertyListAdapter extends ArrayAdapter<PropertyModel> {
         nicknameV.setText(property.getNickname());
 
         TextView countV = (TextView) convertView.findViewById(R.id.view_count);
-        countV.setText(property.getView_count());
+            String temp_view = property.getView_count();
+            if (temp_view.equals("null")) temp_view = "0";
+            countV.setText(temp_view);
 
         TextView streetV = (TextView) convertView.findViewById(R.id.house_street);
         streetV.setText(property.getStreet());
