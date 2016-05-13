@@ -6,11 +6,13 @@
 
         />
     <item
+        android:id="@+id/cancelM"
+        android:title="@string/cancelproperty"
+        android:icon="@android:drawable/ic_menu_delete"/>
+    <item
         android:id="@+id/rentedM"
         android:title="@string/rentedproperty"
         />
-    <item
-        android:id="@+id/cancelM"
-        android:title="@string/cancelproperty"/>
+
 
 </menu>
