@@ -797,12 +797,14 @@ exports.searchPosts = function(req, res){
 	 					result.data = docs;
 	 					result.code = 200; 
 	 					result.status = "Successful";
+	 					res.json(result);
 	 					
 	 				}else{						
 	 					 result.code = 208;
 	 					 result.status = "Unable to get data";
+	 					res.json(result);
 	 				}							
-	 				res.json(result);
+	 				
 	 			});
 
 	 		}
