@@ -195,4 +195,50 @@ exports.getAllFav = function(req, res){
 				}
 		 });
 	});
+	
+	
+};
+
+exports.checkFav = function(req, res){
+	
+	var uid = req.param('uid');
+	var ids = req.param('ids');
+	
+	if(uid === null || ids === null){
+		 result.code = 210;
+		 result.status = "data empty";
+		 res.json(result);
+	 }
+
+	 console.log(uid + " " + ids);
+	
+	 mongo.connect(function(err, db){
+			
+			if(err){
+				console.log("Unable to connect to mongo");
+				result.code = 209;
+				result.status = "Unable to connect to mongo";
+				res.json(result);
+			}else{
+				
+				var favcol = mongo.collection('users');
+				
+				favcol.findOne(
+						{ "ids": { $all: [ ids ] } },
+						   function(err, docs){
+							   if(docs){		
+				 					result.data = docs;
+				 					result.code = 200; 
+				 					result.status = "Successful";
+				 					res.json(result);
+				 					
+				 				}else{						
+				 					 result.code = 208;
+				 					 result.status = "Unable to get data";
+				 					 res.json(result);
+				 				}							
+						   }
+						);
+			}
+	 });
 };
