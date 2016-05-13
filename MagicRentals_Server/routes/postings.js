@@ -524,7 +524,7 @@ exports.updateStatus = function(req, res){
 };
 
 //Update the view counts of the post
-exports.updateViewCount = function(req, res){
+exports.updateViewCount1 = function(req, res){
 		
 	console.log("This is a UpdatePost's view count API call");
 	var form = new formidable.IncomingForm();
@@ -543,7 +543,7 @@ exports.updateViewCount = function(req, res){
 //	     var id = fields.id;
 //	     var view_count = fields.view_count;
 	 	
-	     if(id === null || view_count === null){
+	     if(id === null || view_count === null ){
 	    	 result.code = 210;
 	 		 result.status = "input data is empty";
 	 		 res.json(result);
