@@ -9,15 +9,59 @@
 
 
         <ImageView
-            android:layout_width="75dp"
+            android:layout_width="200dp"
             android:layout_height="150dp"
-            android:id="@+id/image_icon_detail"/>
+            android:id="@+id/image_icon_detail"
+            android:layout_gravity="left"
+            android:src="@mipmap/house"/>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/viewCount"
+            android:padding="10dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/view_count_detail"/>
 
+
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/status"
+            android:padding="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/status_det"
+            android:padding="10dp"/>
+
+
+    </LinearLayout>
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="match_parent"
+           android:text="@string/address"
+           android:padding="10dp"/>
+   </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,19 +70,23 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/address_detail"/>
+            android:id="@+id/address_detail"
+        android:padding="10dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/street_detail"/>
+            android:id="@+id/street_detail"
+            android:padding="10dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/city_detail"/>
+            android:id="@+id/city_detail"
+            android:padding="10dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/state_detail"/>
+            android:id="@+id/state_detail"
+            android:padding="10dp"/>
 
 
     </LinearLayout>
@@ -49,19 +97,23 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/rent"/>
+            android:text="@string/rent"
+            android:padding="10dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/rent_detail"/>
+            android:id="@+id/rent_detail"
+            android:padding="10dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/area"/>
+            android:text="@string/area"
+            android:padding="10dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/area_detail"/>
+            android:id="@+id/area_detail"
+            android:padding="10dp"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -70,23 +122,39 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/roomscount"/>
+            android:text="@string/roomscount"
+            android:padding="10dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/bedroom_detail"/>
+            android:id="@+id/bedroom_detail"
+            android:padding="10dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/bathroomcount"/>
+            android:text="@string/bathroomcount"
+            android:padding="10dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/baths_detail"/>
+            android:id="@+id/baths_detail"
+            android:padding="10dp"/>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/description"
+            android:padding="10dp"/>
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/desc_detail"/>
+        android:id="@+id/desc_detail"
+        android:padding="10dp"
+        android:layout_weight="1"/>
+    </LinearLayout>
 
 </LinearLayout>

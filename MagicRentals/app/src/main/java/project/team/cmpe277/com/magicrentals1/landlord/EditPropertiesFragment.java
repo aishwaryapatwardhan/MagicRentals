@@ -1,5 +1,7 @@
 package project.team.cmpe277.com.magicrentals1.landlord;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +30,7 @@ public class EditPropertiesFragment extends Fragment {
     EditText area, street, city, state, zip, rent, email, mobile, description;
     Spinner SpinPropertyType, bath, rooms;
     Button btnSubmit;
+    String userid;
     public EditPropertiesFragment(){
 
     }
@@ -37,6 +40,8 @@ public class EditPropertiesFragment extends Fragment {
                              Bundle savedInstanceState) {
         View editView = inflater.inflate(R.layout.fragment_upload_data, container, false);
        // String userid = getArguments().getString("USERID");
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("USER", Context.MODE_PRIVATE);
+        userid = sharedPreferences.getString("USERID",null);
         int selectedLine = getArguments().getInt("selectedLine");
         listPropertyTypes = new ArrayList<>();
        System.out.println("Array .property..... "+R.array.property_type);

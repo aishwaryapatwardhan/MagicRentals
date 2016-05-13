@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ public class PropertyDetailFragment extends Fragment {
     private TextView bathsV;
     private TextView descV;
     private TextView statusV;
+    private static final String TAG = "PropertyDetailFragment";
 
     public static final String PROPERTY_KEY = "Property_key";
     public PropertyDetailFragment() {
@@ -85,7 +87,7 @@ public class PropertyDetailFragment extends Fragment {
         roomsV = (TextView)view.findViewById(R.id.bedroom_detail);
         bathsV = (TextView)view.findViewById(R.id.baths_detail);
         descV = (TextView)view.findViewById(R.id.desc_detail);
-        statusV = (TextView)view.findViewById(R.id.statuscurr);
+        statusV = (TextView)view.findViewById(R.id.status_det);
 
         if(mProperty != null){
             //set image Sai....
@@ -100,7 +102,7 @@ public class PropertyDetailFragment extends Fragment {
             roomsV.setText(mProperty.getRoom());
             bathsV.setText(mProperty.getBath());
             descV.setText(mProperty.getDescription());
-
+            Log.i(TAG, mProperty.getStatus());
             statusV.setText(mProperty.getStatus());
         }
 

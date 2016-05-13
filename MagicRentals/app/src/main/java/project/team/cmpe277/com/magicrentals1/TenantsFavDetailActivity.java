@@ -1,7 +1,9 @@
 package project.team.cmpe277.com.magicrentals1;
 
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBar;
@@ -12,6 +14,7 @@ public class TenantsFavDetailActivity extends AppCompatActivity {
 
     public static String userid;
     private static final String TAG = "TenantsFavDetailActivity";
+    public static String rid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,14 +29,12 @@ public class TenantsFavDetailActivity extends AppCompatActivity {
 
         actionBar.setTitle("Magic Rentals");
 
-        String rid = getIntent()
+       rid = getIntent()
                 .getSerializableExtra("RID").toString();
 
-        TenantsFavDetailsFragment fragment = new  TenantsFavDetailsFragment();
         FragmentManager fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.add(R.id.favDetail_container, fragment, "Favlist");
-        transaction.commit();
+        fm.beginTransaction().replace(R.id.favDetail_container, new TenantsFavDetailsFragment()).commit();
+
 
     }
 }

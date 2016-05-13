@@ -50,7 +50,8 @@ public class EditPropertiesActivity extends AppCompatActivity implements TaskCom
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_upload_data);
-         userid = getIntent().getExtras().getString("USERID");
+        SharedPreferences sharedPreferences = getSharedPreferences("USER",Context.MODE_PRIVATE);
+        userid = sharedPreferences.getString("USERID",null);
         int selectedLine = getIntent().getExtras().getInt("selectedLine");
 
         SharedPreferences preferences = this.getSharedPreferences(TAG, Context.MODE_PRIVATE);

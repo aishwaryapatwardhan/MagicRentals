@@ -36,6 +36,8 @@ import java.util.logging.Logger;
  * Created by savani on 4/26/16.
  */
 
+
+
 import project.team.cmpe277.com.magicrentals1.LoginActivity;
 import project.team.cmpe277.com.magicrentals1.R;
 import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
@@ -46,8 +48,7 @@ public class PropertiesListLandlordActivity   extends AppCompatActivity
        {
 
            private static final String TAG = "LandlordListActivity";
-
-           static String userid;
+           String userid;
            ArrayList<PropertyModel> mPropertyList;
            PropertiesResultLab mPropertyResultLab;
     @Override
@@ -61,12 +62,11 @@ public class PropertiesListLandlordActivity   extends AppCompatActivity
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
-  /*      userid = getIntent()
-                .getSerializableExtra("USERID").toString();*/
+        SharedPreferences sharedPreferences = getSharedPreferences("USER",Context.MODE_PRIVATE);
+        userid = sharedPreferences.getString("USERID",null);
 
 //
-        SharedPreferences preferences = getApplicationContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
-        userid = preferences.getString(LoginActivity.USERID,null);
+
         Fragment fragment = PropertyListLandlordFragment.getFragment(userid);
        // fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
@@ -82,13 +82,18 @@ public class PropertiesListLandlordActivity   extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         Bundle bundle = new Bundle();
 
-/*        userid = getIntent()
-                .getSerializableExtra("USERID").toString();*/
+
         Intent i = new Intent(getApplicationContext(), UploadPropertyDataActivity.class);
         i.putExtra("USERID", userid);
         startActivity(i);
+//        bundle.putString("USERID", userid);
+//        UploadDataFragment fragment = new UploadDataFragment();
+//        fragment.setArguments(bundle);
+//        // fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
+//        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
         return super.onOptionsItemSelected(item);
     }
     @Override
@@ -147,6 +152,26 @@ public class PropertiesListLandlordActivity   extends AppCompatActivity
 
            @Override
            public void onCancelClicked(ArrayList<Integer> selected_line, PropertyListAdapter adapter) {
+               PropertiesResultLab mPropertyResultLab;
+               mPropertyResultLab = PropertiesResultLab.getPropertiesResultLab(this);
+               mPropertyList = mPropertyResultLab.getPropertyList();
+               System.out.println("Inside callback"+ mPropertyList.size()+"first--- "+mPropertyList.get(0));
+               HashMap<String, String> hm= new HashMap<>();
+               // hm.put("user_id", mPropertyList.get(al.get(0)).getUser_id());
+               // hm.put("user_id", "savaniffwffyyfggq12345");
+               // hm.put("id",sPropertiesResultLab.mPropertyList.get(al.get(0)).getKey());
+
+               hm.put("id", mPropertyList.get(selected_line.get(0)).getKey());
+               Log.i(TAG, hm.get("id")+"USersssss.......");
+               hm.put("Status","Cancelled");
+               hm.put("email",mPropertyList.get(selected_line.get(0)).getEmail());
+               // String url = "http://54.153.2.150:3000/updateStatus";
+               String url = getString(R.string.url)+"/updateStatus";
+               //PropertyModel pm =  mPropertyList.get();
+               mPropertyList.remove(selected_line.get(0));
+
+               new MultipartUtilityAsyncTask(PropertiesListLandlordActivity.this, hm, null).execute(url);
+             //  return mPropertyList;
 
 
            }
@@ -154,6 +179,7 @@ public class PropertiesListLandlordActivity   extends AppCompatActivity
 
            @Override
            public void onTaskCompleted(JSONObject result) {
+               Log.i(TAG, "Response..."+result);
 
            }
        }

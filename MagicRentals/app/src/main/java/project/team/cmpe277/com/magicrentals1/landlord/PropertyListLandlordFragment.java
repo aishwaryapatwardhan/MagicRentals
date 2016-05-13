@@ -122,15 +122,14 @@ public class PropertyListLandlordFragment extends ListFragment  {
 
 
         mPropertyResultLab = PropertiesResultLab.getPropertiesResultLab(getContext());
-        SharedPreferences preferences = getActivity().getApplicationContext().getSharedPreferences
-                                                        (TAG, Context.MODE_PRIVATE);
-        userid = preferences.getString(LoginActivity.USERID,null);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("USER",Context.MODE_PRIVATE);
+        String userid = sharedPreferences.getString("USERID",null);
         mPropertyResultLab.getPropertyList().clear();
         System.out.println("USERID......... "+userid);
 
         //temp changes to pass UID
 //        if(userid.isEmpty()){
-            userid = "Rekha";
+
   //      }
 //
 
@@ -142,7 +141,7 @@ public class PropertyListLandlordFragment extends ListFragment  {
 //        //    new MultipartUtilityAsyncTask(hm, null).execute(url);
 //        new MultipartUtilityAsyncTask(this.getContext(), hm, null).execute(url);
         listView = getListView();
-        new PropertiesListAsyncTask("savani",this, listView, progress).execute(userid);
+        new PropertiesListAsyncTask(userid,this, listView, progress).execute(userid);
         mPropertyList = mPropertyResultLab.getPropertyList();
         madapter = (PropertyListAdapter) getListAdapter();
 
@@ -214,52 +213,62 @@ public class PropertyListLandlordFragment extends ListFragment  {
                         System.out.println("inside rented.......");
                         System.out.println("selected line before OK..  "+selected_line_al.size());
 
-                        AlertDialog.Builder builder = new AlertDialog.Builder(listView.getContext());
+                        PropertyModel pm = new PropertyModel();
+                        pm = mPropertyList.get(selected_line_al.get(0));
+                        if(pm.getStatus().equals("Created")) {
 
-                        builder.setMessage(R.string.alertrented)
-                                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener()  {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                       //
-                                        Log.i(TAG, "Inisde OK");
-//                                        PropertyModel pm =  new PropertyModel();
-//                                        pm =
-                                        rentedOk = true;
-                                        mPropertyList = mCallbacks.onRentedClicked(selected_line_al, madapter);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(listView.getContext());
+
+
+
+                            builder.setMessage(R.string.alertrented)
+                                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            //
+                                            Log.i(TAG, "Inisde OK");
+
+
+                                            rentedOk = true;
+                                            mPropertyList = mCallbacks.onRentedClicked(selected_line_al, madapter);
 //                                        madapter = new PropertyListAdapter
 //                                                (getContext(), R.layout.landlord_property_row, mPropertyList);
 //                                        madapter.notifyDataSetChanged();
 //                                        listView.setAdapter(madapter);
-                                       // Boolean b = resultsLab.rented(selected_line_al, listView.getContext());
-                                    }
-                                })
-                                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        Log.i(TAG, "Inisde Cancel");
-                                     //
-                                       // finish();
-                                       // rentedOk = false;
-                                    }
-                                });
-                        builder.setCancelable(true);
-                        builder.create();
-                        builder.show();
-                        Log.i(TAG, "after button alert.. ");
-                        System.out.println(rentedOk);
-//                        if (rentedOk) {
-//                            System.out.println("selcted line   "+selected_line_al.size());
-//                            Boolean b = resultsLab.rented(selected_line_al, listView.getContext());
-//                        }
+                                            // Boolean b = resultsLab.rented(selected_line_al, listView.getContext());
+                                        }
+                                    })
+                                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            Log.i(TAG, "Inisde Cancel");
+                                            //
+                                            // finish();
+                                            // rentedOk = false;
+                                        }
+                                    });
+                            builder.setCancelable(true);
+                            builder.create();
+                            builder.show();
+                            Log.i(TAG, "after button alert.. ");
+                        }else if(pm.getStatus().equals("Rented")){
+                            android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder
+                                                                            (listView.getContext()).create();
+                            alertDialog.setTitle("Error");
+                            alertDialog.setMessage("Property is already rented.");
+                            alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_NEUTRAL, "OK",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                            alertDialog.show();
+                        }
+
 
                         //   mAdapter.notifyDatasetChanged();
                         break;
                     case R.id.editM:
                         Bundle bundle = new Bundle();
                         bundle.putInt("selectedLine", selected_line_al.get(0));
-                        bundle.putString("USERID",userid);
-                        SharedPreferences sharedPreferences = getContext().
-                                getSharedPreferences(TAG,Context.MODE_PRIVATE);
-                        sharedPreferences.edit().putInt("selectedLine", selected_line_al.get(0)).apply();
-
                         Intent i = new Intent(getActivity(), EditPropertiesActivity.class);
                         i.putExtras(bundle);
                         startActivity(i);
@@ -280,7 +289,7 @@ public class PropertyListLandlordFragment extends ListFragment  {
                         buildercan.setMessage(R.string.alertcancel)
                                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        //
+                                        Log.i("CANCEL","has been called");
                                         mCallbacks.onCancelClicked(selected_line_al,madapter);
                                         cancelOk = true;
                                     }

@@ -24,4 +24,13 @@ public class FavPropCollections {
         }
         return favoriteAList;
     }
+
+    public static  FavPropertieDetails getFavPropertieDetails(String refid){
+        for(FavPropertieDetails rs: favoriteAList){
+            if (rs.getRid().equals(refid)){
+                return rs;
+            }
+        }
+        return null;
+    }
 }

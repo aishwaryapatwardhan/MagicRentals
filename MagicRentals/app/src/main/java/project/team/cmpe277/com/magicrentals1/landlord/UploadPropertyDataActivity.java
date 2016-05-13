@@ -3,6 +3,7 @@ package project.team.cmpe277.com.magicrentals1.landlord;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -55,7 +56,7 @@ import project.team.cmpe277.com.magicrentals1.utility.TaskCompletedStatus;
  * Created by savani on 5/4/16.
  */
 public class UploadPropertyDataActivity extends AppCompatActivity implements TaskCompletedStatus{
-    static String userid;
+
     private static final String ERROR = "Please fill required entries";
     private static final String REQUIRED = "Required";
     Button btnSubmit;
@@ -73,6 +74,8 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
     private static final int PICK_IMAGE_REQUEST =3;
     private String mCurrentPhotoPath;
     private File uploadFile;
+    String userid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +83,8 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
         setContentView(R.layout.fragment_upload_data);
         Log.i(TAG,"Inside UploadProperty");
         postPicBtn =(ImageButton) findViewById(R.id.postPicButton);
-
+        SharedPreferences sharedPreferences = getSharedPreferences("USER",Context.MODE_PRIVATE);
+        userid = sharedPreferences.getString("USERID",null);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setIcon(R.drawable.ic_launcher);
@@ -168,7 +172,7 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
                 //Read the data from the form and pass it to the backend service
                 // Button btnSubmit = (Button) (v);
                 isValid = true;
-                property.setUser_id("savani");
+                property.setUser_id(userid);
                 property.setStatus("Created");
                 System.out.println("in Savkwjjetwe........................."+v.getId());
                 //  Spinner spinProprtyType = (Spinner)v.findViewById(R.id.property_type);
@@ -226,10 +230,11 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
                     alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
+                                    UploadPropertyDataActivity.this.finish();
                                 }
                             });
                     alertDialog.show();
+
                  //   UploadPropertyDataActivity.this.finish();
 
 //call service
@@ -238,24 +243,7 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
               //     Toast.makeText(UploadPropertyDataActivity.this, ERROR , Toast.LENGTH_LONG).show();
                 Log.i(TAG,"Error in data");
 
-    //   CheckBox ch1=(CheckBox)v.findViewById(R.id.condo);
-                // if (ch1.isChecked())
-                // property.setProperty_type(String.valueOf(R.string.condo));
-
-
-                //  convert into json and call service..
-
-                //on success
-//                PropertiesResultLab.getPropertiesResultLabNew(getApplicationContext());
-//                Intent i = new Intent(getApplicationContext(), PropertiesListLandlordActivity.class);
-//                i.putExtra("USERID", userid);
-//                startActivity(i);
-
-
-
-                // property.setArea(v.findViewById(R.id.area));
-
-                //call service
+    //
 
 
 

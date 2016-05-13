@@ -31,7 +31,7 @@ public class FavPropertieDetails {
     String Status;
     //String nickname;
 
-    public FavPropertieDetails(String user_id, String street, String city, String state, String zip, String property_type, String bath, String room, String area, String rent, String email, String mobile, String description, String other_details, String status, String img, String rid) {
+    public FavPropertieDetails(String user_id, String street, String city, String state, String zip, String property_type, String bath, String room, String area, String rent, String email, String mobile, String description, String img, String other_details, String status,String rid) {
         this.rid = rid;
         this.user_id = user_id;
         Street = street;
