@@ -49,7 +49,7 @@ exports.addPost = function(req, res){
 	 	var other_details = fields.other_details;
 	 	var Status = fields.Status;
 	 	var view_count = Number(fields.view_count);
-	    var nickName = fields.nickname;
+	    var nickName = fields.nickName;
 	     
 //	 	var nickName = req.param('nickname');
 //		var user_id = req.param('user_id');
@@ -115,6 +115,7 @@ exports.addPost = function(req, res){
 		if(Images === null){
 			Images = "https://upload.wikimedia.org/wikipedia/commons/1/1e/Stonehenge.jpg";
 		}
+		Images = "https://upload.wikimedia.org/wikipedia/commons/1/1e/Stonehenge.jpg";
 		if(other_details === null){
 			other_details = " ";
 		}
