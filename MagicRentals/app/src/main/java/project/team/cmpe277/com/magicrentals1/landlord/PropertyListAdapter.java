@@ -87,6 +87,9 @@ public class PropertyListAdapter extends ArrayAdapter<PropertyModel> {
         TextView zipV = (TextView) convertView.findViewById(R.id.house_zip);
         zipV.setText(property.getZip());
 
+         TextView statusV= (TextView) convertView.findViewById(R.id.statuscurr);
+         statusV.setText(property.getStatus());
+
         ImageView propertyImage = (ImageView)convertView.findViewById(R.id.house_image);}
 
         //following is the code to do preloading and caching of images

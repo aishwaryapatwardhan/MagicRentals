@@ -7,18 +7,25 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?android:attr/activatedBackgroundIndicator">
-    <ImageView
+        android:background="?android:attr/activatedBackgroundIndicator"
+        android:orientation="vertical">
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="vertical">
+        <ImageView
         android:id="@+id/house_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:src="@android:drawable/ic_menu_gallery" />
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+            android:layout_gravity="left"
+        android:src="@mipmap/house"
+            android:layout_weight="1"/>
+   </LinearLayout>
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="1">
+           >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,7 +51,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/house_city"/>
 
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -60,13 +66,27 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/status"/>
+                    android:text="@string/status"
+                    android:layout_marginRight="5dp"
+                    />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/statuscurr"/>
+                    android:id="@+id/statuscurr"
+                    />
             </LinearLayout>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="@string/viewCount"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_marginRight="5dp"
+                 />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -75,6 +95,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_marginRight="5dp"
             android:paddingRight="5dp" />
+        </LinearLayout>
 
     </LinearLayout>
 
