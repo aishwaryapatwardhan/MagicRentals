@@ -833,45 +833,45 @@ exports.searchPosts = function(req, res){
 	 	var user_id = req.param('user_id');
 	 	
 	 	var description = req.param('description');
-	 	if(!description || description == null){
+	 	if(description == null){
 	 		description = '.';
 	 	}
 	 	console.log('desc - '+ description);
 	 	
 	 	var City = req.param('City');
-	 	if(!City || City == null){
+	 	if(City == null){
 	 		City = '.';
 	 	}
 	 	console.log('City - '+ City);
 	 	
 	 	var Zip = req.param('Zip');
-	 	if(!Zip || Zip == null ){
+	 	if(Zip == null ){
 	 		Zip = '.';
 	 	}
 	 	console.log('Zip - '+ Zip);
 	 	
 	 	var property_type = req.param('property_type');
-	 	if(!property_type || property_type == null){
+	 	if(property_type == null){
 	 		property_type = '.';
 	 	}
 	 	console.log('property_type - '+ property_type);
 	 	
 	 	//var min_rent = parseInt(req.param('min_rent'));
 	 	var min_rent = Number(req.param('min_rent')) ;
-	 	if(!min_rent || min_rent == null){
+	 	if(min_rent == null){
 	 		min_rent = 0;
 	 	}
 	 	console.log('min_rent - '+ min_rent);
 
 	 	var street = Number(req.param('street')) ;
-	 	if(!street || street == null){
+	 	if(street == null){
 	 		street = ".";
 	 	}
 	 	console.log('min_rent - '+ min_rent);
 	 	
 	 	//var max_rent = parseInt(req.param('max_rent'));
 	 	var max_rent = Number(req.param('max_rent'));
-	 	if(!max_rent || max_rent == null){
+	 	if(max_rent == null){
 	 		max_rent = Number.MAX_VALUE;
 	 	}
 	 	console.log('max_rent - '+ max_rent);

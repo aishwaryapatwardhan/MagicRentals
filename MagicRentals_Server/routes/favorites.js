@@ -203,6 +203,7 @@ exports.checkFav = function(req, res){
 	
 	var uid = req.param('uid');
 	var ids = req.param('ids');
+	var result = {};
 	
 	if(uid === null || ids === null){
 		 result.code = 210;
