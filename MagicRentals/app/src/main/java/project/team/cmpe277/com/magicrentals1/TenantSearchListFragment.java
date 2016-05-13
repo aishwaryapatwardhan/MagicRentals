@@ -158,6 +158,7 @@ public class TenantSearchListFragment extends Fragment {
                 startActivity(i);
                 return true;
             case R.id.save_search:
+                actions.show();
                 //api call
                 return true;
         }
