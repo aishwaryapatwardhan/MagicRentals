@@ -35,17 +35,16 @@ public class TenantsFavActivity extends AppCompatActivity implements TaskComplet
 
         actionBar.setTitle("Magic Rentals");
 
-        preferences = getApplicationContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
-        userid = preferences.getString(LoginActivity.USERID, null);
-        userid = "Rekha";
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences("USER", Context.MODE_PRIVATE);
+        userid = preferences.getString("USERID",null);
         if(bFreshLoad){
-            String url = getString(R.string.url)+"getAllFav";
+            String url = getString(R.string.url)+"/getAllFav";
             //String url =  "http://10.0.0.44:3000/getAllFav";
             HashMap<String, String> hmap = new HashMap<>();
             hmap.put("uid",userid);
             new MultipartUtilityAsyncTask(this,hmap,null).execute(url);
         }else{
-            TenantsFavListFragment fragment = new  TenantsFavListFragment();
+            TenantsFavListFragment fragment = new TenantsFavListFragment();
             //TenantsFavListFragment fragment = TenantsFavListFragment.newInstance("for_FavList");
             FragmentManager fm = getFragmentManager();
             FragmentTransaction transaction = fm.beginTransaction();
