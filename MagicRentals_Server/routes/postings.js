@@ -464,14 +464,21 @@ exports.updateStatus = function(req, res){
 //	     	var email = req.param('email');
 	     
 		var email = fields.email;
-     	var id = fields.user_id; 
+     	var id = fields.id; 
      	var Status = fields.Status; 
      
-     	if(id === null || Status === null){
+     	console.log(email +" ,"+id+" , "+Status);
+     	
+     	if(id === null || Status === null || email == null){
      		result.code = 210;
 			result.status = "Data is empty";
 			res.json(result);
      	}
+     	
+     	email = email.replace(/(\r\n|\n|\r)/gm,"");
+     	id = id.replace(/(\r\n|\n|\r)/gm,"");
+     	Status = Status.replace(/(\r\n|\n|\r)/gm,"");
+     	
 		mongo.connect(function(err, db){
 			
 			if(err){
@@ -485,7 +492,7 @@ exports.updateStatus = function(req, res){
 				var coll = mongo.collection('rental_posting');
 							
 				coll.update( 
-						{ _id : id}, 
+						{ "_id" : id}, 
 						{
 							$set : {
 								"Status" : Status
@@ -495,6 +502,7 @@ exports.updateStatus = function(req, res){
 							 if(err){
 								 result.code = 208;
 								 result.status = "Unable to update to mongo";
+								 res.json(result)
 							 }else{
 								 mailOptions.from = "magicrentals11@gmail.com";
 									mailOptions.to = email;
@@ -504,8 +512,8 @@ exports.updateStatus = function(req, res){
 									mailer.sendMail(mailOptions, function(error, success) {
 										console.log('Mail sent');
 									});
+									res.json(result)
 							 }	
-							 res.json(result);
 						 }
 				);			
 			}	
@@ -528,17 +536,20 @@ exports.updateViewCount = function(req, res){
 	       return;
 	     }
 	     
-//	    var id = req.param('id');
-//	 	var view_count = req.param('view_count');
+	    var id = req.param('id');
+	 	var view_count = req.param('view_count');
 	     
-	     var id = fields.id;
-	     var view_count = fields.view_count;
+//	     var id = fields.id;
+//	     var view_count = fields.view_count;
 	 	
 	     if(id === null || view_count === null){
 	    	 result.code = 210;
 	 		 result.status = "input data is empty";
 	 		 res.json(result);
 	     }
+	     
+	     id = id.replace(/(\r\n|\n|\r)/gm,"");
+	     view_count = view_count.replace(/(\r\n|\n|\r)/gm,"");
 	     
 	 	 mongo.connect(function(err, db){
 	 		if(err){
@@ -583,162 +594,10 @@ exports.updateViewCount = function(req, res){
 	});	
 };
 
-//exports.saveSearchRes = function(req, res){
-//
-//	
-//	console.log("In search API");
-//	var result = {};
-//	
-//	var form = new formidable.IncomingForm();
-//	
-//	form.parse(req, function(err, fields, files) {
-//	     if(err){
-//	       console.log(err);
-//	       res.end("sorry, an error occurred");
-//	       return;
-//	     }
-//	     
-//	    var saveSearch = Boolean(fields.saveSearch);
-//	 	var rate = Number(fields.rate);
-//	 	var user_id = req.param(fields.user_id);
-//	 	
-//	 	var description = req.param(fields.description);
-//	 	if(!description){
-//	 		description = '.';
-//	 	}
-//	 	console.log('desc - '+ description);
-//	 	
-//	 	var City = fields.City;
-//	 	if(!City){
-//	 		City = '.';
-//	 	}
-//	 	console.log('City - '+ City);
-//	 	
-//	 	var Zip = fields.Zip;
-//	 	if(!Zip){
-//	 		Zip = '.';
-//	 	}
-//	 	console.log('Zip - '+ Zip);
-//	 	
-//	 	var property_type = fields.property_type;
-//	 	if(!property_type){
-//	 		property_type = '.';
-//	 	}
-//	 	console.log('property_type - '+ property_type);
-//	 	
-//	 	//var min_rent = parseInt(req.param('min_rent'));
-//	 	var min_rent = Number(fields.min_rent) ;
-//	 	if(!min_rent){
-//	 		min_rent = 0;
-//	 	}
-//	 	console.log('min_rent - '+ min_rent);
-//	 	
-//	 	//var max_rent = parseInt(req.param('max_rent'));
-//	 	var max_rent = Number(fields.max_rent);
-//	 	if(!max_rent){
-//	 		max_rent = Number.MAX_VALUE;
-//	 	}
-//	 	console.log('max_rent - '+ max_rent);
-//	 	
-////	    var saveSearch = Boolean(req.param('saveSearch'));
-////	 	var rate = Number(req.param('rate'));
-////	 	var user_id = req.param('user_id');
-////	 	
-////	 	var description = req.param('description');
-////	 	if(!description){
-////	 		description = '.';
-////	 	}
-////	 	console.log('desc - '+ description);
-////	 	
-////	 	var City = req.param('City');
-////	 	if(!City){
-////	 		City = '.';
-////	 	}
-////	 	console.log('City - '+ City);
-////	 	
-////	 	var Zip = req.param('Zip');
-////	 	if(!Zip){
-////	 		Zip = '.';
-////	 	}
-////	 	console.log('Zip - '+ Zip);
-////	 	
-////	 	var property_type = req.param('property_type');
-////	 	if(!property_type){
-////	 		property_type = '.';
-////	 	}
-////	 	console.log('property_type - '+ property_type);
-////	 	
-////	 	//var min_rent = parseInt(req.param('min_rent'));
-////	 	var min_rent = Number(req.param('min_rent')) ;
-////	 	if(!min_rent){
-////	 		min_rent = 0;
-////	 	}
-////	 	console.log('min_rent - '+ min_rent);
-////	 	
-////	 	//var max_rent = parseInt(req.param('max_rent'));
-////	 	var max_rent = Number(req.param('max_rent'));
-////	 	if(!max_rent){
-////	 		max_rent = Number.MAX_VALUE;
-////	 	}
-////	 	console.log('max_rent - '+ max_rent);
-//	 	
-//	 	if(user_id === null){
-//	 		result.code = 210;
-// 			result.status = "User ID is empty";
-// 			res.json(result);
-//	 	}
-//	 	
-//	 	mongo.connect(function(err, db){
-//	 		
-//	 		if(err){
-//	 			console.log("Unable to connect to mongo");
-//	 			result.code = 209;
-//	 			result.status = "Unable to connect to mongo";
-//	 			res.json(result);
-//	 		}else{
-//	 			
-//	 			if(saveSearch === true){
-//	 				var searchcol = mongo.collection('search_queries');
-//	 				
-//	 				searchcol.insertOne(
-//	 						{
-//	 							"user_id" : user_id,
-//	 							"rate" : rate,
-//	 							"description" : description,
-//	 							"City" : City,
-//	 							"Zip" : Zip,
-//	 							"property_type" : property_type,
-//	 							"max_rent" : max_rent,
-//	 							"min_rent" : min_rent						
-//	 							
-//	 						},function(err, docs) {
-//	 							
-//	 							 if(err){
-////	 								 result.code = 208;
-////	 								 result.status = "Unable to insert to mongo";
-//	 								 console.log("Unable to insert to mongo");
-//	 							 }else{
-////	 								 mailer.sendMail(function(error, success) {
-////	 									 result.code = 200; 
-////	 									 result.status = "Successfully inserted";
-////	 								 });
-//	 								 console.log("Search results saved");
-//	 							 }	
-//	 						});
-//	 			}
-//	 	
-//	 		
-//	 		}
-//	 		
-//	 	});
-//	});	
-//
-//};
+exports.saveSearchRes = function(req, res){
 
-//Search for postings
-exports.searchPosts = function(req, res){
 	
-	console.log("In search API");
+	console.log("In save search API");
 	var result = {};
 	
 	var form = new formidable.IncomingForm();
@@ -749,53 +608,11 @@ exports.searchPosts = function(req, res){
 	       res.end("sorry, an error occurred");
 	       return;
 	     }
-	     
-//	    var saveSearch = Boolean(fields.saveSearch);
-//	 	var rate = Number(fields.rate);
-//	 	var user_id = req.param(fields.user_id);
-//	 	
-//	 	var description = req.param(fields.description);
-//	 	if(!description){
-//	 		description = '.';
-//	 	}
-//	 	console.log('desc - '+ description);
-//	 	
-//	 	var City = fields.City;
-//	 	if(!City){
-//	 		City = '.';
-//	 	}
-//	 	console.log('City - '+ City);
-//	 	
-//	 	var Zip = fields.Zip;
-//	 	if(!Zip){
-//	 		Zip = '.';
-//	 	}
-//	 	console.log('Zip - '+ Zip);
-//	 	
-//	 	var property_type = fields.property_type;
-//	 	if(!property_type){
-//	 		property_type = '.';
-//	 	}
-//	 	console.log('property_type - '+ property_type);
-//	 	
-//	 	//var min_rent = parseInt(req.param('min_rent'));
-//	 	var min_rent = Number(fields.min_rent) ;
-//	 	if(!min_rent){
-//	 		min_rent = 0;
-//	 	}
-//	 	console.log('min_rent - '+ min_rent);
-//	 	
-//	 	//var max_rent = parseInt(req.param('max_rent'));
-//	 	var max_rent = Number(fields.max_rent);
-//	 	if(!max_rent){
-//	 		max_rent = Number.MAX_VALUE;
-//	 	}
-//	 	console.log('max_rent - '+ max_rent);
-	 	
+	     	 	
 	    var saveSearch = Boolean(req.param('saveSearch'));
 	 	var rate = Number(req.param('rate'));
 	 	var user_id = req.param('user_id');
-	 	
+	 		 	
 	 	var description = req.param('description');
 	 	if(!description){
 	 		description = '.';
@@ -866,22 +683,108 @@ exports.searchPosts = function(req, res){
 	 						},function(err, docs) {
 	 							
 	 							 if(err){
-//	 								 result.code = 208;
-//	 								 result.status = "Unable to insert to mongo";
+	 								 result.code = 208;
+	 								 result.status = "Unable to insert to mongo";
 	 								 console.log("Unable to insert to mongo");
+	 								 res.json(result);
 	 							 }else{
-//	 								 mailer.sendMail(function(error, success) {
-//	 									 result.code = 200; 
-//	 									 result.status = "Successfully inserted";
-//	 								 });
+	 								 
+	 								 result.code = 200; 
+	 								 result.status = "Successfully inserted";
 	 								 console.log("Search results saved");
+	 								 res.json(result);
 	 							 }	
 	 						});
 	 			}
 	 	
+	 		
+	 		}
+	 		
+	 	});
+	});	
+
+};
+
+//Search for postings
+exports.searchPosts = function(req, res){
+	
+	console.log("In search API");
+	var result = {};
+	
+	var form = new formidable.IncomingForm();
+	
+	form.parse(req, function(err, fields, files) {
+	     if(err){
+	       console.log(err);
+	       res.end("sorry, an error occurred");
+	       return;
+	     }
+	     	 	
+	    var saveSearch = Boolean(req.param('saveSearch'));
+	 	var rate = Number(req.param('rate'));
+	 	var user_id = req.param('user_id');
+	 	
+	 	var description = req.param('description');
+	 	if(!description || description == null){
+	 		description = '.';
+	 	}
+	 	console.log('desc - '+ description);
+	 	
+	 	var City = req.param('City');
+	 	if(!City || City == null){
+	 		City = '.';
+	 	}
+	 	console.log('City - '+ City);
+	 	
+	 	var Zip = req.param('Zip');
+	 	if(!Zip || Zip == null ){
+	 		Zip = '.';
+	 	}
+	 	console.log('Zip - '+ Zip);
+	 	
+	 	var property_type = req.param('property_type');
+	 	if(!property_type || property_type == null){
+	 		property_type = '.';
+	 	}
+	 	console.log('property_type - '+ property_type);
+	 	
+	 	//var min_rent = parseInt(req.param('min_rent'));
+	 	var min_rent = Number(req.param('min_rent')) ;
+	 	if(!min_rent || min_rent == null){
+	 		min_rent = 0;
+	 	}
+	 	console.log('min_rent - '+ min_rent);
+
+	 	var street = Number(req.param('street')) ;
+	 	if(!street || street == null){
+	 		street = ".";
+	 	}
+	 	console.log('min_rent - '+ min_rent);
+	 	
+	 	//var max_rent = parseInt(req.param('max_rent'));
+	 	var max_rent = Number(req.param('max_rent'));
+	 	if(!max_rent || max_rent == null){
+	 		max_rent = Number.MAX_VALUE;
+	 	}
+	 	console.log('max_rent - '+ max_rent);
+	 	
+	 	if(user_id == null){
+	 		result.code = 210;
+ 			result.status = "User ID is empty";
+ 			res.json(result);
+	 	}
+	 	
+	 	mongo.connect(function(err, db){
+	 		
+	 		if(err){
+	 			console.log("Unable to connect to mongo");
+	 			result.code = 209;
+	 			result.status = "Unable to connect to mongo";
+	 			res.json(result);
+	 		}else{
+
 	 			console.log("Connected to mongo");
 	 			var coll = mongo.collection('rental_posting');
-	 			
 	 			coll.find( { $and : [ { "description" : { $regex: description } }, 
 	 			                      { "address.City" : { $regex: City } }, 
 	 			                      { "address.Zip" : { $regex: Zip } }, 

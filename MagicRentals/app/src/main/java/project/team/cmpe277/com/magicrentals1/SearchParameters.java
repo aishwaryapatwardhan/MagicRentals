@@ -5,18 +5,28 @@ package project.team.cmpe277.com.magicrentals1;
  */
 public class SearchParameters {
 
+    private static SearchParameters sp = null;
     private int minPrice;
     private int maxPrice;
     private String propertytype;
     private String keywords;
-    private String location;
+    private String city;
+    private String zipcode;
+    private String street;
 
-    public SearchParameters() {
-        this.location = "";
+    private SearchParameters() {
+        this.street = "";
         this.keywords = "";
         this.propertytype = "";
         this.minPrice = 0;
-        this.maxPrice = 0;
+        this.maxPrice = Integer.MAX_VALUE;
+    }
+
+    public static SearchParameters getSearchParameters(){
+        if(sp == null){
+            sp = new SearchParameters();
+        }
+        return sp;
     }
 
     public void setPropertytype(String propertytype) {
@@ -27,16 +37,33 @@ public class SearchParameters {
         this.keywords = keywords;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
 
     public String getPropertytype() {
         return propertytype;
     }
 
-    public String getLocation() {
-        return location;
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getZipcode() {
+        return zipcode;
+    }
+
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
     }
 
     public String getKeywords() {

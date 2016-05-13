@@ -38,18 +38,22 @@ app.post('/getPostsByUser',postings.getAllPosts);
 app.post('/updatePostings', postings.updatePost);
 app.post('/updateStatus', postings.updateStatus);
 app.post('/updateViewCount', postings.updateViewCount);
+app.get('/updateViewCount', postings.updateViewCount);
 app.get('/searchPosts', postings.searchPosts);
 app.post('/searchPosts', postings.searchPosts);
-
+app.get('/saveSearch',postings.saveSearchRes);
 //login APIs
 app.post('/addUser', users.addUser);
 
 
 //Fav APIs
-app.get('/getAllFav', fav.getAllFav);
+//app.get('/getAllFav', fav.getAllFav);
 app.post('/getAllFav', fav.getAllFav);
-app.post('/addFav',fav.addFav);
-app.post('/removeFav', fav.removeFav);
+//app.post('/addFav',fav.addFav);
+app.get('/addFav',fav.addFav);
+//app.post('/removeFav', fav.removeFav);
+app.get('/removeFav', fav.removeFav);
+app.get('/checkFav',fav.checkFav);
 
 //test API
 app.get('/test', routes.test123);

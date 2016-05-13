@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletedSta
     private SignInButton googleSignIn;
     private int RC_SIGN_IN;
     private String gcmtoken;
-
+    public static String urlip;
 
 
     private String userid;
@@ -87,14 +87,12 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletedSta
         // Following is the code to store user-id and retrieve the user-id using shared preferences.
       /*  SharedPreferences sharedPreferences = this.getSharedPreferences(TAG,Context.MODE_PRIVATE);
         sharedPreferences.edit().putString("userid",PLACE_YOUR_USER_ID).apply();
-
         String useridCheck = sharedPreferences.getString("userid",null);
-
         SharedPreferences preferences = context.getSharedPreferences(TAG,Context.MODE_PRIVATE);
-
         Log.i(TAG, useridCheck); */
 
         //Initializing the facebook sdk and initializing the callbackmanager
+        urlip = getString(R.string.url);
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
 
@@ -137,9 +135,7 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletedSta
                 Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
             }
         } catch (PackageManager.NameNotFoundException e) {
-
         } catch (NoSuchAlgorithmException e) {
-
         }*/
 
         //Google Signin setup
@@ -165,10 +161,10 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletedSta
              /*   Intent i = new Intent(getApplicationContext(), TenantSearchActivity.class);
                 i.putExtra("USERID", userid);
                 startActivity(i); */
-                Intent i = new Intent(getApplicationContext(), PropertiesListLandlordActivity.class);
-                startActivity(i);
-//                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-//                startActivityForResult(signInIntent, RC_SIGN_IN);
+                //Intent i = new Intent(getApplicationContext(), PropertiesListLandlordActivity.class);
+                //startActivity(i);
+                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+                startActivityForResult(signInIntent, RC_SIGN_IN);
             }
         });
 
@@ -286,8 +282,8 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletedSta
         new MultipartUtilityAsyncTask(this,input,null).execute(url);
 
         //Adding userid to shared preferences
-        SharedPreferences sharedPreferences = this.getSharedPreferences(TAG,Context.MODE_PRIVATE);
-        sharedPreferences.edit().putString(USERID,userid).apply();
+        SharedPreferences sharedPreferences = getSharedPreferences("USER",Context.MODE_PRIVATE);
+        sharedPreferences.edit().putString("USERID",userid).commit();
 
     }
 
@@ -334,9 +330,19 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletedSta
     @Override
     public void onTaskCompleted(JSONObject result) {
 
-        Intent i = new Intent(getApplicationContext(), TenantSearchActivity.class);
-        i.putExtra("USERID", userid);
-        startActivity(i);
+        Intent i = getIntent();
+        String user_selection = i.getStringExtra(TenantLandlordMainActivity.USER_SELECTED_OPTION);
+
+        if(user_selection.equals("t")){
+            Intent j = new Intent(getApplicationContext(), TenantSearchActivity.class);
+            j.putExtra("USERID", userid);
+            startActivity(j);
+        }else if(user_selection.equals("l")){
+            Intent j = new Intent(getApplicationContext(), PropertiesListLandlordActivity.class);
+            j.putExtra("USERID", userid);
+            startActivity(j);
+
+        }
 
     }
 
