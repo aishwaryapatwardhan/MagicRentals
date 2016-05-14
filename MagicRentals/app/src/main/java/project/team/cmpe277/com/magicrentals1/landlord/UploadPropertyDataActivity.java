@@ -24,6 +24,10 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import android.view.ActionMode;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -64,7 +68,7 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
     PropertyModel property;
     Boolean isValid = true;
     Spinner spinPropertyType;
-    EditText area, street, city, state, zip, rent, email, mobile, description, other_details;
+    EditText area, street, city, state, zip, rent, email, mobile, description, other_details, nickname;
     ImageButton postPicBtn;
     private Intent popUp;
     Spinner SpinPropertyType, bath, rooms;
@@ -86,10 +90,11 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
         SharedPreferences sharedPreferences = getSharedPreferences("USER",Context.MODE_PRIVATE);
         userid = sharedPreferences.getString("USERID",null);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(true);
+     //   actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setIcon(R.drawable.ic_launcher);
-
-        actionBar.setTitle("Magic Rentals");
+       // actionBar.set
+     //   actionBar.setTitle("Magic Rentals");
+      //  actionBar.set
 
 
 //        street = (EditText)findViewById(R.id.street);
@@ -141,6 +146,8 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
 
         });
         other_details = (EditText)findViewById((R.id.other_details));
+        nickname = (EditText)findViewById(R.id.nickname);
+
         city = (EditText)findViewById(R.id.city);
         city.addTextChangedListener(new TextValidator(city));
         state = ((EditText)findViewById(R.id.state));
@@ -160,24 +167,23 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
 
 
 
-//        userid = getIntent()
-//                .getSerializableExtra("USERID").toString();
 
+    }
 
-        btnSubmit = (Button) findViewById(R.id.submit1);
-        System.out.println("hiii         ...........  ");
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Read the data from the form and pass it to the backend service
-                // Button btnSubmit = (Button) (v);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch(id) {
+            case R.id.submit1:
+
                 isValid = true;
+                String key; //setting id for new property
                 property.setUser_id(userid);
                 property.setStatus("Created");
-                System.out.println("in Savkwjjetwe........................."+v.getId());
+                System.out.println("in Savkwjjetwe........................." );
                 //  Spinner spinProprtyType = (Spinner)v.findViewById(R.id.property_type);
                 property.setProperty_type(spinPropertyType.getSelectedItem().toString());
-                System.out.println("print     "+property.getProperty_type());
+                System.out.println("print     " + property.getProperty_type());
                 validate(area);
 //                if (area.getText().toString().length() == 0 )
 //                    area.setError("Area is required");
@@ -188,40 +194,39 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
                 property.setCity(city.getText().toString());
                 validate(state);
                 property.setState(state.getText().toString());
-                isValid = LandlordUtils.isValidZip(zip.getText().toString()) ;
+                if (!LandlordUtils.isValidZip(zip.getText().toString())) {
+                    isValid = false;
+                    zip.setError("Should be 5 digit!");
+                }
                 property.setZip(zip.getText().toString());
                 validate(rent);
                 property.setRent(rent.getText().toString());
 
-                if (!LandlordUtils.isValidEmail(email.getText().toString()))
-                { email.setError("Invalid Email"); }
-
+                if (!LandlordUtils.isValidEmail(email.getText().toString())) {
+                    email.setError("Invalid Email");
+                }
                 property.setEmail(email.getText().toString());
-
                 property.setMobile(mobile.getText().toString());
-                System.out.println("sjsk "+mobile.getText().toString());
-
+                System.out.println("sjsk " + mobile.getText().toString());
                 property.setDescription(description.getText().toString());
-
                 property.setRoom(rooms.getSelectedItem().toString());
-
                 property.setBath(bath.getSelectedItem().toString());
-
                 property.setOther_details(other_details.getText().toString());
-
-
-                if(isValid){
-                   HashMap<String, String> hm = LandlordUtils.serialize(property);
-                   // HashMap<String, File> file = new HashMap<String, File>();
-                   // String url = "http://54.153.2.150:3000/addPostings";
-                    String url = getString(R.string.url)+"/addPostings";
-                  //  String url = "http://10.0.2.2:3000/addPostings";
-                   // System.out.println("isndie jdjjj url ");
-                    System.out.println("BATH... "+property.getBath()+"  Room.."+property.getRoom()+ "  Email"+property.getEmail());
-                   PropertiesResultLab propertiesResultLab=  PropertiesResultLab.
-                                                getPropertiesResultLab(getApplicationContext());
-                    ArrayList<PropertyModel> propertyList =  propertiesResultLab.getPropertyList();
+                property.setNickname(nickname.getText().toString());
+                if (isValid) {
+                    HashMap<String, String> hm = LandlordUtils.serialize(property);
+                    // HashMap<String, File> file = new HashMap<String, File>();
+                    // String url = "http://54.153.2.150:3000/addPostings";
+                    String url = getString(R.string.url) + "/addPostings";
+                    //  String url = "http://10.0.2.2:3000/addPostings";
+                    // System.out.println("isndie jdjjj url ");
+                    System.out.println("BATH... " + property.getBath() + "  Room.." + property.getRoom() + "  Email" + property.getEmail());
+                    PropertiesResultLab propertiesResultLab = PropertiesResultLab.
+                            getPropertiesResultLab(getApplicationContext());
+                    ArrayList<PropertyModel> propertyList = propertiesResultLab.getPropertyList();
                     new MultipartUtilityAsyncTask(UploadPropertyDataActivity.this, hm, null).execute(url);
+                    key = property.getUser_id() + property.getStreet() + property.getCity() + property.getZip();
+                    property.setKey(key);
                     propertyList.add(property);
 
                     AlertDialog alertDialog = new AlertDialog.Builder(UploadPropertyDataActivity.this).create();
@@ -235,22 +240,28 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
                             });
                     alertDialog.show();
 
-                 //   UploadPropertyDataActivity.this.finish();
+                    //   UploadPropertyDataActivity.this.finish();
 
 //call service
-                  //  Toast.makeText(UploadPropertyDataActivity.this, "Fine" , Toast.LENGTH_LONG).show();
-                }else
-              //     Toast.makeText(UploadPropertyDataActivity.this, ERROR , Toast.LENGTH_LONG).show();
-                Log.i(TAG,"Error in data");
+                    //  Toast.makeText(UploadPropertyDataActivity.this, "Fine" , Toast.LENGTH_LONG).show();
+                } else
+                    //     Toast.makeText(UploadPropertyDataActivity.this, ERROR , Toast.LENGTH_LONG).show();
+                    Log.i(TAG, "Error in data");
+                break;
+            case R.id.cancelform:
+                this.finish();
+                break;
+        }
 
-    //
 
-
-
-            }
-        } );
+    return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_addproperty, menu);
+        return true;
+    }
     void validate(EditText etext){
         if (etext.getText().toString().length() == 0 ){
             isValid = false;
@@ -258,8 +269,6 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
         }
 
     }
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -378,15 +387,18 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
         startActivityForResult(Intent.createChooser(uploadPicFromGallery,"Upload Picture"),3);
     }
 
+
+
+
     public void onTaskCompleted(JSONObject jsonObject){
         //
         Log.i(TAG, "Response---- "+jsonObject );
       //  System.out.println("response++++++ "+jsonObject);
         try {
             if(jsonObject.getInt("code") == 200){
-                Toast.makeText(UploadPropertyDataActivity.this, "Successfully Updated", Toast.LENGTH_LONG).show();
+              //  Toast.makeText(UploadPropertyDataActivity.this, "Successfully Updated", Toast.LENGTH_LONG).show();
             }else{
-                Toast.makeText(UploadPropertyDataActivity.this, "Error! Please try again.", Toast.LENGTH_LONG).show();
+             //   Toast.makeText(UploadPropertyDataActivity.this, "Error! Please try again.", Toast.LENGTH_LONG).show();
             }
 
         } catch (JSONException e) {
