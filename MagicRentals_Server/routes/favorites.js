@@ -26,6 +26,7 @@ exports.addFav_Get = function(req, res){
 			 result.code = 211;
 			 result.status = "Data Empty";
 			 res.json(result);
+			 return;
 		 }
 
 		 if(!ids || ids == null || ids == "null"){
@@ -33,6 +34,7 @@ exports.addFav_Get = function(req, res){
 			 result.code = 211;
 			 result.status = "Data Empty";
 			 res.json(result);
+			 return;
 		 }
 		 
 		 console.log(uid + " , " + ids);
@@ -92,6 +94,7 @@ exports.addFav_Post = function(req, res){
 			 result.code = 211;
 			 result.status = "Data Empty";
 			 res.json(result);
+			 return;
 		 }
 
 		 if(!ids || ids == null || ids == "null"){
@@ -99,6 +102,7 @@ exports.addFav_Post = function(req, res){
 			 result.code = 211;
 			 result.status = "Data Empty";
 			 res.json(result);
+			 return;
 		 }
 		 
 		 console.log(uid + " , " + ids);
@@ -158,6 +162,7 @@ exports.removeFav_Get = function(req, res){
 			 result.code = 211;
 			 result.status = "Data Empty";
 			 res.json(result);
+			 return;
 		 }
 
 		 if(!ids || ids == null || ids == "null"){
@@ -165,6 +170,7 @@ exports.removeFav_Get = function(req, res){
 			 result.code = 211;
 			 result.status = "Data Empty";
 			 res.json(result);
+			 return;
 		 }
 		 
 		 mongo.connect(function(err, db){
@@ -224,6 +230,7 @@ exports.removeFav_Post = function(req, res){
 			 result.code = 211;
 			 result.status = "Data Empty";
 			 res.json(result);
+			 return;
 		 }
 
 		 if(!ids || ids == null || ids == "null"){
@@ -231,6 +238,7 @@ exports.removeFav_Post = function(req, res){
 			 result.code = 211;
 			 result.status = "Data Empty";
 			 res.json(result);
+			 return;
 		 }
 		 
 		 mongo.connect(function(err, db){
@@ -290,6 +298,7 @@ exports.getAllFav_Post = function(req, res){
 			 result.code = 211;
 			 result.status = "Data Empty";
 			 res.json(result);
+			 return;
 		 }
 
 	     uid = uid.replace(/(\r\n|\n|\r)/gm,"");
@@ -367,6 +376,7 @@ exports.getAllFav_Get = function(req, res){
 			 result.code = 211;
 			 result.status = "Data Empty";
 			 res.json(result);
+			 return;
 		 }
 
 	     uid = uid.replace(/(\r\n|\n|\r)/gm,"");
