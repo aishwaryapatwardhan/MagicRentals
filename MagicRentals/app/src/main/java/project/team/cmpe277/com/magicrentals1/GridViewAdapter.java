@@ -49,7 +49,7 @@ public class GridViewAdapter extends ArrayAdapter{
         }
         GridImageDetailItem item = data.get(position);
 
-        if(position == 1){
+        if(position == 0){
             Log.i("GridViewAdapter", "calling DIT");
             new DownloadImageTask(holder.image).execute(item.getImageIcon());
         }else{
@@ -59,7 +59,6 @@ public class GridViewAdapter extends ArrayAdapter{
             }else{
                 TenantSearchListFragment.mThumbnailThread.queueThumbnail(holder.image,item.getImageIcon());
             }
-
             for( int i = Math.max(0,position-10); i < Math.min(data.size()-1, position+10); i++){
                 TenantSearchListFragment.mThumbnailThread.queuePreload(item.getImageIcon());
             }
