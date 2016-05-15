@@ -45,19 +45,24 @@ exports.addPost_Post = function(req, res){
 	 	var Mobile = fields.Mobile;
 	 	var description = fields.description;
 		
-		var readStream  = fs.createReadStream(files.fileUpload.path);
-		var filePath  = '../public/images/' + files.fileUpload.name;
-		var writeStream = fs.createWriteStream(filePath);
+		if(files){
+			var readStream  = fs.createReadStream(files.fileUpload.path);
+			var filePath  = '../public/images/' + files.fileUpload.name;
+			var writeStream = fs.createWriteStream(filePath);
 
-		readStream.pipe(writeStream);
-		readStream.on('end',function(){
-			console.log("successful file copy");
-			fs.unlinkSync(files.fileUpload.path);
-		});
-		readStream.on('error',function(err){
-			console.log(err);
-		});
-		var Images = "http://" + ip.address() + ":" + server.config.address().port + "/images/" + files.fileUpload.name;
+			readStream.pipe(writeStream);
+			readStream.on('end',function(){
+				console.log("successful file copy");
+				fs.unlinkSync(files.fileUpload.path);
+			});
+			readStream.on('error',function(err){
+				console.log(err);
+			});
+			var Images = "http://" + ip.address() + ":" + server.config.address().port + "/images/" + files.fileUpload.name;
+		}else{
+			Images = "http://www.idesignarch.com/wp-content/uploads/Alvhem-Apartment-Interior-Design_4.jpg";
+		}
+		
 	 	var other_details = fields.other_details;
 	 	var Status = fields.Status;
 	 	var view_count = Number(fields.view_count);
