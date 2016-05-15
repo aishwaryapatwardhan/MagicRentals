@@ -6,7 +6,12 @@
 var mongo = require("./dbconfig");
 var mailer = require('./mailer');
 var utils = require('./utils');
+var util = require('util');
 var formidable = require('formidable');
+var fs = require('fs');
+var os = require('os');
+var server = require('../bin/www');
+var ip = require('ip');
 
 //Add postings - POST
 exports.addPost_Post = function(req, res){
@@ -39,7 +44,20 @@ exports.addPost_Post = function(req, res){
 	 	var email = fields.email;
 	 	var Mobile = fields.Mobile;
 	 	var description = fields.description;
-	 	var Images = fields.Image;
+		
+		var readStream  = fs.createReadStream(files.fileUpload.path);
+		var filePath  = '../public/images/' + files.fileUpload.name;
+		var writeStream = fs.createWriteStream(filePath);
+
+		readStream.pipe(writeStream);
+		readStream.on('end',function(){
+			console.log("successful file copy");
+			fs.unlinkSync(files.fileUpload.path);
+		});
+		readStream.on('error',function(err){
+			console.log(err);
+		});
+		var Images = "http://" + ip.address() + ":" + server.config.address().port + "/images/" + files.fileUpload.name;
 	 	var other_details = fields.other_details;
 	 	var Status = fields.Status;
 	 	var view_count = Number(fields.view_count);
