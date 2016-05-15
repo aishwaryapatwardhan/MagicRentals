@@ -64,44 +64,44 @@ exports.addPost_Post = function(req, res){
 	    var nickName = fields.nickName;
 	     
 
-	    if(!user_id || user_id == null){
+	    if(!user_id || user_id == null || user_id == "null"){
 	    	console.log("User Id empty");
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
 		}
 	    
-		if(!nickName || nickName == null){
+		if(!nickName || nickName == null || nickName == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
 		}
 		
-		if(!Street || Street == null){
+		if(!Street || Street == null || Street == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
 		}
 		
-		if(!City || City == null){
+		if(!City || City == null || City == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
 		}
 		
-		if(!State || State == null){
+		if(!State || State == null || State == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
 		}
 		
-		if(!Zip || Zip == null){
+		if(!Zip || Zip == null || Zip == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
 		}
 		
-		if(!property_type || property_type == null){
+		if(!property_type || property_type == null || property_type == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
@@ -128,30 +128,30 @@ exports.addPost_Post = function(req, res){
 			result.status = "Data Missing";
 			res.json(result);
 		}
-		if(!email|| email == null){
+		if(!email|| email == null || email == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
 		}
-		if(!Mobile && Mobile == null){
+		if(!Mobile && Mobile == null || Mobile == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
 		}
-		if(!description && description == null){
+		if(!description || description == null || description == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
 		}
-		if(!Images && Images == null){
+		if(!Images || Images == null || Images == "null"){
 			Images = "https://upload.wikimedia.org/wikipedia/commons/1/1e/Stonehenge.jpg";
 		}
 		
-		if(!other_details || other_details == null){
+		if(!other_details || other_details == null || other_details == "null"){
 			other_details = " ";
 		}
 		
-		if(!Status || Status == null){
+		if(!Status || Status == null || Status == "null"){
 			Status = "Created";
 		}
 		
@@ -272,44 +272,44 @@ exports.addPost_Get = function(req, res){
 		var Status = req.param('Status');
 		var view_count = Number(req.param('view_count'));
 
-	    if(!user_id || user_id == null){
+	    if(!user_id || user_id == null || user_id == "null"){
 	    	console.log("User Id empty");
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
 		}
 	    
-		if(!nickName || nickName == null){
+		if(!nickName || nickName == null || nickName == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
 		}
 		
-		if(!Street || Street == null){
+		if(!Street || Street == null || Street == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
 		}
 		
-		if(!City || City == null){
+		if(!City || City == null || City == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
 		}
 		
-		if(!State || State == null){
+		if(!State || State == null || State == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
 		}
 		
-		if(!Zip || Zip == null){
+		if(!Zip || Zip == null ||  Zip == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
 		}
 		
-		if(!property_type || property_type == null){
+		if(!property_type || property_type == null || property_type == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
@@ -336,30 +336,30 @@ exports.addPost_Get = function(req, res){
 			result.status = "Data Missing";
 			res.json(result);
 		}
-		if(!email|| email == null){
+		if(!email|| email == null || email == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
 		}
-		if(!Mobile && Mobile == null){
+		if(!Mobile && Mobile == null || Mobile == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
 		}
-		if(!description && description == null){
+		if(!description && description == null || description == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
 		}
-		if(!Images && Images == null){
+		if(!Images && Images == null || Images == "null"){
 			Images = "https://upload.wikimedia.org/wikipedia/commons/1/1e/Stonehenge.jpg";
 		}
 		
-		if(!other_details || other_details == null){
+		if(!other_details || other_details == null || other_details == "null"){
 			other_details = " ";
 		}
 		
-		if(!Status || Status == null){
+		if(!Status || Status == null || Status == "null"){ 
 			Status = "Created";
 		}
 		
@@ -450,7 +450,7 @@ exports.getAllPosts_Get = function(req, res){
 	var result = {};
 	
 	var user_id = req.param('user_id');
-	if(!user_id || user_id == null){
+	if(!user_id || user_id == null || user_id == "null"){
     	console.log("User Id empty");
 		result.code = 212;
 		result.status = "Data Missing";
@@ -517,7 +517,7 @@ exports.getAllPosts_Post = function(req, res){
 	     
 	     var user_id = fields.user_id; 
 	     
-	     if(!user_id || user_id == null){
+	     if(!user_id || user_id == null || user_id == "null"){
 	     	console.log("User Id empty");
 	 		result.code = 212;
 	 		result.status = "Data Missing";
@@ -595,51 +595,51 @@ exports.updatePost_Post = function(req, res){
 		 	var view_count = Number(fields.view_count);
 		 	var nickName = fields.nickName;
 		    
-		 	if(!id || id == null){
+		 	if(!id || id == null || id == "null"){
 		    	console.log("User Id empty");
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
 			}
 		 	
-		    if(!user_id || user_id == null){
+		 	if(!user_id || user_id == null || user_id == "null"){
 		    	console.log("User Id empty");
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
 			}
 		    
-			if(!nickName || nickName == null){
+			if(!nickName || nickName == null || nickName == "null"){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
 			}
 			
-			if(!Street || Street == null){
+			if(!Street || Street == null || Street == "null"){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
 			}
 			
-			if(!City || City == null){
+			if(!City || City == null || City == "null"){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
 			}
 			
-			if(!State || State == null){
+			if(!State || State == null || State == "null"){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
 			}
 			
-			if(!Zip || Zip == null){
+			if(!Zip || Zip == null || Zip == "null"){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
 			}
 			
-			if(!property_type || property_type == null){
+			if(!property_type || property_type == null || property_type == "null"){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
@@ -666,30 +666,30 @@ exports.updatePost_Post = function(req, res){
 				result.status = "Data Missing";
 				res.json(result);
 			}
-			if(!email|| email == null){
+			if(!email|| email == null || email == "null"){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
 			}
-			if(!Mobile && Mobile == null){
+			if(!Mobile && Mobile == null || Mobile == "null"){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
 			}
-			if(!description && description == null){
+			if(!description || description == null || description == "null"){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
 			}
-			if(!Images && Images == null){
+			if(!Images || Images == null || Images == "null"){
 				Images = "https://upload.wikimedia.org/wikipedia/commons/1/1e/Stonehenge.jpg";
 			}
 			
-			if(!other_details || other_details == null){
+			if(!other_details || other_details == null || other_details == "null"){
 				other_details = " ";
 			}
 			
-			if(!Status || Status == null){
+			if(!Status || Status == null || Status == "null"){
 				Status = "Created";
 			}
 			
@@ -697,26 +697,8 @@ exports.updatePost_Post = function(req, res){
 				view_count = 0;
 			}
 			
+			
 		 	
-//		 	var nickName = req.param('nickName');
-//		 	var id = req.param('id');
-//			var user_id = req.param('user_id');
-//			var Street = req.param('Street');
-//			var City = req.param('City');
-//			var State = req.param('State');
-//			var Zip = req.param('Zip');
-//			var property_type = req.param('property_type');
-//			var bath = Number(req.param('bath'));
-//			var room = Number(req.param('room'));
-//			var area = Number(req.param('area'));
-//			var rent = Number(req.param('rent'));
-//			var email = req.param('email');
-//			var Mobile = req.param('Mobile');
-//			var description = req.param('description');
-//			var Images = req.param('Images');
-//			var other_details = req.param('other_details');
-//			var Status = req.param('Status');
-//			var view_count = Number(req.param('view_count'));
 			
 			mongo.connect(function(err, db){
 				
@@ -822,51 +804,51 @@ exports.updatePost_Get = function(req, res){
 			var Status = req.param('Status');
 			var view_count = Number(req.param('view_count'));
 		    
-		 	if(!id || id == null){
+			if(!id || id == null || id == "null"){
 		    	console.log("User Id empty");
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
 			}
 		 	
-		    if(!user_id || user_id == null){
+		 	if(!user_id || user_id == null || user_id == "null"){
 		    	console.log("User Id empty");
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
 			}
 		    
-			if(!nickName || nickName == null){
+			if(!nickName || nickName == null || nickName == "null"){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
 			}
 			
-			if(!Street || Street == null){
+			if(!Street || Street == null || Street == "null"){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
 			}
 			
-			if(!City || City == null){
+			if(!City || City == null || City == "null"){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
 			}
 			
-			if(!State || State == null){
+			if(!State || State == null || State == "null"){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
 			}
 			
-			if(!Zip || Zip == null){
+			if(!Zip || Zip == null || Zip == "null"){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
 			}
 			
-			if(!property_type || property_type == null){
+			if(!property_type || property_type == null || property_type == "null"){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
@@ -893,37 +875,36 @@ exports.updatePost_Get = function(req, res){
 				result.status = "Data Missing";
 				res.json(result);
 			}
-			if(!email|| email == null){
+			if(!email|| email == null || email == "null"){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
 			}
-			if(!Mobile && Mobile == null){
+			if(!Mobile && Mobile == null || Mobile == "null"){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
 			}
-			if(!description && description == null){
+			if(!description || description == null || description == "null"){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
 			}
-			if(!Images && Images == null){
+			if(!Images || Images == null || Images == "null"){
 				Images = "https://upload.wikimedia.org/wikipedia/commons/1/1e/Stonehenge.jpg";
 			}
 			
-			if(!other_details || other_details == null){
+			if(!other_details || other_details == null || other_details == "null"){
 				other_details = " ";
 			}
 			
-			if(!Status || Status == null){
+			if(!Status || Status == null || Status == "null"){
 				Status = "Created";
 			}
 			
 			if(!view_count || isNaN(view_count)){
 				view_count = 0;
-			}
-			
+			}			
 		 				
 			mongo.connect(function(err, db){
 				
@@ -1018,20 +999,20 @@ exports.updateStatus_Post = function(req, res){
      
      	console.log(email +" ,"+id+" , "+Status);
      	
-     	if(!email || email == null){
+     	if(!email || email == null || email == "null"){
 	    	console.log("User Id empty");
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
 		}
 	    
-		if(!id || id == null){
+		if(!id || id == null ||  id == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
 		}
 		
-		if(!Status || Status == null){
+		if(!Status || Status == null || Status == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
@@ -1106,21 +1087,20 @@ exports.updateStatus_Get = function(req, res){
      	var email = req.param('email');
           
      	console.log(email +" ,"+id+" , "+Status);
-     	
-     	if(!email || email == null){
+     	if(!email || email == null || email == "null"){
 	    	console.log("User Id empty");
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
 		}
 	    
-		if(!id || id == null){
+		if(!id || id == null ||  id == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
 		}
 		
-		if(!Status || Status == null){
+		if(!Status || Status == null || Status == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
@@ -1194,14 +1174,14 @@ exports.updateViewCount_Get = function(req, res){
 	    var email = req.param('email');
 	    
 	    	
-	 	if(!email || email == null){
+	 	if(!email || email == null || email == "null"){
 	    	console.log("User Id empty");
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
 		}
 	    
-		if(!id || id == null){
+		if(!id || id == null || id == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
@@ -1271,14 +1251,14 @@ exports.updateViewCount_Post = function(req, res){
 	    var email = fields.email;
 	    
 	    	
-	 	if(!email || email == null){
+	 	if(!email || email == null || email == "null"){
 	    	console.log("User Id empty");
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
 		}
 	    
-		if(!id || id == null){
+		if(!id || id == null || id == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
@@ -1349,7 +1329,7 @@ exports.saveSearchRes_Get = function(req, res){
 	 	var rate = Number(req.param('rate'));
 	 	var user_id = req.param('user_id');
 	 	
-		if(!user_id || user_id == null){
+		if(!user_id || user_id == null || user_id == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
@@ -1363,27 +1343,27 @@ exports.saveSearchRes_Get = function(req, res){
 	 		 	
 	 	var description = req.param('description');
 	
-	 	if(!description || description == null){
+	 	if(!description || description == null || description == "null"){
 	 		description = '.';
 		}
 	 		 	
 	 	console.log('desc - '+ description);
 	 	
 	 	var City = req.param('City');
-	 	if(!City || City == null){
+	 	if(!City || City == null || City == "null"){
 	 		City = '.';
 	 	}
 	 	
 	 	console.log('City - '+ City);
 	 	
 	 	var Zip = req.param('Zip');
-	 	if(!Zip || Zip == null){
+	 	if(!Zip || Zip == null || Zip == "null"){
 	 		Zip = '.';
 	 	}
 	 	console.log('Zip - '+ Zip);
 	 	
 	 	var property_type = req.param('property_type');
-	 	if(!property_type || property_type == null){
+	 	if(!property_type || property_type == null || property_type == "null"){
 	 		property_type = '.';
 	 	}
 	 	console.log('property_type - '+ property_type);
@@ -1472,7 +1452,7 @@ exports.saveSearchRes_Post = function(req, res){
 	 	var rate = Number(fields.rate);
 	 	var user_id = fields.user_id;
 	 	
-		if(!user_id || user_id == null){
+		if(!user_id || user_id == null || user_id == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
@@ -1486,27 +1466,27 @@ exports.saveSearchRes_Post = function(req, res){
 	 		 	
 	 	var description = fields.description;
 	
-	 	if(!description || description == null){
+	 	if(!description || description == null || description == "null"){
 	 		description = '.';
 		}
 	 		 	
 	 	console.log('desc - '+ description);
 	 	
 	 	var City = fields.City;
-	 	if(!City || City == null){
+	 	if(!City || City == null || City == "null"){
 	 		City = '.';
 	 	}
 	 	
 	 	console.log('City - '+ City);
 	 	
 	 	var Zip = fields.Zip;
-	 	if(!Zip || Zip == null){
+	 	if(!Zip || Zip == null || Zip == "null"){
 	 		Zip = '.';
 	 	}
 	 	console.log('Zip - '+ Zip);
 	 	
 	 	var property_type = fields.property_type;
-	 	if(!property_type || property_type == null){
+	 	if(!property_type || property_type == null || property_type == "null"){
 	 		property_type = '.';
 	 	}
 	 	console.log('property_type - '+ property_type);
@@ -1592,38 +1572,38 @@ exports.searchPosts_Get = function(req, res){
 	 	var user_id = req.param('user_id');
 	 	
 	 	var description = req.param('description');
-	 	if(!description || description == null){
+	 	if(!description || description == null || description == "null"){
 	 		description = '.';
 	 	}
 	 	console.log('desc - '+ description);
 	 	
 	 	var City = req.param('City');
-	 	if(!City || City == null){
+	 	if(!City || City == null || City == "null"){
 	 		City = '.';
 	 	}
 	 	console.log('City - '+ City);
 	 	
 	 	var Zip = req.param('Zip');
-	 	if(!Zip || Zip == null ){
+	 	if(!Zip || Zip == null || Zip == "null" ){
 	 		Zip = '.';
 	 	}
 	 	console.log('Zip - '+ Zip);
 	 	
 	 	var property_type = req.param('property_type');
-	 	if(!property_type || property_type == null){
+	 	if(!property_type || property_type == null || property_type == "null"){
 	 		property_type = '.';
 	 	}
 	 	console.log('property_type - '+ property_type);
 	 	
 	 	//var min_rent = parseInt(req.param('min_rent'));
 	 	var min_rent = Number(req.param('min_rent')) ;
-	 	if(!min_rent || min_rent == null){
+	 	if(!min_rent || min_rent == null || min_rent == "null"){
 	 		min_rent = 0;
 	 	}
 	 	console.log('min_rent - '+ min_rent);
 
 	 	var street = Number(req.param('street')) ;
-	 	if(!street || street == null){
+	 	if(!street || street == null || street == "null"){
 	 		street = ".";
 	 	}
 	 	console.log('min_rent - '+ min_rent);
@@ -1635,7 +1615,7 @@ exports.searchPosts_Get = function(req, res){
 	 	}
 	 	console.log('max_rent - '+ max_rent);
 	 	
-	 	if(user_id == null){
+	 	if(!user_id || user_id == null || user_id = "null"){
 	 		result.code = 210;
  			result.status = "User ID is empty";
  			res.json(result);
@@ -1698,7 +1678,7 @@ exports.searchPosts_Post = function(req, res){
 	    var saveSearch = true;
 	    var user_id = fields.user_id;
 		 	
-	    if(!user_id || user_id == null){
+	    if(!user_id || user_id == null || user_id == "null"){
 	    	result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
@@ -1706,28 +1686,28 @@ exports.searchPosts_Post = function(req, res){
 		 			 	
 	    var description = fields.description;
 		
-		if(!description || description == null){
+		if(!description || description == null || description == "null"){
 			description = '.';
 		}
 		 		 	
 		console.log('desc - '+ description);
 		 	
 		var City = fields.City;
-		if(!City || City == null){
+		if(!City || City == null || City == "null"){
 			City = '.';
 		}
 		 	
 		console.log('City - '+ City);
 		 	
 		var Zip = fields.Zip;
-		if(!Zip || Zip == null){
+		if(!Zip || Zip == null || Zip == "null"){
 			Zip = '.';
 		}
 		
 		console.log('Zip - '+ Zip);
 		 	
 		var property_type = fields.property_type;
-		if(!property_type || property_type == null){
+		if(!property_type || property_type == null || property_type == "null"){
 			property_type = '.';
 		}
 		
