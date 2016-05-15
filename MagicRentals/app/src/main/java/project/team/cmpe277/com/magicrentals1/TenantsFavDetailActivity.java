@@ -2,6 +2,8 @@ package project.team.cmpe277.com.magicrentals1;
 
 import android.app.FragmentManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Context;
@@ -10,18 +12,18 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import java.util.ArrayList;
+
 public class TenantsFavDetailActivity extends AppCompatActivity {
 
-    public static String userid;
-    private static final String TAG = "TenantsFavDetailActivity";
-    public static String rid;
+    private ViewPager mViewPager;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tenants_fav_detail);
-        SharedPreferences preferences = getApplicationContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
-        userid = preferences.getString(LoginActivity.USERID,null);
+    public void onCreate(Bundle savedInstance){
+        super.onCreate(savedInstance);
+        mViewPager = new ViewPager(this);
+        mViewPager.setId(R.id.viewPager);
+        setContentView(mViewPager);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
@@ -29,12 +31,31 @@ public class TenantsFavDetailActivity extends AppCompatActivity {
 
         actionBar.setTitle("Magic Rentals");
 
-       rid = getIntent()
-                .getSerializableExtra("RID").toString();
+        final ArrayList<GridImageDetailItem> gridImageItems  = FavPropSingleton.get(this).getGridImageDetailItems();
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+        mViewPager.setAdapter(new FragmentStatePagerAdapter(fm) {
+            @Override
+            public int getCount() {
+                return gridImageItems.size();
+            }
 
-        FragmentManager fm = getFragmentManager();
-        fm.beginTransaction().replace(R.id.favDetail_container, new TenantsFavDetailsFragment()).commit();
+            @Override
+            public Fragment getItem(int pos) {
+                GridImageDetailItem gridImageDetailItem = gridImageItems.get(pos);
+                return TenantsFavDetailsFragment.newInstance(gridImageDetailItem.getId());
+            }
+        });
+
+        String id = (String)getIntent()
+                .getSerializableExtra(TenantsFavDetailsFragment.IDS);
+        for (int i = 0; i < gridImageItems.size(); i++) {
+            if (gridImageItems.get(i).getId().equals(id)) {
+                mViewPager.setCurrentItem(i);
+                break;
+            }
+        }
 
 
     }
+
 }

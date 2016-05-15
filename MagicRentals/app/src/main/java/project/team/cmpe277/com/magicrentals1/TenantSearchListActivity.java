@@ -25,7 +25,7 @@ public class TenantSearchListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Log.i("CLASSES","TenantSearchListActivity");
         setContentView(R.layout.searchlistactivity_tenant);
         SharedPreferences preferences = getApplicationContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
         userid = preferences.getString(LoginActivity.USERID,null);
