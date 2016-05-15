@@ -40,8 +40,10 @@ public class TenantSearchActivity extends AppCompatActivity implements TaskCompl
         /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);*/
 
+
         FragmentManager fm = getFragmentManager();
         fm.beginTransaction().replace(R.id.search_container, new TenantSearchFragment()).commit();
+
     }
 
     @Override

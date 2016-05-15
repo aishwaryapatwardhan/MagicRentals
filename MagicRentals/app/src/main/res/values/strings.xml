@@ -11,6 +11,7 @@
 
 
     <string-array name="proptypelist">
+        <item>Select type</item>
         <item>Single-Family Home</item>
         <item>Patio Home</item>
         <item>Villa</item>
@@ -22,6 +23,7 @@
     </string-array>
 
     <string-array name="pricerangelist">
+        <item>Select range</item>
         <item>$1000-$3000</item>
         <item>$3000-$6000</item>
         <item>$6000-$10000</item>
@@ -68,6 +70,17 @@
     <string name="alertcancel">Property will be cancelled</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
+
+    <string-array name="property_type1">
+        <item>Select type</item>
+        <item>Apartment</item>
+        <item>Condo</item>
+        <item>Villa</item>
+        <item>Town House</item>
+        <item>Penthouse</item>
+        <item>Cottage</item>
+    </string-array>
+
     <string-array name="property_type">
         <item>Apartment</item>
         <item>Condo</item>

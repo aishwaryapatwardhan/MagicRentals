@@ -95,17 +95,14 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-
+        setRetainInstance(true);
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                 .addApi(Places.PLACE_DETECTION_API)
-                .enableAutoManage((FragmentActivity) this.getActivity(), GOOGLE_API_CLIENT_ID, this)
                 .build();
 
         SharedPreferences preferences = getActivity().getApplicationContext().getSharedPreferences("USER", Context.MODE_PRIVATE);
         userid = preferences.getString("USERID",null);
-        if(userid == null){
-            userid = "Rekha";
-        }
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Select notification frequency");
         String[] options = { "Real-time", "Daily", "Weekly" };
@@ -141,7 +138,7 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
 
 
         propertyvalue = (Spinner) searchview.findViewById(R.id.propertyvalue);
-        ArrayAdapter adapter1 = ArrayAdapter.createFromResource(this.getActivity(), R.array.proptypelist, R.layout.spinner_list);
+        ArrayAdapter adapter1 = ArrayAdapter.createFromResource(this.getActivity(), R.array.property_type1, R.layout.spinner_list);
         propertyvalue.setOnItemSelectedListener(this);
         propertyvalue.setAdapter(adapter1);
 
@@ -248,28 +245,6 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
                     new SearchApi().execute(sp);
                 }
 
-                //Make an API call to display the search results - get results into PropSingleton
-
-                /*String url = getString(R.string.url)+"/searchPosts";
-
-                searchFilters = new HashMap<String,String>();
-                searchFilters.put("saveSearch","false");
-                searchFilters.put("user_id",userid);
-                searchFilters.put("description",sp.getKeywords());
-                searchFilters.put("City", sp.getCity());
-                searchFilters.put("Zip",sp.getZipcode());
-                searchFilters.put("property_type",sp.getPropertytype());
-                searchFilters.put("min_rent","sp.getMinPrice()");
-                searchFilters.put("max_rent","sp.getMaxPrice()");*/
-
-
-                //new MultipartUtilityAsyncTask(getActivity(),searchFilters,null).execute(url);
-                //Inside async task call this
-                /*Intent i = new Intent(getActivity(), TenantSearchListActivity.class);
-                i.putExtra("USERID", TenantSearchActivity.userid);
-                startActivity(i);*/
-
-
             }
         });
 
@@ -280,21 +255,30 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId() == R.id.propertyvalue) {
             TextView mytext = (TextView) view;
-            sp.setPropertytype(mytext.getText().toString());
+            if(mytext.getText().toString().equals("Select type")){
+                sp.setPropertytype("");
+            }else {
+                sp.setPropertytype(mytext.getText().toString());
+            }
 
         } else {
             if (parent.getId() == R.id.pricerangevalue) {
                 TextView mytext = (TextView) view;
-                String val[] = mytext.getText().toString().split("-", 2);
-                if (val.length > 1) {
-                    sp.setMinPrice(Integer.parseInt(val[0].substring(1)));
-                    sp.setMaxPrice(Integer.parseInt(val[1].substring(1)));
-                } else {
-                    sp.setMinPrice(Integer.parseInt(val[0]));
+                if(mytext.getText().toString().equals("Select range")){
+                    sp.setMinPrice(0);
                     sp.setMaxPrice(Integer.MAX_VALUE);
+                }else {
+                    String val[] = mytext.getText().toString().split("-", 2);
+                    if (val.length > 1) {
+                        sp.setMinPrice(Integer.parseInt(val[0].substring(1)));
+                        sp.setMaxPrice(Integer.parseInt(val[1].substring(1)));
+                    } else {
+                        if(mytext.getText().toString().equals("above $90000")) {
+                            sp.setMinPrice(90000);
+                            sp.setMaxPrice(Integer.MAX_VALUE);
+                        }
+                    }
                 }
-
-
             }
         }
     }
@@ -303,75 +287,20 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
     public void onNothingSelected(AdapterView<?> parent) {
     }
 
-   /* propertyvalue.setOnItemSelectedListener(new OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-            // your code here
-            TextView mytext = (TextView) selectedItemView;
-            sp.setPropertytype(mytext.getText().toString());
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parentView) {
-            // your code here
-            sp.setPropertytype("");
-        }
-
-    });
-
-    pricerangevalue.setOnItemSelectedListener(new OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-            // your code here
-            TextView mytext = (TextView) selectedItemView;
-            String val[] = mytext.getText().toString().split("-", 2);
-            if (val.length > 1) {
-                sp.setMinPrice(Integer.parseInt(val[0]));
-                sp.setMaxPrice(Integer.parseInt(val[1]));
-            } else {
-                sp.setMinPrice(Integer.parseInt(val[0]));
-                sp.setMaxPrice(Integer.MAX_VALUE);
-            }
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parentView) {
-            // your code here
-            sp.setMaxPrice(Integer.MAX_VALUE);
-            sp.setMinPrice(0);
-        }
-
-    });*/
-
-    //Get the values from Spinner
-/*    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if (parent.getId() == R.id.propertyvalue) {
-            TextView mytext = (TextView) view;
-            sp.setPropertytype(mytext.getText().toString());
-
-        } else {
-            if (parent.getId() == R.id.pricerangevalue) {
-                TextView mytext = (TextView) view;
-                String val[] = mytext.getText().toString().split("-", 2);
-                if (val.length > 1) {
-                    sp.setMinPrice(Integer.parseInt(val[0]));
-                    sp.setMaxPrice(Integer.parseInt(val[1]));
-                } else {
-                    sp.setMinPrice(Integer.parseInt(val[0]));
-                    sp.setMaxPrice(Integer.MAX_VALUE);
-                }
-
-
-            }
-        }
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (mGoogleApiClient != null)
+            mGoogleApiClient.connect();
     }
 
-    //When nothing is selected  in Spinner
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-        sp.setPropertytype("");
-    }*/
+    public void onStop() {
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
+        super.onStop();
+    }
 
 
     @Override
@@ -399,12 +328,6 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
                 return true;
         }
 
-        ///noinspection SimplifiableIfStatement
-        /*if (id == R.id.save_search) {
-            //make api call to save the search agent - only one search agent - update existing search agent
-            actions.show();
-            return true;
-        }*/
 
         return super.onOptionsItemSelected(item);
     }
@@ -660,5 +583,10 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
 
     }
 
-
+    /*@Override
+    public void onDestroyView() {
+        if (getDialog() != null && getRetainInstance())
+            getDialog().setDismissMessage(null);
+        super.onDestroyView();
+    }*/
 }

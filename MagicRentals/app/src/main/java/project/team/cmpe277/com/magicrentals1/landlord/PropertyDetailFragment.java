@@ -38,6 +38,7 @@ public class PropertyDetailFragment extends Fragment {
     private TextView bathsV;
     private TextView descV;
     private TextView statusV;
+    private TextView extradetV;
     private static final String TAG = "PropertyDetailFragment";
 
     public static final String PROPERTY_KEY = "Property_key";
@@ -88,24 +89,28 @@ public class PropertyDetailFragment extends Fragment {
         bathsV = (TextView)view.findViewById(R.id.baths_detail);
         descV = (TextView)view.findViewById(R.id.desc_detail);
         statusV = (TextView)view.findViewById(R.id.status_det);
+        extradetV = (TextView)view.findViewById(R.id.extra_det);
 
         if(mProperty != null){
             //set image Sai....
             System.out.println("view count ......  "+mProperty.getView_count());
-            viewcountV.setText(mProperty.getView_count());
+            String tempCount  =  mProperty.getView_count().toString();
+            if(tempCount.equals("0")) tempCount = "No";
+            viewcountV.setText(tempCount+" Views");
           //  addressV.setText(mProperty.); CHECK
             streetV.setText(mProperty.getStreet());
             cityV.setText(mProperty.getCity());
             stateV.setText(mProperty.getState());
-            rentV.setText(mProperty.getRent());
-            areaV.setText(mProperty.getArea());
-            roomsV.setText(mProperty.getRoom());
-            bathsV.setText(mProperty.getBath());
+            rentV.setText(mProperty.getRent()+"  USD");
+            areaV.setText(mProperty.getArea()+ "  Sq Ft");
+            roomsV.setText(mProperty.getRoom()+ " Rooms");
+            bathsV.setText(mProperty.getBath()+ "  Baths");
             descV.setText(mProperty.getDescription());
             Log.i(TAG, mProperty.getStatus());
             statusV.setText(mProperty.getStatus());
-        }
+            statusV.setText(mProperty.getOther_details());
 
+        }
         return view;
 
     }
