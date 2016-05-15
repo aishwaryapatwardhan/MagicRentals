@@ -8,19 +8,13 @@ var mailer = require('./mailer');
 var utils = require('./utils');
 var formidable = require('formidable');
 
-//Add postings
-exports.addPost = function(req, res){
+//Add postings - POST
+exports.addPost_Post = function(req, res){
 		
 	console.log("This is a addPost API call");
 	
 	var result = {};
-	var mailOptions={
-//	        from : "magicrentals11@gmail.com",
-//	        to : "raghavendra1810@gmail.com",
-//	        subject : "Message from magic rentals",
-//	        text : "mail from magicrentals.. test mail",
-//	        html : "HTML GENERATED"
-	};
+	var mailOptions={};
 	
 	var form = new formidable.IncomingForm();
 	
@@ -51,78 +45,99 @@ exports.addPost = function(req, res){
 	 	var view_count = Number(fields.view_count);
 	    var nickName = fields.nickName;
 	     
-//	 	var nickName = req.param('nickname');
-//		var user_id = req.param('user_id');
-//		var Street = req.param('Street');
-//		var City = req.param('City');
-//		var State = req.param('State');
-//		var Zip = req.param('Zip');
-//		var property_type = req.param('property_type');
-//		var bath = Number(req.param('bath'));
-//		var room = Number(req.param('room'));
-//		var area = Number(req.param('area'));
-//		var rent = Number(req.param('rent'));
-//		var email = req.param('email');
-//		var Mobile = req.param('Mobile');
-//		var description = req.param('description');
-//		var Images = req.param('Images');
-//		var other_details = req.param('other_details');
-//		var Status = req.param('Status');
-//		var view_count = Number(req.param('view_count'));
 
-		if(nickName === null){
-			nickName = " ";
+	    if(!user_id || user_id == null){
+	    	console.log("User Id empty");
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
 		}
-		if(user_id === null){
-			user_id = " ";
+	    
+		if(!nickName || nickName == null){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
 		}
-		if(Street === null){
-			Street = " ";
+		
+		if(!Street || Street == null){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
 		}
-		if(City === null){
-			City = " ";
+		
+		if(!City || City == null){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
 		}
-		if(State === null){
-			State = " ";
+		
+		if(!State || State == null){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
 		}
-		if(Zip === null){
-			Zip = " ";
+		
+		if(!Zip || Zip == null){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
 		}
-		if(property_type === null){
-			property_type = " ";
+		
+		if(!property_type || property_type == null){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
+		}		
+		
+		if(!bath || isNaN(bath)){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
 		}
-		if(isNaN(bath)){
-			bath = 0;
+		
+		if(!room || isNaN(room)){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
 		}
-		if(isNaN(room)){
-			room = 0;
+		if(!area || isNaN(area)){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
 		}
-		if(isNaN(area)){
-			area = 0;
+		if(!rent || isNaN(rent)){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
 		}
-		if(isNaN(rent)){
-			rent = 0;
+		if(!email|| email == null){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
 		}
-		if(email === null){
-			email = "raghuisguru1@gmail.com";
+		if(!Mobile && Mobile == null){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
 		}
-		if(Mobile === null){
-			Mobile = " ";
+		if(!description && description == null){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
 		}
-		if(description === null){
-			description = " ";
-		}
-		if(Images === null){
+		if(!Images && Images == null){
 			Images = "https://upload.wikimedia.org/wikipedia/commons/1/1e/Stonehenge.jpg";
 		}
-		Images = "https://upload.wikimedia.org/wikipedia/commons/1/1e/Stonehenge.jpg";
-		if(other_details === null){
+		
+		if(!other_details || other_details == null){
 			other_details = " ";
 		}
-		if(Status === null){
-			Status = "Active";
+		
+		if(!Status || Status == null){
+			Status = "Created";
 		}
-		if(isNaN(view_count)){
+		
+		if(!view_count || isNaN(view_count)){
 			view_count = 0;
 		}
 		
@@ -202,13 +217,228 @@ exports.addPost = function(req, res){
 	});
 };
 
-//getPostings posts
-exports.getAllPosts = function(req, res){
+//Add postings - GET
+exports.addPost_Get = function(req, res){
+		
+	console.log("This is a addPost API call");
+	
+	var result = {};
+	var mailOptions={};
+	
+	var form = new formidable.IncomingForm();
+	
+	form.parse(req, function(err, fields, files) {
+	     if(err){
+	       console.log(err);
+	       res.end("sorry, an error occurred");
+	       return;
+	     }
+	    
+	    	     
+	 	var nickName = req.param('nickname');
+		var user_id = req.param('user_id');
+		var Street = req.param('Street');
+		var City = req.param('City');
+		var State = req.param('State');
+		var Zip = req.param('Zip');
+		var property_type = req.param('property_type');
+		var bath = Number(req.param('bath'));
+		var room = Number(req.param('room'));
+		var area = Number(req.param('area'));
+		var rent = Number(req.param('rent'));
+		var email = req.param('email');
+		var Mobile = req.param('Mobile');
+		var description = req.param('description');
+		var Images = req.param('Images');
+		var other_details = req.param('other_details');
+		var Status = req.param('Status');
+		var view_count = Number(req.param('view_count'));
+
+	    if(!user_id || user_id == null){
+	    	console.log("User Id empty");
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
+		}
+	    
+		if(!nickName || nickName == null){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
+		}
+		
+		if(!Street || Street == null){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
+		}
+		
+		if(!City || City == null){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
+		}
+		
+		if(!State || State == null){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
+		}
+		
+		if(!Zip || Zip == null){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
+		}
+		
+		if(!property_type || property_type == null){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
+		}		
+		
+		if(!bath || isNaN(bath)){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
+		}
+		
+		if(!room || isNaN(room)){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
+		}
+		if(!area || isNaN(area)){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
+		}
+		if(!rent || isNaN(rent)){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
+		}
+		if(!email|| email == null){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
+		}
+		if(!Mobile && Mobile == null){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
+		}
+		if(!description && description == null){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
+		}
+		if(!Images && Images == null){
+			Images = "https://upload.wikimedia.org/wikipedia/commons/1/1e/Stonehenge.jpg";
+		}
+		
+		if(!other_details || other_details == null){
+			other_details = " ";
+		}
+		
+		if(!Status || Status == null){
+			Status = "Created";
+		}
+		
+		if(!view_count || isNaN(view_count)){
+			view_count = 0;
+		}
+		
+	 	
+		var id;
+		
+		mongo.connect(function(err, db){
+			
+			if(err){
+				console.log("Unable to connect to mongo");
+				result.code = 209;
+				result.status = "Unable to connect to mongo";
+				res.json(result);
+			}else{
+				console.log("Connected to mongo");
+				
+				var coll = mongo.collection('rental_posting');
+				
+				id = user_id.replace(/\s+/g, '')+Street.replace(/\s+/g, '')+City.replace(/\s+/g, '')+State+Zip.replace(/\s+/g, '');
+				
+				coll.insertOne( 
+						 {
+							 	"_id" : id,
+								"user_id" : user_id,
+								"nickName" : nickName,
+								"address" : {
+										"Street" : Street,
+										"City"   : City,
+										"State"  : State,
+										"Zip"    : Zip
+									    },
+								"property_type" : property_type,
+								"units"  : {
+										"bath" : bath,
+										"room" : room,
+										"area" : area 
+									   },
+								"rent"  : rent,
+								"Contact_info" : {
+										    "email" : email,
+										    "Mobile": Mobile
+										 },
+								"description" : description,
+								"Images" : Images,
+								"other_details" : other_details,
+								"Status" : Status,
+								"view_count" : view_count
+						 },   function(err, docs) {
+						
+							 if(err){
+								 result.code = 208;
+								 result.status = "Duplicate records";
+								 res.json(result);
+							 }else{
+								 utils.notify(id,1,function(){
+									console.log('notification triggered.');
+									mailOptions.from = "magicrentals11@gmail.com";
+									mailOptions.to = email;
+									mailOptions.subject = "<no reply> New rental detils posted successful";
+									mailOptions.text = "mail from magicrentals.. test mail";
+									mailOptions.html = "Dear Customer, <br><br>Your add posted scuuesfully. <br><br>Thank you<br>MagicRentals Team";
+									mailer.sendMail(mailOptions, function(error, success) {
+										console.log('Mail sent');
+									});
+								 });
+								 
+								 result.code = 200; 
+								 result.status = "Successfully inserted";
+								 res.json(result);
+							 }	
+							
+						 }
+				);			
+			}	
+		});	
+	 	
+	});
+};
+
+//getPostings posts - GET
+exports.getAllPosts_Get = function(req, res){
 	
 	console.log("In get postings API");
 	var result = {};
 	
 	var user_id = req.param('user_id');
+	if(!user_id || user_id == null){
+    	console.log("User Id empty");
+		result.code = 212;
+		result.status = "Data Missing";
+		res.json(result);
+	}
+    
 	
 	var form = new formidable.IncomingForm();
 	
@@ -219,15 +449,6 @@ exports.getAllPosts = function(req, res){
 	       return;
 	     }
 	     
-	   //  var user_id = fields.user_id; 
-	     
-//	     if(user_id  || user_id == null){
-//	    	 console.log("User_Id null");
-//				result.code = 210;
-//				result.status = "User_Id null";
-//				res.json(result);
-//	     }
-	    
 	     console.log('uid is ' + user_id); 
 	     mongo.connect(function(err, db){
 			
@@ -261,8 +482,65 @@ exports.getAllPosts = function(req, res){
 	});
 };
 
-//UpdatePostings posts
-exports.updatePost = function(req, res){
+//getPostings posts - POST
+exports.getAllPosts_Post = function(req, res){
+	
+	console.log("In get postings API");
+	var result = {};
+	   
+	var form = new formidable.IncomingForm();
+	
+	form.parse(req, function(err, fields, files) {
+	     if(err){
+	       console.log(err);
+	       res.end("sorry, an error occurred");
+	       return;
+	     }
+	     
+	     var user_id = fields.user_id; 
+	     
+	     if(!user_id || user_id == null){
+	     	console.log("User Id empty");
+	 		result.code = 212;
+	 		result.status = "Data Missing";
+	 		res.json(result);
+	 	}
+	     
+	     console.log('uid is ' + user_id); 
+	     mongo.connect(function(err, db){
+			
+			if(err){
+				console.log("Unable to connect to mongo");
+				result.code = 209;
+				result.status = "Unable to connect to mongo";
+				res.json(result);
+			}else{
+				
+				console.log("Connected to mongo");
+				var coll = mongo.collection('rental_posting');
+				
+				coll.find( { "user_id" : user_id } ).toArray(function(err, docs) {	
+					var myArray = [];
+					if(docs){		
+						result.data = docs;
+						result.code = 200; 
+						result.status = "Successful 123";
+						
+					}else{						
+						 result.code = 208;
+						 result.status = "Unable to get data";
+					}							
+					res.json(result);
+				});
+	
+			}
+			
+		});
+	});
+};
+
+//UpdatePostings - POST
+exports.updatePost_Post = function(req, res){
 		
 		console.log("This is a UpdatePost API call");
 		
@@ -291,14 +569,117 @@ exports.updatePost = function(req, res){
 		 	var area = Number(fields.area);
 		 	var rent = Number(fields.rent);
 		 	var email = fields.email;
-		 	var Mobile = req.param(fields.Mobile);
-		 	var description = req.param(fields.description);
-		 	var Images = req.param(fields.Images);
-		 	var other_details = req.param(fields.other_details);
-		 	var Status = req.param(fields.Status);
-		 	var view_count = Number(req.param(fields.view_count));
+		 	var Mobile = fields.Mobile;
+		 	var description = fields.description;
+		 	var Images = fields.Images;
+		 	var other_details = fields.other_details;
+		 	var Status = fields.Status;
+		 	var view_count = Number(fields.view_count);
 		 	var nickName = fields.nickName;
-		     
+		    
+		 	if(!id || id == null){
+		    	console.log("User Id empty");
+				result.code = 212;
+				result.status = "Data Missing";
+				res.json(result);
+			}
+		 	
+		    if(!user_id || user_id == null){
+		    	console.log("User Id empty");
+				result.code = 212;
+				result.status = "Data Missing";
+				res.json(result);
+			}
+		    
+			if(!nickName || nickName == null){
+				result.code = 212;
+				result.status = "Data Missing";
+				res.json(result);
+			}
+			
+			if(!Street || Street == null){
+				result.code = 212;
+				result.status = "Data Missing";
+				res.json(result);
+			}
+			
+			if(!City || City == null){
+				result.code = 212;
+				result.status = "Data Missing";
+				res.json(result);
+			}
+			
+			if(!State || State == null){
+				result.code = 212;
+				result.status = "Data Missing";
+				res.json(result);
+			}
+			
+			if(!Zip || Zip == null){
+				result.code = 212;
+				result.status = "Data Missing";
+				res.json(result);
+			}
+			
+			if(!property_type || property_type == null){
+				result.code = 212;
+				result.status = "Data Missing";
+				res.json(result);
+			}		
+			
+			if(!bath || isNaN(bath)){
+				result.code = 212;
+				result.status = "Data Missing";
+				res.json(result);
+			}
+			
+			if(!room || isNaN(room)){
+				result.code = 212;
+				result.status = "Data Missing";
+				res.json(result);
+			}
+			if(!area || isNaN(area)){
+				result.code = 212;
+				result.status = "Data Missing";
+				res.json(result);
+			}
+			if(!rent || isNaN(rent)){
+				result.code = 212;
+				result.status = "Data Missing";
+				res.json(result);
+			}
+			if(!email|| email == null){
+				result.code = 212;
+				result.status = "Data Missing";
+				res.json(result);
+			}
+			if(!Mobile && Mobile == null){
+				result.code = 212;
+				result.status = "Data Missing";
+				res.json(result);
+			}
+			if(!description && description == null){
+				result.code = 212;
+				result.status = "Data Missing";
+				res.json(result);
+			}
+			if(!Images && Images == null){
+				Images = "https://upload.wikimedia.org/wikipedia/commons/1/1e/Stonehenge.jpg";
+			}
+			
+			if(!other_details || other_details == null){
+				other_details = " ";
+			}
+			
+			if(!Status || Status == null){
+				Status = "Created";
+			}
+			
+			if(!view_count || isNaN(view_count)){
+				view_count = 0;
+			}
+			
+		 	
 //		 	var nickName = req.param('nickName');
 //		 	var id = req.param('id');
 //			var user_id = req.param('user_id');
@@ -319,61 +700,6 @@ exports.updatePost = function(req, res){
 //			var Status = req.param('Status');
 //			var view_count = Number(req.param('view_count'));
 			
-		 	if(nickName === null){
-				nickName = " ";
-			}
-			if(user_id === null){
-				user_id = " ";
-			}
-			if(Street === null){
-				Street = " ";
-			}
-			if(City === null){
-				City = " ";
-			}
-			if(State === null){
-				State = " ";
-			}
-			if(Zip === null){
-				Zip = " ";
-			}
-			if(property_type === null){
-				property_type = " ";
-			}
-			if(isNaN(bath)){
-				bath = 0;
-			}
-			if(isNaN(room)){
-				room = 0;
-			}
-			if(isNaN(area)){
-				area = 0;
-			}
-			if(isNaN(rent)){
-				rent = 0;
-			}
-			if(email === null){
-				email = "raghuisguru1@gmail.com";
-			}
-			if(Mobile === null){
-				Mobile = " ";
-			}
-			if(description === null){
-				description = " ";
-			}
-			if(Images === null){
-				Images = "https://upload.wikimedia.org/wikipedia/commons/1/1e/Stonehenge.jpg";
-			}
-			if(other_details === null){
-				other_details = " ";
-			}
-			if(Status === null){
-				Status = "Active";
-			}
-			if(isNaN(view_count)){
-				view_count = 0;
-			}
-			
 			mongo.connect(function(err, db){
 				
 				if(err){
@@ -386,10 +712,7 @@ exports.updatePost = function(req, res){
 					
 					var coll = mongo.collection('rental_posting');
 					
-					var objId = 'ObjectId("' + id + '")';
-		//			objId.concat(id);
-		//			objId.concat('")');
-					console.log("Id is " + objId);
+					console.log("Id is " + id);
 					
 					coll.update( 
 							{ _id : id}, 
@@ -445,8 +768,215 @@ exports.updatePost = function(req, res){
 		});
 };
 
-//Update the status of the post
-exports.updateStatus = function(req, res){
+//UpdatePostings - GET
+exports.updatePost_Get = function(req, res){
+		
+		console.log("This is a UpdatePost API call");
+		
+		var result = {};
+		var form = new formidable.IncomingForm();
+		var mailOptions={};
+		
+		form.parse(req, function(err, fields, files) {
+		     if(err){
+		       console.log(err);
+		       res.end("sorry, an error occurred");
+		       return;
+		     }
+		    
+		 	var nickName = req.param('nickName');
+		 	var id = req.param('id');
+			var user_id = req.param('user_id');
+			var Street = req.param('Street');
+			var City = req.param('City');
+			var State = req.param('State');
+			var Zip = req.param('Zip');
+			var property_type = req.param('property_type');
+			var bath = Number(req.param('bath'));
+			var room = Number(req.param('room'));
+			var area = Number(req.param('area'));
+			var rent = Number(req.param('rent'));
+			var email = req.param('email');
+			var Mobile = req.param('Mobile');
+			var description = req.param('description');
+			var Images = req.param('Images');
+			var other_details = req.param('other_details');
+			var Status = req.param('Status');
+			var view_count = Number(req.param('view_count'));
+		    
+		 	if(!id || id == null){
+		    	console.log("User Id empty");
+				result.code = 212;
+				result.status = "Data Missing";
+				res.json(result);
+			}
+		 	
+		    if(!user_id || user_id == null){
+		    	console.log("User Id empty");
+				result.code = 212;
+				result.status = "Data Missing";
+				res.json(result);
+			}
+		    
+			if(!nickName || nickName == null){
+				result.code = 212;
+				result.status = "Data Missing";
+				res.json(result);
+			}
+			
+			if(!Street || Street == null){
+				result.code = 212;
+				result.status = "Data Missing";
+				res.json(result);
+			}
+			
+			if(!City || City == null){
+				result.code = 212;
+				result.status = "Data Missing";
+				res.json(result);
+			}
+			
+			if(!State || State == null){
+				result.code = 212;
+				result.status = "Data Missing";
+				res.json(result);
+			}
+			
+			if(!Zip || Zip == null){
+				result.code = 212;
+				result.status = "Data Missing";
+				res.json(result);
+			}
+			
+			if(!property_type || property_type == null){
+				result.code = 212;
+				result.status = "Data Missing";
+				res.json(result);
+			}		
+			
+			if(!bath || isNaN(bath)){
+				result.code = 212;
+				result.status = "Data Missing";
+				res.json(result);
+			}
+			
+			if(!room || isNaN(room)){
+				result.code = 212;
+				result.status = "Data Missing";
+				res.json(result);
+			}
+			if(!area || isNaN(area)){
+				result.code = 212;
+				result.status = "Data Missing";
+				res.json(result);
+			}
+			if(!rent || isNaN(rent)){
+				result.code = 212;
+				result.status = "Data Missing";
+				res.json(result);
+			}
+			if(!email|| email == null){
+				result.code = 212;
+				result.status = "Data Missing";
+				res.json(result);
+			}
+			if(!Mobile && Mobile == null){
+				result.code = 212;
+				result.status = "Data Missing";
+				res.json(result);
+			}
+			if(!description && description == null){
+				result.code = 212;
+				result.status = "Data Missing";
+				res.json(result);
+			}
+			if(!Images && Images == null){
+				Images = "https://upload.wikimedia.org/wikipedia/commons/1/1e/Stonehenge.jpg";
+			}
+			
+			if(!other_details || other_details == null){
+				other_details = " ";
+			}
+			
+			if(!Status || Status == null){
+				Status = "Created";
+			}
+			
+			if(!view_count || isNaN(view_count)){
+				view_count = 0;
+			}
+			
+		 				
+			mongo.connect(function(err, db){
+				
+				if(err){
+					console.log("Unable to connect to mongo");
+					result.code = 209;
+					result.status = "Unable to connect to mongo";
+					res.json(result);
+				}else{
+					console.log("Connected to mongo");
+					
+					var coll = mongo.collection('rental_posting');
+					
+					console.log("Id is " + id);
+					
+					coll.update( 
+							{ _id : id}, 
+							{
+								$set : {
+									"user_id" : user_id,
+									"address" : {
+											"Street" : Street,
+											"City"   : City,
+											"State"  : State,
+											"Zip"    : Zip
+										    },
+									"property_type" : property_type,
+									"units"  : {
+											"bath" : bath,
+											"room" : room,
+											"area" : area 
+										   },
+									"rent"  : rent,
+									"Contact_info" : {
+											    "email" : email,
+											    "Mobile": Mobile
+											 },
+									"description" : description,
+									"Images" : Images,
+									"other_details" : other_details,
+									"Status" : Status,
+									"view_count" : view_count
+								}
+							},   function(err, docs) {
+								 	if(err){
+								 		result.code = 208;
+								 		result.status = "Unable to update to mongo";
+								 	}else{
+								 		utils.notify(id,1,function(){
+											console.log('notification triggered.');
+											mailOptions.from = "magicrentals11@gmail.com";
+											mailOptions.to = email;
+											mailOptions.subject = "<no reply> New rental detils posted successful";
+											mailOptions.text = "mail from magicrentals.. test mail";
+											mailOptions.html = "Dear Customer, <br><br>Your add posted scuuesfully. <br><br>Thank you<br>MagicRentals Team";
+											mailer.sendMail(mailOptions, function(error, success) {
+												console.log('Mail sent');
+											});
+								 		});
+										result.code = 200; 
+										result.status = "Successfully inserted";
+										res.json(result);
+									 }
+							});
+				}
+			});
+		});
+};
+
+//Update the status of the post - POST
+exports.updateStatus_Post = function(req, res){
 		
 	console.log("This is a UpdatePost's status API call");
 	
@@ -470,15 +1000,30 @@ exports.updateStatus = function(req, res){
      
      	console.log(email +" ,"+id+" , "+Status);
      	
-     	if(id === null || Status === null || email == null){
-     		result.code = 210;
-			result.status = "Data is empty";
+     	if(!email || email == null){
+	    	console.log("User Id empty");
+			result.code = 212;
+			result.status = "Data Missing";
 			res.json(result);
-     	}
+		}
+	    
+		if(!id || id == null){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
+		}
+		
+		if(!Status || Status == null){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
+		}
      	
      	email = email.replace(/(\r\n|\n|\r)/gm,"");
      	id = id.replace(/(\r\n|\n|\r)/gm,"");
      	Status = Status.replace(/(\r\n|\n|\r)/gm,"");
+     	
+     	console.log(email +" ,"+id+" , "+Status);
      	
 		mongo.connect(function(err, db){
 			
@@ -523,13 +1068,14 @@ exports.updateStatus = function(req, res){
 		
 };
 
-//Update the view counts of the post
-exports.updateViewCount1 = function(req, res){
+//Update the status of the post - GET
+exports.updateStatus_Get = function(req, res){
 		
-	console.log("This is a UpdatePost's view count API call");
-	var form = new formidable.IncomingForm();
-	var result = {};
+	console.log("This is a UpdatePost's status API call");
 	
+	var mailOptions = {};
+	var result = {};
+	var form = new formidable.IncomingForm();
 	form.parse(req, function(err, fields, files) {
 	     if(err){
 	       console.log(err);
@@ -537,18 +1083,118 @@ exports.updateViewCount1 = function(req, res){
 	       return;
 	     }
 	     
+     	var id = req.param('id');
+		var Status = req.param('Status');
+     	var email = req.param('email');
+          
+     	console.log(email +" ,"+id+" , "+Status);
+     	
+     	if(!email || email == null){
+	    	console.log("User Id empty");
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
+		}
+	    
+		if(!id || id == null){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
+		}
+		
+		if(!Status || Status == null){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
+		}
+     	
+     	email = email.replace(/(\r\n|\n|\r)/gm,"");
+     	id = id.replace(/(\r\n|\n|\r)/gm,"");
+     	Status = Status.replace(/(\r\n|\n|\r)/gm,"");
+     	
+     	console.log(email +" ,"+id+" , "+Status);
+     	
+		mongo.connect(function(err, db){
+			
+			if(err){
+				console.log("Unable to connect to mongo");
+				result.code = 209;
+				result.status = "Unable to connect to mongo";
+				res.json(result);
+			}else{
+				console.log("Connected to mongo");
+				
+				var coll = mongo.collection('rental_posting');
+							
+				coll.update( 
+						{ "_id" : id}, 
+						{
+							$set : {
+								"Status" : Status
+							}
+						},   function(err, docs) {
+						
+							 if(err){
+								 result.code = 208;
+								 result.status = "Unable to update to mongo";
+								 res.json(result)
+							 }else{
+								 mailOptions.from = "magicrentals11@gmail.com";
+									mailOptions.to = email;
+									mailOptions.subject = "<no reply> New rental detils posted successful";
+									mailOptions.text = "mail from magicrentals.. test mail";
+									mailOptions.html = "Dear Customer, <br><br>Your add posted scuuesfully. <br><br>Thank you<br>MagicRentals Team";
+									mailer.sendMail(mailOptions, function(error, success) {
+										console.log('Mail sent');
+									});
+									res.json(result)
+							 }	
+						 }
+				);			
+			}	
+		});	
+	});
+		
+};
+
+//Update the view counts of the post - GET
+exports.updateViewCount_Get = function(req, res){
+		
+	console.log("This is a UpdatePost's view count API call");
+	var form = new formidable.IncomingForm();
+	var result = {};
+	
+	form.parse(req, function(err, fields, files) {
+	    if(err){
+	       console.log(err);
+	       res.end("sorry, an error occurred");
+	       return;
+	    }
+	     
 	    var id = req.param('id');
-	 	var view_count = req.param('view_count');
-	     
-//	     var id = fields.id;
-//	     var view_count = fields.view_count;
-	 	
-	     if(id === null || view_count === null ){
-	    	 result.code = 210;
-	 		 result.status = "input data is empty";
-	 		 res.json(result);
-	     }
-	     
+	    var view_count = Number(req.param('view_count'));
+	    var email = req.param('email');
+	    
+	    	
+	 	if(!email || email == null){
+	    	console.log("User Id empty");
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
+		}
+	    
+		if(!id || id == null){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
+		}
+		
+		if(!view_count || isNaN(view_count)){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
+		}
+		
 	     id = id.replace(/(\r\n|\n|\r)/gm,"");
 	     view_count = view_count.replace(/(\r\n|\n|\r)/gm,"");
 	     
@@ -570,36 +1216,107 @@ exports.updateViewCount1 = function(req, res){
 								"view_count" : view_count
 							}
 						},
-	 						function(err, docs) {
-	 							 if(err){
-	 								 result.code = 208;
-	 								 result.status = "Unable to update to mongo";
-	 								 res.json(result);
-	 							 }else{
-	 								 if(docs.length > 0){
-	 									 result.code = 200;
-	 									 result.status = "success, ";
-	 									 res.json(result);
-	 								 }else{
-	 									 
-	 									 result.code = 200;
-	 									 result.status = "success, ";
-	 									 res.json(result);
-	 								 }
-	 							 }	
-	 						 }
-	 					);			
+						function(err, docs) {
+							if(err){
+	 							 result.code = 208;
+	 							 result.status = "Unable to update to mongo";
+	 							 res.json(result);
+	 						}else{
+	 							 result.code = 200;
+	 							 result.status = "success, ";
+	 							 res.json(result);
+	 						}	
+	 					}
+				);			
 	 		}	
 	 	});	
-	     
 	});	
 };
 
-exports.saveSearchRes = function(req, res){
 
+//Update the view counts of the post - POST
+exports.updateViewCount_Post = function(req, res){
 	
+	console.log("This is a UpdatePost's view count API call");
+	var form = new formidable.IncomingForm();
+	var result = {};
+	
+	form.parse(req, function(err, fields, files) {
+	    if(err){
+	       console.log(err);
+	       res.end("sorry, an error occurred");
+	       return;
+	    }
+	     
+	    var id = fields.id;
+	    var view_count = Number(fields.view_count);
+	    var email = fields.email;
+	    
+	    	
+	 	if(!email || email == null){
+	    	console.log("User Id empty");
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
+		}
+	    
+		if(!id || id == null){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
+		}
+		
+		if(!view_count || isNaN(view_count)){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
+		}
+		
+	     id = id.replace(/(\r\n|\n|\r)/gm,"");
+	     view_count = view_count.replace(/(\r\n|\n|\r)/gm,"");
+	     
+	 	 mongo.connect(function(err, db){
+	 		if(err){
+	 			console.log("Unable to connect to mongo");
+	 			result.code = 209;
+	 			result.status = "Unable to connect to mongo";
+	 			res.json(result);
+	 		}else{
+	 			console.log("Connected to mongo");
+	 			
+	 			var coll = mongo.collection('rental_posting');
+	 						
+	 			coll.update(
+	 					{ _id : id}, 
+						{
+							$set : {
+								"view_count" : view_count
+							}
+						},
+						function(err, docs) {
+							if(err){
+	 							 result.code = 208;
+	 							 result.status = "Unable to update to mongo";
+	 							 res.json(result);
+	 						}else{
+	 							 result.code = 200;
+	 							 result.status = "success, ";
+	 							 res.json(result);
+	 						}	
+	 					}
+				);			
+	 		}	
+	 	});	
+	});	
+};
+
+//Save Search Res - GET
+exports.saveSearchRes_Get = function(req, res){
+
 	console.log("In save search API");
 	var result = {};
+	
+	
 	
 	var form = new formidable.IncomingForm();
 	
@@ -610,53 +1327,62 @@ exports.saveSearchRes = function(req, res){
 	       return;
 	     }
 	     	 	
-	    var saveSearch = Boolean(req.param('saveSearch'));
+	    var saveSearch = true;
 	 	var rate = Number(req.param('rate'));
 	 	var user_id = req.param('user_id');
+	 	
+		if(!user_id || user_id == null){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
+		}
+	 	
+		if(!rate || isNaN(rate)){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
+		}
 	 		 	
 	 	var description = req.param('description');
-	 	if(!description){
+	
+	 	if(!description || description == null){
 	 		description = '.';
-	 	}
+		}
+	 		 	
 	 	console.log('desc - '+ description);
 	 	
 	 	var City = req.param('City');
-	 	if(!City){
+	 	if(!City || City == null){
 	 		City = '.';
 	 	}
+	 	
 	 	console.log('City - '+ City);
 	 	
 	 	var Zip = req.param('Zip');
-	 	if(!Zip){
+	 	if(!Zip || Zip == null){
 	 		Zip = '.';
 	 	}
 	 	console.log('Zip - '+ Zip);
 	 	
 	 	var property_type = req.param('property_type');
-	 	if(!property_type){
+	 	if(!property_type || property_type == null){
 	 		property_type = '.';
 	 	}
 	 	console.log('property_type - '+ property_type);
 	 	
 	 	//var min_rent = parseInt(req.param('min_rent'));
 	 	var min_rent = Number(req.param('min_rent')) ;
-	 	if(!min_rent){
+	 	if(!min_rent || isNaN(min_rent)){
 	 		min_rent = 0;
 	 	}
 	 	console.log('min_rent - '+ min_rent);
 	 	
 	 	//var max_rent = parseInt(req.param('max_rent'));
 	 	var max_rent = Number(req.param('max_rent'));
-	 	if(!max_rent){
+	 	if(!max_rent || isNaN(max_rent)){
 	 		max_rent = Number.MAX_VALUE;
 	 	}
 	 	console.log('max_rent - '+ max_rent);
-	 	
-	 	if(user_id === null){
-	 		result.code = 210;
- 			result.status = "User ID is empty";
- 			res.json(result);
-	 	}
 	 	
 	 	mongo.connect(function(err, db){
 	 		
@@ -667,8 +1393,9 @@ exports.saveSearchRes = function(req, res){
 	 			res.json(result);
 	 		}else{
 	 			
-	 			if(saveSearch === true){
+	 			if(saveSearch == true){
 	 				var searchcol = mongo.collection('search_queries');
+	 				console.log('Saving search result');
 	 				
 	 				searchcol.insertOne(
 	 						{
@@ -706,8 +1433,129 @@ exports.saveSearchRes = function(req, res){
 
 };
 
-//Search for postings
-exports.searchPostsa1 = function(req, res){
+//Save Search Res - POST
+
+//Save Search Res - POST
+exports.saveSearchRes_Post = function(req, res){
+
+	console.log("In save search API");
+	var result = {};
+	
+	var form = new formidable.IncomingForm();
+	
+	form.parse(req, function(err, fields, files) {
+	     if(err){
+	       console.log(err);
+	       res.end("sorry, an error occurred");
+	       return;
+	     }
+	     	 	
+	    var saveSearch = true;
+	 	var rate = Number(fields.rate);
+	 	var user_id = fields.user_id;
+	 	
+		if(!user_id || user_id == null){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
+		}
+	 	
+		if(!rate || isNaN(rate)){
+			result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
+		}
+	 		 	
+	 	var description = fields.description;
+	
+	 	if(!description || description == null){
+	 		description = '.';
+		}
+	 		 	
+	 	console.log('desc - '+ description);
+	 	
+	 	var City = fields.City;
+	 	if(!City || City == null){
+	 		City = '.';
+	 	}
+	 	
+	 	console.log('City - '+ City);
+	 	
+	 	var Zip = fields.Zip;
+	 	if(!Zip || Zip == null){
+	 		Zip = '.';
+	 	}
+	 	console.log('Zip - '+ Zip);
+	 	
+	 	var property_type = fields.property_type;
+	 	if(!property_type || property_type == null){
+	 		property_type = '.';
+	 	}
+	 	console.log('property_type - '+ property_type);
+	 	
+	 	var min_rent = Number(fields.min_rent) ;
+	 	if(!min_rent || isNaN(min_rent)){
+	 		min_rent = 0;
+	 	}
+	 	console.log('min_rent - '+ min_rent);
+	 	
+	 	var max_rent = Number(fields.max_rent);
+	 	if(!max_rent || isNaN(max_rent)){
+	 		max_rent = Number.MAX_VALUE;
+	 	}
+	 	console.log('max_rent - '+ max_rent);
+	 	
+	 	mongo.connect(function(err, db){
+	 		
+	 		if(err){
+	 			console.log("Unable to connect to mongo");
+	 			result.code = 209;
+	 			result.status = "Unable to connect to mongo";
+	 			res.json(result);
+	 		}else{
+	 			
+	 			if(saveSearch == true){
+	 				var searchcol = mongo.collection('search_queries');
+	 				console.log('Saving search result');
+	 				
+	 				searchcol.insertOne(
+	 						{
+	 							"user_id" : user_id,
+	 							"rate" : rate,
+	 							"description" : description,
+	 							"City" : City,
+	 							"Zip" : Zip,
+	 							"property_type" : property_type,
+	 							"max_rent" : max_rent,
+	 							"min_rent" : min_rent						
+	 							
+	 						},function(err, docs) {
+	 							
+	 							 if(err){
+	 								 result.code = 208;
+	 								 result.status = "Unable to insert to mongo";
+	 								 console.log("Unable to insert to mongo");
+	 								 res.json(result);
+	 							 }else{
+	 								 
+	 								 result.code = 200; 
+	 								 result.status = "Successfully inserted";
+	 								 console.log("Search results saved");
+	 								 res.json(result);
+	 							 }	
+	 						});
+	 			}
+	 	
+	 		
+	 		}
+	 		
+	 	});
+	});	
+
+};
+
+//Search for postings - GET
+exports.searchPosts_Get = function(req, res){
 	
 	console.log("In search API");
 	var result = {};
@@ -775,7 +1623,7 @@ exports.searchPostsa1 = function(req, res){
  			res.json(result);
 	 	}
 	 	
-	 	mongo.connect(function(err, db){
+		 	mongo.connect(function(err, db){
 	 		
 	 		if(err){
 	 			console.log("Unable to connect to mongo");
@@ -783,14 +1631,14 @@ exports.searchPostsa1 = function(req, res){
 	 			result.status = "Unable to connect to mongo";
 	 			res.json(result);
 	 		}else{
-
+	
 	 			console.log("Connected to mongo");
 	 			var coll = mongo.collection('rental_posting');
 	 			
-	 			coll.find( { $and : [ { "description" : { $regex: description } }, 
-	 			                      { "address.City" : { $regex: City } }, 
+	 			coll.find( { $and : [ { "description" : { $regex: description, $options:"i" } }, 
+	 			                      { "address.City" : { $regex: City, $options:"i" } }, 
 	 			                      { "address.Zip" : { $regex: Zip } }, 
-	 			                      { "property_type" : { $regex: property_type } },
+	 			                      { "property_type" : { $regex: property_type,  $options:"i"  } },
 	 			                      { "rent" : { $lt : max_rent, $gt : min_rent } }] } )
 	 			                      .toArray(function(err, docs) {	
 	 				var myArray = [];
@@ -807,14 +1655,15 @@ exports.searchPostsa1 = function(req, res){
 	 				}							
 	 				
 	 			});
-
+	
 	 		}
 	 		
 	 	});
 	});	
 };
 
-exports.searchPosts = function(req, res){
+
+exports.searchPosts_Post = function(req, res){
 	
 	console.log("In search API");
 	var result = {};
@@ -822,102 +1671,101 @@ exports.searchPosts = function(req, res){
 	var form = new formidable.IncomingForm();
 	
 	form.parse(req, function(err, fields, files) {
-	     if(err){
-	       console.log(err);
-	       res.end("sorry, an error occurred");
-	       return;
-	     }
+	    if(err){
+	      console.log(err);
+	      res.end("sorry, an error occurred");
+	      return;
+	    }
 	     	 	
-	    var saveSearch = Boolean(req.param('saveSearch'));
-	 	var rate = Number(req.param('rate'));
-	 	var user_id = req.param('user_id');
-	 	
-	 	var description = req.param('description');
-	 	if(description == null){
-	 		description = '.';
-	 	}
-	 	console.log('desc - '+ description);
-	 	
-	 	var City = req.param('City');
-	 	if(City == null){
-	 		City = '.';
-	 	}
-	 	console.log('City - '+ City);
-	 	
-	 	var Zip = req.param('Zip');
-	 	if(Zip == null ){
-	 		Zip = '.';
-	 	}
-	 	console.log('Zip - '+ Zip);
-	 	
-	 	var property_type = req.param('property_type');
-	 	if(property_type == null){
-	 		property_type = '.';
-	 	}
-	 	console.log('property_type - '+ property_type);
-	 	
-	 	//var min_rent = parseInt(req.param('min_rent'));
-	 	var min_rent = Number(req.param('min_rent')) ;
-	 	if(min_rent == null){
-	 		min_rent = 0;
-	 	}
-	 	console.log('min_rent - '+ min_rent);
+	    var saveSearch = true;
+	    var user_id = fields.user_id;
+		 	
+	    if(!user_id || user_id == null){
+	    	result.code = 212;
+			result.status = "Data Missing";
+			res.json(result);
+		}
+		 			 	
+	    var description = fields.description;
+		
+		if(!description || description == null){
+			description = '.';
+		}
+		 		 	
+		console.log('desc - '+ description);
+		 	
+		var City = fields.City;
+		if(!City || City == null){
+			City = '.';
+		}
+		 	
+		console.log('City - '+ City);
+		 	
+		var Zip = fields.Zip;
+		if(!Zip || Zip == null){
+			Zip = '.';
+		}
+		
+		console.log('Zip - '+ Zip);
+		 	
+		var property_type = fields.property_type;
+		if(!property_type || property_type == null){
+			property_type = '.';
+		}
+		
+		console.log('property_type - '+ property_type);
+		 	
+		var min_rent = Number(fields.min_rent) ;
+		if(!min_rent || isNaN(min_rent)){
+			min_rent = 0;
+		}
+		
+		console.log('min_rent - '+ min_rent);
+		 	
+		var max_rent = Number(fields.max_rent);
+		if(!max_rent || isNaN(max_rent)){
+			max_rent = Number.MAX_VALUE;
+		 }
 
-	 	var street = Number(req.param('street')) ;
-	 	if(street == null){
-	 		street = ".";
-	 	}
-	 	console.log('min_rent - '+ min_rent);
-	 	
-	 	//var max_rent = parseInt(req.param('max_rent'));
-	 	var max_rent = Number(req.param('max_rent'));
-	 	if(max_rent == null){
-	 		max_rent = Number.MAX_VALUE;
-	 	}
-	 	console.log('max_rent - '+ max_rent);
-	 	
-	 	if(user_id == null){
-	 		result.code = 210;
- 			result.status = "User ID is empty";
- 			res.json(result);
-	 	}
+		console.log('max_rent - '+ max_rent);
+		 	
 	 	
 	 	mongo.connect(function(err, db){
-	 		
-	 		if(err){
-	 			console.log("Unable to connect to mongo");
-	 			result.code = 209;
-	 			result.status = "Unable to connect to mongo";
-	 			res.json(result);
-	 		}else{
+ 		
+ 		if(err){
+ 			console.log("Unable to connect to mongo");
+ 			result.code = 209;
+ 			result.status = "Unable to connect to mongo";
+ 			res.json(result);
+ 		}else{
 
-	 			console.log("Connected to mongo");
-	 			var coll = mongo.collection('rental_posting');
-	 			
-	 			coll.find( { $and : [ { "description" : { $regex: description } }, 
-	 			                      { "address.City" : { $regex: City } }, 
-	 			                      { "address.Zip" : { $regex: Zip } }, 
-	 			                      { "property_type" : { $regex: property_type } },
-	 			                      { "rent" : { $lt : max_rent, $gt : min_rent } }] } )
-	 			                      .toArray(function(err, docs) {	
-	 				var myArray = [];
-	 				if(docs){		
-	 					result.data = docs;
-	 					result.code = 200; 
-	 					result.status = "Successful";
-	 					res.json(result);
-	 					
-	 				}else{						
-	 					 result.code = 208;
-	 					 result.status = "Unable to get data";
-	 					res.json(result);
-	 				}							
-	 				
-	 			});
+ 			console.log("Connected to mongo");
+ 			var coll = mongo.collection('rental_posting');
+ 			
+ 			coll.find( { $and : [ { "description" : { $regex: description, $options:"i" } }, 
+ 			                      { "address.City" : { $regex: City, $options:"i" } }, 
+ 			                      { "address.Zip" : { $regex: Zip } }, 
+ 			                      { "property_type" : { $regex: property_type,  $options:"i"  } },
+ 			                      { "rent" : { $lt : max_rent, $gt : min_rent } }] } )
+ 			                      .toArray(function(err, docs) {	
+ 				var myArray = [];
+ 				if(docs){		
+ 					result.data = docs;
+ 					result.code = 200; 
+ 					result.status = "Successful";
+ 					res.json(result);
+ 					
+ 				}else{						
+ 					 result.code = 208;
+ 					 result.status = "Unable to get data";
+ 					res.json(result);
+ 				}							
+ 				
+ 			});
 
-	 		}
-	 		
-	 	});
+ 		}
+ 		
+ 	});
 	});	
 };
 
