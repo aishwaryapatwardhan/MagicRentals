@@ -21,14 +21,14 @@ exports.addFav_Get = function(req, res){
 	     var uid = req.param('uid');
 		 var ids = req.param('ids');
 		 
-		 if(!uid || uid == null){
+		 if(!uid || uid == null || uid == "null"){
 			 console.log("Data is empty");
 			 result.code = 211;
 			 result.status = "Data Empty";
 			 res.json(result);
 		 }
 
-		 if(!ids || ids == null){
+		 if(!ids || ids == null || ids == "null"){
 			 console.log("Data is empty");
 			 result.code = 211;
 			 result.status = "Data Empty";
@@ -87,14 +87,14 @@ exports.addFav_Post = function(req, res){
 	     var uid = fields.uid; 
 	     var ids = refields.ids; 
 		 
-		 if(!uid || uid == null){
+		 if(!uid || uid == null || uid == "null"){
 			 console.log("Data is empty");
 			 result.code = 211;
 			 result.status = "Data Empty";
 			 res.json(result);
 		 }
 
-		 if(!ids || ids == null){
+		 if(!ids || ids == null || ids == "null"){
 			 console.log("Data is empty");
 			 result.code = 211;
 			 result.status = "Data Empty";
@@ -153,14 +153,14 @@ exports.removeFav_Get = function(req, res){
 	     var uid = req.param('uid');
 		 var ids = req.param('ids');
 		
-		 if(!uid || uid == null){
+		 if(!uid || uid == null || uid == "null"){
 			 console.log("Data is empty");
 			 result.code = 211;
 			 result.status = "Data Empty";
 			 res.json(result);
 		 }
 
-		 if(!ids || ids == null){
+		 if(!ids || ids == null || ids == "null"){
 			 console.log("Data is empty");
 			 result.code = 211;
 			 result.status = "Data Empty";
@@ -219,14 +219,14 @@ exports.removeFav_Post = function(req, res){
 	     var uid = fields.uid;
 		 var ids = fields.ids;
 		
-		 if(!uid || uid == null){
+		 if(!uid || uid == null ||  uid == "null"){
 			 console.log("Data is empty");
 			 result.code = 211;
 			 result.status = "Data Empty";
 			 res.json(result);
 		 }
 
-		 if(!ids || ids == null){
+		 if(!ids || ids == null || ids == "null"){
 			 console.log("Data is empty");
 			 result.code = 211;
 			 result.status = "Data Empty";
@@ -285,7 +285,7 @@ exports.getAllFav_Post = function(req, res){
 //	     var uid = req.param('uid');
 		
 	     var uid = fields.uid; 
-	     if(!uid || uid == null){
+	     if(!uid || uid == null || uid == "null"){
 			 console.log("Data is empty");
 			 result.code = 211;
 			 result.status = "Data Empty";
@@ -362,7 +362,7 @@ exports.getAllFav_Get = function(req, res){
 //	     var uid = req.param('uid');
 		
 	     var uid = fields.uid; 
-	     if(!uid || uid == null){
+	     if(!uid || uid == null || uid == "null"){
 			 console.log("Data is empty");
 			 result.code = 211;
 			 result.status = "Data Empty";
