@@ -6,16 +6,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
@@ -35,27 +33,11 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 import project.team.cmpe277.com.magicrentals1.landlord.PropertiesListLandlordActivity;
-import project.team.cmpe277.com.magicrentals1.utility.MultipartUtility;
 import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
 import project.team.cmpe277.com.magicrentals1.utility.TaskCompletedStatus;
 
@@ -158,13 +140,15 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletedSta
         googleSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             /*   Intent i = new Intent(getApplicationContext(), TenantSearchActivity.class);
+               /*Intent i = new Intent(getApplicationContext(), TenantSearchActivity.class);
                 i.putExtra("USERID", userid);
-                startActivity(i); */
-                //Intent i = new Intent(getApplicationContext(), PropertiesListLandlordActivity.class);
-                //startActivity(i);
-                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-                startActivityForResult(signInIntent, RC_SIGN_IN);
+                startActivity(i);*/
+                /*Intent i = new Intent(getApplicationContext(), PropertiesListLandlordActivity.class);
+                startActivity(i);*/
+                Intent i = new Intent(getApplicationContext(), TenantAndLandlordNavigationDrawer.class);
+                startActivity(i);
+                /*Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+                startActivityForResult(signInIntent, RC_SIGN_IN);*/
             }
         });
 

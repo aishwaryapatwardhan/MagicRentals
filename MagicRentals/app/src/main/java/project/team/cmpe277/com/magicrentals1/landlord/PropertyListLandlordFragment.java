@@ -1,7 +1,5 @@
 package project.team.cmpe277.com.magicrentals1.landlord;
 
-import android.annotation.TargetApi;
-//import android.app.ListFragment;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -9,13 +7,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.os.Handler;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.ListFragment;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -26,23 +20,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.SimpleCursorAdapter;
 
-import org.json.JSONObject;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import project.team.cmpe277.com.magicrentals1.LoginActivity;
 import project.team.cmpe277.com.magicrentals1.R;
-import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
-import project.team.cmpe277.com.magicrentals1.utility.TaskCompletedStatus;
 import project.team.cmpe277.com.magicrentals1.utility.ThumbnailDownloader;
+
+//import android.app.ListFragment;
 
 /**
  * Created by savani on 4/26/16.
@@ -106,14 +93,23 @@ public class PropertyListLandlordFragment extends ListFragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.landlord_properties_fragment, container, false);
+        setHasOptionsMenu(true);
         progress = (ProgressBar) v.findViewById(R.id.progressbar);
         return v;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_landlord_context,menu);
+        super.onCreateOptionsMenu(menu, inflater);
+
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mPropertyResultLab = PropertiesResultLab.getPropertiesResultLab(getContext());
+
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("USER",Context.MODE_PRIVATE);
         String userid = sharedPreferences.getString("USERID",null);
         mPropertyList = mPropertyResultLab.getPropertyList();

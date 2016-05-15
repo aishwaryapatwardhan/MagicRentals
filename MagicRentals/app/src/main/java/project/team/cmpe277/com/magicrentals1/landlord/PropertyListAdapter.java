@@ -1,32 +1,25 @@
 package project.team.cmpe277.com.magicrentals1.landlord;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Point;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.support.v7.widget.RecyclerView;
+import android.os.AsyncTask;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
 
 import project.team.cmpe277.com.magicrentals1.R;
 
@@ -72,6 +65,7 @@ public class PropertyListAdapter extends ArrayAdapter<PropertyModel> {
         //    vh.zipV = (TextView) convertView.findViewById(R.id.house_zip);
             vh.addressFullV = (TextView) convertView.findViewById(R.id.address_line);
             vh.statusV= (TextView) convertView.findViewById(R.id.statuscurr);
+            vh.houseImage = (ImageView) convertView.findViewById(R.id.house_image);
             convertView.setTag(vh);
 
         }else{
@@ -90,7 +84,8 @@ public class PropertyListAdapter extends ArrayAdapter<PropertyModel> {
 //        vh.zipV.setText(property.getZip());
         vh.addressFullV.setText(property.getState()+" "+property.getCity()+" "+property.getZip());
         vh.statusV.setText(property.getStatus());
-
+        Log.i("PropertyListAdapter",property.getImages() + " ");
+       // new DownloadImageTask(vh.houseImage).execute(property.getImages());
 //            //convertView =
 //            convertView = activity.getLayoutInflater()
 //                    .inflate( R.layout.landlord_property_row, null);
@@ -194,7 +189,41 @@ public class PropertyListAdapter extends ArrayAdapter<PropertyModel> {
         TextView zipV;
         TextView statusV;
         TextView addressFullV;
+        ImageView houseImage;
 
-}}
+}
+
+    private class DownloadImageTask extends AsyncTask<String, Void , Bitmap> {
+
+        ImageView mImageView;
+
+        private DownloadImageTask(ImageView imageView){
+            mImageView = imageView;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... urls) {
+            String inputUrl = urls[0];
+            Bitmap imageIcon =  null;
+
+            try {
+                Log.i("InputUrl",inputUrl);
+                InputStream in = new URL(inputUrl).openStream();
+                imageIcon = BitmapFactory.decodeStream(in);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return imageIcon;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            mImageView.setImageBitmap(bitmap);
+        }
+    }
+
+
+}
 
 

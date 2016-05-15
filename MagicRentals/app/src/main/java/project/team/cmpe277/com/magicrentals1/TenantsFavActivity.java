@@ -1,21 +1,11 @@
 package project.team.cmpe277.com.magicrentals1;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-
-import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
-import project.team.cmpe277.com.magicrentals1.utility.TaskCompletedStatus;
 
 
 public class TenantsFavActivity extends AppCompatActivity{
@@ -41,8 +31,8 @@ private static final String TAG = "TenFavLA";
             actionBar.setTitle("Magic Rentals");
 
 
-            FragmentManager fm = getFragmentManager();
-            fm.beginTransaction().replace(R.id.searchlist_container, new TenantsFavListFragment()).commit();
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.searchlist_container, new TenantsFavListFragment()).commit();
         }
 
         @Override

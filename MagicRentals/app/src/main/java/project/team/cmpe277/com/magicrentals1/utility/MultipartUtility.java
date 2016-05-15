@@ -1,7 +1,5 @@
 package project.team.cmpe277.com.magicrentals1.utility;
 
-import android.util.Log;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -42,7 +40,6 @@ public class MultipartUtility {
         boundary = "===" + System.currentTimeMillis() + "===";
 
         URL url = new URL(requestURL);
-        Log.i("Multipart",url + " received and is being hit");
         httpConn = (HttpURLConnection) url.openConnection();
         httpConn.setUseCaches(false);
         httpConn.setDoOutput(true); // indicates POST method

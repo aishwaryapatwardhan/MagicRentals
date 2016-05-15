@@ -2,6 +2,7 @@ package project.team.cmpe277.com.magicrentals1.utility;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -89,7 +90,7 @@ public class MultipartUtilityAsyncTask extends AsyncTask<String, Void, JSONObjec
 
             if( response != null){
                 try {
-                   httpStatus = new JSONObject(response);
+                    httpStatus = new JSONObject(response);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -100,14 +101,13 @@ public class MultipartUtilityAsyncTask extends AsyncTask<String, Void, JSONObjec
         } catch (IOException ex) {
             System.err.println(ex);
         }
-
+        Log.i("MultiAsynk",httpStatus + "");
         return httpStatus;
     }
 
     @Override
     protected void onPostExecute(JSONObject result) {
         super.onPostExecute(result);
-        mCallback.onTaskCompleted(result);
     }
 }
 

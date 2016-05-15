@@ -11,6 +11,7 @@
 
 
     <string-array name="proptypelist">
+        <item>Select type</item>
         <item>Single-Family Home</item>
         <item>Patio Home</item>
         <item>Villa</item>
@@ -22,6 +23,7 @@
     </string-array>
 
     <string-array name="pricerangelist">
+        <item>Select range</item>
         <item>$1000-$3000</item>
         <item>$3000-$6000</item>
         <item>$6000-$10000</item>
@@ -68,6 +70,17 @@
     <string name="alertcancel">Property will be cancelled</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
+
+    <string-array name="property_type1">
+        <item>Select type</item>
+        <item>Apartment</item>
+        <item>Condo</item>
+        <item>Villa</item>
+        <item>Town House</item>
+        <item>Penthouse</item>
+        <item>Cottage</item>
+    </string-array>
+
     <string-array name="property_type">
         <item>Apartment</item>
         <item>Condo</item>
@@ -106,6 +119,21 @@
     <string name="title_activity_list_properties_landlord">ListPropertiesLandlord</string>
     <string name="title_activity_tenants_favorite">TenantsFavorite</string>
 
-    <string name="url">http://52.53.174.196:3000</string>
+    <string name="url">http://192.68.0.12:3000</string>
+
+
+    <!-- Navigation drawer related strings -->
+    <string name="title_activity_tenant_and_landlord_navigation_drawer">
+        TenantAndLandlordNavigationDrawer
+    </string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="nav_string_search">Search</string>
+    <string name="nav_string_favourites">Favourites</string>
+    <string name="nav_string_create_post">Create Post</string>
+    <string name="nav_string_view_post">View Post</string>
+    <string name="title_activity_pop_up_tenant_landlord">PopUpTenantLandlord</string>
 
 </resources>
