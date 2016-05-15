@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -18,14 +19,14 @@ import java.util.ArrayList;
 public class TenantDetailPagerActivity extends AppCompatActivity {
 
     private ViewPager mViewPager;
-
+    private static final String TAG = "TDPA";
     @Override
     public void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
         mViewPager = new ViewPager(this);
         mViewPager.setId(R.id.viewPager);
         setContentView(mViewPager);
-
+        Log.i("CLASSES","TenantDetailsPager");
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setIcon(R.drawable.ic_launcher);
