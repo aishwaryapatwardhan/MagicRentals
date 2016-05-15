@@ -119,7 +119,7 @@
     <string name="title_activity_list_properties_landlord">ListPropertiesLandlord</string>
     <string name="title_activity_tenants_favorite">TenantsFavorite</string>
 
-    <string name="url">http://52.53.174.196:3000</string>
+    <string name="url">http://192.68.0.12:3000</string>
 
 
     <!-- Navigation drawer related strings -->
