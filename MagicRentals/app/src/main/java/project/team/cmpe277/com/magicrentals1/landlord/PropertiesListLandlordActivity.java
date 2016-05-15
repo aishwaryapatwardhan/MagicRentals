@@ -46,7 +46,7 @@ public class PropertiesListLandlordActivity   extends AppCompatActivity
         actionBar.setIcon(R.drawable.ic_launcher);
 
 
-        SharedPreferences preferences = getApplicationContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences("USER", Context.MODE_PRIVATE);
         userid = preferences.getString(LoginActivity.USERID, null);
         Fragment fragment = PropertyListLandlordFragment.getFragment(userid);
         // fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit();

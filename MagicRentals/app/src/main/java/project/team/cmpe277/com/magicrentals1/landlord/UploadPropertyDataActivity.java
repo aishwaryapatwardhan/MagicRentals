@@ -84,7 +84,7 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
         imageFiles  = new HashMap<>();
         formFields  = new HashMap<>();
         postPicBtn =(ImageButton) findViewById(R.id.postPicButton);
-        SharedPreferences preferences = getApplicationContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences("USER", Context.MODE_PRIVATE);
         userid = preferences.getString(LoginActivity.USERID, null);
         ActionBar actionBar = getSupportActionBar();
      //   actionBar.setDisplayShowHomeEnabled(true);
