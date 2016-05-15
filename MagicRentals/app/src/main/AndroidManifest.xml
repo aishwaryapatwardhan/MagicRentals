@@ -33,6 +33,11 @@
             android:icon="@drawable/ic_launcher"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
         <activity
             android:name=".TenantSearchActivity"
@@ -141,11 +146,7 @@
             android:icon="@drawable/ic_launcher"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity
             android:name=".TenantAndLandlordNavigationDrawer"
@@ -155,10 +156,11 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="project.team.cmpe277.com.magicrentals1.LoginActivity"/>
+
         </activity>
         <activity
             android:name=".utility.PopUpTenantLandlord"
-            android:label="@string/title_activity_pop_up_tenant_landlord"
+            android:label="Select Role"
             android:theme="@style/AppTheme.customThemeTL">
         </activity>
     </application>
