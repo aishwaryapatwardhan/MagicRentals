@@ -145,10 +145,10 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletedSta
                 startActivity(i);*/
                 /*Intent i = new Intent(getApplicationContext(), PropertiesListLandlordActivity.class);
                 startActivity(i);*/
-                Intent i = new Intent(getApplicationContext(), TenantAndLandlordNavigationDrawer.class);
-                startActivity(i);
-                /*Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-                startActivityForResult(signInIntent, RC_SIGN_IN);*/
+               /* Intent i = new Intent(getApplicationContext(), TenantAndLandlordNavigationDrawer.class);
+                startActivity(i);*/
+                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+                startActivityForResult(signInIntent, RC_SIGN_IN);
             }
         });
 
@@ -261,27 +261,16 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletedSta
         HashMap<String,String> input = new HashMap<String,String>();
         input.put("uid",userid);
         input.put("email",email);
-        input.put("deviceID",gcmtoken);
+        input.put("deviceID", gcmtoken);
 
-        Intent i = getIntent();
-        String user_selection = i.getStringExtra(TenantLandlordMainActivity.USER_SELECTED_OPTION);
-
-        if(user_selection.equals("t")){
-            Intent j = new Intent(getApplicationContext(), TenantSearchActivity.class);
-            j.putExtra("USERID", userid);
-            startActivity(j);
-        }else if(user_selection.equals("l")){
-            Intent j = new Intent(getApplicationContext(), PropertiesListLandlordActivity.class);
-            j.putExtra("USERID", userid);
-            startActivity(j);
-
-        }
+        Intent i = new Intent(this,TenantAndLandlordNavigationDrawer.class);
+        startActivity(i);
 
         new MultipartUtilityAsyncTask(this,input,null).execute(url);
 
         //Adding userid to shared preferences
         SharedPreferences sharedPreferences = getSharedPreferences("USER", Context.MODE_PRIVATE);
-        sharedPreferences.edit().putString("USERID", userid).commit();
+        sharedPreferences.edit().putString(USERID, userid).commit();
 
     }
 

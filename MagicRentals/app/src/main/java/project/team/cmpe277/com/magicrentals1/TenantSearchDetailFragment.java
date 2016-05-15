@@ -168,6 +168,11 @@ public class TenantSearchDetailFragment extends android.support.v4.app.Fragment{
                 heartsImage.setBackgroundResource(drawableId);
                 heartflag = false;
             }
+        } else{
+            Toast.makeText(getActivity().getApplicationContext(), "Added to favourites", Toast.LENGTH_LONG).show();
+            int drawableId = getResources().getIdentifier("shallowheart", "drawable", "project.team.cmpe277.com.magicrentals");
+            heartsImage.setBackgroundResource(drawableId);
+            heartflag = false;
         }
 
         new UpdateCount().execute(refid,(gridImageDetailItem.getCount()+1));

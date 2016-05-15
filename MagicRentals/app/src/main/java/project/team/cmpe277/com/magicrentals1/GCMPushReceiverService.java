@@ -49,7 +49,7 @@ public class GCMPushReceiverService extends GcmListenerService {
             //gridImageDetailItem.setCount(Integer.parseInt(data.getString("view_count")));
             gdl.add(gridImageDetailItem);
             SharedPreferences preferences = getApplicationContext().getSharedPreferences("USER", Context.MODE_PRIVATE);
-            String userid = preferences.getString("USERID",null);
+            String userid = preferences.getString(LoginActivity.USERID, null);
             PropSingleton.get(getApplicationContext()).clearList();
             PropSingleton.get(getApplicationContext()).setGridImageDetailItems(gdl);
         }

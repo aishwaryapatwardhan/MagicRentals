@@ -110,19 +110,25 @@ public class TenantSearchListFragment extends Fragment {
         gridView = (GridView)searchlistview.findViewById(R.id.gridview);
 
         final ArrayList<GridImageDetailItem> gridImageItems = PropSingleton.get(this.getActivity()).getGridImageDetailItems();
-        gridViewAdapter = new GridViewAdapter(getActivity(),R.layout.property_grid,gridImageItems);
-        gridView.setAdapter(gridViewAdapter);
 
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //GridImageDetailItem item = (GridImageDetailItem) parent.getItemAtPosition(position);
-                Intent i = new Intent(getActivity(), TenantDetailPagerActivity.class);
-                i.putExtra("USERID", TenantSearchListActivity.userid);
-                i.putExtra("POSITION", position);
-                startActivity(i);
-            }
-        });
+        if(gridImageItems!=null && gridImageItems.size() == 0){
+
+
+        }else {
+            gridViewAdapter = new GridViewAdapter(getActivity(), R.layout.property_grid, gridImageItems);
+            gridView.setAdapter(gridViewAdapter);
+
+            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    //GridImageDetailItem item = (GridImageDetailItem) parent.getItemAtPosition(position);
+                    Intent i = new Intent(getActivity(), TenantDetailPagerActivity.class);
+                    i.putExtra("USERID", TenantSearchListActivity.userid);
+                    i.putExtra("POSITION", position);
+                    startActivity(i);
+                }
+            });
+        }
 
         return searchlistview;
     }

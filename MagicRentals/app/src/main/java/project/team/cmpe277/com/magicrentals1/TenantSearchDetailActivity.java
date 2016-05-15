@@ -26,7 +26,7 @@ public class TenantSearchDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.searchdetailactivity_tenant);
-        SharedPreferences preferences = getApplicationContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences("USER", Context.MODE_PRIVATE);
         userid = preferences.getString(LoginActivity.USERID, null);
 
         Log.i("CLASSES", "Is called");
