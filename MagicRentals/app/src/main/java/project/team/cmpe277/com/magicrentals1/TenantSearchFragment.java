@@ -577,4 +577,88 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
     }
 
 
+    public class FavApi extends AsyncTask<Object, Void, JSONObject>{
+
+        @Override
+        protected JSONObject doInBackground(Object... parameters){
+
+            sp = SearchParameters.getSearchParameters();
+            HttpURLConnection httpConn;
+
+            String str = LoginActivity.urlip+"/getAllFav?uid="+userid;
+            System.out.println(str);
+            str = StringManipul.replace(str);
+            System.out.println(str);
+            URL url = null;
+            JSONObject json = null;
+            try {
+                url = new URL(str);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                try {
+
+                    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                    BufferedReader br
+                            = new BufferedReader(new InputStreamReader(in));
+
+                    String temp = null;
+
+                    StringBuilder sb = new StringBuilder();
+
+                    while ((temp = br.readLine()) != null){
+                        System.out.println("read input stream...."+temp);
+                        sb.append(temp);
+                    }
+                    json = new JSONObject(sb.toString());
+
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    urlConnection.disconnect();
+                }
+
+            }catch (MalformedURLException e) {
+                e.printStackTrace(); } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject result) {
+            super.onPostExecute(result);
+
+            JSONObject addr, units, contact;
+
+            try{
+                JSONArray jsonarray = result.getJSONArray("data");
+                ArrayList<GridImageDetailItem> gdl = new ArrayList<GridImageDetailItem>();
+
+                for (int i = 0; i < jsonarray.length(); i++) {
+                    JSONObject jsonobject = jsonarray.getJSONObject(i);
+                    addr = jsonobject.getJSONObject("address");
+                    units = jsonobject.getJSONObject("units");
+                    contact = jsonobject.getJSONObject("Contact_info");
+
+                    GridImageDetailItem gridImageDetailItem = new GridImageDetailItem(jsonobject.getString("_id"), addr.getString("Street"), addr.getString("City"),
+                            addr.getString("State"),
+                            addr.getString("Zip"), jsonobject.getString("property_type"), units.getString("room"),
+                            units.getString("bath"), units.getString("area"), jsonobject.getString("rent"), jsonobject.getString("description"),
+                            jsonobject.getString("other_details"), jsonobject.getString("Images"),contact.getString("Mobile"),contact.getString("email"));
+                    gridImageDetailItem.setCount(Integer.parseInt(jsonobject.getString("view_count")));
+                    gdl.add(gridImageDetailItem);
+                }
+                FavPropSingleton.get(getActivity()).clearList();
+                FavPropSingleton.get(getActivity()).setGridImageDetailItems(gdl);
+
+            }
+            catch (Exception ex){
+                System.out.print("Hi");
+            }
+        }
+
+    }
+
+
 }

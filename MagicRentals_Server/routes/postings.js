@@ -69,79 +69,94 @@ exports.addPost_Post = function(req, res){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 	    
 		if(!nickName || nickName == null || nickName == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 		
 		if(!Street || Street == null || Street == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 		
 		if(!City || City == null || City == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 		
 		if(!State || State == null || State == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 		
 		if(!Zip || Zip == null || Zip == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 		
 		if(!property_type || property_type == null || property_type == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}		
 		
 		if(!bath || isNaN(bath)){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 		
 		if(!room || isNaN(room)){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 		if(!area || isNaN(area)){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 		if(!rent || isNaN(rent)){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 		if(!email|| email == null || email == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 		if(!Mobile && Mobile == null || Mobile == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
+			
 		}
 		if(!description || description == null || description == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 		if(!Images || Images == null || Images == "null"){
 			Images = "https://upload.wikimedia.org/wikipedia/commons/1/1e/Stonehenge.jpg";
@@ -277,79 +292,93 @@ exports.addPost_Get = function(req, res){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 	    
 		if(!nickName || nickName == null || nickName == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 		
 		if(!Street || Street == null || Street == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 		
 		if(!City || City == null || City == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 		
 		if(!State || State == null || State == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 		
 		if(!Zip || Zip == null ||  Zip == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 		
 		if(!property_type || property_type == null || property_type == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}		
 		
 		if(!bath || isNaN(bath)){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 		
 		if(!room || isNaN(room)){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 		if(!area || isNaN(area)){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 		if(!rent || isNaN(rent)){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 		if(!email|| email == null || email == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 		if(!Mobile && Mobile == null || Mobile == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 		if(!description && description == null || description == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 		if(!Images && Images == null || Images == "null"){
 			Images = "https://upload.wikimedia.org/wikipedia/commons/1/1e/Stonehenge.jpg";
@@ -485,7 +514,8 @@ exports.getAllPosts_Get = function(req, res){
 					if(docs){		
 						result.data = docs;
 						result.code = 200; 
-						result.status = "Successful 123";
+						result.status = "Successful";
+						return;
 						
 					}else{						
 						 result.code = 208;
@@ -522,6 +552,7 @@ exports.getAllPosts_Post = function(req, res){
 	 		result.code = 212;
 	 		result.status = "Data Missing";
 	 		res.json(result);
+	 		return;
 	 	}
 	     
 	     console.log('uid is ' + user_id); 
@@ -542,7 +573,7 @@ exports.getAllPosts_Post = function(req, res){
 					if(docs){		
 						result.data = docs;
 						result.code = 200; 
-						result.status = "Successful 123";
+						result.status = "Successful";
 						
 					}else{						
 						 result.code = 208;
@@ -809,6 +840,7 @@ exports.updatePost_Get = function(req, res){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
+				return;
 			}
 		 	
 		 	if(!user_id || user_id == null || user_id == "null"){
@@ -816,79 +848,93 @@ exports.updatePost_Get = function(req, res){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
+				return;
 			}
 		    
 			if(!nickName || nickName == null || nickName == "null"){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
+				return;
 			}
 			
 			if(!Street || Street == null || Street == "null"){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
+				return;
 			}
 			
 			if(!City || City == null || City == "null"){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
+				return;
 			}
 			
 			if(!State || State == null || State == "null"){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
+				return;
 			}
 			
 			if(!Zip || Zip == null || Zip == "null"){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
+				return;
 			}
 			
 			if(!property_type || property_type == null || property_type == "null"){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
+				return;
 			}		
 			
 			if(!bath || isNaN(bath)){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
+				return;
 			}
 			
 			if(!room || isNaN(room)){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
+				return;
 			}
 			if(!area || isNaN(area)){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
+				return;
 			}
 			if(!rent || isNaN(rent)){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
+				return;
 			}
 			if(!email|| email == null || email == "null"){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
+				return;
 			}
 			if(!Mobile && Mobile == null || Mobile == "null"){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
+				return;
 			}
 			if(!description || description == null || description == "null"){
 				result.code = 212;
 				result.status = "Data Missing";
 				res.json(result);
+				return;
 			}
 			if(!Images || Images == null || Images == "null"){
 				Images = "https://upload.wikimedia.org/wikipedia/commons/1/1e/Stonehenge.jpg";
@@ -1010,12 +1056,14 @@ exports.updateStatus_Post = function(req, res){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 		
 		if(!Status || Status == null || Status == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
      	
      	email = email.replace(/(\r\n|\n|\r)/gm,"");
@@ -1092,18 +1140,21 @@ exports.updateStatus_Get = function(req, res){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 	    
 		if(!id || id == null ||  id == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 		
 		if(!Status || Status == null || Status == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
      	
      	email = email.replace(/(\r\n|\n|\r)/gm,"");
@@ -1179,18 +1230,21 @@ exports.updateViewCount_Get = function(req, res){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 	    
 		if(!id || id == null || id == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 		
 		if(!view_count || isNaN(view_count)){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 		
 	     id = id.replace(/(\r\n|\n|\r)/gm,"");
@@ -1256,18 +1310,21 @@ exports.updateViewCount_Post = function(req, res){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 	    
 		if(!id || id == null || id == "null"){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 		
 		if(!view_count || isNaN(view_count)){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 		
 	     id = id.replace(/(\r\n|\n|\r)/gm,"");
@@ -1333,12 +1390,14 @@ exports.saveSearchRes_Get = function(req, res){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 	 	
 		if(!rate || isNaN(rate)){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 	 		 	
 	 	var description = req.param('description');
@@ -1456,12 +1515,14 @@ exports.saveSearchRes_Post = function(req, res){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 	 	
 		if(!rate || isNaN(rate)){
 			result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 	 		 	
 	 	var description = fields.description;
@@ -1682,6 +1743,7 @@ exports.searchPosts_Post = function(req, res){
 	    	result.code = 212;
 			result.status = "Data Missing";
 			res.json(result);
+			return;
 		}
 		 			 	
 	    var description = fields.description;
