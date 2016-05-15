@@ -73,13 +73,13 @@ public class PropertiesListLandlordActivity   extends AppCompatActivity
 //        fragment.setArguments(bundle);
 //        // fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
 //        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
-        return super.onOptionsItemSelected(item);
+            return super.onOptionsItemSelected(item);
     }
     @Override
     public void onPropertyClicked(PropertyModel property) {
       //  Logger.getAnonymousLogger("sklslsl  ");
 
-        System.out.println("Inside clicke event   ");
+        System.out.println("Inside click event   ");
         if(findViewById(R.id.detailPropFragmentContainer) == null){
             Intent i = new Intent(this,PropertyDetailActivity.class);
             i.putExtra(PropertyDetailFragment.PROPERTY_KEY, property.getKey());

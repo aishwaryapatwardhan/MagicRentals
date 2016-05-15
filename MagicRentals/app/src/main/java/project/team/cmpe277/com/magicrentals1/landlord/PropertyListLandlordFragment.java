@@ -158,10 +158,13 @@ public class PropertyListLandlordFragment extends ListFragment  {
                 inflater.inflate(R.menu.menu_landlord_context, menu);
                 return true;
             }
+
             @Override
             public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-                return false;
+                return true;
             }
+
+
 
             @Override
             public boolean onActionItemClicked(final ActionMode mode, MenuItem item) {
@@ -265,6 +268,11 @@ public class PropertyListLandlordFragment extends ListFragment  {
 
                         break;
 
+                    case R.id.add_property:
+                        Log.i("ADDPROPERty","calling activity");
+                        Intent g = new Intent(getActivity().getApplicationContext(), UploadPropertyDataActivity.class);
+                        startActivity(g);
+
                 }
                 return false;
             }
@@ -335,6 +343,21 @@ public class PropertyListLandlordFragment extends ListFragment  {
     public void onResume() {
         super.onResume();
         madapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+        switch (item.getItemId()) {
+            case  R.id.add_property:
+
+                Log.i("ADDPROPERty","calling activity");
+                Intent g = new Intent(getActivity().getApplicationContext(), UploadPropertyDataActivity.class);
+                startActivity(g);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
 
