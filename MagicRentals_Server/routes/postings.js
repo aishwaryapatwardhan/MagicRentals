@@ -1615,7 +1615,7 @@ exports.searchPosts_Get = function(req, res){
 	 	}
 	 	console.log('max_rent - '+ max_rent);
 	 	
-	 	if(!user_id || user_id == null || user_id = "null"){
+	 	if(!user_id || user_id == null || user_id == "null"){
 	 		result.code = 210;
  			result.status = "User ID is empty";
  			res.json(result);
