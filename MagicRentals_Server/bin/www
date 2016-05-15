@@ -11,3 +11,5 @@ var server = app.listen(app.get('port'), function() {
   cj.startDaily();
   cj.startWeekly();
 });
+
+module.exports.config = server;

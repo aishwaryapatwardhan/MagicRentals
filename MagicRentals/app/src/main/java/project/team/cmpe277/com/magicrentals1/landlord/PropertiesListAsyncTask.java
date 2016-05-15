@@ -36,14 +36,18 @@ public class PropertiesListAsyncTask extends AsyncTask<String, Void, Boolean>{
     private ListView mListView;
     ArrayList<PropertyModel> mPropertyList;
     PropertiesResultLab mPropertyResultLab;
+    PropertyListAdapter mPropertyListAdapter;
     String newurl ;
     public PropertiesListAsyncTask(String userid, PropertyListLandlordFragment listFragment,
-                                   ListView listView, ProgressBar progressBar){
+                                   ListView listView, ProgressBar progressBar, PropertyListAdapter adapter){
         this.userid = userid;
         this.mPropertyFragment = listFragment;
         this.mListView = listView;
         mPropertyResultLab = PropertiesResultLab.getPropertiesResultLab(listFragment.getContext());
         this.mProgressBar = progressBar;
+        this.mPropertyListAdapter = adapter;
+        System.out.println("constructor .. "+ mPropertyListAdapter);
+        //Log.i("inside adapter", mPropertyListAdapter);
 //
         newurl = mPropertyFragment.getString(R.string.url);
         mPropertyList = mPropertyResultLab.getPropertyList();
@@ -56,7 +60,7 @@ public class PropertiesListAsyncTask extends AsyncTask<String, Void, Boolean>{
     protected Boolean doInBackground(String... userid){
         HttpURLConnection httpConn;
         // String str = "http://54.153.2.150:3000/getPostsByUser?userid="+"savani";
-      //  String str = newurl+"/getPostsByUser?user_id="+"";
+        //  String str = newurl+"/getPostsByUser?user_id="+"";
         String str = newurl+"/getPostsByUser?user_id="+userid[0];
 
         System.out.println(str);
@@ -73,7 +77,6 @@ public class PropertiesListAsyncTask extends AsyncTask<String, Void, Boolean>{
                 //InputStreamReader isr = new InputStreamReader(in);
                 String temp = null;
                 String status = null;
-
                 JSONObject json = null;
                 StringBuilder sb = new StringBuilder();
 
@@ -107,7 +110,6 @@ public class PropertiesListAsyncTask extends AsyncTask<String, Void, Boolean>{
                                     pm.setState(changeNull(address.getString("State"), false));
                                 if (address.has("Zip"))
                                     pm.setZip(changeNull(address.getString("Zip"), false));
-
                             }
                             if (result.has("property_type"))
                                 pm.setProperty_type(result.getString("property_type"));
@@ -143,20 +145,15 @@ public class PropertiesListAsyncTask extends AsyncTask<String, Void, Boolean>{
                                 pm.setNickname(changeNull(result.getString("nickname"), false));
                             if (result.has("other_details"))
                                 pm.setOther_details(changeNull(result.getString("other_details"), false));
-
                             mPropertyList.add(pm);
-//
                         }
                     }
 
-
-                }
-
-                ResponseModel responseModel = new ResponseModel();
-              //  responseModel = gson.fromJson(str1, ResponseModel.class);
-                System.out.println("Response ..... "+responseModel.getData());
-                if ( responseModel.getCode() == 200 ){
-                    System.out.println("Status..... "+responseModel.getStatus());
+//                ResponseModel responseModel = new ResponseModel();
+//              //  responseModel = gson.fromJson(str1, ResponseModel.class);
+//                System.out.println("Response ..... "+responseModel.getData());
+//                if ( responseModel.getCode() == 200 ){
+//                    System.out.println("Status..... "+responseModel.getStatus());
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -227,7 +224,11 @@ public class PropertiesListAsyncTask extends AsyncTask<String, Void, Boolean>{
 //        p3.setView_count("144");
 //        p3.setRent("4200");
 //        p3.setArea("1200");
-//        p3.setBath("2");
+//        p3.setBath("2"); if(  mPropertyFragment.isVisible()){
+//        PropertyListAdapter mPropertyListAdapter = new PropertyListAdapter
+//                (mPropertyFragment.getContext(), R.layout.landlord_property_row, mPropertyList);
+        //  mPropertyListAdapter.notifyDataSetChanged();
+        //    mListView.setAdapter(mPropertyListAdapter);
 //        p3.setRoom("3");
 //        p3.setDescription("Close to bus stop");
 //        p3.setOther_details("Lease - 1 year");
@@ -237,16 +238,24 @@ public class PropertiesListAsyncTask extends AsyncTask<String, Void, Boolean>{
 //        mPropertyList.add(p3);
         mProgressBar.setVisibility(View.GONE);
         if(  mPropertyFragment.isVisible()){
-            PropertyListAdapter mPropertyListAdapter = new PropertyListAdapter
-                    (mPropertyFragment.getContext(), R.layout.landlord_property_row, mPropertyList);
-          //  mPropertyListAdapter.notifyDataSetChanged();
+            System.out.println("Current Adapter...... "+mPropertyListAdapter);
+
+            mPropertyListAdapter.notifyDataSetChanged();
             mListView.setAdapter(mPropertyListAdapter);
+
+
+//            if(  mPropertyFragment.isVisible()){
+//                PropertyListAdapter mPropertyListAdapter1 = new PropertyListAdapter
+//                        (mPropertyFragment.getContext(), R.layout.landlord_property_row, mPropertyList);
+//                //  mPropertyListAdapter.notifyDataSetChanged();
+//                mListView.setAdapter(mPropertyListAdapter1);
+
 
         }
 
 
 
-}
+    }
     String changeNull(String str, boolean num){
         if(str.equals("null") && !num ){
             String a = "";
