@@ -85,7 +85,7 @@ public class TenantSearchDetailFragment extends android.support.v4.app.Fragment{
         gridImageDetailItem = PropSingleton.get(getActivity()).getGridImageDetailItem(refid);
         myref = FavPropSingleton.get(this.getActivity()).createHaspMap();
         SharedPreferences preferences = getActivity().getApplicationContext().getSharedPreferences("USER", Context.MODE_PRIVATE);
-        userid = preferences.getString("USERID", null);
+        userid = preferences.getString(LoginActivity.USERID, null);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Select notification frequency");
@@ -168,6 +168,11 @@ public class TenantSearchDetailFragment extends android.support.v4.app.Fragment{
                 heartsImage.setBackgroundResource(drawableId);
                 heartflag = false;
             }
+        } else{
+            Toast.makeText(getActivity().getApplicationContext(), "Added to favourites", Toast.LENGTH_LONG).show();
+            int drawableId = getResources().getIdentifier("shallowheart", "drawable", "project.team.cmpe277.com.magicrentals");
+            heartsImage.setBackgroundResource(drawableId);
+            heartflag = false;
         }
 
         new UpdateCount().execute(refid,(gridImageDetailItem.getCount()+1));

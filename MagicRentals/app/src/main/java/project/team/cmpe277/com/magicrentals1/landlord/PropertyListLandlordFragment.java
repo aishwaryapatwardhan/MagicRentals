@@ -26,6 +26,7 @@ import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 
+import project.team.cmpe277.com.magicrentals1.LoginActivity;
 import project.team.cmpe277.com.magicrentals1.R;
 import project.team.cmpe277.com.magicrentals1.utility.ThumbnailDownloader;
 
@@ -111,7 +112,7 @@ public class PropertyListLandlordFragment extends ListFragment  {
         mPropertyResultLab = PropertiesResultLab.getPropertiesResultLab(getContext());
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("USER",Context.MODE_PRIVATE);
-        String userid = sharedPreferences.getString("USERID",null);
+        String userid = sharedPreferences.getString(LoginActivity.USERID,null);
         mPropertyList = mPropertyResultLab.getPropertyList();
         mPropertyResultLab.getPropertyList().clear();
         listView = getListView();
@@ -158,10 +159,13 @@ public class PropertyListLandlordFragment extends ListFragment  {
                 inflater.inflate(R.menu.menu_landlord_context, menu);
                 return true;
             }
+
             @Override
             public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-                return false;
+                return true;
             }
+
+
 
             @Override
             public boolean onActionItemClicked(final ActionMode mode, MenuItem item) {
@@ -247,7 +251,7 @@ public class PropertyListLandlordFragment extends ListFragment  {
                                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         Log.i("CANCEL","has been called");
-                                        mCallbacks.onCancelClicked(selectedLine,madapter);
+                                        mCallbacks.onCancelClicked(selectedLine, madapter);
                                         cancelOk = true;
                                         listView.setItemChecked(selectedLine, false);
                                         madapter.notifyDataSetChanged();
@@ -264,6 +268,11 @@ public class PropertyListLandlordFragment extends ListFragment  {
                         buildercan.show();
 
                         break;
+
+                    case R.id.add_property:
+                        Log.i("ADDPROPERty", "calling activity");
+                        Intent g = new Intent(getActivity().getApplicationContext(), UploadPropertyDataActivity.class);
+                        startActivity(g);
 
                 }
                 return false;
@@ -335,6 +344,21 @@ public class PropertyListLandlordFragment extends ListFragment  {
     public void onResume() {
         super.onResume();
         madapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+        switch (item.getItemId()) {
+            case  R.id.add_property:
+
+                Log.i("ADDPROPERty","calling activity");
+                Intent g = new Intent(getActivity().getApplicationContext(), UploadPropertyDataActivity.class);
+                startActivity(g);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
 

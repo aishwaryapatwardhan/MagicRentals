@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.app.Fragment;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,8 +19,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONObject;
@@ -59,8 +63,8 @@ public class TenantSearchListFragment extends Fragment {
         setHasOptionsMenu(true);
 
         SharedPreferences preferences = getActivity().getApplicationContext().getSharedPreferences("USER", Context.MODE_PRIVATE);
-        userid = preferences.getString("USERID",null);
-
+        userid = preferences.getString(LoginActivity.USERID,null);
+        Log.i("userid",userid);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Select notification frequency");
         String[] options = { "Real-time", "Daily", "Weekly" };
@@ -110,19 +114,32 @@ public class TenantSearchListFragment extends Fragment {
         gridView = (GridView)searchlistview.findViewById(R.id.gridview);
 
         final ArrayList<GridImageDetailItem> gridImageItems = PropSingleton.get(this.getActivity()).getGridImageDetailItems();
-        gridViewAdapter = new GridViewAdapter(getActivity(),R.layout.property_grid,gridImageItems);
-        gridView.setAdapter(gridViewAdapter);
 
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //GridImageDetailItem item = (GridImageDetailItem) parent.getItemAtPosition(position);
-                Intent i = new Intent(getActivity(), TenantDetailPagerActivity.class);
-                i.putExtra("USERID", TenantSearchListActivity.userid);
-                i.putExtra("POSITION", position);
-                startActivity(i);
+        if(gridImageItems!=null && gridImageItems.size() == 0){
+            TextView editText = new TextView(getActivity());
+            editText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                   ViewGroup.LayoutParams.WRAP_CONTENT));
+            editText.setText("No results found for the given Search. Please save the search for future notifications");
+            try{
+                container.addView(editText);
+            }catch(Exception e){
+                e.printStackTrace();
             }
-        });
+        }else {
+            gridViewAdapter = new GridViewAdapter(getActivity(), R.layout.property_grid, gridImageItems);
+            gridView.setAdapter(gridViewAdapter);
+
+            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    //GridImageDetailItem item = (GridImageDetailItem) parent.getItemAtPosition(position);
+                    Intent i = new Intent(getActivity(), TenantDetailPagerActivity.class);
+                    i.putExtra("USERID", TenantSearchListActivity.userid);
+                    i.putExtra("POSITION", position);
+                    startActivity(i);
+                }
+            });
+        }
 
         return searchlistview;
     }

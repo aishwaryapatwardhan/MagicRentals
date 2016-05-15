@@ -50,6 +50,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import project.team.cmpe277.com.magicrentals1.landlord.LandlordUtils;
 import project.team.cmpe277.com.magicrentals1.utility.StringManipul;
 
 //import android.support.v4.app.ActivityCompat;
@@ -86,7 +87,7 @@ public class TenantSearchFragment extends Fragment implements AdapterView.OnItem
                 .build();
 
         SharedPreferences preferences = getActivity().getApplicationContext().getSharedPreferences("USER", Context.MODE_PRIVATE);
-        userid = preferences.getString("USERID",null);
+        userid = preferences.getString(LoginActivity.USERID,null);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Select notification frequency");
@@ -201,7 +202,13 @@ public class TenantSearchFragment extends Fragment implements AdapterView.OnItem
                 } else {
 
                     //This should be set to current location when no location is mentioned
-                    sp.setZipcode(s.toString());
+                    if (!LandlordUtils.isValidZip(s.toString())) {
+                        Boolean isValid = false;
+                        zipcodeval.setError("Should be 5 digit!");
+                        sp.setZipcode("");
+                    }else{
+                        sp.setZipcode(s.toString());
+                    }
                 }
             }
         });

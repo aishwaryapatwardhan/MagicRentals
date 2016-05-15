@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import project.team.cmpe277.com.magicrentals1.LoginActivity;
 import project.team.cmpe277.com.magicrentals1.R;
 import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
 import project.team.cmpe277.com.magicrentals1.utility.TaskCompletedStatus;
@@ -45,8 +46,8 @@ public class PropertiesListLandlordActivity   extends AppCompatActivity
         actionBar.setIcon(R.drawable.ic_launcher);
 
 
-        SharedPreferences sharedPreferences = getSharedPreferences("USER",Context.MODE_PRIVATE);
-        userid = sharedPreferences.getString("USERID",null);
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences("USER", Context.MODE_PRIVATE);
+        userid = preferences.getString(LoginActivity.USERID, null);
         Fragment fragment = PropertyListLandlordFragment.getFragment(userid);
         // fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
@@ -73,13 +74,13 @@ public class PropertiesListLandlordActivity   extends AppCompatActivity
 //        fragment.setArguments(bundle);
 //        // fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
 //        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
-        return super.onOptionsItemSelected(item);
+            return super.onOptionsItemSelected(item);
     }
     @Override
     public void onPropertyClicked(PropertyModel property) {
       //  Logger.getAnonymousLogger("sklslsl  ");
 
-        System.out.println("Inside clicke event   ");
+        System.out.println("Inside click event   ");
         if(findViewById(R.id.detailPropFragmentContainer) == null){
             Intent i = new Intent(this,PropertyDetailActivity.class);
             i.putExtra(PropertyDetailFragment.PROPERTY_KEY, property.getKey());
