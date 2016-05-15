@@ -3,30 +3,23 @@ package project.team.cmpe277.com.magicrentals1.landlord;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.os.Environment;
+import android.os.SystemClock;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.Image;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-
-import android.view.ActionMode;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -35,23 +28,22 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import project.team.cmpe277.com.magicrentals1.R;
-
-
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import project.team.cmpe277.com.magicrentals1.R;
-import project.team.cmpe277.com.magicrentals1.landlord.PropertyModel;
-import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
+import project.team.cmpe277.com.magicrentals1.utility.MultipartUtility;
 import project.team.cmpe277.com.magicrentals1.utility.PopUp;
 import project.team.cmpe277.com.magicrentals1.utility.TaskCompletedStatus;
 
@@ -79,6 +71,10 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
     private String mCurrentPhotoPath;
     private File uploadFile;
     String userid;
+    Bitmap thumbnailImage;
+    HashMap<String, String> formFields;
+    HashMap<String,File> imageFiles ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +82,8 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
         getWindow().setTitle("Edit Post");
         setContentView(R.layout.fragment_upload_data);
         Log.i(TAG,"Inside UploadProperty");
+        imageFiles  = new HashMap<>();
+        formFields  = new HashMap<>();
         postPicBtn =(ImageButton) findViewById(R.id.postPicButton);
         SharedPreferences sharedPreferences = getSharedPreferences("USER",Context.MODE_PRIVATE);
         userid = sharedPreferences.getString("USERID",null);
@@ -214,17 +212,31 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
                 property.setOther_details(other_details.getText().toString());
                 property.setNickname(nickname.getText().toString());
                 if (isValid) {
-                    HashMap<String, String> hm = LandlordUtils.serialize(property);
-                    // HashMap<String, File> file = new HashMap<String, File>();
-                    // String url = "http://54.153.2.150:3000/addPostings";
+                    formFields = LandlordUtils.serialize(property);
                     String url = getString(R.string.url) + "/addPostings";
-                    //  String url = "http://10.0.2.2:3000/addPostings";
-                    // System.out.println("isndie jdjjj url ");
                     System.out.println("BATH... " + property.getBath() + "  Room.." + property.getRoom() + "  Email" + property.getEmail());
                     PropertiesResultLab propertiesResultLab = PropertiesResultLab.
                             getPropertiesResultLab(getApplicationContext());
                     ArrayList<PropertyModel> propertyList = propertiesResultLab.getPropertyList();
-                    new MultipartUtilityAsyncTask(UploadPropertyDataActivity.this, hm, null).execute(url);
+
+                    uploadFile = new File(getExternalFilesDir(null) , "userid" + SystemClock.currentThreadTimeMillis() + ".png");
+
+                    OutputStream out = null;
+                    try {
+                        out = new FileOutputStream(uploadFile);
+                        thumbnailImage.compress(Bitmap.CompressFormat.PNG,100,out);
+                        out.flush();
+                        out.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    imageFiles.put("fileUpload",uploadFile);
+
+                    //new MultipartUtilityAsyncTask(UploadPropertyDataActivity.this, hm, null).execute(url);
+                    new MultipartRequest().execute(url);
                     key = property.getUser_id() + property.getStreet() + property.getCity() + property.getZip();
                     property.setKey(key);
                     propertyList.add(property);
@@ -322,8 +334,8 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
         }else if( requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null){
             Uri uri =  data.getData();
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),uri);
-                postPicBtn.setImageBitmap(bitmap);
+                thumbnailImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(),uri);
+                postPicBtn.setImageBitmap(thumbnailImage);
                 postPicBtn.setAdjustViewBounds(true);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -400,6 +412,78 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
 
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+
+    private class MultipartRequest extends AsyncTask<String , Void , JSONObject > {
+
+
+
+        @Override
+        protected JSONObject doInBackground(String... strings) {
+            String charset = "UTF-8";
+
+          //  String requestURL = "http://10.0.2.2:3000/addPostings";
+              String requestURL = strings[0];
+            try {
+
+                MultipartUtility multipart = new MultipartUtility(requestURL, charset);
+
+                if(!(formFields.isEmpty())){
+                    for (HashMap.Entry<String, String> entry : formFields.entrySet()) {
+                        String key = entry.getKey();
+                        String value = entry.getValue();
+                        multipart.addFormField(key,value);
+
+                    }
+                }
+
+                if(imageFiles != null){
+                    if(!(imageFiles.isEmpty())){
+                        for (HashMap.Entry<String, File> entry : imageFiles.entrySet()) {
+                            String key = entry.getKey();
+                            File value = entry.getValue();
+                            multipart.addFilePart(key, value);
+                        }
+                    }
+                }
+
+               /* multipart.addFormField("user_id", "Cool Pictures");
+                multipart.addFormField("Street", "Cool Pictures");
+                multipart.addFormField("City", "Cool Pictures");
+                multipart.addFormField("State", "Cool Pictures");
+                multipart.addFormField("Zip", "Cool Pictures");
+                multipart.addFormField("property_type", "Cool Pictures");
+                multipart.addFormField("bath", "Cool Pictures");
+                multipart.addFormField("room", "Cool Pictures");
+                multipart.addFormField("area", "Cool Pictures");
+                multipart.addFormField("rent", "Cool Pictures");
+                multipart.addFormField("email", "Cool Pictures");
+                multipart.addFormField("Mobile", "Cool Pictures");
+                multipart.addFormField("description", "Cool Pictures");*/
+
+               // multipart.addFilePart("fileUpload", uploadFile);
+
+                List<String> response = multipart.finish();
+
+                System.out.println("SERVER REPLIED:");
+                String responseString = "";
+                String path= null;
+                for (String line : response) {
+                    System.out.println(line);
+                }
+
+            } catch (IOException ex) {
+                System.err.println(ex);
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            super.onPostExecute(jsonObject);
+
         }
     }
 

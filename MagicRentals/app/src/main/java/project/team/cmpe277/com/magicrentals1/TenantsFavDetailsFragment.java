@@ -1,9 +1,6 @@
 package project.team.cmpe277.com.magicrentals1;
 
 import android.app.AlertDialog;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,7 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,12 +16,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
@@ -36,18 +30,15 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
 import project.team.cmpe277.com.magicrentals1.utility.StringManipul;
-import project.team.cmpe277.com.magicrentals1.utility.TaskCompletedStatus;
 
 /**
  * Created by Rekha on 5/1/2016.
  */
-public class TenantsFavDetailsFragment extends android.app.Fragment {
+public class TenantsFavDetailsFragment extends android.support.v4.app.Fragment{
 
 
     //Raghu's Variable
@@ -76,16 +67,15 @@ public class TenantsFavDetailsFragment extends android.app.Fragment {
     public static final String IDS = "project.team.cmpe277.com.magicrentals1.ID";
     String refid;
     String userid;
-    FavPropertieDetails favPropertieDetails;
+    GridImageDetailItem gridImageDetailItem;
+    HashMap<String,String> myref;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //refid = getArguments().getSerializable("RID").toString();
-        refid = TenantsFavDetailActivity.rid;
-        ArrayList<FavPropertieDetails> favPropCollections = FavPropCollections.getFavList();
-        favPropertieDetails = FavPropCollections.getFavPropertieDetails(refid);
-
+        refid = getArguments().getSerializable(IDS).toString();
+        gridImageDetailItem = FavPropSingleton.get(getActivity()).getGridImageDetailItem(refid);
+        myref = FavPropSingleton.get(this.getActivity()).createHaspMap();
         SharedPreferences preferences = getActivity().getApplicationContext().getSharedPreferences("USER", Context.MODE_PRIVATE);
         userid = preferences.getString("USERID", null);
 
@@ -114,73 +104,50 @@ public class TenantsFavDetailsFragment extends android.app.Fragment {
         heartsImage = (ImageView)detailview.findViewById(R.id.heartsImage);
         iconImage = (ImageView)detailview.findViewById(R.id.iconImage);
 
-        streetValue.setText(favPropertieDetails.getStreet());
-        cityValue.setText(favPropertieDetails.getCity());
-        zipcodeValue.setText(favPropertieDetails.getZip());
-        stateValue.setText(favPropertieDetails.getState());
-        proptypeValue.setText(favPropertieDetails.getProperty_type());
-        numRoomsValue.setText(favPropertieDetails.getRoom());
-        numBathsValue.setText(favPropertieDetails.getBath());
-        sqFeetValue.setText(favPropertieDetails.getArea());
-        montlyRentValue.setText(favPropertieDetails.getRent());
-        descriptionValue.setText(favPropertieDetails.getDescription());
-        othersValue.setText(favPropertieDetails.getOther_details());
-        contactNumberValue.setText(favPropertieDetails.getMobile());
-        contactEmailValue.setText(favPropertieDetails.getEmail());
+        streetValue.setText(gridImageDetailItem.getStreetAddr());
+        cityValue.setText(gridImageDetailItem.getCityAddr());
+        zipcodeValue.setText(gridImageDetailItem.getZipCode());
+        stateValue.setText(gridImageDetailItem.getStateAddr());
+        proptypeValue.setText(gridImageDetailItem.getPropertyType());
+        numRoomsValue.setText(gridImageDetailItem.getNoOfRooms());
+        numBathsValue.setText(gridImageDetailItem.getNoOfBaths());
+        sqFeetValue.setText(gridImageDetailItem.getSqFoot());
+        montlyRentValue.setText(gridImageDetailItem.getRent());
+        descriptionValue.setText(gridImageDetailItem.getDescription());
+        othersValue.setText(gridImageDetailItem.getOthers());
+        contactNumberValue.setText(gridImageDetailItem.getContact());
+        contactEmailValue.setText(gridImageDetailItem.getEmail());
 
-
-        new UrlActivity().execute(favPropertieDetails.getImages());
-
+        Toast.makeText(getActivity().getApplicationContext(), "Added to favourites", Toast.LENGTH_LONG).show();
         int drawableId = getResources().getIdentifier("solidheart", "drawable", "project.team.cmpe277.com.magicrentals");
         heartsImage.setBackgroundResource(drawableId);
+
+
+        new UrlActivity().execute(gridImageDetailItem.getImageIcon());
 
         heartsImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new RemFav().execute(refid);
-                FavPropCollections.getFavList().remove(FavPropCollections.getFavPropertieDetails(refid));
-                Toast.makeText(getActivity(),"Item is removed",Toast.LENGTH_LONG).show();
-               /* HashMap<String, String> hmap = new HashMap<>();
-                hmap.put("uid","Rekha");
-                hmap.put("uid","ids");
-                new MultipartUtilityAsyncTask(getActivity(),hmap,null).execute(url);*/
                 Intent i = new Intent(getActivity().getApplicationContext(), TenantsFavActivity.class);
                 startActivity(i);
+
             }
         });
-
 
 
         return detailview;
     }
 
 
-/*
+
     public static android.support.v4.app.Fragment newInstance(String refid) {
         Bundle args = new Bundle();
         args.putSerializable(IDS, refid);
-        TenantSearchDetailFragment fragment = new TenantSearchDetailFragment();
+        TenantsFavDetailsFragment fragment = new TenantsFavDetailsFragment();
         fragment.setArguments(args);
         return fragment;
-    }*/
-
-/*
-    @Override
-    public void onTaskCompleted(JSONObject result) {
-
-        if (heartflag == false) {
-            Toast.makeText(getActivity().getApplicationContext(), "Added to favourites", Toast.LENGTH_LONG).show();
-            int drawableId = getResources().getIdentifier("solidheart", "drawable", "project.team.cmpe277.com.magicrentals");
-            heartsImage.setBackgroundResource(drawableId);
-            heartflag = true;
-        } else {
-            Toast.makeText(getActivity().getApplicationContext(), "Removed from favourites", Toast.LENGTH_LONG).show();
-            int drawableId = getResources().getIdentifier("shallowheart", "drawable", "project.team.cmpe277.com.magicrentals");
-            heartsImage.setBackgroundResource(drawableId);
-            heartflag = false;
-        }
     }
-*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -196,14 +163,12 @@ public class TenantsFavDetailsFragment extends android.app.Fragment {
                     NavUtils.navigateUpFromSameTask(getActivity());
                 }
                 return true;
-            case R.id.favorites:
-                //favourites activity
-                Intent i = new Intent(getActivity().getApplicationContext(), TenantsFavActivity.class);
-                startActivity(i);
-                return true;
-            case R.id.save_search:
-                actions.show();
-                return true;
+            case R.id.search_post:
+                    Intent j = new Intent(getActivity().getApplicationContext(), TenantSearchActivity.class);
+                    j.putExtra("USERID", userid);
+                    startActivity(j);
+                    return true;
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -212,14 +177,15 @@ public class TenantsFavDetailsFragment extends android.app.Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_search, menu);
+        inflater.inflate(R.menu.menu_fav, menu);
     }
 
 
     public class UrlActivity extends AsyncTask<String,Void,Bitmap> {
 
         private Exception exception;
-        public Bitmap doInBackground(String... urls){
+
+        public Bitmap doInBackground(String... urls) {
             Bitmap mybitmap;
 
             try {
@@ -245,7 +211,6 @@ public class TenantsFavDetailsFragment extends android.app.Fragment {
             iconImage.setImageBitmap(mybitmap);
         }
     }
-
 
 
     public class RemFav extends AsyncTask<Object, Void, JSONObject> {
@@ -300,13 +265,9 @@ public class TenantsFavDetailsFragment extends android.app.Fragment {
         @Override
         protected void onPostExecute(JSONObject result) {
             super.onPostExecute(result);
-            int drawableId = getResources().getIdentifier("shallowheart", "drawable", "project.team.cmpe277.com.magicrentals");
-            heartsImage.setBackgroundResource(drawableId);
-            heartflag = false;
+
         }
 
     }
-
-
 
 }

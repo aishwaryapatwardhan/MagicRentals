@@ -1,17 +1,14 @@
 package project.team.cmpe277.com.magicrentals1.utility;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by saipranesh on 5/7/16.
@@ -47,12 +44,14 @@ public class MultipartUtilityAsyncTask extends AsyncTask<String, Void, JSONObjec
         try {
             MultipartUtility multipart = new MultipartUtility(requestURL, charset);
 
-            if(!(formFields.isEmpty())){
-                for (HashMap.Entry<String, String> entry : formFields.entrySet()) {
-                    String key = entry.getKey();
-                    String value = entry.getValue();
-                    multipart.addFormField(key,value);
+            if(formFields != null){
+                if(!(formFields.isEmpty())){
+                    for (HashMap.Entry<String, String> entry : formFields.entrySet()) {
+                        String key = entry.getKey();
+                        String value = entry.getValue();
+                        multipart.addFormField(key,value);
 
+                    }
                 }
             }
 

@@ -7,6 +7,8 @@
     <string name="createpost">Create Post</string>
     <string name="mypostings">My Postings</string>
     <string name="checkrentals">Check Rentals</string>
+    <string name="search_post">Search Post</string>
+
 
     <string-array name="proptypelist">
         <item>Single-Family Home</item>
@@ -103,5 +105,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_list_properties_landlord">ListPropertiesLandlord</string>
     <string name="title_activity_tenants_favorite">TenantsFavorite</string>
+
     <string name="url">http://52.53.174.196:3000</string>
+
 </resources>

@@ -41,7 +41,11 @@
             android:name=".TenantSearchListActivity"
             android:icon="@drawable/ic_launcher"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".TenantSearchActivity" />
+        </activity>
         <activity
             android:name=".TenantDetailPagerActivity"
             android:icon="@drawable/ic_launcher"
@@ -49,7 +53,7 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="project.team.cmpe277.com.magicrentals1.TenantSearchListActivity" />
+                android:value=".TenantSearchListActivity" />
         </activity>
         <activity
             android:name=".landlord.PropertiesListLandlordActivity"
@@ -122,8 +126,14 @@
         <activity
             android:name=".utility.PopUp"
             android:theme="@style/AppTheme.customTheme" />
-        <activity android:name=".TenantsFavActivity"></activity>
-        <activity android:name=".TenantsFavDetailActivity" />
+        <activity android:name=".TenantsFavActivity">
+
+        </activity>
+        <activity android:name=".TenantsFavDetailActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="project.team.cmpe277.com.magicrentals1.TenantsFavActivity" />
+        </activity>
         <activity
             android:name=".TenantLandlordMainActivity"
             android:icon="@drawable/ic_launcher"
