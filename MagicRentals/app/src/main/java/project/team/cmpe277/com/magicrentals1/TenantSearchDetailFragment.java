@@ -40,14 +40,13 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
 import project.team.cmpe277.com.magicrentals1.utility.StringManipul;
-import project.team.cmpe277.com.magicrentals1.utility.TaskCompletedStatus;
+
 
 /**
  * Created by Rekha on 5/1/2016.
  */
-public class TenantSearchDetailFragment extends android.support.v4.app.Fragment implements TaskCompletedStatus {
+public class TenantSearchDetailFragment extends android.support.v4.app.Fragment{
 
 
     //Raghu's Variable
@@ -77,13 +76,14 @@ public class TenantSearchDetailFragment extends android.support.v4.app.Fragment 
     String refid;
     String userid;
     GridImageDetailItem gridImageDetailItem;
+    HashMap<String,String> myref;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         refid = getArguments().getSerializable(IDS).toString();
         gridImageDetailItem = PropSingleton.get(getActivity()).getGridImageDetailItem(refid);
-
+        myref = FavPropSingleton.get(this.getActivity()).createHaspMap();
         SharedPreferences preferences = getActivity().getApplicationContext().getSharedPreferences("USER", Context.MODE_PRIVATE);
         userid = preferences.getString("USERID", null);
 
@@ -154,12 +154,21 @@ public class TenantSearchDetailFragment extends android.support.v4.app.Fragment 
         contactNumberValue.setText(gridImageDetailItem.getContact());
         contactEmailValue.setText(gridImageDetailItem.getEmail());
 
-        //int drawableId = getResources().getIdentifier("magicrentals1", "drawable", "project.team.cmpe277.com.magicrentals");
-        //iconImage.setBackgroundResource(drawableId);
-        new UrlActivity().execute(gridImageDetailItem.getImageIcon());
 
-        //call CheckIfAlreadyInfav
-        new CheckIfAlreadyInFav().execute(refid);
+        new UrlActivity().execute(gridImageDetailItem.getImageIcon());
+        if(myref != null) {
+            if (myref.containsKey(gridImageDetailItem.getId())) {
+                Toast.makeText(getActivity().getApplicationContext(), "Added to favourites", Toast.LENGTH_LONG).show();
+                int drawableId = getResources().getIdentifier("solidheart", "drawable", "project.team.cmpe277.com.magicrentals");
+                heartsImage.setBackgroundResource(drawableId);
+                heartflag = true;
+            } else {
+                Toast.makeText(getActivity().getApplicationContext(), "Added to favourites", Toast.LENGTH_LONG).show();
+                int drawableId = getResources().getIdentifier("shallowheart", "drawable", "project.team.cmpe277.com.magicrentals");
+                heartsImage.setBackgroundResource(drawableId);
+                heartflag = false;
+            }
+        }
 
         new UpdateCount().execute(refid,(gridImageDetailItem.getCount()+1));
 
@@ -171,21 +180,11 @@ public class TenantSearchDetailFragment extends android.support.v4.app.Fragment 
                 } else {
                     new RemFav().execute(refid);
                 }
-               /* HashMap<String, String> hmap = new HashMap<>();
-                hmap.put("uid","Rekha");
-                hmap.put("uid","ids");
-                new MultipartUtilityAsyncTask(getActivity(),hmap,null).execute(url);*/
+
             }
         });
 
 
-       /* iconImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               //Sai your code goes here to display the image in a new fragment
-            }
-        });
-*/
         return detailview;
     }
 
@@ -197,22 +196,6 @@ public class TenantSearchDetailFragment extends android.support.v4.app.Fragment 
         TenantSearchDetailFragment fragment = new TenantSearchDetailFragment();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onTaskCompleted(JSONObject result) {
-
-        if (heartflag == false) {
-            Toast.makeText(getActivity().getApplicationContext(), "Added to favourites", Toast.LENGTH_LONG).show();
-            int drawableId = getResources().getIdentifier("solidheart", "drawable", "project.team.cmpe277.com.magicrentals");
-            heartsImage.setBackgroundResource(drawableId);
-            heartflag = true;
-        } else {
-            Toast.makeText(getActivity().getApplicationContext(), "Removed from favourites", Toast.LENGTH_LONG).show();
-            int drawableId = getResources().getIdentifier("shallowheart", "drawable", "project.team.cmpe277.com.magicrentals");
-            heartsImage.setBackgroundResource(drawableId);
-            heartflag = false;
-        }
     }
 
     @Override
@@ -246,82 +229,6 @@ public class TenantSearchDetailFragment extends android.support.v4.app.Fragment 
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_search, menu);
-    }
-
-
-    public class CheckIfAlreadyInFav extends AsyncTask<Object, Void, Boolean> {
-        private Exception exception;
-        private Boolean result;
-
-        public Boolean doInBackground(Object... parameters) {
-
-            String ids = parameters[0].toString();
-            HttpURLConnection httpConn;
-            // String str = "http://54.153.2.150:3000/getPostsByUser?userid="+"savani";
-            String str = LoginActivity.urlip+"/checkFav?uid="+userid+"&ids="+ids;
-            System.out.println(str);
-            str = StringManipul.replace(str);
-            System.out.println(str);
-            URL url = null;
-            JSONObject json = null;
-            try {
-                url = new URL(str);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                try {
-
-                    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-                    BufferedReader br
-                            = new BufferedReader(new InputStreamReader(in));
-
-                    String temp = null;
-
-                    StringBuilder sb = new StringBuilder();
-
-                    while ((temp = br.readLine()) != null){
-                        System.out.println("read input stream...."+temp);
-                        sb.append(temp);
-                    }
-                    json = new JSONObject(sb.toString());
-
-                    JSONObject data = json.getJSONObject("data");
-                    int code = Integer.parseInt(data.getString("code"));
-
-                    if(code == 200){
-                        return true;
-                    }
-                    else{
-                        return false;
-                    }
-
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    urlConnection.disconnect();
-                }
-
-            }catch (MalformedURLException e) {
-                e.printStackTrace(); } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return true;
-
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            if(result){
-                //Set solid heart
-                int drawableId = getResources().getIdentifier("solidheart", "drawable", "project.team.cmpe277.com.magicrentals");
-                heartsImage.setBackgroundResource(drawableId);
-                heartflag = true;
-            }else{
-                //Set hollow heart
-                int drawableId = getResources().getIdentifier("shallowheart", "drawable", "project.team.cmpe277.com.magicrentals");
-                heartsImage.setBackgroundResource(drawableId);
-                heartflag = false;
-            }
-        }
     }
 
 
@@ -531,66 +438,6 @@ public class TenantSearchDetailFragment extends android.support.v4.app.Fragment 
 
     }
 
-
-    public class CheckFav extends AsyncTask<Object, Void, JSONObject> {
-
-
-        @Override
-        protected JSONObject doInBackground(Object... parameters){
-
-            String ids = parameters[0].toString();
-            HttpURLConnection httpConn;
-            // String str = "http://54.153.2.150:3000/getPostsByUser?userid="+"savani";
-            String str = LoginActivity.urlip+"/checkFav?uid="+userid+"&ids="+ids;
-            System.out.println(str);
-            str = StringManipul.replace(str);
-            System.out.println(str);
-            URL url = null;
-            JSONObject json = null;
-            try {
-                url = new URL(str);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                try {
-
-                    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-                    BufferedReader br
-                            = new BufferedReader(new InputStreamReader(in));
-
-                    String temp = null;
-
-                    StringBuilder sb = new StringBuilder();
-
-                    while ((temp = br.readLine()) != null){
-                        System.out.println("read input stream...."+temp);
-                        sb.append(temp);
-                    }
-                    json = new JSONObject(sb.toString());
-
-
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    urlConnection.disconnect();
-                }
-
-            }catch (MalformedURLException e) {
-                e.printStackTrace(); } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return json;
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject result) {
-            super.onPostExecute(result);
-            int drawableId = getResources().getIdentifier("solidheart", "drawable", "project.team.cmpe277.com.magicrentals");
-            heartsImage.setBackgroundResource(drawableId);
-            heartflag = true;
-        }
-
-    }
-
     public class UpdateCount extends AsyncTask<Object, Void, JSONObject> {
 
 
@@ -643,10 +490,7 @@ public class TenantSearchDetailFragment extends android.support.v4.app.Fragment 
 
         @Override
         protected void onPostExecute(JSONObject result) {
-            super.onPostExecute(result);
-            int drawableId = getResources().getIdentifier("shallowheart", "drawable", "project.team.cmpe277.com.magicrentals");
-            heartsImage.setBackgroundResource(drawableId);
-            heartflag = false;
+
         }
 
     }

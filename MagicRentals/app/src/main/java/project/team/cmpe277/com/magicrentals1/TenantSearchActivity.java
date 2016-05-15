@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import org.json.JSONObject;
 
@@ -26,7 +27,7 @@ public class TenantSearchActivity extends AppCompatActivity implements TaskCompl
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.searchactivity_tenant);
-
+        Log.i("CLASSES","TenantSearchActivity");
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setIcon(R.drawable.ic_launcher);

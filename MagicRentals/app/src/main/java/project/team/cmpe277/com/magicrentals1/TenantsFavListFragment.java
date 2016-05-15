@@ -1,52 +1,63 @@
 package project.team.cmpe277.com.magicrentals1;
 
 
+import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
+import project.team.cmpe277.com.magicrentals1.utility.StringManipul;
 import project.team.cmpe277.com.magicrentals1.utility.TaskCompletedStatus;
 import project.team.cmpe277.com.magicrentals1.utility.ThumbnailDownloader;
 
-public class TenantsFavListFragment extends android.app.Fragment implements TaskCompletedStatus {
+public class TenantsFavListFragment extends Fragment {
 
-    private favGridViewAdapter favGridViewAdapter;
-    private GridView favGridView;
-    private ArrayList<FavPropertieDetails> favPropCollections; //= PropSingleton.get(getActivity()).getGridImageDetailItems();
-    private boolean bFreshLoad = true;
+    private GridViewAdapter gridViewAdapter;
+
+    private GridView gridView;
+    private String userid;
+    private static int rate;
+
+
     static ThumbnailDownloader<ImageView> mThumbnailThread;
-    private static final String TAG = "TenantsFavListFragment";
-
-    SharedPreferences preferences;// = getApplicationContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
-    String userid; //= preferences.getString(LoginActivity.USERID, null);
-    public TenantsFavListFragment() {
-        super();
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+
+        SharedPreferences preferences = getActivity().getApplicationContext().getSharedPreferences("USER", Context.MODE_PRIVATE);
+        userid = preferences.getString("USERID",null);
+
         mThumbnailThread = new ThumbnailDownloader<ImageView>(new Handler());
         mThumbnailThread.setListener(new ThumbnailDownloader.Listener<ImageView>() {
             public void onThumbnailDownloaded(ImageView imageView, Bitmap thumbnail) {
@@ -59,34 +70,30 @@ public class TenantsFavListFragment extends android.app.Fragment implements Task
         mThumbnailThread.getLooper();
     }
 
-    @Nullable
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View favListView = inflater.inflate(R.layout.fragment_tenants_fav_list, container, false);
+        View searchlistview = inflater.inflate(R.layout.searchlistfragment_tenant, container, false);
+        gridView = (GridView)searchlistview.findViewById(R.id.gridview);
+        final ArrayList<GridImageDetailItem> gridImageItems = FavPropSingleton.get(this.getActivity()).getGridImageDetailItems();
+        gridViewAdapter = new GridViewAdapter(getActivity(),R.layout.property_grid,gridImageItems);
+        gridView.setAdapter(gridViewAdapter);
 
-        preferences = getActivity().getApplicationContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
-        userid = preferences.getString(LoginActivity.USERID, null);
-
-        favPropCollections = FavPropCollections.getFavList();
-
-
-        favGridView = (GridView) favListView.findViewById(R.id.favGrid);
-        favGridViewAdapter =  new favGridViewAdapter(getActivity(),R.layout.property_grid);
-        favGridView.setAdapter(favGridViewAdapter);
-
-        favGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //System.out.print("Item cliecked");
-                FavPropertieDetails favPropertieDetails = (FavPropertieDetails) parent.getItemAtPosition(position);
+                //GridImageDetailItem item = (GridImageDetailItem) parent.getItemAtPosition(position);
                 Intent i = new Intent(getActivity(), TenantsFavDetailActivity.class);
-                i.putExtra("RID", favPropertieDetails.getRid());
+                i.putExtra("USERID", TenantSearchListActivity.userid);
+                i.putExtra("POSITION", position);
                 startActivity(i);
             }
         });
-        return favListView;
+
+        return searchlistview;
     }
+
 
     @Override
     public void onDestroy() {
@@ -95,7 +102,34 @@ public class TenantsFavListFragment extends android.app.Fragment implements Task
     }
 
     @Override
-    public void onTaskCompleted(JSONObject result) {
-        bFreshLoad = false;
+    public void onDestroyView() {
+        super.onDestroyView();
+        mThumbnailThread.clearQueue();
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_fav, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+
+        switch(id){
+            case R.id.search_post:
+                Intent j = new Intent(getActivity().getApplicationContext(), TenantSearchActivity.class);
+                j.putExtra("USERID", userid);
+                startActivity(j);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
 }

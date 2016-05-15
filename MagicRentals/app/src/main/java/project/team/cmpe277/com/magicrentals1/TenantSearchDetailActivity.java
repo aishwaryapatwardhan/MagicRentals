@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -16,7 +17,7 @@ import android.view.MenuItem;
  */
 public class TenantSearchDetailActivity extends AppCompatActivity {
     public static String userid;
-    private static final String TAG = "TenantSearchDetailActivity";
+    private static final String TAG = "TSDActivity";
     String uuid;
 
 
@@ -28,7 +29,7 @@ public class TenantSearchDetailActivity extends AppCompatActivity {
         SharedPreferences preferences = getApplicationContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
         userid = preferences.getString(LoginActivity.USERID, null);
 
-
+        Log.i("CLASSES", "Is called");
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setIcon(R.drawable.ic_launcher);

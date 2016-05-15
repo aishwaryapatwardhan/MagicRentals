@@ -52,7 +52,7 @@ public class GridViewAdapter extends ArrayAdapter{
             TenantSearchListFragment.mThumbnailThread.queueThumbnail(holder.image,item.getImageIcon());
         }
 
-        for( int i = Math.max(0,position -10); i < Math.min(data.size()-1, position+10); i++){
+        for( int i = Math.max(0,position-10); i < Math.min(data.size()-1, position+10); i++){
             TenantSearchListFragment.mThumbnailThread.queuePreload(item.getImageIcon());
         }
         holder.price.setText(item.getRent());

@@ -279,11 +279,25 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletedSta
         input.put("email",email);
         input.put("deviceID",gcmtoken);
 
+        Intent i = getIntent();
+        String user_selection = i.getStringExtra(TenantLandlordMainActivity.USER_SELECTED_OPTION);
+
+        if(user_selection.equals("t")){
+            Intent j = new Intent(getApplicationContext(), TenantSearchActivity.class);
+            j.putExtra("USERID", userid);
+            startActivity(j);
+        }else if(user_selection.equals("l")){
+            Intent j = new Intent(getApplicationContext(), PropertiesListLandlordActivity.class);
+            j.putExtra("USERID", userid);
+            startActivity(j);
+
+        }
+
         new MultipartUtilityAsyncTask(this,input,null).execute(url);
 
         //Adding userid to shared preferences
-        SharedPreferences sharedPreferences = getSharedPreferences("USER",Context.MODE_PRIVATE);
-        sharedPreferences.edit().putString("USERID",userid).commit();
+        SharedPreferences sharedPreferences = getSharedPreferences("USER", Context.MODE_PRIVATE);
+        sharedPreferences.edit().putString("USERID", userid).commit();
 
     }
 
@@ -329,20 +343,6 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletedSta
 
     @Override
     public void onTaskCompleted(JSONObject result) {
-
-        Intent i = getIntent();
-        String user_selection = i.getStringExtra(TenantLandlordMainActivity.USER_SELECTED_OPTION);
-
-        if(user_selection.equals("t")){
-            Intent j = new Intent(getApplicationContext(), TenantSearchActivity.class);
-            j.putExtra("USERID", userid);
-            startActivity(j);
-        }else if(user_selection.equals("l")){
-            Intent j = new Intent(getApplicationContext(), PropertiesListLandlordActivity.class);
-            j.putExtra("USERID", userid);
-            startActivity(j);
-
-        }
 
     }
 

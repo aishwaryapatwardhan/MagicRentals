@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.app.Fragment;
+import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,6 +33,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import project.team.cmpe277.com.magicrentals1.utility.StringManipul;
 import project.team.cmpe277.com.magicrentals1.utility.ThumbnailDownloader;
@@ -106,6 +108,7 @@ public class TenantSearchListFragment extends Fragment {
 
         View searchlistview = inflater.inflate(R.layout.searchlistfragment_tenant, container, false);
         gridView = (GridView)searchlistview.findViewById(R.id.gridview);
+
         final ArrayList<GridImageDetailItem> gridImageItems = PropSingleton.get(this.getActivity()).getGridImageDetailItems();
         gridViewAdapter = new GridViewAdapter(getActivity(),R.layout.property_grid,gridImageItems);
         gridView.setAdapter(gridViewAdapter);
@@ -152,6 +155,10 @@ public class TenantSearchListFragment extends Fragment {
 
 
         switch(id){
+            case android.R.id.home:
+                if (NavUtils.getParentActivityName(getActivity()) != null) {
+                    NavUtils.navigateUpFromSameTask(getActivity());
+                }
             case R.id.favorites:
                 //favourites activity
                 Intent i = new Intent(getActivity().getApplicationContext(), TenantsFavActivity.class);
