@@ -1,56 +1,30 @@
 package project.team.cmpe277.com.magicrentals1.landlord;
 
-import android.annotation.TargetApi;
-
-import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Point;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Logger;
-/**
- * Created by savani on 4/26/16.
- */
 
-
-
-import project.team.cmpe277.com.magicrentals1.LoginActivity;
 import project.team.cmpe277.com.magicrentals1.R;
 import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
 import project.team.cmpe277.com.magicrentals1.utility.TaskCompletedStatus;
+
+/**
+ * Created by savani on 4/26/16.
+ */
 
 public class PropertiesListLandlordActivity   extends AppCompatActivity
         implements PropertyListLandlordFragment.Callbacks, TaskCompletedStatus
@@ -69,8 +43,7 @@ public class PropertiesListLandlordActivity   extends AppCompatActivity
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setIcon(R.drawable.ic_launcher);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
+
 
         SharedPreferences sharedPreferences = getSharedPreferences("USER",Context.MODE_PRIVATE);
         userid = sharedPreferences.getString("USERID",null);
@@ -163,9 +136,6 @@ public class PropertiesListLandlordActivity   extends AppCompatActivity
                mPropertyList = mPropertyResultLab.getPropertyList();
 
                HashMap<String, String> hm= new HashMap<>();
-               // hm.put("user_id", mPropertyList.get(al.get(0)).getUser_id());
-               // hm.put("user_id", "savaniffwffyyfggq12345");
-               // hm.put("id",sPropertiesResultLab.mPropertyList.get(al.get(0)).getKey());
 
                hm.put("id", mPropertyList.get(selected_line).getKey());
                Log.i(TAG, hm.get("id")+"USersssss.......");

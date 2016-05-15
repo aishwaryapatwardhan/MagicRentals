@@ -1,17 +1,12 @@
 package project.team.cmpe277.com.magicrentals1;
 
 
-import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,25 +16,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
-import project.team.cmpe277.com.magicrentals1.utility.StringManipul;
-import project.team.cmpe277.com.magicrentals1.utility.TaskCompletedStatus;
 import project.team.cmpe277.com.magicrentals1.utility.ThumbnailDownloader;
 
-public class TenantsFavListFragment extends Fragment {
+public class TenantsFavListFragment extends android.support.v4.app.Fragment {
 
     private GridViewAdapter gridViewAdapter;
 

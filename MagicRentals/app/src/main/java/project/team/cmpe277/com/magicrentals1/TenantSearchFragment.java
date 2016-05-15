@@ -1,9 +1,6 @@
 package project.team.cmpe277.com.magicrentals1;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,29 +8,26 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.widget.AdapterView.OnItemSelectedListener;
-//import android.support.v4.app.ActivityCompat;
-import android.app.Activity;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Toast;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -41,8 +35,6 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.places.PlaceLikelihood;
 import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
 import com.google.android.gms.location.places.Places;
-
-import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -52,27 +44,20 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import project.team.cmpe277.com.magicrentals1.landlord.LandlordUtils;
-import project.team.cmpe277.com.magicrentals1.landlord.PropertiesResultLab;
-import project.team.cmpe277.com.magicrentals1.landlord.PropertyListAdapter;
-import project.team.cmpe277.com.magicrentals1.landlord.PropertyListLandlordFragment;
-import project.team.cmpe277.com.magicrentals1.landlord.PropertyModel;
-import project.team.cmpe277.com.magicrentals1.landlord.ResponseModel;
-import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
 import project.team.cmpe277.com.magicrentals1.utility.StringManipul;
-import project.team.cmpe277.com.magicrentals1.utility.TaskCompletedStatus;
+
+//import android.support.v4.app.ActivityCompat;
 
 /**
  * Created by Rekha on 4/26/2016.
  */
-public class TenantSearchFragment extends android.app.Fragment implements AdapterView.OnItemSelectedListener,GoogleApiClient.OnConnectionFailedListener{
+public class TenantSearchFragment extends Fragment implements AdapterView.OnItemSelectedListener,GoogleApiClient.OnConnectionFailedListener{
 
     private EditText locationvalue;
     private EditText keywordvalue;
@@ -192,7 +177,6 @@ public class TenantSearchFragment extends android.app.Fragment implements Adapte
                 if (s.toString().equals(null)) {
                     sp.setCity("");
                 } else {
-
                     //This should be set to current location when no location is mentioned
                     sp.setCity(s.toString());
                 }

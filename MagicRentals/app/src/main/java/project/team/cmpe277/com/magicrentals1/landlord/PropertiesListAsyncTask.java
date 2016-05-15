@@ -1,13 +1,11 @@
 package project.team.cmpe277.com.magicrentals1.landlord;
 
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
@@ -19,9 +17,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 
 import project.team.cmpe277.com.magicrentals1.R;
 
@@ -145,6 +140,8 @@ public class PropertiesListAsyncTask extends AsyncTask<String, Void, Boolean>{
                                 pm.setNickname(changeNull(result.getString("nickname"), false));
                             if (result.has("other_details"))
                                 pm.setOther_details(changeNull(result.getString("other_details"), false));
+                            if(result.has("Images"))
+                                pm.setImages(changeNull(result.getString("Images"),false));
                             mPropertyList.add(pm);
                         }
                     }

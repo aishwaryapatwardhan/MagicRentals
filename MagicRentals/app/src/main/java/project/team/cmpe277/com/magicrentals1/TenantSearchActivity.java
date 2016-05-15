@@ -1,6 +1,5 @@
 package project.team.cmpe277.com.magicrentals1;
 
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -41,8 +40,8 @@ public class TenantSearchActivity extends AppCompatActivity implements TaskCompl
         setSupportActionBar(toolbar);*/
 
 
-        FragmentManager fm = getFragmentManager();
-        fm.beginTransaction().replace(R.id.search_container, new TenantSearchFragment()).commit();
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.search_container, new TenantSearchFragment()).commit();
 
     }
 

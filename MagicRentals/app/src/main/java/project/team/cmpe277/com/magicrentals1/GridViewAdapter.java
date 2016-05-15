@@ -3,6 +3,7 @@ package project.team.cmpe277.com.magicrentals1;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import project.team.cmpe277.com.magicrentals1.utility.DownloadImageTask;
 
 /**
  * Created by Rekha on 4/29/2016.
@@ -45,16 +48,23 @@ public class GridViewAdapter extends ArrayAdapter{
             holder = (ViewHolder)row.getTag();
         }
         GridImageDetailItem item = data.get(position);
-        Bitmap cacheHit = TenantSearchListFragment.mThumbnailThread.checkCache(item.getImageIcon());
-        if(cacheHit != null){
-            holder.image.setImageBitmap(cacheHit);
+
+        if(position == 1){
+            Log.i("GridViewAdapter", "calling DIT");
+            new DownloadImageTask(holder.image).execute(item.getImageIcon());
         }else{
-            TenantSearchListFragment.mThumbnailThread.queueThumbnail(holder.image,item.getImageIcon());
+            Bitmap cacheHit = TenantSearchListFragment.mThumbnailThread.checkCache(item.getImageIcon());
+            if(cacheHit != null){
+                holder.image.setImageBitmap(cacheHit);
+            }else{
+                TenantSearchListFragment.mThumbnailThread.queueThumbnail(holder.image,item.getImageIcon());
+            }
+
+            for( int i = Math.max(0,position-10); i < Math.min(data.size()-1, position+10); i++){
+                TenantSearchListFragment.mThumbnailThread.queuePreload(item.getImageIcon());
+            }
         }
 
-        for( int i = Math.max(0,position-10); i < Math.min(data.size()-1, position+10); i++){
-            TenantSearchListFragment.mThumbnailThread.queuePreload(item.getImageIcon());
-        }
         holder.price.setText(item.getRent());
         holder.address.setText(item.getStreetAddr());
         return row;

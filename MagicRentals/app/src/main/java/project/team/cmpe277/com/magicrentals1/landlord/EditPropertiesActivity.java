@@ -1,16 +1,12 @@
 package project.team.cmpe277.com.magicrentals1.landlord;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -22,7 +18,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import project.team.cmpe277.com.magicrentals1.LoginActivity;
 import project.team.cmpe277.com.magicrentals1.R;
 import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
 import project.team.cmpe277.com.magicrentals1.utility.TaskCompletedStatus;
@@ -45,7 +40,7 @@ public class EditPropertiesActivity extends AppCompatActivity implements TaskCom
     Spinner SpinPropertyType, bath, rooms;
     Button btnSubmit;
     String userid;
-   private static final String TAG = "EditPropertiesActivity";
+    private static final String TAG = "EditPropertiesActivity";
 
 
     @Override

@@ -121,4 +121,19 @@
 
     <string name="url">http://52.53.174.196:3000</string>
 
+
+    <!-- Navigation drawer related strings -->
+    <string name="title_activity_tenant_and_landlord_navigation_drawer">
+        TenantAndLandlordNavigationDrawer
+    </string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="nav_string_search">Search</string>
+    <string name="nav_string_favourites">Favourites</string>
+    <string name="nav_string_create_post">Create Post</string>
+    <string name="nav_string_view_post">View Post</string>
+    <string name="title_activity_pop_up_tenant_landlord">PopUpTenantLandlord</string>
+
 </resources>
