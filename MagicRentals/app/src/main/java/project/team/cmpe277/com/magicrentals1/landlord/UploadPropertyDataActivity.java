@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+import project.team.cmpe277.com.magicrentals1.LoginActivity;
 import project.team.cmpe277.com.magicrentals1.R;
 import project.team.cmpe277.com.magicrentals1.utility.MultipartUtility;
 import project.team.cmpe277.com.magicrentals1.utility.PopUp;
@@ -83,8 +84,8 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
         imageFiles  = new HashMap<>();
         formFields  = new HashMap<>();
         postPicBtn =(ImageButton) findViewById(R.id.postPicButton);
-        SharedPreferences sharedPreferences = getSharedPreferences("USER",Context.MODE_PRIVATE);
-        userid = sharedPreferences.getString("USERID",null);
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
+        userid = preferences.getString(LoginActivity.USERID, null);
         ActionBar actionBar = getSupportActionBar();
      //   actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setIcon(R.drawable.ic_launcher);
