@@ -1,6 +1,6 @@
 package project.team.cmpe277.com.magicrentals1;
 
-import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -17,10 +18,12 @@ import java.util.ArrayList;
 import project.team.cmpe277.com.magicrentals1.landlord.PropertyListAdapter;
 import project.team.cmpe277.com.magicrentals1.landlord.PropertyListLandlordFragment;
 import project.team.cmpe277.com.magicrentals1.landlord.PropertyModel;
+import project.team.cmpe277.com.magicrentals1.utility.PopUpTenantLandlord;
 
 public class TenantAndLandlordNavigationDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, PropertyListLandlordFragment.Callbacks {
 
+    private static final String TAG = "TenantAndLandlordND";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +35,9 @@ public class TenantAndLandlordNavigationDrawer extends AppCompatActivity
         //actionBar.setIcon(R.drawable.ic_launcher);
 
         actionBar.setTitle("Magic Rentals");
+
+        Intent i = new Intent(this, PopUpTenantLandlord.class);
+        startActivityForResult(i,PopUpTenantLandlord.USER_OR_LANDLORD);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -99,8 +105,6 @@ public class TenantAndLandlordNavigationDrawer extends AppCompatActivity
 
 
         }*/ else if (id == R.id.nav_view_posts) {
-
-            FragmentManager fm = getFragmentManager();
             getSupportFragmentManager().beginTransaction().replace(R.id.detailFragmentContainer, new PropertyListLandlordFragment()).commit();
 
         }
@@ -122,6 +126,28 @@ public class TenantAndLandlordNavigationDrawer extends AppCompatActivity
 
     @Override
     public void onCancelClicked(int selected_line, PropertyListAdapter adapter) {
+
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == PopUpTenantLandlord.USER_OR_LANDLORD && data != null){
+            String userOption = data.getStringExtra(PopUpTenantLandlord.USER_OPTION);
+
+            Log.i(TAG,userOption + " this is the user option");
+            Log.i(TAG,PopUpTenantLandlord.TENANT_OPTION + " this is the upload photo option");
+            Log.i(TAG,PopUpTenantLandlord.LANDLORD_OPTION + " this is the take photo option");
+
+            if(userOption.equals(PopUpTenantLandlord.TENANT_OPTION)){
+                Log.i(TAG,"You've clicked upload photo");
+                getSupportFragmentManager().beginTransaction().replace(R.id.detailFragmentContainer, new TenantSearchFragment()).commit();
+            }else if(userOption.equals(PopUpTenantLandlord.LANDLORD_OPTION)){
+                Log.i(TAG,"You've clicked take photo");
+                getSupportFragmentManager().beginTransaction().replace(R.id.detailFragmentContainer, new PropertyListLandlordFragment()).commit();
+            }
+        }
 
     }
 }

@@ -159,7 +159,7 @@
         <activity
             android:name=".utility.PopUpTenantLandlord"
             android:label="@string/title_activity_pop_up_tenant_landlord"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.customThemeTL">
         </activity>
     </application>
 
