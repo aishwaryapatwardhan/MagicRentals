@@ -119,17 +119,17 @@ public class PropertyListLandlordFragment extends ListFragment  {
         mPropertyList = mPropertyResultLab.getPropertyList();
         mPropertyResultLab.getPropertyList().clear();
         listView = getListView();
-       // mPropertyResultLab.getPropertyList().clear();
+        // mPropertyResultLab.getPropertyList().clear();
         madapter = new PropertyListAdapter
                 (getContext(), R.layout.landlord_property_row, mPropertyList);
         // mPropertyListAdapter.notifyDataSetChanged();
-     //   listView.setAdapter(madapter);
+        //   listView.setAdapter(madapter);
         System.out.println("adapter ========"+madapter);
         System.out.println("USERID......... "+userid);
 
         new PropertiesListAsyncTask(userid,this, listView, progress, madapter).execute(userid);
         mPropertyResultLab.getPropertyList().clear();
-     //   mPropertyList = mPropertyResultLab.getPropertyList();
+        //   mPropertyList = mPropertyResultLab.getPropertyList();
         if(madapter == null){
             Log.i(TAG, "null adapter");
         }
@@ -141,17 +141,19 @@ public class PropertyListLandlordFragment extends ListFragment  {
             @Override
             public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
                 System.out.println("Selected item .... " + position+"id  .. "+id);
-
                 if(checked){
                     if(selectedLine == -1) selectedLine = (int) id;
-                    else  selectedLine = (int) id;
+                    else {
+                          int temp = selectedLine;
+                          selectedLine = (int) id;
+                        listView.setItemChecked(temp, false);
+
+                    }
 
                 }else{
                     if(selectedLine != -1)  selectedLine = -1;
                 }
-
             }
-
 
             @Override
             public boolean onCreateActionMode(ActionMode mode, Menu menu) {
@@ -159,9 +161,7 @@ public class PropertyListLandlordFragment extends ListFragment  {
                 MenuInflater inflater = mode.getMenuInflater();
                 inflater.inflate(R.menu.menu_landlord_context, menu);
                 return true;
-
             }
-
             @Override
             public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
                 return false;
@@ -203,7 +203,9 @@ public class PropertyListLandlordFragment extends ListFragment  {
                                             rentedOk = true;
                                             mPropertyList = mCallbacks.onRentedClicked(selectedLine, madapter);
                                             System.out.println("Rented or not -- "+mPropertyList.get(selectedLine).getStatus());
+                                            listView.setItemChecked(selectedLine, false);
                                             madapter.notifyDataSetChanged();
+
 //
                                         }
                                     })
@@ -251,6 +253,7 @@ public class PropertyListLandlordFragment extends ListFragment  {
                                         Log.i("CANCEL","has been called");
                                         mCallbacks.onCancelClicked(selectedLine,madapter);
                                         cancelOk = true;
+                                        listView.setItemChecked(selectedLine, false);
                                         madapter.notifyDataSetChanged();
                                     }
                                 })

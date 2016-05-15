@@ -174,6 +174,7 @@ public class PropertyListAdapter extends ArrayAdapter<PropertyModel> {
     public void notifyDataSetChanged() {
         System.out.println("Notified....");
         super.notifyDataSetChanged();
+
     }
 
 

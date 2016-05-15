@@ -399,9 +399,6 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
         startActivityForResult(Intent.createChooser(uploadPicFromGallery,"Upload Picture"),3);
     }
 
-
-
-
     public void onTaskCompleted(JSONObject jsonObject){
         //
         Log.i(TAG, "Response---- "+jsonObject );
