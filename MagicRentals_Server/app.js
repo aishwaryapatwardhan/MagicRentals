@@ -10,6 +10,7 @@ var routes = require('./routes');
 var users = require('./routes/user');
 var fav = require('./routes/favorites');
 
+
 //postings APIs
 var postings = require('./routes/postings');
 
@@ -31,29 +32,45 @@ app.use(app.router);
 app.get('/', routes.index);
 app.get('/users', users.list);
 
+
 //posting APIs
-app.post('/addPostings', postings.addPost);
-app.get('/getPostsByUser',postings.getAllPosts);
-app.post('/getPostsByUser',postings.getAllPosts);
-app.post('/updatePostings', postings.updatePost);
-app.post('/updateStatus', postings.updateStatus);
-app.post('/updateViewCount', postings.updateViewCount);
-app.get('/updateViewCount', postings.updateViewCount);
-app.get('/searchPosts', postings.searchPosts);
-app.post('/searchPosts', postings.searchPosts);
-app.get('/saveSearch',postings.saveSearchRes);
+
+app.post('/addPostings', postings.addPost_Post);
+app.get('/addPostings', postings.addPost_Get);
+
+app.get('/getPostsByUser',postings.getAllPosts_Get);
+app.post('/getPostsByUser',postings.getAllPosts_Post);
+
+app.post('/updatePostings', postings.updatePost_Post);
+app.get('/updatePostings', postings.updatePost_Get);
+
+app.post('/updateStatus', postings.updateStatus_Post);
+app.get('/updateStatus', postings.updateStatus_Get);
+
+app.post('/updateViewCount', postings.updateViewCount_Post);
+app.get('/updateViewCount', postings.updateViewCount_Get);
+
+app.get('/searchPosts', postings.searchPosts_Get);
+app.post('/searchPosts', postings.searchPosts_Post);
+
+app.get('/saveSearch',postings.saveSearchRes_Get);
+app.post('/saveSearch',postings.saveSearchRes_Post);
+
+
 //login APIs
 app.post('/addUser', users.addUser);
 
 
 //Fav APIs
-//app.get('/getAllFav', fav.getAllFav);
-app.post('/getAllFav', fav.getAllFav);
-//app.post('/addFav',fav.addFav);
-app.get('/addFav',fav.addFav);
+app.get('/getAllFav', fav.getAllFav_Get);
+app.post('/getAllFav', fav.getAllFav_Post);
+
+app.post('/addFav',fav.addFav_Post);
+app.get('/addFav',fav.addFav_Get);
+
 //app.post('/removeFav', fav.removeFav);
-app.get('/removeFav', fav.removeFav);
-app.get('/checkFav',fav.checkFav);
+app.get('/removeFav', fav.removeFav_Get);
+app.post('/removeFav', fav.removeFav_Post);
 
 //test API
 app.get('/test', routes.test123);

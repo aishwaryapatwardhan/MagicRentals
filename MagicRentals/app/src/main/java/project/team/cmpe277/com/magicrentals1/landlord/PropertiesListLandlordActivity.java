@@ -5,6 +5,10 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -18,11 +22,16 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -54,6 +63,7 @@ public class PropertiesListLandlordActivity   extends AppCompatActivity
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_properties_landlord);
         ActionBar actionBar = getSupportActionBar();
@@ -64,13 +74,9 @@ public class PropertiesListLandlordActivity   extends AppCompatActivity
 
         SharedPreferences sharedPreferences = getSharedPreferences("USER",Context.MODE_PRIVATE);
         userid = sharedPreferences.getString("USERID",null);
-
-//
-
         Fragment fragment = PropertyListLandlordFragment.getFragment(userid);
-       // fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
+        // fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
-
     }
 
     @Override
@@ -118,23 +124,23 @@ public class PropertiesListLandlordActivity   extends AppCompatActivity
         }
     }
            @Override
-           public  ArrayList<PropertyModel> onRentedClicked(ArrayList<Integer> selected_line, PropertyListAdapter adapter){
+           public  ArrayList<PropertyModel> onRentedClicked(int selected_line, PropertyListAdapter adapter){
                PropertiesResultLab mPropertyResultLab;
                mPropertyResultLab = PropertiesResultLab.getPropertiesResultLab(this);
                mPropertyList = mPropertyResultLab.getPropertyList();
-               System.out.println("Inside callback"+ mPropertyList.size()+"first--- "+mPropertyList.get(0));
+              // System.out.println("Inside callback"+ mPropertyList.size()+"first--- "+mPropertyList.get(0));
                HashMap<String, String> hm= new HashMap<>();
                // hm.put("user_id", mPropertyList.get(al.get(0)).getUser_id());
                // hm.put("user_id", "savaniffwffyyfggq12345");
                // hm.put("id",sPropertiesResultLab.mPropertyList.get(al.get(0)).getKey());
 
-               hm.put("id", mPropertyList.get(selected_line.get(0)).getKey());
+               hm.put("id", mPropertyList.get(selected_line).getKey());
                Log.i(TAG, hm.get("id")+"USersssss.......");
                hm.put("Status","Rented");
-               hm.put("email",mPropertyList.get(selected_line.get(0)).getEmail());
+               hm.put("email",mPropertyList.get(selected_line).getEmail());
                // String url = "http://54.153.2.150:3000/updateStatus";
                String url = getString(R.string.url)+"/updateStatus";
-               PropertyModel pm =  mPropertyList.get(selected_line.get(0));
+               PropertyModel pm =  mPropertyList.get(selected_line);
                pm.setStatus("Rented");
 
 
@@ -151,24 +157,24 @@ public class PropertiesListLandlordActivity   extends AppCompatActivity
            }
 
            @Override
-           public void onCancelClicked(ArrayList<Integer> selected_line, PropertyListAdapter adapter) {
+           public void onCancelClicked(int selected_line, PropertyListAdapter adapter) {
                PropertiesResultLab mPropertyResultLab;
                mPropertyResultLab = PropertiesResultLab.getPropertiesResultLab(this);
                mPropertyList = mPropertyResultLab.getPropertyList();
-               System.out.println("Inside callback"+ mPropertyList.size()+"first--- "+mPropertyList.get(0));
+
                HashMap<String, String> hm= new HashMap<>();
                // hm.put("user_id", mPropertyList.get(al.get(0)).getUser_id());
                // hm.put("user_id", "savaniffwffyyfggq12345");
                // hm.put("id",sPropertiesResultLab.mPropertyList.get(al.get(0)).getKey());
 
-               hm.put("id", mPropertyList.get(selected_line.get(0)).getKey());
+               hm.put("id", mPropertyList.get(selected_line).getKey());
                Log.i(TAG, hm.get("id")+"USersssss.......");
                hm.put("Status","Cancelled");
-               hm.put("email",mPropertyList.get(selected_line.get(0)).getEmail());
+               hm.put("email",mPropertyList.get(selected_line).getEmail());
                // String url = "http://54.153.2.150:3000/updateStatus";
                String url = getString(R.string.url)+"/updateStatus";
                //PropertyModel pm =  mPropertyList.get();
-               mPropertyList.remove(selected_line.get(0));
+               mPropertyList.remove(selected_line);
 
                new MultipartUtilityAsyncTask(PropertiesListLandlordActivity.this, hm, null).execute(url);
              //  return mPropertyList;

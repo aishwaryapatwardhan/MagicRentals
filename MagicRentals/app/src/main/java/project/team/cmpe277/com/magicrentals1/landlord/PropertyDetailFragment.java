@@ -76,7 +76,7 @@ public class PropertyDetailFragment extends Fragment {
         View view = inflater.inflate(R.layout.landlord_property_detail_fragment, container, false);
       //  String userid = getArguments().getString("USERID");
       //  System.out.println("userid  ... " +userid);
-        propertyImage = (ImageView)view.findViewById(R.id.house_image);
+      //  propertyImage = (ImageView)view.findViewById(R.id.house_image);
         viewcountV = (TextView)view.findViewById(R.id.view_count_detail);
         addressV = (TextView)view.findViewById(R.id.address_detail);
         streetV = (TextView)view.findViewById(R.id.street_detail);

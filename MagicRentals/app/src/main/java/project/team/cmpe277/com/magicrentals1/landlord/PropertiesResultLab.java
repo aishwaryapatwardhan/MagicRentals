@@ -27,7 +27,7 @@ public class PropertiesResultLab implements TaskCompletedStatus{
 
     private PropertiesResultLab(Context appContext){
         mAppContext = appContext;
-        mPropertyList = new ArrayList<>();
+        mPropertyList = new ArrayList<PropertyModel>();
 
        // mPropertyList = retrieveProperties();
 
@@ -45,49 +45,6 @@ public class PropertiesResultLab implements TaskCompletedStatus{
         return  sPropertiesResultLab;
     }
 
-    public  boolean rented(ArrayList<Integer> al, Context context){
-        //call service..
-
-       PropertiesResultLab lPropResult =   PropertiesResultLab.getPropertiesResultLab(context);
-         ArrayList<PropertyModel> lPropertyList;
-        System.out.println("Rented......   "+sPropertiesResultLab.mPropertyList.get(1).nickname+
-        "posiyion  ... "+al.get(0));
-        HashMap<String, String> hm= new HashMap<>();
-       // hm.put("user_id", mPropertyList.get(al.get(0)).getUser_id());
-       // hm.put("user_id", "savaniffwffyyfggq12345");
-       // hm.put("id",sPropertiesResultLab.mPropertyList.get(al.get(0)).getKey());
-
-        hm.put("user_id", sPropertiesResultLab.mPropertyList.get(al.get(0)).getKey());
-        Log.i(TAG, hm.get("user_id")+"USersssss.......");
-        hm.put("Status","Rented");
-       // String url = "http://54.153.2.150:3000/updateStatus";
-        String url = "http://192.168.1.173:3000/updateStatus";
-       // new MultipartUtilityAsyncTask(context, hm, null).execute(url);
-        Boolean b = true;
-        return b;
-
-    }
-
-    public boolean cancel(ArrayList<Integer> al, Context context){
-        HashMap<String, String> hm= new HashMap<>();
-        hm.put("user_id", sPropertiesResultLab.mPropertyList.get(al.get(0)).getKey());
-        Log.i(TAG, hm.get("user_id")+"USersssss.......");
-      //  hm.put("_id",sPropertiesResultLab.mPropertyList.get(al.get(0)).getKey());
-        hm.put("Status","Cancelled");
-       // String url = "http://54.153.2.150:3000/updateStatus";
-        String url = "http://192.168.1.173:3000/updateStatus";
-       // new MultipartUtilityAsyncTask(hm, null).execute(url);
-        new MultipartUtilityAsyncTask(context, hm, null).execute(url);
-        Boolean b = true;
-        int a = al.get(0);
-        System.out.println("array list length... "+al.size()+ "arrray value ...  "+al.get(0));
-        Log.i(TAG, "value of index --- "+a);
-        PropertyModel pm = sPropertiesResultLab.mPropertyList.remove(a);
-        Log.i(TAG, "value of deleted .... "+pm.getNickname());
-
-        return b;
-
-    }
 
     public ArrayList<PropertyModel> getPropertyList(){
         return mPropertyList;

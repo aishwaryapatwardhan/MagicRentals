@@ -3,6 +3,7 @@
     <item
         android:id="@+id/editM"
         android:title="@string/editproperty"
+        android:icon="@android:drawable/ic_menu_edit"
 
         />
     <item
