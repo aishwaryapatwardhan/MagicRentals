@@ -20,7 +20,7 @@ private static final String TAG = "TenFavLA";
             super.onCreate(savedInstanceState);
 
             setContentView(R.layout.searchlistactivity_tenant);
-            SharedPreferences preferences = getApplicationContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
+            SharedPreferences preferences = getApplicationContext().getSharedPreferences("USER", Context.MODE_PRIVATE);
             userid = preferences.getString(LoginActivity.USERID,null);
             //Log.i(TAG, userid);
 

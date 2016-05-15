@@ -26,6 +26,7 @@ import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 
+import project.team.cmpe277.com.magicrentals1.LoginActivity;
 import project.team.cmpe277.com.magicrentals1.R;
 import project.team.cmpe277.com.magicrentals1.utility.ThumbnailDownloader;
 
@@ -111,7 +112,7 @@ public class PropertyListLandlordFragment extends ListFragment  {
         mPropertyResultLab = PropertiesResultLab.getPropertiesResultLab(getContext());
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("USER",Context.MODE_PRIVATE);
-        String userid = sharedPreferences.getString("USERID",null);
+        String userid = sharedPreferences.getString(LoginActivity.USERID,null);
         mPropertyList = mPropertyResultLab.getPropertyList();
         mPropertyResultLab.getPropertyList().clear();
         listView = getListView();
@@ -250,7 +251,7 @@ public class PropertyListLandlordFragment extends ListFragment  {
                                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         Log.i("CANCEL","has been called");
-                                        mCallbacks.onCancelClicked(selectedLine,madapter);
+                                        mCallbacks.onCancelClicked(selectedLine, madapter);
                                         cancelOk = true;
                                         listView.setItemChecked(selectedLine, false);
                                         madapter.notifyDataSetChanged();
@@ -269,7 +270,7 @@ public class PropertyListLandlordFragment extends ListFragment  {
                         break;
 
                     case R.id.add_property:
-                        Log.i("ADDPROPERty","calling activity");
+                        Log.i("ADDPROPERty", "calling activity");
                         Intent g = new Intent(getActivity().getApplicationContext(), UploadPropertyDataActivity.class);
                         startActivity(g);
 
