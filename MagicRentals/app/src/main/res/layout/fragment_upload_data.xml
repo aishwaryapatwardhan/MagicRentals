@@ -4,26 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="project.team.cmpe277.com.magicrentals1.landlord.UploadPropertyDataActivity">
+    tools:context="project.team.cmpe277.com.magicrentals1.landlord.UploadPropertyDataActivity"
+    >
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_margin="10dp">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/basicinfo"
-                />
-        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,10 +29,9 @@
                 android:src="@android:drawable/ic_menu_camera"/>
         </LinearLayout>
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="10dp">
+            android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -48,25 +39,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/basicinfo"
-                    android:layout_margin="10dp"
                     />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/input_name"
-                    android:layout_margin="10dp"/>
+
                 <EditText
                     android:id= "@+id/nickname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:ems="14" />
+                    android:paddingBottom="20dp"
+                    android:hint="Property Name" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -74,115 +60,83 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/propertytype"
-                    android:layout_margin="5dp"/>
+                    android:text="@string/propertytype"/>
                 <Spinner
                     android:id="@+id/property_type"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:entries="@array/property_type"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"/>
+                    android:entries="@array/property_type" />
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDarkU"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/address"
-                    android:layout_margin="10dp"
                     android:visibility="visible"
                     />
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPostalAddress"
-                    android:ems="10"
-                    android:id="@+id/address"
-                    android:layout_margin="10dp"
-                    android:layout_weight="1"
-                    android:visibility="invisible"
-                    />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/street"
-                    android:layout_margin="10dp"/>
+
                 <EditText
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPostalAddress"
-                    android:ems="10"
                     android:id="@+id/street"
-                    android:layout_margin="10dp"
+                    android:paddingBottom="20dp"
+                    android:hint="Street Name"
                     />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/city"
-                    android:layout_margin="10dp"/>
 
                 <EditText
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPostalAddress"
-                    android:ems="10"
                     android:id="@+id/city"
-                    android:layout_margin="10dp"/>
+                    android:paddingBottom="20dp"
+                    android:hint="City"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/state"
-                    android:layout_margin="10dp"/>
 
                 <EditText
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPostalAddress"
-                    android:ems="10"
                     android:id="@+id/state"
-                    android:layout_margin="10dp"/>
+                    android:paddingBottom="20dp"
+                    android:hint="State"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/zipcode"
-                    android:layout_margin="10dp"/>
-
                 <EditText
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:ems="10"
+                    android:paddingBottom="20dp"
                     android:id="@+id/zipcode"
-                    android:layout_margin="10dp" />
+                    android:hint="Zipcode" />
             </LinearLayout>
-
-
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height=".7dp"
-                    android:background="@android:color/darker_gray"/>
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimaryDarkU"/>
             </LinearLayout>
 
             <LinearLayout
@@ -191,28 +145,19 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/propertydetails"
-
-                    android:layout_weight="1"
-                    android:layout_margin="10dp"/>
+                    android:text="@string/propertydetails" />
 
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/area"
-                    android:layout_margin="10dp"/>
-
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:ems="6"
                     android:id="@+id/area"
-                    android:layout_margin="5dp"
+                    android:paddingBottom="20dp"
+                    android:hint="Area"
                     />
                 <TextView
                     android:layout_width="wrap_content"
@@ -225,57 +170,41 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/roomscount"
-                    android:layout_margin="2dp"/>
+                    android:text="@string/roomscount"/>
 
                 <Spinner
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:entries="@array/rooms"
-                    android:ems="1"
-                    android:id="@+id/roomscount"
-                    android:layout_margin="2dp"/>
+                    android:id="@+id/roomscount"/>
 
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/bathroomcount"
-                    android:layout_margin="2dp"/>
+                    android:text="@string/bathroomcount"/>
 
                 <Spinner
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:entries="@array/rooms"
-                    android:ems="1"
                     android:id="@+id/bathroomcount"
-                    android:layout_margin="2dp"
                     />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/rent"
-                    android:layout_margin="10dp"
-                    android:layout_gravity="left"/>
 
                 <EditText
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:ems="10"
                     android:id="@+id/rent"
+                    android:hint="Rent (USD)"
+                    android:paddingBottom="20dp"
                     android:layout_gravity="right"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                     />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/curr"
-                    android:layout_margin="10dp"/>
+
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -289,89 +218,69 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/contactinfo"
-                    android:layout_margin="10dp"/>
+                    android:text="@string/contactinfo"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/phone"
-                    android:layout_margin="10dp"/>
+
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-
+                    android:hint="Mobile"
+                    android:paddingBottom="20dp"
                     android:id="@+id/phone"
-                    android:layout_margin="10dp"
                     />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/email"
-                    android:layout_margin="10dp"/>
 
                 <EditText
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
-                    android:ems="20"
+                    android:paddingBottom="20dp"
                     android:id="@+id/email"
-                    android:layout_margin="10dp"
+                    android:hint="Email Id"
                     />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/description"
-                    android:layout_margin="10dp"/>
+
 
                 <EditText
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ems="20"
+                    android:paddingBottom="20dp"
                     android:id="@+id/description"
-                    android:layout_margin="10dp"
+                    android:hint="Description"
                     />
             </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/other_details"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/other_details"
-                    android:layout_margin="10dp"/>
+
                 <EditText
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ems="20"
+                    android:paddingBottom="20dp"
                     android:id="@+id/other_details"
-                    android:layout_margin="10dp"
+                    android:hint="Extra Details"
                     />
             </LinearLayout>
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/submit1"
-                android:clickable="true"
-                android:text="@string/submit"
-                />
+
         </LinearLayout>
         </LinearLayout>
     </ScrollView>

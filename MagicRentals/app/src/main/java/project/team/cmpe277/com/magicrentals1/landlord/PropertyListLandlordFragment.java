@@ -49,9 +49,8 @@ import project.team.cmpe277.com.magicrentals1.utility.ThumbnailDownloader;
  */
 public class PropertyListLandlordFragment extends ListFragment  {
     private static final String TAG = "ListLandlordFragment";
-     PropertyListAdapter madapter ;
-     ProgressBar progress;
-
+    PropertyListAdapter madapter ;
+    ProgressBar progress;
     ListView listView;
     ArrayList<PropertyModel> mPropertyList;
     PropertiesResultLab mPropertyResultLab;
@@ -62,8 +61,9 @@ public class PropertyListLandlordFragment extends ListFragment  {
     private Boolean rentedOk = false;
     private Boolean cancelOk = false;
     ArrayList<Integer> selected_line_al = new ArrayList<>();
+    int selectedLine = -1;
 
-  //  private static final String TAG = "ListFragmentL";
+    //  private static final String TAG = "ListFragmentL";
     static ThumbnailDownloader<ImageView> mThumbnailThread;
 
     public PropertyListLandlordFragment() {
@@ -91,10 +91,6 @@ public class PropertyListLandlordFragment extends ListFragment  {
         });
         mThumbnailThread.start();
         mThumbnailThread.getLooper();
-
-
-
-
     }
 
     @Override
@@ -109,70 +105,53 @@ public class PropertyListLandlordFragment extends ListFragment  {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-      View v = inflater.inflate(R.layout.landlord_properties_fragment, container, false);
+        View v = inflater.inflate(R.layout.landlord_properties_fragment, container, false);
         progress = (ProgressBar) v.findViewById(R.id.progressbar);
-
         return v;
-
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-
         mPropertyResultLab = PropertiesResultLab.getPropertiesResultLab(getContext());
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("USER",Context.MODE_PRIVATE);
         String userid = sharedPreferences.getString("USERID",null);
+        mPropertyList = mPropertyResultLab.getPropertyList();
         mPropertyResultLab.getPropertyList().clear();
+        listView = getListView();
+       // mPropertyResultLab.getPropertyList().clear();
+        madapter = new PropertyListAdapter
+                (getContext(), R.layout.landlord_property_row, mPropertyList);
+        // mPropertyListAdapter.notifyDataSetChanged();
+     //   listView.setAdapter(madapter);
+        System.out.println("adapter ========"+madapter);
         System.out.println("USERID......... "+userid);
 
-        //temp changes to pass UID
-//        if(userid.isEmpty()){
-
-  //      }
-//
-
-
-//        HashMap<String, String> hm= new HashMap<>();
-//        hm.put("user_id","savani");
-////
-//        String url = "http://192.168.1.173:3000/getPostsByUser";
-//        //    new MultipartUtilityAsyncTask(hm, null).execute(url);
-//        new MultipartUtilityAsyncTask(this.getContext(), hm, null).execute(url);
-        listView = getListView();
-        new PropertiesListAsyncTask(userid,this, listView, progress).execute(userid);
-        mPropertyList = mPropertyResultLab.getPropertyList();
-        madapter = (PropertyListAdapter) getListAdapter();
-
+        new PropertiesListAsyncTask(userid,this, listView, progress, madapter).execute(userid);
+        mPropertyResultLab.getPropertyList().clear();
+     //   mPropertyList = mPropertyResultLab.getPropertyList();
         if(madapter == null){
             Log.i(TAG, "null adapter");
         }
-        madapter = (PropertyListAdapter) this.getListAdapter();
-        if(madapter == null){
-            Log.i(TAG, "null adapter");
-        }
-      //test
-//         madapter = new PropertyListAdapter
-//                (getContext(), R.layout.landlord_property_row, mPropertyList);
-//          mPropertyListAdapter.notifyDataSetChanged();
-//        listView.setAdapter(mPropertyListAdapter);
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
 
-
-
-       listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-       // listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        // listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
 
             @Override
             public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
                 System.out.println("Selected item .... " + position+"id  .. "+id);
+
                 if(checked){
-                  selected_line_al.add((int)id);
+                    if(selectedLine == -1) selectedLine = (int) id;
+                    else  selectedLine = (int) id;
+
                 }else{
-                    selected_line_al.remove((int)id);
+                    if(selectedLine != -1)  selectedLine = -1;
                 }
+
             }
+
 
             @Override
             public boolean onCreateActionMode(ActionMode mode, Menu menu) {
@@ -191,8 +170,8 @@ public class PropertyListLandlordFragment extends ListFragment  {
             @Override
             public boolean onActionItemClicked(final ActionMode mode, MenuItem item) {
 
-               // PropertyListAdapter pla = (PropertyListAdapter) getListAdapter();;
-               // PropertyListAdapter pla = ListView
+                // PropertyListAdapter pla = (PropertyListAdapter) getListAdapter();;
+                // PropertyListAdapter pla = ListView
 
                 PropertiesResultLab resultsLab = PropertiesResultLab.
                         getPropertiesResultLab(getActivity());
@@ -211,38 +190,27 @@ public class PropertyListLandlordFragment extends ListFragment  {
                 switch (item.getItemId()) {
                     case R.id.rentedM:
                         System.out.println("inside rented.......");
-                        System.out.println("selected line before OK..  "+selected_line_al.size());
+                        System.out.println("selected line before OK..  "+selectedLine);
 
-                        PropertyModel pm = new PropertyModel();
-                        pm = mPropertyList.get(selected_line_al.get(0));
+                        PropertyModel pm = mPropertyList.get(selectedLine);
                         if(pm.getStatus().equals("Created")) {
-
                             AlertDialog.Builder builder = new AlertDialog.Builder(listView.getContext());
-
-
-
                             builder.setMessage(R.string.alertrented)
                                     .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
                                             //
                                             Log.i(TAG, "Inisde OK");
-
-
                                             rentedOk = true;
-                                            mPropertyList = mCallbacks.onRentedClicked(selected_line_al, madapter);
-//                                        madapter = new PropertyListAdapter
-//                                                (getContext(), R.layout.landlord_property_row, mPropertyList);
-//                                        madapter.notifyDataSetChanged();
-//                                        listView.setAdapter(madapter);
-                                            // Boolean b = resultsLab.rented(selected_line_al, listView.getContext());
+                                            mPropertyList = mCallbacks.onRentedClicked(selectedLine, madapter);
+                                            System.out.println("Rented or not -- "+mPropertyList.get(selectedLine).getStatus());
+                                            madapter.notifyDataSetChanged();
+//
                                         }
                                     })
                                     .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
                                             Log.i(TAG, "Inisde Cancel");
-                                            //
-                                            // finish();
-                                            // rentedOk = false;
+
                                         }
                                     });
                             builder.setCancelable(true);
@@ -251,7 +219,7 @@ public class PropertyListLandlordFragment extends ListFragment  {
                             Log.i(TAG, "after button alert.. ");
                         }else if(pm.getStatus().equals("Rented")){
                             android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder
-                                                                            (listView.getContext()).create();
+                                    (listView.getContext()).create();
                             alertDialog.setTitle("Error");
                             alertDialog.setMessage("Property is already rented.");
                             alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_NEUTRAL, "OK",
@@ -268,21 +236,12 @@ public class PropertyListLandlordFragment extends ListFragment  {
                         break;
                     case R.id.editM:
                         Bundle bundle = new Bundle();
-                        bundle.putInt("selectedLine", selected_line_al.get(0));
+                        bundle.putInt("selectedLine", selectedLine);
                         Intent i = new Intent(getActivity(), EditPropertiesActivity.class);
                         i.putExtras(bundle);
                         startActivity(i);
                         break;
-//                        Intent i = new Intent(listView.getApplicationContext(), UploadPropertyDataActivity.class);
-//                        i.putExtra("USERID", userid);
-//                        startActivity(i);
 
-                        //bundle.putString("USERID", userid);
-//                        EditPropertiesFragment fragment = new EditPropertiesFragment();
-//                        fragment.setArguments(bundle);
-//                        // fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
-//                        getActivity().getSupportFragmentManager().beginTransaction().
-//                                replace(R.id.fragmentContainer, fragment).commit();
                     case R.id.cancelM:
                         //resultsLab.cancel(selected_line_al);
                         AlertDialog.Builder buildercan = new AlertDialog.Builder(listView.getContext());
@@ -290,8 +249,9 @@ public class PropertyListLandlordFragment extends ListFragment  {
                                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         Log.i("CANCEL","has been called");
-                                        mCallbacks.onCancelClicked(selected_line_al,madapter);
+                                        mCallbacks.onCancelClicked(selectedLine,madapter);
                                         cancelOk = true;
+                                        madapter.notifyDataSetChanged();
                                     }
                                 })
                                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -303,9 +263,7 @@ public class PropertyListLandlordFragment extends ListFragment  {
                         buildercan.setCancelable(true);
                         buildercan.create();
                         buildercan.show();
-                        if (cancelOk) {
-                            Boolean b = resultsLab.cancel(selected_line_al, listView.getContext());
-                        }
+
                         break;
 
                 }
@@ -322,17 +280,17 @@ public class PropertyListLandlordFragment extends ListFragment  {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 System.out.println("mListView  called........ "+position+"id === "+id+"view... "+view
-                +"size === "+mPropertyList.size());
+                        +"size === "+mPropertyList.size());
                 ;
-               // PropertyModel prop = (PropertyModel) parent.getItemAtPosition(position);
+                // PropertyModel prop = (PropertyModel) parent.getItemAtPosition(position);
                 PropertyModel prop = new PropertyModel();
 
                 prop = mPropertyList.get((int)id);
 
-               // System.out.println("KEy" +prop.getKey();
+                // System.out.println("KEy" +prop.getKey();
 
 
-                 mCallbacks.onPropertyClicked(prop);
+                mCallbacks.onPropertyClicked(prop);
             }
 
         });
@@ -354,9 +312,9 @@ public class PropertyListLandlordFragment extends ListFragment  {
 
     public interface Callbacks{
         void onPropertyClicked(PropertyModel property);
-        ArrayList<PropertyModel> onRentedClicked(ArrayList<Integer> selected_lines,
+        ArrayList<PropertyModel> onRentedClicked(int selected_line,
                                                  PropertyListAdapter adapter);
-        void onCancelClicked(ArrayList<Integer> selected_lines, PropertyListAdapter adapter);
+        void onCancelClicked(int selected_line, PropertyListAdapter adapter);
     }
 
     @Override
@@ -370,77 +328,14 @@ public class PropertyListLandlordFragment extends ListFragment  {
         super.onDetach();
         mCallbacks = null;
     }
-   public void get( ArrayList<PropertyModel>  props){
+    public void get( ArrayList<PropertyModel>  props){
         mPropertyList = props;
     }
-
-//    public void onTaskCompleted(JSONObject jsonObject){
-//        //
-//        //Log.i(TAG, "Response---- "+jsonObject );
-//        System.out.println("Response......"+jsonObject);
-//        ArrayList<PropertyModel> tempPropertyList;
-//        PropertyModel p = new PropertyModel();
-//        p.setKey("001");
-//        p.setNickname("First House");
-//        p.setStreet("2u28 duu");
-//        p.setCity("San Jose");
-//        p.setState("CA");
-//        p.setZip("83993");
-//        p.setView_count("10");
-//        p.setProperty_type("Villa");
-//        p.setBath("2");
-//        p.setView_count("123");
-//        p.setRent("12333");
-//        p.setArea("2222");
-//        p.setBath("2");
-//        p.setRoom("3");
-//        p.setDescription("sjsjsjs ejej");
-//        tempPropertyList = new ArrayList<>();
-//        mPropertyList.add(p);
-//        PropertyModel p1 = new PropertyModel();
-//        p1.setKey("002");
-//        p1.setNickname("Sec House");
-//        p1.setStreet("2u2jj8 duu");
-//        p1.setCity("San Joskke");
-//        p1.setState("CAjj");
-//        p1.setZip("8j993");
-//        p1.setView_count("39");
-//        p1.setView_count("100");
-//        p1.setRent("12333");
-//        p1.setArea("2222");
-//        p1.setBath("2");
-//        p1.setRoom("3");
-//        p1.setDescription("hi jjfjf lfo");
-//        // tempPropertyList = new ArrayList<>();
-//        mPropertyList.add(p1);
-//
-//        PropertyModel p3 = new PropertyModel();
-//        p3.setKey("003");
-//        p3.setNickname("Third House");
-//        p3.setStreet("2u2jejjjjj8 duu");
-//        p3.setCity("Seeean Joskke");
-//        p3.setState("C ejAjj");
-//        p3.setZip("82kkj993");
-//        p3.setView_count("334");
-//        p3.setView_count("144");
-//        p3.setRent("12333");
-//        p3.setArea("2222");
-//        p3.setBath("2");
-//        p3.setRoom("3");
-//        p3.setDescription("sjkkks dfj heii oo");
-//        // tempPropertyList = new ArrayList<>();
-//        mPropertyList.add(p3);
-//
-//      //  mPropertyList = tempPropertyList;
-//        //return tempPropertyList;
-//
-//    }
-
 
     @Override
     public void onResume() {
         super.onResume();
-     //   madapter.notifyDataSetChanged();
+        madapter.notifyDataSetChanged();
     }
 }
 

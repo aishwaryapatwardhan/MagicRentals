@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -102,18 +104,18 @@ public class EditPropertiesActivity extends AppCompatActivity implements TaskCom
         rooms.setSelection(Integer.parseInt(mPropertyModel.getBath())-1);
        // spinProprtyType.setSelection(3);//roomArr.indexOf(mPropertyModel.getBath()));
         //System.out.println("Hello    ......................."+property);
-        btnSubmit = (Button) findViewById(R.id.submit1);
-        btnSubmit.setText("Save");
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Read the data from the form and pass it to the backend service
-
-                //  Spinner spinProprtyType = (Spinner)v.findViewById(R.id.property_type);
-                // property.setProperty_type(spinProprtyType.getSelectedItem().toString());
 
 
-                // System.out.println("isndie jdjjj url ");
+
+
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch(id) {
+            case R.id.submit1:
                 isValid = true;
 
                 validate(area);
@@ -156,22 +158,30 @@ public class EditPropertiesActivity extends AppCompatActivity implements TaskCom
                 HashMap<String, String> hm = LandlordUtils.serialize(mPropertyModel);
 
                 hm.put("_id", mPropertyModel.getKey());
-          // HashMap<String, File> file = new HashMap<String, File>();
+                // HashMap<String, File> file = new HashMap<String, File>();
                 String url = getString(R.string.url)+"/updatePostings";
                 new MultipartUtilityAsyncTask(EditPropertiesActivity.this,hm, null).execute(url);
-             //   PropertiesResultLab.getPropertiesResultLabNew(getApplicationContext());
+                //   PropertiesResultLab.getPropertiesResultLabNew(getApplicationContext());
 //                Intent i = new Intent(getApplicationContext(), PropertiesListLandlordActivity.class);
 //                i.putExtra("USERID", userid);
 //                startActivity(i);
                 EditPropertiesActivity.this.finish();
+                break;
+            case R.id.cancelform:
+                this.finish();
+                break;
+        }
 
-            }
-        } );
 
-
-
-
+        return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_addproperty, menu);
+        return true;
+    }
+
     void validate(EditText etext){
         if (etext.getText().toString().length() == 0 ){
             isValid = false;
