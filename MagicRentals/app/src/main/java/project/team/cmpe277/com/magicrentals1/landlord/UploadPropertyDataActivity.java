@@ -10,7 +10,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
@@ -40,7 +39,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 import project.team.cmpe277.com.magicrentals1.R;
 import project.team.cmpe277.com.magicrentals1.utility.MultipartUtility;
@@ -219,7 +217,7 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
                             getPropertiesResultLab(getApplicationContext());
                     ArrayList<PropertyModel> propertyList = propertiesResultLab.getPropertyList();
 
-                    uploadFile = new File(getExternalFilesDir(null) , "userid" + SystemClock.currentThreadTimeMillis() + ".png");
+                    uploadFile = new File(getFilesDir() , "userid" + SystemClock.currentThreadTimeMillis() + ".png");
 
                     OutputStream out = null;
                     try {
@@ -241,16 +239,7 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
                     property.setKey(key);
                     propertyList.add(property);
 
-                    AlertDialog alertDialog = new AlertDialog.Builder(UploadPropertyDataActivity.this).create();
-                    alertDialog.setTitle("Success");
-                    alertDialog.setMessage("Property created.");
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    UploadPropertyDataActivity.this.finish();
-                                }
-                            });
-                    alertDialog.show();
+
 
                     //   UploadPropertyDataActivity.this.finish();
 
@@ -348,8 +337,10 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
 
         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timestamp + "_";
-        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
+      /* File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(imageFileName, ".jpg", storageDir);*/
+        File image = new File(getExternalFilesDir(null) , userid + timestamp + ".jpg");
+     //   File test = new File(getFilesDir(),timestamp);
         mCurrentPhotoPath = "file:" + image.getAbsolutePath();
         return image;
     }
@@ -420,12 +411,13 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
 
     private class MultipartRequest extends AsyncTask<String , Void , JSONObject > {
 
-
+        JSONObject httpStatus;
 
         @Override
         protected JSONObject doInBackground(String... strings) {
             String charset = "UTF-8";
 
+                httpStatus = new JSONObject();
           //  String requestURL = "http://10.0.2.2:3000/addPostings";
               String requestURL = strings[0];
             try {
@@ -467,25 +459,47 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
 
                // multipart.addFilePart("fileUpload", uploadFile);
 
-                List<String> response = multipart.finish();
+                String response = multipart.finishString();
 
-                System.out.println("SERVER REPLIED:");
-                String responseString = "";
-                String path= null;
-                for (String line : response) {
-                    System.out.println(line);
+                if( response != null){
+                    try {
+                        httpStatus = new JSONObject(response);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                 }
+
+                Log.i("Multipart",httpStatus.toString());
 
             } catch (IOException ex) {
                 System.err.println(ex);
             }
 
-            return null;
+            return httpStatus;
         }
 
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
             super.onPostExecute(jsonObject);
+
+            try {
+                if((jsonObject.has("code")) && (jsonObject.getInt("code") == 200)){
+                    AlertDialog alertDialog = new AlertDialog.Builder(UploadPropertyDataActivity.this).create();
+                    alertDialog.setTitle("Success");
+                    alertDialog.setMessage("Property created.");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    UploadPropertyDataActivity.this.finish();
+                                }
+                            });
+                    alertDialog.show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
         }
     }
