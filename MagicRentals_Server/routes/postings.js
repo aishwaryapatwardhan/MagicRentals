@@ -45,7 +45,7 @@ exports.addPost_Post = function(req, res){
 	 	var Mobile = fields.Mobile;
 	 	var description = fields.description;
 		
-		if(files){
+		if(files || files != null || files.fileUpload){
 			var readStream  = fs.createReadStream(files.fileUpload.path);
 			var filePath  = '../public/images/' + files.fileUpload.name;
 			var writeStream = fs.createWriteStream(filePath);
