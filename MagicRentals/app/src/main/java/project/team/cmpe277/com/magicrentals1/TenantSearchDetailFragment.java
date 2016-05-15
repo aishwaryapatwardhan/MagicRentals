@@ -85,7 +85,7 @@ public class TenantSearchDetailFragment extends android.support.v4.app.Fragment{
         gridImageDetailItem = PropSingleton.get(getActivity()).getGridImageDetailItem(refid);
         myref = FavPropSingleton.get(this.getActivity()).createHaspMap();
         SharedPreferences preferences = getActivity().getApplicationContext().getSharedPreferences("USER", Context.MODE_PRIVATE);
-        userid = preferences.getString("USERID", null);
+        userid = preferences.getString(LoginActivity.USERID, null);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Select notification frequency");
