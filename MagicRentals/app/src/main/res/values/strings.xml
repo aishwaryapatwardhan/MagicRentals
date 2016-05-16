@@ -133,7 +133,7 @@
     <string name="nav_string_search">Search</string>
     <string name="nav_string_favourites">Favourites</string>
     <string name="nav_string_create_post">Create Post</string>
-    <string name="nav_string_view_post">View Post</string>
+    <string name="nav_string_view_post">View Posts</string>
     <string name="title_activity_pop_up_tenant_landlord">PopUpTenantLandlord</string>
 
 </resources>

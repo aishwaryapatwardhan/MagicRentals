@@ -91,7 +91,7 @@ public class PropertyDetailFragment extends Fragment {
         //  System.out.println("userid  ... " +userid);
         //  propertyImage = (ImageView)view.findViewById(R.id.house_image);
         viewcountV = (TextView) view.findViewById(R.id.view_count_detail);
-        addressV = (TextView) view.findViewById(R.id.address_detail);
+        //addressV = (TextView) view.findViewById(R.id.address_detail);
         streetV = (TextView) view.findViewById(R.id.street_detail);
         cityV = (TextView) view.findViewById(R.id.city_detail);
         stateV = (TextView) view.findViewById(R.id.street_detail);
@@ -120,7 +120,7 @@ public class PropertyDetailFragment extends Fragment {
             descV.setText(mProperty.getDescription());
             Log.i(TAG, mProperty.getStatus());
             statusV.setText(mProperty.getStatus());
-            statusV.setText(mProperty.getOther_details());
+            extradetV.setText(mProperty.getOther_details());
 
         }
         return view;

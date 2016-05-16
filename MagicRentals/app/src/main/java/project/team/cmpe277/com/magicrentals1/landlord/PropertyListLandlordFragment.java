@@ -1,9 +1,7 @@
 package project.team.cmpe277.com.magicrentals1.landlord;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -130,7 +128,7 @@ public class PropertyListLandlordFragment extends ListFragment  {
             Log.i(TAG, "null adapter");
         }
        // listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+       // listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
 
         // listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
@@ -170,109 +168,6 @@ public class PropertyListLandlordFragment extends ListFragment  {
             @Override
             public boolean onActionItemClicked(final ActionMode mode, MenuItem item) {
 
-                // PropertyListAdapter pla = (PropertyListAdapter) getListAdapter();;
-                // PropertyListAdapter pla = ListView
-
-                PropertiesResultLab resultsLab = PropertiesResultLab.
-                        getPropertiesResultLab(getActivity());
-                System.out.println("data.........   " + resultsLab );
-
-//                for (int i = pla.getCount() - 1; i >= 0; i--) {
-//                    System.out.print("In chk..");
-//                    if (getListView().isItemChecked(i)) {
-//                        selected_line_al.add(i);
-//
-//                        System.out.println("selected line-------- " + resultsLab.getPropertyList().get(i).getNickname());
-//
-//
-//                    }
-//                }
-                switch (item.getItemId()) {
-                    case R.id.rentedM:
-                        System.out.println("inside rented.......");
-                        System.out.println("selected line before OK..  "+selectedLine);
-
-                        PropertyModel pm = mPropertyList.get(selectedLine);
-                        if(pm.getStatus().equals("Created")) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(listView.getContext());
-                            builder.setMessage(R.string.alertrented)
-                                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            //
-                                            Log.i(TAG, "Inisde OK");
-                                            rentedOk = true;
-                                            mPropertyList = mCallbacks.onRentedClicked(selectedLine, madapter);
-                                            System.out.println("Rented or not -- "+mPropertyList.get(selectedLine).getStatus());
-                                            listView.setItemChecked(selectedLine, false);
-                                            madapter.notifyDataSetChanged();
-
-//
-                                        }
-                                    })
-                                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            Log.i(TAG, "Inisde Cancel");
-
-                                        }
-                                    });
-                            builder.setCancelable(true);
-                            builder.create();
-                            builder.show();
-                            Log.i(TAG, "after button alert.. ");
-                        }else if(pm.getStatus().equals("Rented")){
-                            android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder
-                                    (listView.getContext()).create();
-                            alertDialog.setTitle("Error");
-                            alertDialog.setMessage("Property is already rented.");
-                            alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_NEUTRAL, "OK",
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                        }
-                                    });
-                            alertDialog.show();
-                        }
-                        //   mAdapter.notifyDatasetChanged();
-                        break;
-                    case R.id.editM:
-                        Bundle bundle = new Bundle();
-                        bundle.putInt("selectedLine", selectedLine);
-                        Intent i = new Intent(getActivity(), EditPropertiesActivity.class);
-                        i.putExtras(bundle);
-                        startActivity(i);
-                        break;
-
-                    case R.id.cancelM:
-                        //resultsLab.cancel(selected_line_al);
-                        AlertDialog.Builder buildercan = new AlertDialog.Builder(listView.getContext());
-                        buildercan.setMessage(R.string.alertcancel)
-                                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        Log.i("CANCEL","has been called");
-                                        mCallbacks.onCancelClicked(selectedLine, madapter);
-                                        cancelOk = true;
-                                        listView.setItemChecked(selectedLine, false);
-                                        madapter.notifyDataSetChanged();
-                                    }
-                                })
-                                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        // finish();
-                                        cancelOk = false;
-                                    }
-                                });
-                        buildercan.setCancelable(true);
-                        buildercan.create();
-                        buildercan.show();
-
-                        break;
-
-                    case R.id.add_property:
-                        Log.i("ADDPROPERty", "calling activity");
-                        Intent g = new Intent(getActivity().getApplicationContext(), UploadPropertyDataActivity.class);
-                        startActivity(g);
-
-                }
                 return false;
             }
 

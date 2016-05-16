@@ -3,6 +3,7 @@ package project.team.cmpe277.com.magicrentals1.landlord;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -50,14 +51,15 @@ public class EditPropertiesActivity extends AppCompatActivity implements TaskCom
         setContentView(R.layout.fragment_upload_data);
         SharedPreferences sharedPreferences = getSharedPreferences("USER",Context.MODE_PRIVATE);
         userid = sharedPreferences.getString(LoginActivity.USERID,null);
-        int key = getIntent().getExtras().getInt("key");
+        String key = getIntent().getExtras().getString("key");
 
-        SharedPreferences preferences = this.getSharedPreferences(TAG, Context.MODE_PRIVATE);
+
        // userid = preferences.getString(LoginActivity.USERID,null);
      //   int selectedLine = preferences.getInt("selectedLine",0);
         Log.i(TAG, "Line selected .... "+key);
         mPropertyResultLab = PropertiesResultLab.getPropertiesResultLab(getApplicationContext());
         mPropertyList = mPropertyResultLab.getPropertyList();
+        System.out.println("Size..... "+mPropertyList.size());
         //
 
         for (PropertyModel property : mPropertyList) {
@@ -67,49 +69,45 @@ public class EditPropertiesActivity extends AppCompatActivity implements TaskCom
                 break;
             }
         }
-        System.out.println("Modelll........  +++ "+mPropertyModel.getNickname()+"djdjd  .. "+userid);
-        Spinner spinProprtyType = (Spinner)findViewById(R.id.property_type);
-      //  R.string-spinProprtyType.get
+        if(mPropertyModel != null) {
+            System.out.println("Modelll........  +++ " + mPropertyModel.getNickname() + "djdjd  .. " + userid);
+            Spinner spinProprtyType = (Spinner) findViewById(R.id.property_type);
+            //  R.string-spinProprtyType.get
 //        String tempProperty = mPropertyModel.getProperty_type().toString();
 //            spinProprtyType.setSelection(PropertyTypeE.mPropertyModel.);
 
-     //   spinProprtyType.setSelection(listPropertyTypes.indexOf(mPropertyModel.getProperty_type()));
+            //   spinProprtyType.setSelection(listPropertyTypes.indexOf(mPropertyModel.getProperty_type()));
 
-        area = (EditText)findViewById(R.id.area);
-        area.setText(mPropertyModel.getArea());
-        street = (EditText)findViewById(R.id.street);
-        street.setText(mPropertyModel.getStreet());
-        city = (EditText)findViewById(R.id.city);
-        city.setText(mPropertyModel.getCity());
-        state = ((EditText)findViewById(R.id.state));
-        state.setText(mPropertyModel.getState());
-        zip = (EditText)findViewById(R.id.zipcode);
-        zip.setText(mPropertyModel.getZip());
-        rent = (EditText)findViewById(R.id.rent);
-        rent.setText(mPropertyModel.getRent());
-        email = (EditText)findViewById(R.id.email);
-        email.setText(mPropertyModel.getEmail());
-        mobile = (EditText)findViewById(R.id.phone);
-        mobile.setText(mPropertyModel.getMobile());
-        description = (EditText)findViewById(R.id.description);
-        description.setText(mPropertyModel.getDescription());
-        other_details = (EditText)findViewById(R.id.other_details);
-        other_details.setText(mPropertyModel.getOther_details());
-        nickname = (EditText)findViewById(R.id.nickname);
-        nickname.setText(mPropertyModel.getNickname());
-
-        rooms = (Spinner)findViewById(R.id.roomscount);
-        Log.i(TAG, Integer.parseInt(mPropertyModel.getRoom())+"rooms");
-        rooms.setSelection(Integer.parseInt(mPropertyModel.getRoom())-1);//roomArr.indexOf(mPropertyModel.getRoom()));
-        bath = (Spinner)findViewById(R.id.bathroomcount);
-        rooms.setSelection(Integer.parseInt(mPropertyModel.getBath())-1);
-       // spinProprtyType.setSelection(3);//roomArr.indexOf(mPropertyModel.getBath()));
-        //System.out.println("Hello    ......................."+property);
-
-
-
-
-
+            area = (EditText) findViewById(R.id.area);
+            area.setText(mPropertyModel.getArea());
+            street = (EditText) findViewById(R.id.street);
+            street.setText(mPropertyModel.getStreet());
+            city = (EditText) findViewById(R.id.city);
+            city.setText(mPropertyModel.getCity());
+            state = ((EditText) findViewById(R.id.state));
+            state.setText(mPropertyModel.getState());
+            zip = (EditText) findViewById(R.id.zipcode);
+            zip.setText(mPropertyModel.getZip());
+            rent = (EditText) findViewById(R.id.rent);
+            rent.setText(mPropertyModel.getRent());
+            email = (EditText) findViewById(R.id.email);
+            email.setText(mPropertyModel.getEmail());
+            mobile = (EditText) findViewById(R.id.phone);
+            mobile.setText(mPropertyModel.getMobile());
+            description = (EditText) findViewById(R.id.description);
+            description.setText(mPropertyModel.getDescription());
+            other_details = (EditText) findViewById(R.id.other_details);
+            other_details.setText(mPropertyModel.getOther_details());
+            nickname = (EditText) findViewById(R.id.nickname);
+            nickname.setText(mPropertyModel.getNickname());
+            rooms = (Spinner) findViewById(R.id.roomscount);
+            Log.i(TAG, Integer.parseInt(mPropertyModel.getRoom()) + "rooms");
+            rooms.setSelection(Integer.parseInt(mPropertyModel.getRoom()) - 1);//roomArr.indexOf(mPropertyModel.getRoom()));
+            bath = (Spinner) findViewById(R.id.bathroomcount);
+            rooms.setSelection(Integer.parseInt(mPropertyModel.getBath()) - 1);
+            // spinProprtyType.setSelection(3);//roomArr.indexOf(mPropertyModel.getBath()));
+            //System.out.println("Hello    ......................."+property);
+        }
     }
 
     @Override
@@ -171,6 +169,9 @@ public class EditPropertiesActivity extends AppCompatActivity implements TaskCom
             case R.id.cancelform:
                 this.finish();
                 break;
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
         }
 
 
