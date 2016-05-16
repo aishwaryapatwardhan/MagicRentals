@@ -37,7 +37,6 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-import project.team.cmpe277.com.magicrentals1.landlord.PropertiesListLandlordActivity;
 import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
 import project.team.cmpe277.com.magicrentals1.utility.TaskCompletedStatus;
 
@@ -50,6 +49,7 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletedSta
     private int RC_SIGN_IN;
     private String gcmtoken;
     public static String urlip;
+    private static Boolean isActive = false;
 
 
     private String userid;
@@ -140,6 +140,8 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletedSta
         googleSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences sharedPreferences = getSharedPreferences("USER", Context.MODE_PRIVATE);
+                sharedPreferences.edit().putString("USERID", "saipransesh").commit();
                /*Intent i = new Intent(getApplicationContext(), TenantSearchActivity.class);
                 i.putExtra("USERID", userid);
                 startActivity(i);*/
@@ -194,6 +196,7 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletedSta
     protected void onResume() {
         super.onResume();
         Log.w("LoginActivity", "onResume");
+        isActive = true;
         LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
                 new IntentFilter(GCMRegistrationIntentService.REGISTRATION_SUCCESS));
         LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
@@ -263,8 +266,10 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletedSta
         input.put("email",email);
         input.put("deviceID", gcmtoken);
 
-        Intent i = new Intent(this,TenantAndLandlordNavigationDrawer.class);
-        startActivity(i);
+        if(isActive){
+            Intent i = new Intent(this,TenantAndLandlordNavigationDrawer.class);
+            startActivity(i);
+        }
 
         new MultipartUtilityAsyncTask(this,input,null).execute(url);
 
@@ -323,4 +328,6 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletedSta
     protected void onDestroy() {
         super.onDestroy();
     }
+
+
 }
