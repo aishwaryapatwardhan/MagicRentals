@@ -437,6 +437,35 @@ public class TenantSearchFragment extends Fragment implements AdapterView.OnItem
                     }
                     json = new JSONObject(sb.toString());
 
+                    JSONObject addr, units, contact;
+
+                    try{
+                        JSONArray jsonarray = json.getJSONArray("data");
+                        ArrayList<GridImageDetailItem> gdl = new ArrayList<GridImageDetailItem>();
+
+                        for (int i = 0; i < jsonarray.length(); i++) {
+                            JSONObject jsonobject = jsonarray.getJSONObject(i);
+                            addr = jsonobject.getJSONObject("address");
+                            units = jsonobject.getJSONObject("units");
+                            contact = jsonobject.getJSONObject("Contact_info");
+
+                            GridImageDetailItem gridImageDetailItem = new GridImageDetailItem(jsonobject.getString("_id"), addr.getString("Street"), addr.getString("City"),
+                                    addr.getString("State"),
+                                    addr.getString("Zip"), jsonobject.getString("property_type"), units.getString("room"),
+                                    units.getString("bath"), units.getString("area"), jsonobject.getString("rent"), jsonobject.getString("description"),
+                                    jsonobject.getString("other_details"), jsonobject.getString("Images"),contact.getString("Mobile"),contact.getString("email"));
+                            gridImageDetailItem.setCount(Integer.parseInt(jsonobject.getString("view_count")));
+                            gdl.add(gridImageDetailItem);
+                        }
+                        PropSingleton.get(getActivity()).clearList();
+                        PropSingleton.get(getActivity()).setGridImageDetailItems(gdl);
+
+
+
+                    }
+                    catch (Exception ex){
+                        System.out.print("Hi");
+                    }
 
 
                 } catch (Exception e) {
@@ -456,36 +485,9 @@ public class TenantSearchFragment extends Fragment implements AdapterView.OnItem
         protected void onPostExecute(JSONObject result) {
             super.onPostExecute(result);
 
-            JSONObject addr, units, contact;
+            Intent i = new Intent(getActivity(), TenantSearchListActivity.class);
+            startActivity(i);
 
-            try{
-                JSONArray jsonarray = result.getJSONArray("data");
-                ArrayList<GridImageDetailItem> gdl = new ArrayList<GridImageDetailItem>();
-
-                for (int i = 0; i < jsonarray.length(); i++) {
-                    JSONObject jsonobject = jsonarray.getJSONObject(i);
-                    addr = jsonobject.getJSONObject("address");
-                    units = jsonobject.getJSONObject("units");
-                    contact = jsonobject.getJSONObject("Contact_info");
-
-                    GridImageDetailItem gridImageDetailItem = new GridImageDetailItem(jsonobject.getString("_id"), addr.getString("Street"), addr.getString("City"),
-                            addr.getString("State"),
-                            addr.getString("Zip"), jsonobject.getString("property_type"), units.getString("room"),
-                            units.getString("bath"), units.getString("area"), jsonobject.getString("rent"), jsonobject.getString("description"),
-                            jsonobject.getString("other_details"), jsonobject.getString("Images"),contact.getString("Mobile"),contact.getString("email"));
-                    gridImageDetailItem.setCount(Integer.parseInt(jsonobject.getString("view_count")));
-                    gdl.add(gridImageDetailItem);
-                }
-                PropSingleton.get(getActivity()).clearList();
-                PropSingleton.get(getActivity()).setGridImageDetailItems(gdl);
-
-                Intent i = new Intent(getActivity(), TenantSearchListActivity.class);
-                startActivity(i);
-
-            }
-            catch (Exception ex){
-                System.out.print("Hi");
-            }
         }
 
     }

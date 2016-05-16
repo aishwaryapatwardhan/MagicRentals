@@ -35,8 +35,9 @@ public class GridViewAdapter extends ArrayAdapter{
     public View getView(int position,View convertView,ViewGroup parent){
         View row = convertView;
         ViewHolder holder = null;
-
+        Boolean flag = false;
         if(row == null){
+            flag = true;
             LayoutInflater inflater = ((Activity)context).getLayoutInflater();
             row = inflater.inflate(layoutResourceId,parent,false);
             holder = new ViewHolder();
@@ -48,37 +49,29 @@ public class GridViewAdapter extends ArrayAdapter{
             holder = (ViewHolder)row.getTag();
         }
         GridImageDetailItem item = data.get(position);
-                /*if(position == 0 || position == 1 || position ==2 || position == 3 || position == 4){
-                    Log.i("GridViewAdapter", "calling DIT");
-                    new DownloadImageTask(holder.image).execute(item.getImageIcon());
-                }else {*/
-                 /*   Bitmap cacheHit = TenantSearchListFragment.mThumbnailThread.checkCache(item.getImageIcon());
-                    if (cacheHit != null) {
-        holder.image.setImageBitmap(cacheHit);
-    } else {
-        TenantSearchListFragment.mThumbnailThread.queueThumbnail(holder.image, item.getImageIcon());
-    }
-    for (int i = position; i < Math.min(data.size() - 1, position + 10); i++) {
-        TenantSearchListFragment.mThumbnailThread.queuePreload(item.getImageIcon());
-    }*/
-    //}
-        Bitmap cacheHit = TenantSearchListFragment.mThumbnailThread.checkCache(item.getImageIcon());
-        if(cacheHit != null){
-            holder.image.setImageBitmap(cacheHit);
+
+        if(flag){
+
+            if(position == 0 || position == 1 || position == 2 || position == 3 || position ==4){
+                Log.i("GridViewAdapter", "calling DIT");
+                new DownloadImageTask(holder.image).execute(item.getImageIcon());
+                TenantSearchListFragment.mThumbnailThread.queueThumbnail(holder.image,item.getImageIcon());
+            }
+
         }else{
-            TenantSearchListFragment.mThumbnailThread.queueThumbnail(holder.image, item.getImageIcon());
+            Bitmap cacheHit = TenantSearchListFragment.mThumbnailThread.checkCache(item.getImageIcon());
+            if(cacheHit != null){
+                holder.image.setImageBitmap(cacheHit);
+            }else{
+                TenantSearchListFragment.mThumbnailThread.queueThumbnail(holder.image,item.getImageIcon());
+            }
+            for( int i = Math.max(0,position-10); i < Math.min(data.size()-1, position+10); i++){
+                TenantSearchListFragment.mThumbnailThread.queuePreload(item.getImageIcon());
+            }
         }
 
-        //pre-load images
-        for( int i = Math.max(0,position -10); i < Math.min(data.size()-1, position+10); i++){
-            TenantSearchListFragment.mThumbnailThread.queuePreload(item.getImageIcon());
-        }
-
-
-            holder.price.setText(item.getRent());
-            holder.address.setText(item.getStreetAddr());
-
-
+        holder.price.setText(item.getRent());
+        holder.address.setText(item.getStreetAddr());
         return row;
     }
 

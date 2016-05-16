@@ -1,6 +1,7 @@
 package project.team.cmpe277.com.magicrentals1;
 
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,7 +10,6 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,10 +19,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +36,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import project.team.cmpe277.com.magicrentals1.utility.StringManipul;
 import project.team.cmpe277.com.magicrentals1.utility.ThumbnailDownloader;
@@ -48,7 +46,7 @@ import project.team.cmpe277.com.magicrentals1.utility.ThumbnailDownloader;
 public class TenantSearchListFragment extends Fragment {
 
     private GridViewAdapter gridViewAdapter;
-
+    ProgressBar progress;
     private GridView gridView;
     private String userid;
     private static int rate;
@@ -114,7 +112,8 @@ public class TenantSearchListFragment extends Fragment {
         gridView = (GridView)searchlistview.findViewById(R.id.gridview);
 
         final ArrayList<GridImageDetailItem> gridImageItems = PropSingleton.get(this.getActivity()).getGridImageDetailItems();
-
+        progress = (ProgressBar)searchlistview.findViewById(R.id.progressBar);
+        progress.setVisibility(View.VISIBLE);
         if(gridImageItems!=null && gridImageItems.size() == 0){
             TextView editText = new TextView(getActivity());
             editText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -129,6 +128,7 @@ public class TenantSearchListFragment extends Fragment {
             gridViewAdapter = new GridViewAdapter(getActivity(), R.layout.property_grid, gridImageItems);
             gridView.setAdapter(gridViewAdapter);
 
+            progress.setVisibility(View.GONE);
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -188,6 +188,10 @@ public class TenantSearchListFragment extends Fragment {
 
     public class SaveSearch extends AsyncTask<Object, Void, JSONObject> {
 
+        @Override
+        protected void onPreExecute() {
+            progress.setVisibility(View.VISIBLE);
+        }
 
         @Override
         protected JSONObject doInBackground(Object... parameters){
