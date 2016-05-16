@@ -61,11 +61,12 @@ exports.addPost_Post = function(req, res){
 	    console.log('UID is : '+ user_id);
 	    
 		if(!nickName || nickName == null || nickName == "null"){
-			console.log("Data Missing-nickName ");
-			result.code = 212;
-			result.status = "Data Missing-nickName";
-			res.json(result);
-			return;
+			nickName = "Info"
+//			console.log("Data Missing-nickName ");
+//			result.code = 212;
+//			result.status = "Data Missing-nickName";
+//			res.json(result);
+//			return;
 		}
 		
 		if(!Street || Street == null || Street == "null"){
