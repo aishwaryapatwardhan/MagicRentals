@@ -158,11 +158,6 @@ public class TenantsFavDetailsFragment extends android.support.v4.app.Fragment{
 
 
         switch(id){
-            case android.R.id.home:
-                if (NavUtils.getParentActivityName(getActivity()) != null) {
-                    NavUtils.navigateUpFromSameTask(getActivity());
-                }
-                return true;
             case R.id.search_post:
                     Intent j = new Intent(getActivity().getApplicationContext(), TenantSearchActivity.class);
                     j.putExtra("USERID", userid);

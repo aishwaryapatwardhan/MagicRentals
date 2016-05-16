@@ -172,10 +172,7 @@ public class TenantSearchListFragment extends Fragment {
 
 
         switch(id){
-            case android.R.id.home:
-                if (NavUtils.getParentActivityName(getActivity()) != null) {
-                    NavUtils.navigateUpFromSameTask(getActivity());
-                }
+
             case R.id.favorites:
                 //favourites activity
                 Intent i = new Intent(getActivity().getApplicationContext(), TenantsFavActivity.class);

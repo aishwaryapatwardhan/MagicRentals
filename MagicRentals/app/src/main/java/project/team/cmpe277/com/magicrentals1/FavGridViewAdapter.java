@@ -18,13 +18,13 @@ import project.team.cmpe277.com.magicrentals1.utility.DownloadImageTask;
 /**
  * Created by Rekha on 4/29/2016.
  */
-public class GridViewAdapter extends ArrayAdapter{
+public class FavGridViewAdapter extends ArrayAdapter{
 
     private Context context;
     private int layoutResourceId;
     private ArrayList<GridImageDetailItem> data;
 
-    public GridViewAdapter(Context context,int layoutResourceId,ArrayList<GridImageDetailItem> data){
+    public FavGridViewAdapter(Context context,int layoutResourceId,ArrayList<GridImageDetailItem> data){
         super(context,layoutResourceId,data);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
@@ -48,32 +48,21 @@ public class GridViewAdapter extends ArrayAdapter{
             holder = (ViewHolder)row.getTag();
         }
         GridImageDetailItem item = data.get(position);
-                /*if(position == 0 || position == 1 || position ==2 || position == 3 || position == 4){
+
+                if(position == 0 && position == 1 && position ==2 && position == 3 && position == 4){
                     Log.i("GridViewAdapter", "calling DIT");
                     new DownloadImageTask(holder.image).execute(item.getImageIcon());
-                }else {*/
-                 /*   Bitmap cacheHit = TenantSearchListFragment.mThumbnailThread.checkCache(item.getImageIcon());
+                }else {
+                    Bitmap cacheHit = TenantsFavListFragment.mThumbnailThread.checkCache(item.getImageIcon());
                     if (cacheHit != null) {
-        holder.image.setImageBitmap(cacheHit);
-    } else {
-        TenantSearchListFragment.mThumbnailThread.queueThumbnail(holder.image, item.getImageIcon());
-    }
-    for (int i = position; i < Math.min(data.size() - 1, position + 10); i++) {
-        TenantSearchListFragment.mThumbnailThread.queuePreload(item.getImageIcon());
-    }*/
-    //}
-        Bitmap cacheHit = TenantSearchListFragment.mThumbnailThread.checkCache(item.getImageIcon());
-        if(cacheHit != null){
-            holder.image.setImageBitmap(cacheHit);
-        }else{
-            TenantSearchListFragment.mThumbnailThread.queueThumbnail(holder.image, item.getImageIcon());
-        }
-
-        //pre-load images
-        for( int i = Math.max(0,position -10); i < Math.min(data.size()-1, position+10); i++){
-            TenantSearchListFragment.mThumbnailThread.queuePreload(item.getImageIcon());
-        }
-
+                        holder.image.setImageBitmap(cacheHit);
+                    } else {
+                        TenantsFavListFragment.mThumbnailThread.queueThumbnail(holder.image, item.getImageIcon());
+                    }
+                    for (int i = Math.max(0, position - 10); i < Math.min(data.size() - 1, position + 10); i++) {
+                        TenantsFavListFragment.mThumbnailThread.queuePreload(item.getImageIcon());
+                    }
+                }
 
             holder.price.setText(item.getRent());
             holder.address.setText(item.getStreetAddr());
@@ -90,3 +79,4 @@ public class GridViewAdapter extends ArrayAdapter{
 
 
 }
+
