@@ -19,7 +19,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Magic Rentals"
         android:id="@+id/textView"
-        android:textColor="#000000"
+        android:textColor="#b30000"
         android:typeface="monospace"
         android:textSize="35sp"
         android:textStyle="bold"

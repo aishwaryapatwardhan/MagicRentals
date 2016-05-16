@@ -147,10 +147,10 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletedSta
                 startActivity(i);*/
                 /*Intent i = new Intent(getApplicationContext(), PropertiesListLandlordActivity.class);
                 startActivity(i);*/
-                Intent i = new Intent(getApplicationContext(), TenantAndLandlordNavigationDrawer.class);
-                startActivity(i);
-  /*              Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-                startActivityForResult(signInIntent, RC_SIGN_IN);*/
+                /*Intent i = new Intent(getApplicationContext(), TenantAndLandlordNavigationDrawer.class);
+                startActivity(i);*/
+               Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+                startActivityForResult(signInIntent, RC_SIGN_IN);
             }
         });
 
