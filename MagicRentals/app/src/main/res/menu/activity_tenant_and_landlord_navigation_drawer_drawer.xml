@@ -31,5 +31,10 @@
         </menu>
     </item>
 
+    <item
+        android:title="Logout"
+        android:icon="@android:drawable/ic_menu_rotate"
+        android:id="@+id/nav_logout" />
+
 
 </menu>

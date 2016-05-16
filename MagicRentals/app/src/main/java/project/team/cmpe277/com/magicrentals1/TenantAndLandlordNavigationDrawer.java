@@ -1,11 +1,9 @@
 package project.team.cmpe277.com.magicrentals1;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -17,15 +15,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import project.team.cmpe277.com.magicrentals1.landlord.PropertiesResultLab;
-import project.team.cmpe277.com.magicrentals1.landlord.PropertyDetailActivity;
-import project.team.cmpe277.com.magicrentals1.landlord.PropertyDetailFragment;
 import project.team.cmpe277.com.magicrentals1.landlord.PropertyListAdapter;
 import project.team.cmpe277.com.magicrentals1.landlord.PropertyListLandlordFragment;
 import project.team.cmpe277.com.magicrentals1.landlord.PropertyModel;
-import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
 import project.team.cmpe277.com.magicrentals1.utility.PopUpTenantLandlord;
 
 public class TenantAndLandlordNavigationDrawer extends AppCompatActivity
@@ -115,6 +108,10 @@ public class TenantAndLandlordNavigationDrawer extends AppCompatActivity
         }*/ else if (id == R.id.nav_view_posts) {
             getSupportFragmentManager().beginTransaction().replace(R.id.detailFragmentContainer, new PropertyListLandlordFragment()).commit();
 
+        } else if( id == R.id.nav_logout){
+            getSharedPreferences("USER", Context.MODE_PRIVATE).edit().remove(LoginActivity.USERID).commit();
+            finish();
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -123,26 +120,8 @@ public class TenantAndLandlordNavigationDrawer extends AppCompatActivity
     }
 
     @Override
-    // Landlord Detail View of property
     public void onPropertyClicked(PropertyModel property) {
-        //  Logger.getAnonymousLogger("sklslsl  ");
 
-        System.out.println("Inside click event   ");
-        if(findViewById(R.id.detailPropFragmentContainer) == null){
-            Intent i = new Intent(this,PropertyDetailActivity.class);
-            i.putExtra(PropertyDetailFragment.PROPERTY_KEY, property.getKey());
-            startActivity(i);
-        }else{
-            FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            Fragment oldDetail = fm.findFragmentById(R.id.detailPropFragmentContainer);
-            Fragment newDetail = PropertyDetailFragment.newInstance(property.getKey());
-            if (oldDetail != null) {
-                ft.remove(oldDetail);
-            }
-            ft.add(R.id.detailPropFragmentContainer, newDetail);
-            ft.commit();
-        }
     }
 
     @Override
