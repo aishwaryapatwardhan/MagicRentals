@@ -45,7 +45,7 @@ exports.addPost_Post = function(req, res){
 	 	var Mobile = fields.Mobile;
 	 	var description = fields.description;
 		
-		if(files || files != null || files.fileUpload ){
+		if(files && files != null && files.fileUpload ){
 			var readStream  = fs.createReadStream(files.fileUpload.path);
 			var filePath  = '../public/images/' + files.fileUpload.name;
 			var writeStream = fs.createWriteStream(filePath);
@@ -72,94 +72,108 @@ exports.addPost_Post = function(req, res){
 	    if(!user_id || user_id == null || user_id == "null"){
 	    	console.log("User Id empty");
 			result.code = 212;
-			result.status = "Data Missing";
+			result.status = "Data Missing-user_id";
 			res.json(result);
 			return;
 		}
+	    console.log('UID is : '+ user_id);
 	    
 		if(!nickName || nickName == null || nickName == "null"){
+			console.log("Data Missing-nickName ");
 			result.code = 212;
-			result.status = "Data Missing";
+			result.status = "Data Missing-nickName";
 			res.json(result);
 			return;
 		}
 		
 		if(!Street || Street == null || Street == "null"){
+			console.log("Data Missing-Street ");
 			result.code = 212;
-			result.status = "Data Missing";
+			result.status = "Data Missing-Street";
 			res.json(result);
 			return;
 		}
 		
 		if(!City || City == null || City == "null"){
+			console.log("Data Missing-City ");
 			result.code = 212;
-			result.status = "Data Missing";
+			result.status = "Data Missing-city";
 			res.json(result);
 			return;
 		}
 		
 		if(!State || State == null || State == "null"){
+			console.log("Data Missing-State ");
 			result.code = 212;
-			result.status = "Data Missing";
+			result.status = "Data Missing-state";
 			res.json(result);
 			return;
 		}
 		
 		if(!Zip || Zip == null || Zip == "null"){
+			console.log("Data Missing-Zip ");
 			result.code = 212;
-			result.status = "Data Missing";
+			result.status = "Data Missing-zip";
 			res.json(result);
 			return;
 		}
 		
 		if(!property_type || property_type == null || property_type == "null"){
+			console.log("Data Missing-property_type ");
 			result.code = 212;
-			result.status = "Data Missing";
+			result.status = "Data Missing-prop_type";
 			res.json(result);
 			return;
 		}		
 		
 		if(!bath || isNaN(bath)){
+			console.log("Data Missing-Bath ");
 			result.code = 212;
-			result.status = "Data Missing";
+			result.status = "Data Missing - bath";
 			res.json(result);
 			return;
 		}
 		
 		if(!room || isNaN(room)){
+			console.log("Data Missing-room ");
 			result.code = 212;
-			result.status = "Data Missing";
+			result.status = "Data Missing - room";
 			res.json(result);
 			return;
 		}
 		if(!area || isNaN(area)){
+			console.log("Data Missing-area ");
 			result.code = 212;
-			result.status = "Data Missing";
+			result.status = "Data Missing - area";
 			res.json(result);
 			return;
 		}
 		if(!rent || isNaN(rent)){
+			console.log("Data Missing-rent");
 			result.code = 212;
-			result.status = "Data Missing";
+			result.status = "Data Missing - rent";
 			res.json(result);
 			return;
 		}
 		if(!email|| email == null || email == "null"){
+			console.log("Data Missing- email");
 			result.code = 212;
-			result.status = "Data Missing";
+			result.status = "Data Missing - email";
 			res.json(result);
 			return;
 		}
 		if(!Mobile && Mobile == null || Mobile == "null"){
+			console.log("Data Missing- mobile");
 			result.code = 212;
-			result.status = "Data Missing";
+			result.status = "Data Missing - mob";
 			res.json(result);
 			return;
 			
 		}
 		if(!description || description == null || description == "null"){
+			console.log("Data Missing- desc");
 			result.code = 212;
-			result.status = "Data Missing";
+			result.status = "Data Missing - desc";
 			res.json(result);
 			return;
 		}
@@ -182,76 +196,99 @@ exports.addPost_Post = function(req, res){
 	 	
 		var id;
 		
-		mongo.connect(function(err, db){
-			
-			if(err){
-				console.log("Unable to connect to mongo");
-				result.code = 209;
-				result.status = "Unable to connect to mongo";
-				res.json(result);
-			}else{
-				console.log("Connected to mongo");
+		if(files && files != null && files.fileUpload ){
+			var readStream  = fs.createReadStream(files.fileUpload.path);
+			var filePath  = '../public/images/' + files.fileUpload.name;
+			var writeStream = fs.createWriteStream(filePath);
+
+			readStream.pipe(writeStream);
+			readStream.on('end',function(){
+				console.log("successful file copy");
+				fs.unlinkSync(files.fileUpload.path);
+				Images = "http://" + ip.address() + ":" + server.config.address().port + "/images/" + files.fileUpload.name;
+				addRow();
+			});
+			readStream.on('error',function(err){
+				console.log(err);
+			});
+		}else{
+			Images = "http://www.idesignarch.com/wp-content/uploads/Alvhem-Apartment-Interior-Design_4.jpg";
+			addRow();
+		}
+		
+		
+		function addRow(){
+			console.log("In add ROW");
+			mongo.connect(function(err, db){
 				
-				var coll = mongo.collection('rental_posting');
-				
-				id = user_id.replace(/\s+/g, '')+Street.replace(/\s+/g, '')+City.replace(/\s+/g, '')+State+Zip.replace(/\s+/g, '');
-				
-				coll.insertOne( 
-						 {
-							 	"_id" : id,
-								"user_id" : user_id,
-								"nickName" : nickName,
-								"address" : {
-										"Street" : Street,
-										"City"   : City,
-										"State"  : State,
-										"Zip"    : Zip
-									    },
-								"property_type" : property_type,
-								"units"  : {
-										"bath" : bath,
-										"room" : room,
-										"area" : area 
-									   },
-								"rent"  : rent,
-								"Contact_info" : {
-										    "email" : email,
-										    "Mobile": Mobile
-										 },
-								"description" : description,
-								"Images" : Images,
-								"other_details" : other_details,
-								"Status" : Status,
-								"view_count" : view_count
-						 },   function(err, docs) {
-						
-							 if(err){
-								 result.code = 208;
-								 result.status = "Duplicate records";
-								 res.json(result);
-							 }else{
-								 utils.notify(id,1,function(){
-									console.log('notification triggered.');
-									mailOptions.from = "magicrentals11@gmail.com";
-									mailOptions.to = email;
-									mailOptions.subject = "<no reply> New rental detils posted successful";
-									mailOptions.text = "mail from magicrentals.. test mail";
-									mailOptions.html = "Dear Customer, <br><br>Your add posted scuuesfully. <br><br>Thank you<br>MagicRentals Team";
-									mailer.sendMail(mailOptions, function(error, success) {
-										console.log('Mail sent');
-									});
-								 });
-								 
-								 result.code = 200; 
-								 result.status = "Successfully inserted";
-								 res.json(result);
-							 }	
+				if(err){
+					console.log("Unable to connect to mongo");
+					result.code = 209;
+					result.status = "Unable to connect to mongo";
+					res.json(result);
+				}else{
+					console.log("Connected to mongo");
+					
+					var coll = mongo.collection('rental_posting');
+					
+					id = user_id.replace(/\s+/g, '')+Street.replace(/\s+/g, '')+City.replace(/\s+/g, '')+State+Zip.replace(/\s+/g, '');
+					
+					coll.insertOne( 
+							 {
+								 	"_id" : id,
+									"user_id" : user_id,
+									"nickName" : nickName,
+									"address" : {
+											"Street" : Street,
+											"City"   : City,
+											"State"  : State,
+											"Zip"    : Zip
+										    },
+									"property_type" : property_type,
+									"units"  : {
+											"bath" : bath,
+											"room" : room,
+											"area" : area 
+										   },
+									"rent"  : rent,
+									"Contact_info" : {
+											    "email" : email,
+											    "Mobile": Mobile
+											 },
+									"description" : description,
+									"Images" : Images,
+									"other_details" : other_details,
+									"Status" : Status,
+									"view_count" : view_count
+							 },   function(err, docs) {
 							
-						 }
-				);			
-			}	
-		});	
-	 	
+								 if(err){
+									 result.code = 208;
+									 result.status = "Duplicate records";
+									 res.json(result);
+								 }else{
+									 utils.notify(id,1,function(){
+										console.log('notification triggered.');
+										mailOptions.from = "magicrentals11@gmail.com";
+										mailOptions.to = email;
+										mailOptions.subject = "<no reply> New rental detils posted successful";
+										mailOptions.text = "mail from magicrentals.. test mail";
+										mailOptions.html = "Dear Customer, <br><br>Your add posted scuuesfully. <br><br>Thank you<br>MagicRentals Team";
+										mailer.sendMail(mailOptions, function(error, success) {
+											console.log('Mail sent');
+										});
+									 });
+									 
+									 result.code = 200; 
+									 result.status = "Successfully inserted";
+									 res.json(result);
+								 }	
+								
+							 }
+					);			
+				}	
+			});	
+		}	 	
 	});
 };
 
@@ -291,109 +328,127 @@ exports.addPost_Get = function(req, res){
 		var other_details = req.param('other_details');
 		var Status = req.param('Status');
 		var view_count = Number(req.param('view_count'));
-
+	 	var other_details = req.param('other_details');
+	 	var Status = req.param('Status');
+	 	var view_count = Number(req.param('view_count'));
+	    var nickName = req.param('nickName');
+	    var Images;
+		
+		
 	    if(!user_id || user_id == null || user_id == "null"){
 	    	console.log("User Id empty");
 			result.code = 212;
-			result.status = "Data Missing";
+			result.status = "Data Missing-user_id";
 			res.json(result);
 			return;
 		}
+	    console.log('UID is : '+ user_id);
 	    
 		if(!nickName || nickName == null || nickName == "null"){
+			console.log("Data Missing-nickName ");
 			result.code = 212;
-			result.status = "Data Missing";
+			result.status = "Data Missing-nickName";
 			res.json(result);
 			return;
 		}
 		
 		if(!Street || Street == null || Street == "null"){
+			console.log("Data Missing-Street ");
 			result.code = 212;
-			result.status = "Data Missing";
+			result.status = "Data Missing-Street";
 			res.json(result);
 			return;
 		}
 		
 		if(!City || City == null || City == "null"){
+			console.log("Data Missing-City ");
 			result.code = 212;
-			result.status = "Data Missing";
+			result.status = "Data Missing-city";
 			res.json(result);
 			return;
 		}
 		
 		if(!State || State == null || State == "null"){
+			console.log("Data Missing-State ");
 			result.code = 212;
-			result.status = "Data Missing";
+			result.status = "Data Missing-state";
 			res.json(result);
 			return;
 		}
 		
-		if(!Zip || Zip == null ||  Zip == "null"){
+		if(!Zip || Zip == null || Zip == "null"){
+			console.log("Data Missing-Zip ");
 			result.code = 212;
-			result.status = "Data Missing";
+			result.status = "Data Missing-zip";
 			res.json(result);
 			return;
 		}
 		
 		if(!property_type || property_type == null || property_type == "null"){
+			console.log("Data Missing-property_type ");
 			result.code = 212;
-			result.status = "Data Missing";
+			result.status = "Data Missing-prop_type";
 			res.json(result);
 			return;
 		}		
 		
 		if(!bath || isNaN(bath)){
+			console.log("Data Missing-Bath ");
 			result.code = 212;
-			result.status = "Data Missing";
+			result.status = "Data Missing - bath";
 			res.json(result);
 			return;
 		}
 		
 		if(!room || isNaN(room)){
+			console.log("Data Missing-room ");
 			result.code = 212;
-			result.status = "Data Missing";
+			result.status = "Data Missing - room";
 			res.json(result);
 			return;
 		}
 		if(!area || isNaN(area)){
+			console.log("Data Missing-area ");
 			result.code = 212;
-			result.status = "Data Missing";
+			result.status = "Data Missing - area";
 			res.json(result);
 			return;
 		}
 		if(!rent || isNaN(rent)){
+			console.log("Data Missing-rent");
 			result.code = 212;
-			result.status = "Data Missing";
+			result.status = "Data Missing - rent";
 			res.json(result);
 			return;
 		}
 		if(!email|| email == null || email == "null"){
+			console.log("Data Missing- email");
 			result.code = 212;
-			result.status = "Data Missing";
+			result.status = "Data Missing - email";
 			res.json(result);
 			return;
 		}
 		if(!Mobile && Mobile == null || Mobile == "null"){
+			console.log("Data Missing- mobile");
 			result.code = 212;
-			result.status = "Data Missing";
+			result.status = "Data Missing - mob";
 			res.json(result);
 			return;
+			
 		}
-		if(!description && description == null || description == "null"){
+		if(!description || description == null || description == "null"){
+			console.log("Data Missing- desc");
 			result.code = 212;
-			result.status = "Data Missing";
+			result.status = "Data Missing - desc";
 			res.json(result);
 			return;
-		}
-		if(!Images && Images == null || Images == "null"){
-			Images = "https://upload.wikimedia.org/wikipedia/commons/1/1e/Stonehenge.jpg";
 		}
 		
 		if(!other_details || other_details == null || other_details == "null"){
 			other_details = " ";
 		}
 		
-		if(!Status || Status == null || Status == "null"){ 
+		if(!Status || Status == null || Status == "null"){
 			Status = "Created";
 		}
 		
@@ -404,75 +459,99 @@ exports.addPost_Get = function(req, res){
 	 	
 		var id;
 		
-		mongo.connect(function(err, db){
-			
-			if(err){
-				console.log("Unable to connect to mongo");
-				result.code = 209;
-				result.status = "Unable to connect to mongo";
-				res.json(result);
-			}else{
-				console.log("Connected to mongo");
+		if(files && files != null && files.fileUpload ){
+			var readStream  = fs.createReadStream(files.fileUpload.path);
+			var filePath  = '../public/images/' + files.fileUpload.name;
+			var writeStream = fs.createWriteStream(filePath);
+
+			readStream.pipe(writeStream);
+			readStream.on('end',function(){
+				console.log("successful file copy");
+				fs.unlinkSync(files.fileUpload.path);
+				Images = "http://" + ip.address() + ":" + server.config.address().port + "/images/" + files.fileUpload.name;
+				addRow();
+			});
+			readStream.on('error',function(err){
+				console.log(err);
+			});
+		}else{
+			Images = "http://www.idesignarch.com/wp-content/uploads/Alvhem-Apartment-Interior-Design_4.jpg";
+			addRow();
+		}
+		
+		
+		function addRow(){
+			console.log("In add ROW");
+			mongo.connect(function(err, db){
 				
-				var coll = mongo.collection('rental_posting');
-				
-				id = user_id.replace(/\s+/g, '')+Street.replace(/\s+/g, '')+City.replace(/\s+/g, '')+State+Zip.replace(/\s+/g, '');
-				
-				coll.insertOne( 
-						 {
-							 	"_id" : id,
-								"user_id" : user_id,
-								"nickName" : nickName,
-								"address" : {
-										"Street" : Street,
-										"City"   : City,
-										"State"  : State,
-										"Zip"    : Zip
-									    },
-								"property_type" : property_type,
-								"units"  : {
-										"bath" : bath,
-										"room" : room,
-										"area" : area 
-									   },
-								"rent"  : rent,
-								"Contact_info" : {
-										    "email" : email,
-										    "Mobile": Mobile
-										 },
-								"description" : description,
-								"Images" : Images,
-								"other_details" : other_details,
-								"Status" : Status,
-								"view_count" : view_count
-						 },   function(err, docs) {
-						
-							 if(err){
-								 result.code = 208;
-								 result.status = "Duplicate records";
-								 res.json(result);
-							 }else{
-								 utils.notify(id,1,function(){
-									console.log('notification triggered.');
-									mailOptions.from = "magicrentals11@gmail.com";
-									mailOptions.to = email;
-									mailOptions.subject = "<no reply> New rental detils posted successful";
-									mailOptions.text = "mail from magicrentals.. test mail";
-									mailOptions.html = "Dear Customer, <br><br>Your add posted scuuesfully. <br><br>Thank you<br>MagicRentals Team";
-									mailer.sendMail(mailOptions, function(error, success) {
-										console.log('Mail sent');
-									});
-								 });
-								 
-								 result.code = 200; 
-								 result.status = "Successfully inserted";
-								 res.json(result);
-							 }	
+				if(err){
+					console.log("Unable to connect to mongo");
+					result.code = 209;
+					result.status = "Unable to connect to mongo";
+					res.json(result);
+				}else{
+					console.log("Connected to mongo");
+					
+					var coll = mongo.collection('rental_posting');
+					
+					id = user_id.replace(/\s+/g, '')+Street.replace(/\s+/g, '')+City.replace(/\s+/g, '')+State+Zip.replace(/\s+/g, '');
+					
+					coll.insertOne( 
+							 {
+								 	"_id" : id,
+									"user_id" : user_id,
+									"nickName" : nickName,
+									"address" : {
+											"Street" : Street,
+											"City"   : City,
+											"State"  : State,
+											"Zip"    : Zip
+										    },
+									"property_type" : property_type,
+									"units"  : {
+											"bath" : bath,
+											"room" : room,
+											"area" : area 
+										   },
+									"rent"  : rent,
+									"Contact_info" : {
+											    "email" : email,
+											    "Mobile": Mobile
+											 },
+									"description" : description,
+									"Images" : Images,
+									"other_details" : other_details,
+									"Status" : Status,
+									"view_count" : view_count
+							 },   function(err, docs) {
 							
-						 }
-				);			
-			}	
-		});	
+								 if(err){
+									 result.code = 208;
+									 result.status = "Duplicate records";
+									 res.json(result);
+								 }else{
+									 utils.notify(id,1,function(){
+										console.log('notification triggered.');
+										mailOptions.from = "magicrentals11@gmail.com";
+										mailOptions.to = email;
+										mailOptions.subject = "<no reply> New rental detils posted successful";
+										mailOptions.text = "mail from magicrentals.. test mail";
+										mailOptions.html = "Dear Customer, <br><br>Your add posted scuuesfully. <br><br>Thank you<br>MagicRentals Team";
+										mailer.sendMail(mailOptions, function(error, success) {
+											console.log('Mail sent');
+										});
+									 });
+									 
+									 result.code = 200; 
+									 result.status = "Successfully inserted";
+									 res.json(result);
+								 }	
+								
+							 }
+					);			
+				}	
+			});	
+		}
 	 	
 	});
 };
