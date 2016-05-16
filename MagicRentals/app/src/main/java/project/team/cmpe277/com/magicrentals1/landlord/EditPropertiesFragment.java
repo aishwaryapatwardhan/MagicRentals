@@ -9,12 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
 
 import project.team.cmpe277.com.magicrentals1.LoginActivity;
 import project.team.cmpe277.com.magicrentals1.R;
+import project.team.cmpe277.com.magicrentals1.utility.DownloadImageTask;
 
 /**
  * Created by savani on 5/3/16. edit screen.. pass  property id
@@ -31,6 +33,7 @@ public class EditPropertiesFragment extends Fragment {
     Spinner SpinPropertyType, bath, rooms;
     Button btnSubmit;
     String userid;
+    ImageButton postPicBtn;
     public EditPropertiesFragment(){
 
     }
@@ -55,6 +58,8 @@ public class EditPropertiesFragment extends Fragment {
 
         spinProprtyType.setSelection(listPropertyTypes.indexOf(mPropertyModel.getProperty_type()));
 
+        postPicBtn = (ImageButton) editView.findViewById(R.id.postPicButton);
+        new DownloadImageTask(postPicBtn).execute(mPropertyModel.getImages());
         area = (EditText)editView.findViewById(R.id.area);
         area.setText(mPropertyModel.getArea());
          street = (EditText)editView.findViewById(R.id.street);
@@ -83,4 +88,6 @@ public class EditPropertiesFragment extends Fragment {
         return editView;
 
     }
+
+
 }
