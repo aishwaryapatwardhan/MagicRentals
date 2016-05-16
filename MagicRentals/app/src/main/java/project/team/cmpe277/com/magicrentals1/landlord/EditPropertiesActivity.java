@@ -52,7 +52,7 @@ public class EditPropertiesActivity extends AppCompatActivity implements TaskCom
         userid = sharedPreferences.getString(LoginActivity.USERID,null);
         String key = getIntent().getExtras().getString("key");
 
-        SharedPreferences preferences = this.getSharedPreferences(TAG, Context.MODE_PRIVATE);
+
        // userid = preferences.getString(LoginActivity.USERID,null);
      //   int selectedLine = preferences.getInt("selectedLine",0);
         Log.i(TAG, "Line selected .... "+key);

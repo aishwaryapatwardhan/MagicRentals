@@ -24,6 +24,7 @@ import project.team.cmpe277.com.magicrentals1.landlord.PropertyDetailFragment;
 import project.team.cmpe277.com.magicrentals1.landlord.PropertyListAdapter;
 import project.team.cmpe277.com.magicrentals1.landlord.PropertyListLandlordFragment;
 import project.team.cmpe277.com.magicrentals1.landlord.PropertyModel;
+import project.team.cmpe277.com.magicrentals1.landlord.UploadPropertyDataFragment;
 import project.team.cmpe277.com.magicrentals1.utility.PopUpTenantLandlord;
 
 public class TenantAndLandlordNavigationDrawer extends AppCompatActivity
@@ -118,6 +119,9 @@ public class TenantAndLandlordNavigationDrawer extends AppCompatActivity
             getSharedPreferences("USER", Context.MODE_PRIVATE).edit().remove(LoginActivity.USERID).commit();
             finish();
 
+        }
+        else if(id == R.id.nav_create_posts){
+            getSupportFragmentManager().beginTransaction().replace(R.id.detailFragmentContainer, new UploadPropertyDataFragment()).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

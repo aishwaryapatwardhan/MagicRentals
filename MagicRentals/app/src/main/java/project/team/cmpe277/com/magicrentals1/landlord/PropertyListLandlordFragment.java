@@ -269,8 +269,9 @@ public class PropertyListLandlordFragment extends ListFragment  {
 
                     case R.id.add_property:
                         Log.i("ADDPROPERty", "calling activity");
-                        Intent g = new Intent(getActivity().getApplicationContext(), UploadPropertyDataActivity.class);
-                        startActivity(g);
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.detailFragmentContainer, new UploadPropertyDataFragment()).commit();
+                        //Intent g = new Intent(getActivity().getApplicationContext(), UploadPropertyDataActivity.class);
+                        //startActivity(g);
 
                 }
                 return false;
