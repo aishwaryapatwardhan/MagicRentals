@@ -354,6 +354,7 @@ exports.getAllFav_Post = function(req, res){
 	});
 };
 
+//getAllFav - GET
 exports.getAllFav_Get = function(req, res){
 	
 	console.log("In getFav API");

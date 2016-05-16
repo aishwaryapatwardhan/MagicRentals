@@ -31,6 +31,7 @@ exports.addPost_Post = function(req, res){
 	     }
 	    
 	    console.log(fields.user_id + ": user_id, "+fields.Street+" fields.Street, "+fields.bath+" fields.room "+ fields.room + " , " + fields.email +", "+ fields.Mobile);
+	   
 	    var user_id = fields.user_id;
 	 	var Street = fields.Street;
 	 	var City = fields.City;
@@ -44,31 +45,12 @@ exports.addPost_Post = function(req, res){
 	 	var email = fields.email;
 	 	var Mobile = fields.Mobile;
 	 	var description = fields.description;
-		
-		if(files && files != null && files.fileUpload ){
-			var readStream  = fs.createReadStream(files.fileUpload.path);
-			var filePath  = '../public/images/' + files.fileUpload.name;
-			var writeStream = fs.createWriteStream(filePath);
-
-			readStream.pipe(writeStream);
-			readStream.on('end',function(){
-				console.log("successful file copy");
-				fs.unlinkSync(files.fileUpload.path);
-			});
-			readStream.on('error',function(err){
-				console.log(err);
-			});
-			var Images = "http://" + ip.address() + ":" + server.config.address().port + "/images/" + files.fileUpload.name;
-		}else{
-			Images = "http://www.idesignarch.com/wp-content/uploads/Alvhem-Apartment-Interior-Design_4.jpg";
-		}
-		
-	 	var other_details = fields.other_details;
+		var other_details = fields.other_details;
 	 	var Status = fields.Status;
 	 	var view_count = Number(fields.view_count);
 	    var nickName = fields.nickName;
-	     
-
+	    var Images;
+	    
 	    if(!user_id || user_id == null || user_id == "null"){
 	    	console.log("User Id empty");
 			result.code = 212;
@@ -177,9 +159,6 @@ exports.addPost_Post = function(req, res){
 			res.json(result);
 			return;
 		}
-		if(!Images || Images == null || Images == "null"){
-			Images = "https://upload.wikimedia.org/wikipedia/commons/1/1e/Stonehenge.jpg";
-		}
 		
 		if(!other_details || other_details == null || other_details == "null"){
 			other_details = " ";
@@ -206,6 +185,7 @@ exports.addPost_Post = function(req, res){
 				console.log("successful file copy");
 				//fs.unlinkSync(files.fileUpload.path);
 				Images = "http://" + ip.address() + ":" + server.config.address().port + "/images/" + files.fileUpload.name;
+				console.log('Image is - '+ Images  );
 				addRow();
 			});
 			readStream.on('error',function(err){
