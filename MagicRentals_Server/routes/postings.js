@@ -185,7 +185,8 @@ exports.addPost_Post = function(req, res){
 			readStream.on('end',function(){
 				console.log("successful file copy");
 				//fs.unlinkSync(files.fileUpload.path);
-				Images = "http://" + ip.address() + ":" + server.config.address().port + "/images/" + files.fileUpload.name;
+				//Images = "http://" + ip.address() + ":" + server.config.address().port + "/images/" + files.fileUpload.name;
+				Images = "http://52.9.190.225:" + server.config.address().port + "/images/" + files.fileUpload.name;
 				console.log('Image is - '+ Images  );
 				addRow();
 			});

@@ -64,6 +64,7 @@ function constructNotification1 (myarr, type, id){
 			
 			var coll = mongo.collection('rental_posting');
 			const uid = myarr.user_id;
+			console.log('in constructNotif1 - ' + uid);
 			coll.find( { $and : [ { "description" : { $regex: myarr.description } }, 
 			                      { "address.City" : { $regex: myarr.City } }, 
 			                      { "address.Zip" : { $regex: myarr.Zip } }, 
@@ -73,21 +74,20 @@ function constructNotification1 (myarr, type, id){
 			                    	  if(docs){
 			                    		  //const docs1 = docs;
 			                    		  if(type == 1 && id != null){
-			                    			  for(var j = 0 ; j<docs.length; j++ ){
-			                    				  if(docs[j]._id == id){
-			                    					  const results = docs[j];
-			                    					  console.log('send notification to him');
+			                    			  ddoc = docs;
+			                    			  for(var j = 0 ; j<ddoc.length; j++ ){
+			                    				  if(ddoc[j]._id == id){
+			                    					  results = ddoc[j];
+			                    					  console.log('send notification to him'+results.user_id);
 			                    					  var coll1 = mongo.collection('users');
 			                    					  coll1.findOne({ "uid" : uid },function(err, doc){
 			                    						  if(err){
 			                    							  console.log('error');
-			                    						  }else{
+			                    						  }else if(doc){
 			                    							  console.log('user details');
-			                    							  console.log(doc);
-			                    							  console.log(results);
-			                    							  push(results, 'New Postngs', doc.deviceID , function(){
-			                    								  console.log('notified users');
-			                    							  });
+			                    							  console.log("device " + doc.deviceID);
+			                    							 // console.log(results);
+			                    							  push(results, 'New Postngs', doc.deviceID);
 			                    						  }
 			                    					  });
 			                    				  }
@@ -123,7 +123,7 @@ function constructNotification1 (myarr, type, id){
 }
 
 
-function push( msg , header, device_tokens, callback){	
+function push( msg , header, device_tokens){	
 	
     var retry_times = 4; //the number of times to retry sending the message if it fails
 
@@ -138,14 +138,13 @@ function push( msg , header, device_tokens, callback){
     message.delayWhileIdle = true; //delay sending while receiving device is offline
     message.timeToLive = 3; //the number of seconds to keep the message on the server if the device is offline
 
-    console.log('in push msg');
-    console.log(message);
-    console.log(message + " " + device_tokens  );
+    console.log('in push msg & token : '+device_tokens);
+//    console.log(message);
+ //   console.log(message + " " + device_tokens  );
     sender.send(message, device_tokens, retry_times, function(result){
         console.log(result);
         console.log('push sent to: ' + device_tokens);
     });
-    callback();
 }
 	
 exports.notify = function(id, type, callback){
@@ -168,14 +167,17 @@ exports.notify = function(id, type, callback){
 					var searchcol = mongo.collection('search_queries');
 
 					searchcol.find( {  "rate" : type } ).toArray(function(err, docs) {
-						if(docs){												
+						if(docs){	
+							const dc = docs;
 							var myArray = [];
-							for(var i=0; i<docs.length; i++){
+							for(var i=0; i<dc.length; i++){
 								//myArray.push({ "user_id":docs[i].user_id, "rate": docs[i].rate, "description":docs[i].description, "City":docs[i].City,"Zip": docs[i].Zip, "Make": docs[i].Make, "property_type":docs[i].property_type, "max_rent":docs[i].max_rent, "min_rent":docs[i].min_rent});
-								var ma = docs[i];
+								var ma = dc[i];
+								console.log('ma is ');
+								console.log(ma)
 								constructNotification1(ma, type, id);
 							}
-							console.log('length is '+ myArray.length);
+//							console.log('length is '+ myArray.length);
 //							constructNotification1(myArray, type, id);
 							callback();
 						}else{						
