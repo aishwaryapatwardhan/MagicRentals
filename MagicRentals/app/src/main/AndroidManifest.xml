@@ -83,7 +83,11 @@
         <activity
             android:name=".landlord.EditPropertiesActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="project.team.cmpe277.com.magicrentals1.landlord.PropertyDetailActivity"/>
+        </activity>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

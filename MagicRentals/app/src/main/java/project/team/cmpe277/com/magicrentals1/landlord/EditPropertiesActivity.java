@@ -3,6 +3,7 @@ package project.team.cmpe277.com.magicrentals1.landlord;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -168,6 +169,9 @@ public class EditPropertiesActivity extends AppCompatActivity implements TaskCom
             case R.id.cancelform:
                 this.finish();
                 break;
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
         }
 
 
