@@ -79,6 +79,7 @@ public class PropertyListAdapter extends ArrayAdapter<PropertyModel> {
         if (temp_view == null || temp_view.equals("null")) temp_view = "0";
         vh.countV.setText(temp_view);
         vh.streetV.setText(property.getStreet());
+        vh.nicknameV.setText(property.getNickname());
 //        vh.stateV.setText(property.getState());
 //        vh.cityV.setText(property.getCity());
 //        vh.zipV.setText(property.getZip());

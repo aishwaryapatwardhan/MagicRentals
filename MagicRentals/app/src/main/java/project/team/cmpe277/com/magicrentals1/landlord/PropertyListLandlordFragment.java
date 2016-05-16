@@ -130,6 +130,7 @@ public class PropertyListLandlordFragment extends ListFragment  {
         if(madapter == null){
             Log.i(TAG, "null adapter");
         }
+       // listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
 
         // listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);

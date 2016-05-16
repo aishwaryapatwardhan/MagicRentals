@@ -139,12 +139,9 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
                     street.setError("required");
                 }
             }
-
-
         });
         other_details = (EditText)findViewById((R.id.other_details));
         nickname = (EditText)findViewById(R.id.nickname);
-
         city = (EditText)findViewById(R.id.city);
         city.addTextChangedListener(new TextValidator(city));
         state = ((EditText)findViewById(R.id.state));
@@ -161,10 +158,6 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
         rooms = (Spinner)findViewById(R.id.roomscount);
         bath = (Spinner)findViewById(R.id.bathroomcount);
         property = new PropertyModel();
-
-
-
-
     }
 
     @Override
@@ -191,6 +184,8 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
                 property.setCity(city.getText().toString());
                 validate(state);
                 property.setState(state.getText().toString());
+                validate(email);
+                validate(description);
                 if (!LandlordUtils.isValidZip(zip.getText().toString())) {
                     isValid = false;
                     zip.setError("Should be 5 digit!");
@@ -203,6 +198,7 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
                     email.setError("Invalid Email");
                 }
                 property.setEmail(email.getText().toString());
+
                 property.setMobile(mobile.getText().toString());
                 System.out.println("sjsk " + mobile.getText().toString());
                 property.setDescription(description.getText().toString());
@@ -210,6 +206,7 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
                 property.setBath(bath.getSelectedItem().toString());
                 property.setOther_details(other_details.getText().toString());
                 property.setNickname(nickname.getText().toString());
+                System.out.println("Nickname == "+property.getNickname());
                 if (isValid) {
                     formFields = LandlordUtils.serialize(property);
                     String url = getString(R.string.url) + "/addPostings";
