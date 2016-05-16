@@ -23,7 +23,8 @@
         android:text="@string/status"
         android:layout_below="@+id/house_image"
         android:layout_marginLeft="28dp"
-        android:textSize="15dp"/>
+        android:textStyle="italic"
+        android:textSize="17dp"/>
 
 
     <TextView
