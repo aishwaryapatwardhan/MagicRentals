@@ -5,13 +5,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -85,8 +83,7 @@ public class PropertyListAdapter extends ArrayAdapter<PropertyModel> {
 //        vh.zipV.setText(property.getZip());
         vh.addressFullV.setText(property.getState()+" "+property.getCity()+" "+property.getZip());
         vh.statusV.setText(property.getStatus());
-        Log.i("PropertyListAdapter",property.getImages() + " ");
-       // new DownloadImageTask(vh.houseImage).execute(property.getImages());
+        new DownloadImageTask(vh.houseImage).execute(property.getImages());
 //            //convertView =
 //            convertView = activity.getLayoutInflater()
 //                    .inflate( R.layout.landlord_property_row, null);
@@ -208,7 +205,7 @@ public class PropertyListAdapter extends ArrayAdapter<PropertyModel> {
             Bitmap imageIcon =  null;
 
             try {
-                Log.i("InputUrl",inputUrl);
+
                 InputStream in = new URL(inputUrl).openStream();
                 imageIcon = BitmapFactory.decodeStream(in);
 
@@ -223,8 +220,6 @@ public class PropertyListAdapter extends ArrayAdapter<PropertyModel> {
             mImageView.setImageBitmap(bitmap);
         }
     }
-
-
 }
 
 
