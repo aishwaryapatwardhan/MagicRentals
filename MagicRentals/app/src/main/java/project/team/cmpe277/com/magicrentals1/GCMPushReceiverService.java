@@ -67,9 +67,10 @@ public class GCMPushReceiverService extends GcmListenerService {
 
         NotificationCompat.Builder noBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_launcher)
-                .setContentText("MagicRentals Notification")
+                .setContentText("New Postings Added")
                 .setAutoCancel(true)
-                .setContentIntent(pendingIntent);
+                .setContentIntent(pendingIntent)
+                .setContentTitle("MagicRentals Notification");
 
         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0, noBuilder.build());
