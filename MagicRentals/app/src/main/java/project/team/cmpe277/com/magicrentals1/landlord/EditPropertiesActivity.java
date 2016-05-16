@@ -50,18 +50,23 @@ public class EditPropertiesActivity extends AppCompatActivity implements TaskCom
         setContentView(R.layout.fragment_upload_data);
         SharedPreferences sharedPreferences = getSharedPreferences("USER",Context.MODE_PRIVATE);
         userid = sharedPreferences.getString(LoginActivity.USERID,null);
-        int selectedLine = getIntent().getExtras().getInt("selectedLine");
+        int key = getIntent().getExtras().getInt("key");
 
         SharedPreferences preferences = this.getSharedPreferences(TAG, Context.MODE_PRIVATE);
        // userid = preferences.getString(LoginActivity.USERID,null);
      //   int selectedLine = preferences.getInt("selectedLine",0);
-        Log.i(TAG, "Line selected .... "+selectedLine);
+        Log.i(TAG, "Line selected .... "+key);
         mPropertyResultLab = PropertiesResultLab.getPropertiesResultLab(getApplicationContext());
         mPropertyList = mPropertyResultLab.getPropertyList();
         //
 
-        //mpropertyModel = mPropertyList.get()
-        mPropertyModel = mPropertyList.get(selectedLine);
+        for (PropertyModel property : mPropertyList) {
+            if (property.getKey().equals(key)) {
+                System.out.println(property.getKey());
+                mPropertyModel = property;
+                break;
+            }
+        }
         System.out.println("Modelll........  +++ "+mPropertyModel.getNickname()+"djdjd  .. "+userid);
         Spinner spinProprtyType = (Spinner)findViewById(R.id.property_type);
       //  R.string-spinProprtyType.get

@@ -125,9 +125,6 @@ public class PropertiesListLandlordActivity   extends AppCompatActivity
 //                       (this,R.layout.search_result_row, mPropertyList );
 //
 //               listView.setAdapter(mAdapter);
-
-
-
            }
 
            @Override
@@ -135,9 +132,7 @@ public class PropertiesListLandlordActivity   extends AppCompatActivity
                PropertiesResultLab mPropertyResultLab;
                mPropertyResultLab = PropertiesResultLab.getPropertiesResultLab(this);
                mPropertyList = mPropertyResultLab.getPropertyList();
-
                HashMap<String, String> hm= new HashMap<>();
-
                hm.put("id", mPropertyList.get(selected_line).getKey());
                Log.i(TAG, hm.get("id")+"USersssss.......");
                hm.put("Status","Cancelled");

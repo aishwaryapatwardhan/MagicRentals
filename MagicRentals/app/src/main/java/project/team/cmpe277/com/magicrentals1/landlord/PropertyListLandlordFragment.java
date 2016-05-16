@@ -101,9 +101,8 @@ public class PropertyListLandlordFragment extends ListFragment  {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_landlord_context,menu);
+        inflater.inflate(R.menu.menu_landlord,menu);
         super.onCreateOptionsMenu(menu, inflater);
-
     }
 
     @Override
@@ -233,8 +232,6 @@ public class PropertyListLandlordFragment extends ListFragment  {
                                     });
                             alertDialog.show();
                         }
-
-
                         //   mAdapter.notifyDatasetChanged();
                         break;
                     case R.id.editM:

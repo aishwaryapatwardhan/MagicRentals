@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="project.team.cmpe277.com.magicrentals.landlord.PropertyDetailActivity">
     <item
         android:id="@+id/editM"
         android:title="@string/editproperty"
         android:icon="@android:drawable/ic_menu_edit"
+
         />
     <item
         android:id="@+id/cancelM"
         android:title="@string/cancelproperty"
-        android:icon="@android:drawable/ic_menu_delete"/>
+        android:icon="@android:drawable/ic_menu_delete"
+       />
     <item
         android:id="@+id/rentedM"
         android:title="@string/rentedproperty"
+
         />
-    <item
-        android:id="@+id/add_property"
-        android:title="@string/add_property"
-        app:showAsAction="always" />
-
-
 </menu>
