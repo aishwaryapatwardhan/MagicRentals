@@ -136,8 +136,8 @@ public class PropertiesListAsyncTask extends AsyncTask<String, Void, Boolean>{
                                 pm.setStatus(changeNull(result.getString("Status"), false));
                             if (result.has("view_count"))
                                 pm.setView_count(changeNull(result.getString("view_count"), true));
-                            if (result.has("nickname"))
-                                pm.setNickname(changeNull(result.getString("nickname"), false));
+                            if (result.has("nickName"))
+                                pm.setNickname(changeNull(result.getString("nickName"), false));
                             if (result.has("other_details"))
                                 pm.setOther_details(changeNull(result.getString("other_details"), false));
                             if(result.has("Images"))

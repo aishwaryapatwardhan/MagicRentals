@@ -32,7 +32,7 @@ public  class LandlordUtils {
         HashMap<String, String> hm = new HashMap<>();
        // hm.put("_id",pm.getKey());
         hm.put("user_id", pm.getUser_id());
-        hm.put("nickname", pm.getNickname());
+        hm.put("nickName", pm.getNickname());
         hm.put("City", pm.getCity());
         hm.put("Street", pm.getStreet());
         hm.put("State", pm.getState());
