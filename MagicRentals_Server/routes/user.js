@@ -31,7 +31,7 @@ exports.addUser = function(req, res){
 		
 		uid = uid.replace(/(\r\n|\n|\r)/gm,"");
 		email = email.replace(/(\r\n|\n|\r)/gm,"");
-		deviceID .replace(/(\r\n|\n|\r)/gm,"");
+		deviceID =  deviceID.replace(/(\r\n|\n|\r)/gm,"");
 		
 	    console.log(uid + " " + email + " " + deviceID);
 	 	mongo.connect(function(err, db){
