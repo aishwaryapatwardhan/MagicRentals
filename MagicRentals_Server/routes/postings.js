@@ -196,76 +196,99 @@ exports.addPost_Post = function(req, res){
 	 	
 		var id;
 		
-		mongo.connect(function(err, db){
-			
-			if(err){
-				console.log("Unable to connect to mongo");
-				result.code = 209;
-				result.status = "Unable to connect to mongo";
-				res.json(result);
-			}else{
-				console.log("Connected to mongo");
+		if(files && files != null && files.fileUpload ){
+			var readStream  = fs.createReadStream(files.fileUpload.path);
+			var filePath  = '../public/images/' + files.fileUpload.name;
+			var writeStream = fs.createWriteStream(filePath);
+
+			readStream.pipe(writeStream);
+			readStream.on('end',function(){
+				console.log("successful file copy");
+				fs.unlinkSync(files.fileUpload.path);
+				Images = "http://" + ip.address() + ":" + server.config.address().port + "/images/" + files.fileUpload.name;
+				addRow();
+			});
+			readStream.on('error',function(err){
+				console.log(err);
+			});
+		}else{
+			Images = "http://www.idesignarch.com/wp-content/uploads/Alvhem-Apartment-Interior-Design_4.jpg";
+			addRow();
+		}
+		
+		
+		function addRow(){
+			console.log("In add ROW");
+			mongo.connect(function(err, db){
 				
-				var coll = mongo.collection('rental_posting');
-				
-				id = user_id.replace(/\s+/g, '')+Street.replace(/\s+/g, '')+City.replace(/\s+/g, '')+State+Zip.replace(/\s+/g, '');
-				
-				coll.insertOne( 
-						 {
-							 	"_id" : id,
-								"user_id" : user_id,
-								"nickName" : nickName,
-								"address" : {
-										"Street" : Street,
-										"City"   : City,
-										"State"  : State,
-										"Zip"    : Zip
-									    },
-								"property_type" : property_type,
-								"units"  : {
-										"bath" : bath,
-										"room" : room,
-										"area" : area 
-									   },
-								"rent"  : rent,
-								"Contact_info" : {
-										    "email" : email,
-										    "Mobile": Mobile
-										 },
-								"description" : description,
-								"Images" : Images,
-								"other_details" : other_details,
-								"Status" : Status,
-								"view_count" : view_count
-						 },   function(err, docs) {
-						
-							 if(err){
-								 result.code = 208;
-								 result.status = "Duplicate records";
-								 res.json(result);
-							 }else{
-								 utils.notify(id,1,function(){
-									console.log('notification triggered.');
-									mailOptions.from = "magicrentals11@gmail.com";
-									mailOptions.to = email;
-									mailOptions.subject = "<no reply> New rental detils posted successful";
-									mailOptions.text = "mail from magicrentals.. test mail";
-									mailOptions.html = "Dear Customer, <br><br>Your add posted scuuesfully. <br><br>Thank you<br>MagicRentals Team";
-									mailer.sendMail(mailOptions, function(error, success) {
-										console.log('Mail sent');
-									});
-								 });
-								 
-								 result.code = 200; 
-								 result.status = "Successfully inserted";
-								 res.json(result);
-							 }	
+				if(err){
+					console.log("Unable to connect to mongo");
+					result.code = 209;
+					result.status = "Unable to connect to mongo";
+					res.json(result);
+				}else{
+					console.log("Connected to mongo");
+					
+					var coll = mongo.collection('rental_posting');
+					
+					id = user_id.replace(/\s+/g, '')+Street.replace(/\s+/g, '')+City.replace(/\s+/g, '')+State+Zip.replace(/\s+/g, '');
+					
+					coll.insertOne( 
+							 {
+								 	"_id" : id,
+									"user_id" : user_id,
+									"nickName" : nickName,
+									"address" : {
+											"Street" : Street,
+											"City"   : City,
+											"State"  : State,
+											"Zip"    : Zip
+										    },
+									"property_type" : property_type,
+									"units"  : {
+											"bath" : bath,
+											"room" : room,
+											"area" : area 
+										   },
+									"rent"  : rent,
+									"Contact_info" : {
+											    "email" : email,
+											    "Mobile": Mobile
+											 },
+									"description" : description,
+									"Images" : Images,
+									"other_details" : other_details,
+									"Status" : Status,
+									"view_count" : view_count
+							 },   function(err, docs) {
 							
-						 }
-				);			
-			}	
-		});	
-	 	
+								 if(err){
+									 result.code = 208;
+									 result.status = "Duplicate records";
+									 res.json(result);
+								 }else{
+									 utils.notify(id,1,function(){
+										console.log('notification triggered.');
+										mailOptions.from = "magicrentals11@gmail.com";
+										mailOptions.to = email;
+										mailOptions.subject = "<no reply> New rental detils posted successful";
+										mailOptions.text = "mail from magicrentals.. test mail";
+										mailOptions.html = "Dear Customer, <br><br>Your add posted scuuesfully. <br><br>Thank you<br>MagicRentals Team";
+										mailer.sendMail(mailOptions, function(error, success) {
+											console.log('Mail sent');
+										});
+									 });
+									 
+									 result.code = 200; 
+									 result.status = "Successfully inserted";
+									 res.json(result);
+								 }	
+								
+							 }
+					);			
+				}	
+			});	
+		}	 	
 	});
 };
 
@@ -309,25 +332,8 @@ exports.addPost_Get = function(req, res){
 	 	var Status = req.param('Status');
 	 	var view_count = Number(req.param('view_count'));
 	    var nickName = req.param('nickName');
-	     
+	    var Images;
 		
-		if(files && files != null && files.fileUpload ){
-			var readStream  = fs.createReadStream(files.fileUpload.path);
-			var filePath  = '../public/images/' + files.fileUpload.name;
-			var writeStream = fs.createWriteStream(filePath);
-
-			readStream.pipe(writeStream);
-			readStream.on('end',function(){
-				console.log("successful file copy");
-				fs.unlinkSync(files.fileUpload.path);
-			});
-			readStream.on('error',function(err){
-				console.log(err);
-			});
-			var Images = "http://" + ip.address() + ":" + server.config.address().port + "/images/" + files.fileUpload.name;
-		}else{
-			Images = "http://www.idesignarch.com/wp-content/uploads/Alvhem-Apartment-Interior-Design_4.jpg";
-		}
 		
 	    if(!user_id || user_id == null || user_id == "null"){
 	    	console.log("User Id empty");
@@ -437,9 +443,6 @@ exports.addPost_Get = function(req, res){
 			res.json(result);
 			return;
 		}
-		if(!Images || Images == null || Images == "null"){
-			Images = "https://upload.wikimedia.org/wikipedia/commons/1/1e/Stonehenge.jpg";
-		}
 		
 		if(!other_details || other_details == null || other_details == "null"){
 			other_details = " ";
@@ -456,75 +459,99 @@ exports.addPost_Get = function(req, res){
 	 	
 		var id;
 		
-		mongo.connect(function(err, db){
-			
-			if(err){
-				console.log("Unable to connect to mongo");
-				result.code = 209;
-				result.status = "Unable to connect to mongo";
-				res.json(result);
-			}else{
-				console.log("Connected to mongo");
+		if(files && files != null && files.fileUpload ){
+			var readStream  = fs.createReadStream(files.fileUpload.path);
+			var filePath  = '../public/images/' + files.fileUpload.name;
+			var writeStream = fs.createWriteStream(filePath);
+
+			readStream.pipe(writeStream);
+			readStream.on('end',function(){
+				console.log("successful file copy");
+				fs.unlinkSync(files.fileUpload.path);
+				Images = "http://" + ip.address() + ":" + server.config.address().port + "/images/" + files.fileUpload.name;
+				addRow();
+			});
+			readStream.on('error',function(err){
+				console.log(err);
+			});
+		}else{
+			Images = "http://www.idesignarch.com/wp-content/uploads/Alvhem-Apartment-Interior-Design_4.jpg";
+			addRow();
+		}
+		
+		
+		function addRow(){
+			console.log("In add ROW");
+			mongo.connect(function(err, db){
 				
-				var coll = mongo.collection('rental_posting');
-				
-				id = user_id.replace(/\s+/g, '')+Street.replace(/\s+/g, '')+City.replace(/\s+/g, '')+State+Zip.replace(/\s+/g, '');
-				
-				coll.insertOne( 
-						 {
-							 	"_id" : id,
-								"user_id" : user_id,
-								"nickName" : nickName,
-								"address" : {
-										"Street" : Street,
-										"City"   : City,
-										"State"  : State,
-										"Zip"    : Zip
-									    },
-								"property_type" : property_type,
-								"units"  : {
-										"bath" : bath,
-										"room" : room,
-										"area" : area 
-									   },
-								"rent"  : rent,
-								"Contact_info" : {
-										    "email" : email,
-										    "Mobile": Mobile
-										 },
-								"description" : description,
-								"Images" : Images,
-								"other_details" : other_details,
-								"Status" : Status,
-								"view_count" : view_count
-						 },   function(err, docs) {
-						
-							 if(err){
-								 result.code = 208;
-								 result.status = "Duplicate records";
-								 res.json(result);
-							 }else{
-								 utils.notify(id,1,function(){
-									console.log('notification triggered.');
-									mailOptions.from = "magicrentals11@gmail.com";
-									mailOptions.to = email;
-									mailOptions.subject = "<no reply> New rental detils posted successful";
-									mailOptions.text = "mail from magicrentals.. test mail";
-									mailOptions.html = "Dear Customer, <br><br>Your add posted scuuesfully. <br><br>Thank you<br>MagicRentals Team";
-									mailer.sendMail(mailOptions, function(error, success) {
-										console.log('Mail sent');
-									});
-								 });
-								 
-								 result.code = 200; 
-								 result.status = "Successfully inserted";
-								 res.json(result);
-							 }	
+				if(err){
+					console.log("Unable to connect to mongo");
+					result.code = 209;
+					result.status = "Unable to connect to mongo";
+					res.json(result);
+				}else{
+					console.log("Connected to mongo");
+					
+					var coll = mongo.collection('rental_posting');
+					
+					id = user_id.replace(/\s+/g, '')+Street.replace(/\s+/g, '')+City.replace(/\s+/g, '')+State+Zip.replace(/\s+/g, '');
+					
+					coll.insertOne( 
+							 {
+								 	"_id" : id,
+									"user_id" : user_id,
+									"nickName" : nickName,
+									"address" : {
+											"Street" : Street,
+											"City"   : City,
+											"State"  : State,
+											"Zip"    : Zip
+										    },
+									"property_type" : property_type,
+									"units"  : {
+											"bath" : bath,
+											"room" : room,
+											"area" : area 
+										   },
+									"rent"  : rent,
+									"Contact_info" : {
+											    "email" : email,
+											    "Mobile": Mobile
+											 },
+									"description" : description,
+									"Images" : Images,
+									"other_details" : other_details,
+									"Status" : Status,
+									"view_count" : view_count
+							 },   function(err, docs) {
 							
-						 }
-				);			
-			}	
-		});	
+								 if(err){
+									 result.code = 208;
+									 result.status = "Duplicate records";
+									 res.json(result);
+								 }else{
+									 utils.notify(id,1,function(){
+										console.log('notification triggered.');
+										mailOptions.from = "magicrentals11@gmail.com";
+										mailOptions.to = email;
+										mailOptions.subject = "<no reply> New rental detils posted successful";
+										mailOptions.text = "mail from magicrentals.. test mail";
+										mailOptions.html = "Dear Customer, <br><br>Your add posted scuuesfully. <br><br>Thank you<br>MagicRentals Team";
+										mailer.sendMail(mailOptions, function(error, success) {
+											console.log('Mail sent');
+										});
+									 });
+									 
+									 result.code = 200; 
+									 result.status = "Successfully inserted";
+									 res.json(result);
+								 }	
+								
+							 }
+					);			
+				}	
+			});	
+		}
 	 	
 	});
 };
