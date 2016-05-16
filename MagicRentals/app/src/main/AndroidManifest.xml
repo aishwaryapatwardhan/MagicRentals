@@ -53,7 +53,7 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="project.team.cmpe277.com.magicrentals1.TenantSearchActivity"/>
+                android:value="project.team.cmpe277.com.magicrentals1.TenantAndLandlordNavigationDrawer"/>
         </activity>
         <activity
             android:name="project.team.cmpe277.com.magicrentals1.TenantDetailPagerActivity"

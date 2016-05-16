@@ -252,29 +252,38 @@ public class TenantSearchFragment extends Fragment implements AdapterView.OnItem
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId() == R.id.propertyvalue) {
             TextView mytext = (TextView) view;
-            if(mytext.getText().toString().equals("Select type")){
-                sp.setPropertytype("");
+            if(mytext != null) {
+                if (mytext.getText().toString().equals("Select type")) {
+                    sp.setPropertytype("");
+                } else {
+                    sp.setPropertytype(mytext.getText().toString());
+            }
             }else {
-                sp.setPropertytype(mytext.getText().toString());
+                sp.setPropertytype("");
             }
 
         } else {
             if (parent.getId() == R.id.pricerangevalue) {
                 TextView mytext = (TextView) view;
-                if(mytext.getText().toString().equals("Select range")){
-                    sp.setMinPrice(0);
-                    sp.setMaxPrice(Integer.MAX_VALUE);
-                }else {
-                    String val[] = mytext.getText().toString().split("-", 2);
-                    if (val.length > 1) {
-                        sp.setMinPrice(Integer.parseInt(val[0].substring(1)));
-                        sp.setMaxPrice(Integer.parseInt(val[1].substring(1)));
+                if(mytext != null) {
+                    if (mytext.getText().toString().equals("Select range")) {
+                        sp.setMinPrice(0);
+                        sp.setMaxPrice(Integer.MAX_VALUE);
                     } else {
-                        if(mytext.getText().toString().equals("above $90000")) {
-                            sp.setMinPrice(90000);
-                            sp.setMaxPrice(Integer.MAX_VALUE);
+                        String val[] = mytext.getText().toString().split("-", 2);
+                        if (val.length > 1) {
+                            sp.setMinPrice(Integer.parseInt(val[0].substring(1)));
+                            sp.setMaxPrice(Integer.parseInt(val[1].substring(1)));
+                        } else {
+                            if (mytext.getText().toString().equals("above $90000")) {
+                                sp.setMinPrice(90000);
+                                sp.setMaxPrice(Integer.MAX_VALUE);
+                            }
                         }
                     }
+                }else{
+                    sp.setMinPrice(0);
+                    sp.setMaxPrice(Integer.MAX_VALUE);
                 }
             }
         }
@@ -391,13 +400,13 @@ public class TenantSearchFragment extends Fragment implements AdapterView.OnItem
                                     "likelihood: %g",
                             placeLikelihood.getPlace().getName(),
                             placeLikelihood.getLikelihood()));
-                    if(likelihoodvalue > placeLikelihood.getLikelihood()){
+                    if (likelihoodvalue > placeLikelihood.getLikelihood()) {
                         likelihoodvalue = placeLikelihood.getLikelihood();
                         location = placeLikelihood.getPlace().getName().toString();
                     }
                 }
                 likelyPlaces.release();
-                if(location == ""){
+                if (location == "") {
                     location = "San Jose";
                 }
                 sp.setStreet(location);
