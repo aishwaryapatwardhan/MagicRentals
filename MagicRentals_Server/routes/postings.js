@@ -204,7 +204,7 @@ exports.addPost_Post = function(req, res){
 			readStream.pipe(writeStream);
 			readStream.on('end',function(){
 				console.log("successful file copy");
-				fs.unlinkSync(files.fileUpload.path);
+				//fs.unlinkSync(files.fileUpload.path);
 				Images = "http://" + ip.address() + ":" + server.config.address().port + "/images/" + files.fileUpload.name;
 				addRow();
 			});
@@ -467,7 +467,7 @@ exports.addPost_Get = function(req, res){
 			readStream.pipe(writeStream);
 			readStream.on('end',function(){
 				console.log("successful file copy");
-				fs.unlinkSync(files.fileUpload.path);
+//				/fs.unlinkSync(files.fileUpload.path);
 				Images = "http://" + ip.address() + ":" + server.config.address().port + "/images/" + files.fileUpload.name;
 				addRow();
 			});
