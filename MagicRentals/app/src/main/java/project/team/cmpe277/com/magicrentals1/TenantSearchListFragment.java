@@ -10,7 +10,6 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,7 +44,6 @@ import project.team.cmpe277.com.magicrentals1.utility.ThumbnailDownloader;
 public class TenantSearchListFragment extends Fragment {
 
     private GridViewAdapter gridViewAdapter;
-    ProgressBar progress;
     private GridView gridView;
     private String userid;
     private static int rate;
@@ -188,7 +185,7 @@ public class TenantSearchListFragment extends Fragment {
 
         @Override
         protected void onPreExecute() {
-            progress.setVisibility(View.VISIBLE);
+
         }
 
         @Override

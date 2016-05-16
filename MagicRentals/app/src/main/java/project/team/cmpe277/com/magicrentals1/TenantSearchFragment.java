@@ -415,8 +415,11 @@ public class TenantSearchFragment extends Fragment implements AdapterView.OnItem
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            linearLayout.setVisibility(View.GONE);
-            progressBar.setVisibility(View.VISIBLE);
+            if(isVisible()){
+                linearLayout.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+            }
+
         }
 
         @Override
@@ -498,7 +501,8 @@ public class TenantSearchFragment extends Fragment implements AdapterView.OnItem
         protected void onPostExecute(JSONObject result) {
             super.onPostExecute(result);
 
-            progressBar.setVisibility(View.GONE);
+            if(isVisible())
+                progressBar.setVisibility(View.GONE);
             Intent i = new Intent(getActivity(), TenantSearchListActivity.class);
             startActivity(i);
 
