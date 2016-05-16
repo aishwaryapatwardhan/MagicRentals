@@ -141,16 +141,16 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletedSta
             @Override
             public void onClick(View v) {
                 SharedPreferences sharedPreferences = getSharedPreferences("USER", Context.MODE_PRIVATE);
-                sharedPreferences.edit().putString("USERID", "saipransesh").commit();
+                sharedPreferences.edit().putString(LoginActivity.USERID, "saipransesh").commit();
                /*Intent i = new Intent(getApplicationContext(), TenantSearchActivity.class);
                 i.putExtra("USERID", userid);
                 startActivity(i);*/
                 /*Intent i = new Intent(getApplicationContext(), PropertiesListLandlordActivity.class);
                 startActivity(i);*/
-               /* Intent i = new Intent(getApplicationContext(), TenantAndLandlordNavigationDrawer.class);
-                startActivity(i);*/
-                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-                startActivityForResult(signInIntent, RC_SIGN_IN);
+                Intent i = new Intent(getApplicationContext(), TenantAndLandlordNavigationDrawer.class);
+                startActivity(i);
+  /*              Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+                startActivityForResult(signInIntent, RC_SIGN_IN);*/
             }
         });
 

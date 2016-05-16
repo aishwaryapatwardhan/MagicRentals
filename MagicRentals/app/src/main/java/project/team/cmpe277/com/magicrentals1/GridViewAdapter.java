@@ -35,8 +35,9 @@ public class GridViewAdapter extends ArrayAdapter{
     public View getView(int position,View convertView,ViewGroup parent){
         View row = convertView;
         ViewHolder holder = null;
-
+        Boolean flag = false;
         if(row == null){
+            flag = true;
             LayoutInflater inflater = ((Activity)context).getLayoutInflater();
             row = inflater.inflate(layoutResourceId,parent,false);
             holder = new ViewHolder();
@@ -49,9 +50,14 @@ public class GridViewAdapter extends ArrayAdapter{
         }
         GridImageDetailItem item = data.get(position);
 
-        if(position == 0){
-            Log.i("GridViewAdapter", "calling DIT");
-            new DownloadImageTask(holder.image).execute(item.getImageIcon());
+        if(flag){
+
+            if(position == 0 || position == 1 || position == 2 || position == 3 || position ==4){
+                Log.i("GridViewAdapter", "calling DIT");
+                new DownloadImageTask(holder.image).execute(item.getImageIcon());
+                TenantSearchListFragment.mThumbnailThread.queueThumbnail(holder.image,item.getImageIcon());
+            }
+
         }else{
             Bitmap cacheHit = TenantSearchListFragment.mThumbnailThread.checkCache(item.getImageIcon());
             if(cacheHit != null){
