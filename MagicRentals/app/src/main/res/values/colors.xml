@@ -6,4 +6,6 @@
     <color name="colorPrimaryU">#D3B330</color>
     <color name="colorPrimaryDarkU">#EB6841</color>
     <color name="colorAccentU">#FF6866</color>
+    <color name="colorRed">#990000</color>
+    <color name="colorRed1">#b30000</color>
 </resources>

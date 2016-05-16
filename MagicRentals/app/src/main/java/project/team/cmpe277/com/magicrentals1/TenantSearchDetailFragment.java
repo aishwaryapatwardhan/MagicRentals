@@ -169,7 +169,7 @@ public class TenantSearchDetailFragment extends android.support.v4.app.Fragment{
                 heartflag = false;
             }
         } else{
-            Toast.makeText(getActivity().getApplicationContext(), "Added to favourites", Toast.LENGTH_LONG).show();
+
             int drawableId = getResources().getIdentifier("shallowheart", "drawable", "project.team.cmpe277.com.magicrentals");
             heartsImage.setBackgroundResource(drawableId);
             heartflag = false;
@@ -212,11 +212,6 @@ public class TenantSearchDetailFragment extends android.support.v4.app.Fragment{
 
 
         switch(id){
-            case android.R.id.home:
-                if (NavUtils.getParentActivityName(getActivity()) != null) {
-                    NavUtils.navigateUpFromSameTask(getActivity());
-                }
-                return true;
             case R.id.favorites:
                 //favourites activity
                 Intent i = new Intent(getActivity().getApplicationContext(), TenantsFavActivity.class);

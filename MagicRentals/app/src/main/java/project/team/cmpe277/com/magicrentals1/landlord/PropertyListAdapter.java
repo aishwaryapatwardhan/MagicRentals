@@ -63,7 +63,7 @@ public class PropertyListAdapter extends ArrayAdapter<PropertyModel> {
         //    vh.cityV = (TextView) convertView.findViewById(R.id.house_city);
          //   vh.stateV = (TextView) convertView.findViewById(R.id.house_state);
         //    vh.zipV = (TextView) convertView.findViewById(R.id.house_zip);
-            vh.addressFullV = (TextView) convertView.findViewById(R.id.address_line);
+            vh.addressFullV = (TextView) convertView.findViewById(R.id.address_line2);
             vh.statusV= (TextView) convertView.findViewById(R.id.statuscurr);
             vh.houseImage = (ImageView) convertView.findViewById(R.id.house_image);
             convertView.setTag(vh);
@@ -77,7 +77,7 @@ public class PropertyListAdapter extends ArrayAdapter<PropertyModel> {
         System.out.println("ID "+ property.getKey());
         String temp_view = property.getView_count();
         if (temp_view == null || temp_view.equals("null")) temp_view = "0";
-        vh.countV.setText(temp_view);
+        vh.countV.setText(temp_view + " views");
         vh.streetV.setText(property.getStreet());
         vh.nicknameV.setText(property.getNickname());
 //        vh.stateV.setText(property.getState());
@@ -114,7 +114,7 @@ public class PropertyListAdapter extends ArrayAdapter<PropertyModel> {
 
 
        //     convertView = inflater.inflate(resource, parent, false);
-            LinearLayout linearLayout = (LinearLayout)convertView.findViewById(R.id.linearlayoutrow);
+           // LinearLayout linearLayout = (LinearLayout)convertView.findViewById(R.id.linearlayoutrow);
 
 //            ViewTreeObserver viewTreeObserver = convertView.getViewTreeObserver();
 //            if (viewTreeObserver.isAlive()) {
