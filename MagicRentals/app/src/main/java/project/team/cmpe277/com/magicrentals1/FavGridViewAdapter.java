@@ -70,7 +70,7 @@ public class FavGridViewAdapter extends ArrayAdapter{
             }
         }
 
-        holder.price.setText(item.getRent());
+        holder.price.setText("$"+item.getRent());
         holder.address.setText(item.getStreetAddr());
         return row;
     }
