@@ -33,7 +33,7 @@ public class PopUpTenantLandlord extends AppCompatActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int) (width * 0.7), (int) (height * 0.5));
+        getWindow().setLayout((int) (width * 0.7), (int) (height * 0.3));
 
         mTenantButton.setOnClickListener(new View.OnClickListener() {
             @Override
