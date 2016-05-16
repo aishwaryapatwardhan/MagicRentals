@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import project.team.cmpe277.com.magicrentals1.LoginActivity;
 import project.team.cmpe277.com.magicrentals1.R;
 import project.team.cmpe277.com.magicrentals1.utility.MultipartUtilityAsyncTask;
 import project.team.cmpe277.com.magicrentals1.utility.TaskCompletedStatus;
@@ -48,7 +49,7 @@ public class EditPropertiesActivity extends AppCompatActivity implements TaskCom
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_upload_data);
         SharedPreferences sharedPreferences = getSharedPreferences("USER",Context.MODE_PRIVATE);
-        userid = sharedPreferences.getString("USERID",null);
+        userid = sharedPreferences.getString(LoginActivity.USERID,null);
         int selectedLine = getIntent().getExtras().getInt("selectedLine");
 
         SharedPreferences preferences = this.getSharedPreferences(TAG, Context.MODE_PRIVATE);

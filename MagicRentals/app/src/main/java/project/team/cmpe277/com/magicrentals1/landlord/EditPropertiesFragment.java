@@ -3,17 +3,17 @@ package project.team.cmpe277.com.magicrentals1.landlord;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.app.Fragment;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
+import project.team.cmpe277.com.magicrentals1.LoginActivity;
 import project.team.cmpe277.com.magicrentals1.R;
 
 /**
@@ -41,7 +41,7 @@ public class EditPropertiesFragment extends Fragment {
         View editView = inflater.inflate(R.layout.fragment_upload_data, container, false);
        // String userid = getArguments().getString("USERID");
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("USER", Context.MODE_PRIVATE);
-        userid = sharedPreferences.getString("USERID",null);
+        userid = sharedPreferences.getString(LoginActivity.USERID,null);
         int selectedLine = getArguments().getInt("selectedLine");
         listPropertyTypes = new ArrayList<>();
        System.out.println("Array .property..... "+R.array.property_type);
