@@ -217,22 +217,24 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
                     PropertiesResultLab propertiesResultLab = PropertiesResultLab.
                             getPropertiesResultLab(getApplicationContext());
                     ArrayList<PropertyModel> propertyList = propertiesResultLab.getPropertyList();
+                    if(thumbnailImage != null){
+                        uploadFile = new File(getFilesDir() , "userid" + SystemClock.currentThreadTimeMillis() + ".png");
 
-                    uploadFile = new File(getFilesDir() , "userid" + SystemClock.currentThreadTimeMillis() + ".png");
+                        OutputStream out = null;
+                        try {
+                            out = new FileOutputStream(uploadFile);
+                            thumbnailImage.compress(Bitmap.CompressFormat.PNG,100,out);
+                            out.flush();
+                            out.close();
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
-                    OutputStream out = null;
-                    try {
-                        out = new FileOutputStream(uploadFile);
-                        thumbnailImage.compress(Bitmap.CompressFormat.PNG,100,out);
-                        out.flush();
-                        out.close();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                        imageFiles.put("fileUpload",uploadFile);
+
                     }
-
-                    imageFiles.put("fileUpload",uploadFile);
 
                     //new MultipartUtilityAsyncTask(UploadPropertyDataActivity.this, hm, null).execute(url);
                     new MultipartRequest().execute(url);
@@ -440,22 +442,6 @@ public class UploadPropertyDataActivity extends AppCompatActivity implements Tas
                         }
                     }
                 }
-
-               /* multipart.addFormField("user_id", "Cool Pictures");
-                multipart.addFormField("Street", "Cool Pictures");
-                multipart.addFormField("City", "Cool Pictures");
-                multipart.addFormField("State", "Cool Pictures");
-                multipart.addFormField("Zip", "Cool Pictures");
-                multipart.addFormField("property_type", "Cool Pictures");
-                multipart.addFormField("bath", "Cool Pictures");
-                multipart.addFormField("room", "Cool Pictures");
-                multipart.addFormField("area", "Cool Pictures");
-                multipart.addFormField("rent", "Cool Pictures");
-                multipart.addFormField("email", "Cool Pictures");
-                multipart.addFormField("Mobile", "Cool Pictures");
-                multipart.addFormField("description", "Cool Pictures");*/
-
-               // multipart.addFilePart("fileUpload", uploadFile);
 
                 String response = multipart.finishString();
 
