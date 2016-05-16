@@ -7,16 +7,18 @@
         android:id="@+id/editM"
         android:title="@string/editproperty"
         android:icon="@android:drawable/ic_menu_edit"
-
+        app:showAsAction="ifRoom"
         />
     <item
         android:id="@+id/cancelM"
         android:title="@string/cancelproperty"
         android:icon="@android:drawable/ic_menu_delete"
+        app:showAsAction="ifRoom"
        />
     <item
         android:id="@+id/rentedM"
         android:title="@string/rentedproperty"
+        app:showAsAction="ifRoom"
 
         />
 </menu>
