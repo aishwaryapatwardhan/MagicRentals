@@ -24,6 +24,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,6 +66,7 @@ public class TenantSearchFragment extends Fragment implements AdapterView.OnItem
     private EditText keywordvalue;
     private Spinner propertyvalue;
     private Spinner pricerangevalue;
+    private LinearLayout linearLayout;
     private Button mSearch;
     private EditText zipcodeval;
     AlertDialog actions;
@@ -73,6 +76,7 @@ public class TenantSearchFragment extends Fragment implements AdapterView.OnItem
     private static final String TAG = "TenSrchF";
     public static HashMap<String,String> searchFilters = new HashMap<String,String>();
     String userid;
+    ProgressBar progressBar;
 
     public static SearchParameters sp = SearchParameters.getSearchParameters();
 
@@ -122,7 +126,9 @@ public class TenantSearchFragment extends Fragment implements AdapterView.OnItem
 
         View searchview = inflater.inflate(R.layout.searchfragment_tenant, container, false);
 
-
+        progressBar = (ProgressBar) searchview.findViewById(R.id.progressBar);
+        linearLayout = (LinearLayout) searchview.findViewById(R.id.searchFragmentLinearLayout);
+        progressBar.setVisibility(View.GONE);
         propertyvalue = (Spinner) searchview.findViewById(R.id.propertyvalue);
         ArrayAdapter adapter1 = ArrayAdapter.createFromResource(this.getActivity(), R.array.property_type1, R.layout.spinner_list);
         propertyvalue.setOnItemSelectedListener(this);
@@ -407,6 +413,13 @@ public class TenantSearchFragment extends Fragment implements AdapterView.OnItem
         SearchParameters sP;
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            linearLayout.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
         protected JSONObject doInBackground(Object... parameters){
 
             sp = SearchParameters.getSearchParameters();
@@ -485,6 +498,7 @@ public class TenantSearchFragment extends Fragment implements AdapterView.OnItem
         protected void onPostExecute(JSONObject result) {
             super.onPostExecute(result);
 
+            progressBar.setVisibility(View.GONE);
             Intent i = new Intent(getActivity(), TenantSearchListActivity.class);
             startActivity(i);
 
@@ -526,6 +540,33 @@ public class TenantSearchFragment extends Fragment implements AdapterView.OnItem
                     }
                     json = new JSONObject(sb.toString());
 
+                    JSONObject addr, units, contact;
+
+                    try{
+                        JSONArray jsonarray = json.getJSONArray("data");
+                        ArrayList<GridImageDetailItem> gdl = new ArrayList<GridImageDetailItem>();
+
+                        for (int i = 0; i < jsonarray.length(); i++) {
+                            JSONObject jsonobject = jsonarray.getJSONObject(i);
+                            addr = jsonobject.getJSONObject("address");
+                            units = jsonobject.getJSONObject("units");
+                            contact = jsonobject.getJSONObject("Contact_info");
+
+                            GridImageDetailItem gridImageDetailItem = new GridImageDetailItem(jsonobject.getString("_id"), addr.getString("Street"), addr.getString("City"),
+                                    addr.getString("State"),
+                                    addr.getString("Zip"), jsonobject.getString("property_type"), units.getString("room"),
+                                    units.getString("bath"), units.getString("area"), jsonobject.getString("rent"), jsonobject.getString("description"),
+                                    jsonobject.getString("other_details"), jsonobject.getString("Images"),contact.getString("Mobile"),contact.getString("email"));
+                            gridImageDetailItem.setCount(Integer.parseInt(jsonobject.getString("view_count")));
+                            gdl.add(gridImageDetailItem);
+                        }
+                        FavPropSingleton.get(getActivity()).clearList();
+                        FavPropSingleton.get(getActivity()).setGridImageDetailItems(gdl);
+
+                    }
+                    catch (Exception ex){
+                        System.out.print("Hi");
+                    }
 
 
                 } catch (Exception e) {
@@ -545,33 +586,7 @@ public class TenantSearchFragment extends Fragment implements AdapterView.OnItem
         protected void onPostExecute(JSONObject result) {
             super.onPostExecute(result);
 
-            JSONObject addr, units, contact;
 
-            try{
-                JSONArray jsonarray = result.getJSONArray("data");
-                ArrayList<GridImageDetailItem> gdl = new ArrayList<GridImageDetailItem>();
-
-                for (int i = 0; i < jsonarray.length(); i++) {
-                    JSONObject jsonobject = jsonarray.getJSONObject(i);
-                    addr = jsonobject.getJSONObject("address");
-                    units = jsonobject.getJSONObject("units");
-                    contact = jsonobject.getJSONObject("Contact_info");
-
-                    GridImageDetailItem gridImageDetailItem = new GridImageDetailItem(jsonobject.getString("_id"), addr.getString("Street"), addr.getString("City"),
-                            addr.getString("State"),
-                            addr.getString("Zip"), jsonobject.getString("property_type"), units.getString("room"),
-                            units.getString("bath"), units.getString("area"), jsonobject.getString("rent"), jsonobject.getString("description"),
-                            jsonobject.getString("other_details"), jsonobject.getString("Images"),contact.getString("Mobile"),contact.getString("email"));
-                    gridImageDetailItem.setCount(Integer.parseInt(jsonobject.getString("view_count")));
-                    gdl.add(gridImageDetailItem);
-                }
-                FavPropSingleton.get(getActivity()).clearList();
-                FavPropSingleton.get(getActivity()).setGridImageDetailItems(gdl);
-
-            }
-            catch (Exception ex){
-                System.out.print("Hi");
-            }
         }
 
     }

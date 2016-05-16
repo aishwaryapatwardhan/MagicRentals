@@ -112,8 +112,8 @@ public class TenantSearchListFragment extends Fragment {
         gridView = (GridView)searchlistview.findViewById(R.id.gridview);
 
         final ArrayList<GridImageDetailItem> gridImageItems = PropSingleton.get(this.getActivity()).getGridImageDetailItems();
-        progress = (ProgressBar)searchlistview.findViewById(R.id.progressBar);
-        progress.setVisibility(View.VISIBLE);
+
+
         if(gridImageItems!=null && gridImageItems.size() == 0){
             TextView editText = new TextView(getActivity());
             editText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -127,8 +127,6 @@ public class TenantSearchListFragment extends Fragment {
         }else {
             gridViewAdapter = new GridViewAdapter(getActivity(), R.layout.property_grid, gridImageItems);
             gridView.setAdapter(gridViewAdapter);
-
-            progress.setVisibility(View.GONE);
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

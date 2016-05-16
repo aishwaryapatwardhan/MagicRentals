@@ -13,14 +13,7 @@
               android:horizontalSpacing="5dp"
               android:gravity="center" />
 
-    <ProgressBar
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
-        android:progressDrawable="@android:drawable/spinner_background"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"/>
+
 
 
 </RelativeLayout>
