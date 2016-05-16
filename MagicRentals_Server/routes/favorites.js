@@ -368,9 +368,9 @@ exports.getAllFav_Get = function(req, res){
 	       return;
 	     }
 	     
-//	     var uid = req.param('uid');
+	     var uid = req.param('uid');
 		
-	     var uid = fields.uid; 
+//	     var uid = fields.uid; 
 	     if(!uid || uid == null || uid == "null"){
 			 console.log("Data is empty");
 			 result.code = 211;
