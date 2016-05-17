@@ -2,6 +2,7 @@ package project.team.cmpe277.com.magicrentals1;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -31,6 +32,7 @@ public class TenantAndLandlordNavigationDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, PropertyListLandlordFragment.Callbacks {
 
     private static final String TAG = "TenantAndLandlordND";
+    public static Boolean checkflag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +43,26 @@ public class TenantAndLandlordNavigationDrawer extends AppCompatActivity
         ActionBar actionBar = getSupportActionBar();
         // actionBar.setDisplayShowHomeEnabled(true);
         //actionBar.setIcon(R.drawable.ic_launcher);
+        SharedPreferences sharedPreferences = getSharedPreferences("CHECKFLAG", Context.MODE_PRIVATE);
+        sharedPreferences.edit().putBoolean("CHECKFLAG", checkflag).commit();
 
         actionBar.setTitle("Magic Rentals");
 
-        Intent i = new Intent(this, PopUpTenantLandlord.class);
-        startActivityForResult(i, PopUpTenantLandlord.USER_OR_LANDLORD);
+        checkflag = getSharedPreferences("CHECKFLAG", Context.MODE_PRIVATE).getBoolean("CHECKFLAG", false);
+
+        if(checkflag == false) {
+
+            Intent i = new Intent(this, PopUpTenantLandlord.class);
+            startActivityForResult(i, PopUpTenantLandlord.USER_OR_LANDLORD);
+
+            checkflag = true;
+            getSharedPreferences("CHECKFLAG", Context.MODE_PRIVATE).edit().putBoolean("CHECKFLAG",true).commit();
+
+        }else{
+            getSupportFragmentManager().beginTransaction().replace(R.id.detailFragmentContainer, new TenantSearchFragment()).commit();
+        }
+
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

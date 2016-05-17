@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletedSta
     private int RC_SIGN_IN;
     private String gcmtoken;
     public static String urlip;
-    private static Boolean isActive = false;
+    private static Boolean isActive = true;
 
 
     private String userid;
@@ -196,7 +196,7 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletedSta
     protected void onResume() {
         super.onResume();
         Log.w("LoginActivity", "onResume");
-        isActive = true;
+
         LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
                 new IntentFilter(GCMRegistrationIntentService.REGISTRATION_SUCCESS));
         LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,

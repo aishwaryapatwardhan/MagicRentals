@@ -118,7 +118,7 @@ public class TenantsFavDetailsFragment extends android.support.v4.app.Fragment{
         contactNumberValue.setText(gridImageDetailItem.getContact());
         contactEmailValue.setText(gridImageDetailItem.getEmail());
 
-        Toast.makeText(getActivity().getApplicationContext(), "Added to favourites", Toast.LENGTH_LONG).show();
+
         int drawableId = getResources().getIdentifier("solidheart", "drawable", "project.team.cmpe277.com.magicrentals");
         heartsImage.setBackgroundResource(drawableId);
 
@@ -154,17 +154,6 @@ public class TenantsFavDetailsFragment extends android.support.v4.app.Fragment{
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-
-        switch(id){
-            case R.id.search_post:
-                    Intent j = new Intent(getActivity().getApplicationContext(), TenantSearchActivity.class);
-                    j.putExtra("USERID", userid);
-                    startActivity(j);
-                    return true;
-
-        }
 
         return super.onOptionsItemSelected(item);
     }

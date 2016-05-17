@@ -158,12 +158,12 @@ public class TenantSearchDetailFragment extends android.support.v4.app.Fragment{
         new UrlActivity().execute(gridImageDetailItem.getImageIcon());
         if(myref != null) {
             if (myref.containsKey(gridImageDetailItem.getId())) {
-                Toast.makeText(getActivity().getApplicationContext(), "Added to favourites", Toast.LENGTH_LONG).show();
+
                 int drawableId = getResources().getIdentifier("solidheart", "drawable", "project.team.cmpe277.com.magicrentals");
                 heartsImage.setBackgroundResource(drawableId);
                 heartflag = true;
             } else {
-                Toast.makeText(getActivity().getApplicationContext(), "Added to favourites", Toast.LENGTH_LONG).show();
+
                 int drawableId = getResources().getIdentifier("shallowheart", "drawable", "project.team.cmpe277.com.magicrentals");
                 heartsImage.setBackgroundResource(drawableId);
                 heartflag = false;
