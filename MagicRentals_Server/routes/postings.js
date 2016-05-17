@@ -1285,11 +1285,12 @@ exports.updateViewCount_Get = function(req, res){
 	       return;
 	    }
 	     
-	    var id = req.param('id');
+	    var id = req.param('ids');
 	    var view_count = Number(req.param('view_count'));
-	    var email = req.param('email');
-	    
-	   
+
+	    console.log('View count '+ view_count);
+	    console.log('id '+ id);
+
 	    
 		if(!id || id == null || id == "null"){
 			result.code = 212;
@@ -1297,6 +1298,7 @@ exports.updateViewCount_Get = function(req, res){
 			res.json(result);
 			return;
 		}
+		
 		
 		if(!view_count || isNaN(view_count)){
 			result.code = 212;
@@ -1306,7 +1308,7 @@ exports.updateViewCount_Get = function(req, res){
 		}
 		
 	     id = id.replace(/(\r\n|\n|\r)/gm,"");
-	     view_count = view_count.replace(/(\r\n|\n|\r)/gm,"");
+	     //view_count = view_count.replace(/(\r\n|\n|\r)/gm,"");
 	     
 	 	 mongo.connect(function(err, db){
 	 		if(err){
@@ -1358,9 +1360,11 @@ exports.updateViewCount_Post = function(req, res){
 	       return;
 	    }
 	     
-	    var id = fields.id;
+	    var id = fields.ids;
 	    var view_count = Number(fields.view_count);
-	    var email = fields.email;
+	   
+	    console.log('View count '+ view_count);
+	    console.log('id '+ id);
 	    
 		if(!id || id == null || id == "null"){
 			result.code = 212;
@@ -1377,7 +1381,7 @@ exports.updateViewCount_Post = function(req, res){
 		}
 		
 	     id = id.replace(/(\r\n|\n|\r)/gm,"");
-	     view_count = view_count.replace(/(\r\n|\n|\r)/gm,"");
+	     //view_count = view_count.replace(/(\r\n|\n|\r)/gm,"");
 	     
 	 	 mongo.connect(function(err, db){
 	 		if(err){
