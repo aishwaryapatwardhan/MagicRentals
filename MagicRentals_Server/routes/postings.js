@@ -1289,14 +1289,7 @@ exports.updateViewCount_Get = function(req, res){
 	    var view_count = Number(req.param('view_count'));
 	    var email = req.param('email');
 	    
-	    	
-	 	if(!email || email == null || email == "null"){
-	    	console.log("User Id empty");
-			result.code = 212;
-			result.status = "Data Missing";
-			res.json(result);
-			return;
-		}
+	   
 	    
 		if(!id || id == null || id == "null"){
 			result.code = 212;
@@ -1368,15 +1361,6 @@ exports.updateViewCount_Post = function(req, res){
 	    var id = fields.id;
 	    var view_count = Number(fields.view_count);
 	    var email = fields.email;
-	    
-	    	
-	 	if(!email || email == null || email == "null"){
-	    	console.log("User Id empty");
-			result.code = 212;
-			result.status = "Data Missing";
-			res.json(result);
-			return;
-		}
 	    
 		if(!id || id == null || id == "null"){
 			result.code = 212;

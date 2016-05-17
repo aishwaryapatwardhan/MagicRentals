@@ -1,15 +1,10 @@
 package project.team.cmpe277.com.magicrentals1.landlord;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.ActionMode;
-import android.view.Menu;
-import android.view.MenuInflater;
-
 
 import org.json.JSONObject;
 
@@ -114,7 +109,7 @@ public class PropertyDetailActivity extends AppCompatActivity
     @Override
     public void onRentedClicked(PropertyModel currModel) {
         PropertiesResultLab mPropertyResultLab;
-    System.out.println("Helllo.... "+currModel);
+        System.out.println("Helllo.... "+currModel);
         mPropertyResultLab = PropertiesResultLab.getPropertiesResultLab(this);
 
         HashMap<String, String> hm= new HashMap<>();
@@ -126,6 +121,7 @@ public class PropertyDetailActivity extends AppCompatActivity
         String url = getString(R.string.url)+"/updateStatus";
         currModel.setStatus("Rented");
         new MultipartUtilityAsyncTask(PropertyDetailActivity.this, hm, null).execute(url);
+        finish();
         //return mPropertyList;
     }
 
@@ -144,6 +140,7 @@ public class PropertyDetailActivity extends AppCompatActivity
         String url = getString(R.string.url)+"/updateStatus";
         currModel.setStatus("Cancelled");
         new MultipartUtilityAsyncTask(PropertyDetailActivity.this, hm, null).execute(url);
+        finish();
         //return mPropertyList;
     }
 
@@ -153,4 +150,7 @@ public class PropertyDetailActivity extends AppCompatActivity
         Log.i(TAG, "Response..."+result);
 
     }
+
+
+
 }

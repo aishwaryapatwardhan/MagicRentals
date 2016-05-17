@@ -35,17 +35,18 @@ public class GCMPushReceiverService extends GcmListenerService {
 
             JSONObject json = new JSONObject(message);
             JSONObject addr, units, contact;
-            JSONObject data = json.getJSONObject("data");
+          //  JSONObject data = json.getJSONObject("data");
+          //  JSONObject data = json;
             ArrayList<GridImageDetailItem> gdl = new ArrayList<GridImageDetailItem>();
-            addr = data.getJSONObject("address");
-            units = data.getJSONObject("units");
-            contact = data.getJSONObject("Contact_info");
+            addr = json.getJSONObject("address");
+            units = json.getJSONObject("units");
+            contact = json.getJSONObject("Contact_info");
 
-            GridImageDetailItem gridImageDetailItem = new GridImageDetailItem(data.getString("_id"), addr.getString("Street"), addr.getString("City"),
+            GridImageDetailItem gridImageDetailItem = new GridImageDetailItem(json.getString("_id"), addr.getString("Street"), addr.getString("City"),
                     addr.getString("State"),
-                    addr.getString("Zip"), data.getString("property_type"), units.getString("room"),
-                    units.getString("bath"), units.getString("area"), data.getString("rent"), data.getString("description"),
-                    data.getString("other_details"), data.getString("Images"),contact.getString("Mobile"),contact.getString("email"));
+                    addr.getString("Zip"), json.getString("property_type"), units.getString("room"),
+                    units.getString("bath"), units.getString("area"), json.getString("rent"), json.getString("description"),
+                    json.getString("other_details"), json.getString("Images"),contact.getString("Mobile"),contact.getString("email"));
             //gridImageDetailItem.setCount(Integer.parseInt(data.getString("view_count")));
             gdl.add(gridImageDetailItem);
             SharedPreferences preferences = getApplicationContext().getSharedPreferences("USER", Context.MODE_PRIVATE);
@@ -66,9 +67,10 @@ public class GCMPushReceiverService extends GcmListenerService {
 
         NotificationCompat.Builder noBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_launcher)
-                .setContentText("MagicRentals Notification")
+                .setContentText("New Postings Added")
                 .setAutoCancel(true)
-                .setContentIntent(pendingIntent);
+                .setContentIntent(pendingIntent)
+                .setContentTitle("MagicRentals Notification");
 
         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0, noBuilder.build());
