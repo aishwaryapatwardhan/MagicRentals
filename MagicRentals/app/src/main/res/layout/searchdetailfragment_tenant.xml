@@ -1,33 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#d6d6c2">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="1">
+
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/heartsImage"
+            android:layout_gravity="right"/>
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:id="@+id/iconImage"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:id="@+id/heartsImage"
-            android:layout_gravity="right"/>
+            android:layout_alignTop="@id/heartsImage"
+            android:layout_alignLeft="@id/heartsImage"
+             />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_margin="10dp">
+            android:layout_margin="10dp"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -56,7 +60,7 @@
                     android:text="streetValue"
                     android:id="@+id/streetValue"
                     android:layout_margin="10dp"
-                    android:layout_gravity="left"
+                    android:layout_gravity="right"
                     style="@style/Resp"/>
 
             </LinearLayout>
@@ -81,7 +85,7 @@
                     android:text="cityValue"
                     android:id="@+id/cityValue"
                     android:layout_margin="10dp"
-                    android:layout_gravity="left"
+                    android:layout_gravity="right"
                     style="@style/Resp"/>
 
             </LinearLayout>
@@ -105,7 +109,7 @@
                     android:text="stateValue"
                     android:id="@+id/stateValue"
                     android:layout_margin="10dp"
-                    android:layout_gravity="left"
+                    android:layout_gravity="right"
                     style="@style/Resp"/>
             </LinearLayout>
 
@@ -129,7 +133,7 @@
                     android:text="zipcodeValue"
                     android:id="@+id/zipcodeValue"
                     android:layout_margin="10dp"
-                    android:layout_gravity="left"
+                    android:layout_gravity="right"
                     style="@style/Resp"/>
             </LinearLayout>
 
@@ -153,7 +157,7 @@
                     android:text="proptypeValue"
                     android:id="@+id/proptypeValue"
                     android:layout_margin="10dp"
-                    android:layout_gravity="left"
+                    android:layout_gravity="right"
                     style="@style/Resp"/>
 
             </LinearLayout>
@@ -178,7 +182,7 @@
                     android:text="numRoomsValue"
                     android:id="@+id/numRoomsValue"
                     android:layout_margin="10dp"
-                    android:layout_gravity="left"
+                    android:layout_gravity="right"
                     style="@style/Resp"/>
 
             </LinearLayout>
@@ -203,7 +207,7 @@
                     android:text="numBathsValue"
                     android:id="@+id/numBathsValue"
                     android:layout_margin="10dp"
-                    android:layout_gravity="left"
+                    android:layout_gravity="right"
                     style="@style/Resp"/>
             </LinearLayout>
 
@@ -227,7 +231,7 @@
                     android:text="sqFeetValue"
                     android:id="@+id/sqFeetValue"
                     android:layout_margin="10dp"
-                    android:layout_gravity="left"
+                    android:layout_gravity="right"
                     style="@style/Resp"/>
             </LinearLayout>
 
@@ -250,7 +254,7 @@
                     android:text="montlyRentValue"
                     android:id="@+id/monthlyRentValue"
                     android:layout_margin="10dp"
-                    android:layout_gravity="left"
+                    android:layout_gravity="right"
                     style="@style/Resp"/>
             </LinearLayout>
 
@@ -273,7 +277,7 @@
                     android:text="descriptionValue"
                     android:id="@+id/descriptionValue"
                     android:layout_margin="10dp"
-                    android:layout_gravity="left"
+                    android:layout_gravity="right"
                     style="@style/Resp"/>
             </LinearLayout>
 
@@ -297,7 +301,7 @@
                     android:text="othersValue"
                     android:id="@+id/othersValue"
                     android:layout_margin="10dp"
-                    android:layout_gravity="left"
+                    android:layout_gravity="right"
                     style="@style/Resp"/>
             </LinearLayout>
 
@@ -322,7 +326,7 @@
                     android:text="contactNumberValue"
                     android:id="@+id/contactNumberValue"
                     android:layout_margin="10dp"
-                    android:layout_gravity="left"
+                    android:layout_gravity="right"
                     style="@style/Resp"/>
             </LinearLayout>
 
@@ -345,7 +349,7 @@
                     android:text="contactEmailValue"
                     android:id="@+id/contactEmailValue"
                     android:layout_margin="10dp"
-                    android:layout_gravity="left"
+                    android:layout_gravity="right"
                     style="@style/Resp"/>
             </LinearLayout>
 

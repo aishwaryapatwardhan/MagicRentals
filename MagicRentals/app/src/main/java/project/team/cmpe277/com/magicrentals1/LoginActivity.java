@@ -140,8 +140,8 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletedSta
         googleSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences sharedPreferences = getSharedPreferences("USER", Context.MODE_PRIVATE);
-                sharedPreferences.edit().putString(LoginActivity.USERID, "saipransesh").commit();
+              //  SharedPreferences sharedPreferences = getSharedPreferences("USER", Context.MODE_PRIVATE);
+              //  sharedPreferences.edit().putString(LoginActivity.USERID, "saipransesh").commit();
                /*Intent i = new Intent(getApplicationContext(), TenantSearchActivity.class);
                 i.putExtra("USERID", userid);
                 startActivity(i);*/

@@ -15,7 +15,7 @@ public class FavPropSingleton {
     private static FavPropSingleton favPropSingleton;
     private Context mAppContext;
     private ArrayList<GridImageDetailItem> mgridImageDetailItem;
-    private HashMap<String,String> myref;
+    private HashMap<String,String> myref = new HashMap<>();
 
     private FavPropSingleton(Context appContext) {
         mAppContext = appContext;

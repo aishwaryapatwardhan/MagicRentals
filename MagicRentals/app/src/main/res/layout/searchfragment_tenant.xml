@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#e1e1d0">
 
     <LinearLayout
         android:id="@+id/searchFragmentLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_margin="10dp">
+        >
 
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-        <TextView
+        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Location"
-            android:layout_margin="10dp"
-            android:layout_gravity="left"
-            style="@style/Text1"/>
+            android:textColor="#ffffff"
+            android:clickable="true"
+            android:background="#003366"
+            android:enabled="false"/>
+
+
         <EditText
             android:id= "@+id/locationvalue"
             android:layout_width="match_parent"
@@ -32,42 +31,38 @@
             android:textColor="#7b68ee"
             android:hint="Enter city"
             />
-    </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="ZipCode"
-                android:layout_margin="10dp"
-                android:layout_gravity="left"
-                style="@style/Text1"/>
-            <EditText
-                android:id= "@+id/zipcodeval"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:ems="10"
-                android:textAppearance="@style/Resp"
-                android:textColor="#7b68ee"
-                android:hint="Enter zipcode"
-                />
-        </LinearLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ZipCode"
+            android:textColor="#ffffff"
+            android:clickable="true"
+            android:background="#003366"
+            android:enabled="false"/>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-        <TextView
+        <EditText
+            android:id= "@+id/zipcodeval"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:ems="10"
+            android:textAppearance="@style/Resp"
+            android:textColor="#7b68ee"
+            android:hint="Enter zipcode"
+            />
+
+
+        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Keywords"
-            android:layout_margin="10dp"
-            android:layout_gravity="left"
-            style="@style/Text1"/>
+            android:textColor="#ffffff"
+            android:clickable="true"
+            android:background="#003366"
+            android:enabled="false"/>
+
+
         <EditText
             android:id= "@+id/keywordvalue"
             android:layout_width="match_parent"
@@ -78,19 +73,18 @@
             android:textColor="#7b68ee"
             android:hint="Enter keywords"
             />
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-        <TextView
+
+        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="PropertyType"
-            android:layout_margin="10dp"
-            android:layout_gravity="left"
-            style="@style/Text1"/>
+            android:textColor="#ffffff"
+            android:clickable="true"
+            android:background="#003366"
+            android:enabled="false"/>
+
+
         <Spinner
             android:id="@+id/propertyvalue"
             android:layout_width="match_parent"
@@ -100,19 +94,18 @@
             android:textAppearance="@style/Resp"
             android:layout_gravity="right"
             android:spinnerMode="dropdown" />
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-        <TextView
+
+        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Price Range"
-            android:layout_margin="10dp"
-            android:layout_gravity="left"
-            style="@style/Text1"/>
+            android:textColor="#ffffff"
+            android:clickable="true"
+            android:background="#003366"
+            android:enabled="false"/>
+
+
         <Spinner
             android:id="@+id/pricerangevalue"
             android:layout_width="match_parent"
@@ -123,15 +116,19 @@
             android:layout_gravity="right"
             android:spinnerMode="dropdown"
             android:clickable="true" />
-    </LinearLayout>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Search"
-        android:id="@+id/search"
-        android:clickable="true"
-        android:background="#ff6666"
-        />
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Search"
+            android:textColor="#ffffff"
+            android:id="@+id/search"
+            android:clickable="true"
+            android:background="#b30000"
+            />
+
+
     </LinearLayout>
 
     <ProgressBar
@@ -143,4 +140,6 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"/>
 
+
 </RelativeLayout>
+

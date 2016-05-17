@@ -1,5 +1,6 @@
 package project.team.cmpe277.com.magicrentals1;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -414,7 +415,6 @@ public class TenantSearchFragment extends Fragment implements AdapterView.OnItem
             }
         });
     }
-
 
 
     public class SearchApi extends AsyncTask<Object, Void, JSONObject>{

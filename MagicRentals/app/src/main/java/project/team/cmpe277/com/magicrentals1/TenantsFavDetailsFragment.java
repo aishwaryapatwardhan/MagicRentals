@@ -75,7 +75,7 @@ public class TenantsFavDetailsFragment extends android.support.v4.app.Fragment{
         super.onCreate(savedInstanceState);
         refid = getArguments().getSerializable(IDS).toString();
         gridImageDetailItem = FavPropSingleton.get(getActivity()).getGridImageDetailItem(refid);
-        myref = FavPropSingleton.get(this.getActivity()).createHaspMap();
+        myref = FavPropSingleton.get(getActivity()).createHaspMap();
         SharedPreferences preferences = getActivity().getApplicationContext().getSharedPreferences("USER", Context.MODE_PRIVATE);
         userid = preferences.getString(LoginActivity.USERID, null);
 
