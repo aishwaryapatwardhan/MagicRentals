@@ -129,7 +129,7 @@
             android:value="@integer/google_play_services_version"/>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAxh7OEn2aYzTFPxwZlwEn4ghItNpaLFao"/>
+            android:value="AIzaSyCu4rgMj3VpSUjL0Pvl8YsggdLOP71CdKQ"/>
 
         <activity
             android:name=".utility.PopUp"
