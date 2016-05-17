@@ -1,11 +1,13 @@
 package project.team.cmpe277.com.magicrentals1.landlord;
 
 import android.annotation.TargetApi;
-//import android.app.Fragment;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,12 +21,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
-import org.w3c.dom.Text;
-
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 
 import project.team.cmpe277.com.magicrentals1.R;
+
+//import android.app.Fragment;
 
 /**
  * Created by savani on 5/1/16.
@@ -47,6 +51,7 @@ public class PropertyDetailFragment extends Fragment {
     private TextView descV;
     private TextView statusV;
     private TextView extradetV;
+    private ImageView houseImage;
     private static final String TAG = "PropertyDetailFragment";
 
     public static final String PROPERTY_KEY = "Property_key";
@@ -89,7 +94,7 @@ public class PropertyDetailFragment extends Fragment {
         View view = inflater.inflate(R.layout.landlord_property_detail_fragment, container, false);
         //  String userid = getArguments().getString("USERID");
         //  System.out.println("userid  ... " +userid);
-        //  propertyImage = (ImageView)view.findViewById(R.id.house_image);
+        propertyImage = (ImageView)view.findViewById(R.id.image_icon_detail);
         viewcountV = (TextView) view.findViewById(R.id.view_count_detail);
         //addressV = (TextView) view.findViewById(R.id.address_detail);
         streetV = (TextView) view.findViewById(R.id.street_detail);
@@ -102,6 +107,7 @@ public class PropertyDetailFragment extends Fragment {
         descV = (TextView) view.findViewById(R.id.desc_detail);
         statusV = (TextView) view.findViewById(R.id.status_det);
         extradetV = (TextView) view.findViewById(R.id.extra_det);
+        //houseImage = (ImageView) view.findViewById(R.id.house_image);
 
         if (mProperty != null) {
             //set image Sai....
@@ -121,6 +127,8 @@ public class PropertyDetailFragment extends Fragment {
             Log.i(TAG, mProperty.getStatus());
             statusV.setText(mProperty.getStatus());
             extradetV.setText(mProperty.getOther_details());
+            if(mProperty.getImages() != null && propertyImage!= null)
+                new DownloadImageTask(propertyImage).execute(mProperty.getImages());
 
         }
         return view;
@@ -234,4 +242,34 @@ public class PropertyDetailFragment extends Fragment {
         void onCancelClicked(PropertyModel currModel);
     }
 
+
+    private class DownloadImageTask extends AsyncTask<String, Void , Bitmap> {
+
+        ImageView mImageView;
+
+        private DownloadImageTask(ImageView imageView){
+            mImageView = imageView;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... urls) {
+            String inputUrl = urls[0];
+            Bitmap imageIcon =  null;
+
+            try {
+
+                InputStream in = new URL(inputUrl).openStream();
+                imageIcon = BitmapFactory.decodeStream(in);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return imageIcon;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            mImageView.setImageBitmap(bitmap);
+        }
+    }
 }

@@ -9,7 +9,7 @@
             android:layout_height="150dp"
             android:id="@+id/image_icon_detail"
             android:layout_gravity="left"
-            android:src="@mipmap/house"/>
+            android:src="@drawable/first_image"/>
 
         <TextView
             android:layout_width="wrap_content"
